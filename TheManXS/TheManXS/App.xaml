@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TheManXS.App">
+    <Application.Resources>
+        <Style TargetType="StackLayout" x:Key="GameBoardStackLayoutBackGround">
+            <Setter Property="BackgroundColor" Value="Black"/>
+            <Setter Property="Spacing" Value="0"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonStandard">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="WidthRequest" Value="200"/>
+            <Setter Property="BorderRadius" Value="7"/>
+            <Setter Property="BorderColor" Value="Black"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="Small"/>
+            <Setter Property="BackgroundColor" Value="Crimson"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LabelStandard">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="Small"/>
+            <Setter Property="BackgroundColor" Value="Crimson"/>
+        </Style>
+        <Style TargetType="Label" x:Key="SubHeading">
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="BackgroundColor" Value="Teal"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Label" x:Key="MainHeading">
+            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="Large"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="White"/>
+        </Style>
+        <Style TargetType="StackLayout" x:Key="GameBoardTopTitleBar">
+            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style TargetType="Label" x:Key="GameboardTopTitleLabels">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="Small"/>
+        </Style>
+    </Application.Resources>
+</Application>

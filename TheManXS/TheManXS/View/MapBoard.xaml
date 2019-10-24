@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TheManXS.ViewModel.MapBoardVM"
+             xmlns:main="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
+             xmlns:gameboard="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
+             xmlns:pz="clr-namespace:TheManXS.ViewModel.MapBoardVM.Pinch"
+             mc:Ignorable="d"
+             x:Class="TheManXS.View.MapBoard">
+    
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Black" Padding="0">            
+            <StackLayout.BindingContext>
+                <local:GameBoardVM/>
+            </StackLayout.BindingContext>
+
+            <StackLayout Style="{StaticResource GameBoardTopTitleBar}"
+                Orientation="Horizontal" 
+                CompressedLayout.IsHeadless="True" 
+                Padding="0" 
+                Margin="0">
+                
+                <StackLayout.BindingContext>
+                    <main:TitleBarVM/>
+                </StackLayout.BindingContext>
+
+                <Label Style="{StaticResource GameboardTopTitleLabels}" 
+                       Text="Quarter:"/>
+                <Label Style="{StaticResource GameboardTopTitleLabels}" 
+                       Text="{Binding Quarter}"/>
+                <Label Style="{StaticResource GameboardTopTitleLabels}" 
+                       Text=" | Company: "/>
+                <Label Style="{StaticResource GameboardTopTitleLabels}" 
+                       Text="{Binding CompanyName}" 
+                       HorizontalOptions="StartAndExpand"/>
+                <Button Text="TER"
+                        Command="{Binding ShowTerrain}"
+                        Style="{StaticResource ButtonStandard}"
+                        WidthRequest="60"/>
+                <Button Text="RES"
+                        Command="{Binding ShowResources}"
+                        Style="{StaticResource ButtonStandard}"
+                        WidthRequest="60"/>
+                <Button Text="Financials" 
+                        Command="{Binding ShowFinancials}" 
+                        Style="{StaticResource ButtonStandard}" 
+                        WidthRequest="150"/>                
+                <Button Text="End Turn" 
+                        Command="{Binding EndTurn}" 
+                        Style="{StaticResource ButtonStandard}" 
+                        VerticalOptions="Center" 
+                        WidthRequest="150"/>
+            </StackLayout>
+
+            <ContentView Padding="0" Margin="0">
+                <ContentView.Content>
+                    <gameboard:ActualGameBoardVM/>                    
+                </ContentView.Content>
+            </ContentView>
+
+            <Label Text="{Binding Ticker}" BackgroundColor="Black" TextColor="White"
+                   HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                   Margin="0">
+                <Label.BindingContext>
+                    <main:StockTickerBarVM/>
+                </Label.BindingContext>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

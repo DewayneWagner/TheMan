@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:TheManXS.ViewModel.Services"
+             x:Class="TheManXS.View.StartNewGameView">
+    
+    <ContentPage.Content>
+        <AbsoluteLayout >
+            <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
+                       Aspect="Fill" Opacity="0.7"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout  VerticalOptions="Center" WidthRequest="500" HorizontalOptions="CenterAndExpand"
+                              Grid.Column="1">
+                    <Label Text="START NEW GAME" Style="{StaticResource MainHeading}"/>
+                    <Label Text="Select Difficulty" Style="{StaticResource SubHeading}"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="50">
+                        <Button Style="{StaticResource ButtonStandard}"
+                        Text="Rookie" 
+                        Command="{Binding Easy}" 
+                        Opacity="{Binding EasyButtonOpacity}"
+                        WidthRequest="125"/>
+                        <Button Style="{StaticResource ButtonStandard}"
+                        Text="Know-it-all" 
+                        Command="{Binding Medium}"
+                        Opacity="{Binding MediumButtonOpacity}"
+                        WidthRequest="125"/>
+                        <Button Style="{StaticResource ButtonStandard}"
+                        Opacity="{Binding HardButtonOpacity}"
+                        Text="Canada"
+                        Command="{Binding Hard}"
+                        WidthRequest="125"/>
+                    </StackLayout>
+                    <Label Text="Enter Company Info" Style="{StaticResource SubHeading}"/>
+                    <Grid HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Company Name:"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalTextAlignment="Start"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalTextAlignment="Center"
+                            FontAttributes="Bold"/>
+                        <Entry Placeholder="Enter Company Name"
+                            PlaceholderColor="Teal"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding CompanyName}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"/>
+
+                        <Label Text="Ticker:"
+                            FontAttributes="Bold"
+                            VerticalTextAlignment="Center"
+                            Grid.Row="1"
+                            Grid.Column="0"/>
+                        <Entry Placeholder="Enter 3 Letter Ticker"
+                            PlaceholderColor="Teal"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"
+                            Text="{Binding Ticker}"/>
+
+                        <Label Text="Color:"
+                            FontAttributes="Bold"
+                            VerticalTextAlignment="Center"
+                            Grid.Row="2"
+                            Grid.Column="0"/>
+                        <Picker ItemsSource="{Binding CompanyColorList}" 
+                            SelectedItem="{Binding CompanyColor}"   
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            Grid.Row="2"
+                            Grid.Column="1"/>                        
+                    </Grid>
+                    
+                    <Label Text="Select Game Save Slot" Style="{StaticResource SubHeading}"/>
+                    <StackLayout Orientation="Horizontal" Padding="10">
+                        <Label Text="Company Name:" FontAttributes="Bold" WidthRequest="200"/>
+                        <Label Text="Difficulty:" FontAttributes="Bold" WidthRequest="75"/>
+                        <Label Text="Last Played:" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                    
+                    <ListView ItemsSource="{Binding SavedGameSlotsList}"
+                        x:Name="LV_SavedGameSlot"
+                        ItemSelected="LV_SavedGameSlot_ItemSelected"
+                        SelectedItem="{Binding SelectedGameSaveSlot}"
+                        SeparatorColor="Crimson"
+                        SeparatorVisibility="Default">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Padding="0,10,0,10">
+                                        <Label Text="{Binding CompanyName}" WidthRequest="200"/>
+                                        <Label Text="{Binding DifficultyString}" WidthRequest="75"/>
+                                        <Label Text="{Binding LastPlayed}" HorizontalOptions="CenterAndExpand"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                    <StackLayout Padding="10">
+                        <Button Style="{StaticResource ButtonStandard}" WidthRequest="500" Text="Start Game" 
+                            Command="{Binding StartNewGame}" Margin="0,10,0,10"/>
+                        <Button Style="{StaticResource ButtonStandard}" WidthRequest="500" Text="Use Test Data" 
+                            Command="{Binding UseTestData}" Margin="0,10,0,10"/>
+                    </StackLayout>
+                    
+                </StackLayout>
+            </Grid>
+        </AbsoluteLayout>        
+    </ContentPage.Content>
+</ContentPage>

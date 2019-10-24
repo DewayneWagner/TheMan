@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TheManXS.View.LoadGameView">
+    
+    <ContentPage.Content>
+        <StackLayout WidthRequest="500">
+            <Label Text="Load Game" Style="{StaticResource MainHeading}"/>
+            <Label Text="Select Saved Game" Style="{StaticResource SubHeading}"/>
+            <StackLayout Orientation="Horizontal" Padding="10">
+                <Label Text="Company Name:" FontAttributes="Bold" WidthRequest="200"/>
+                <Label Text="Difficulty:" FontAttributes="Bold" WidthRequest="75"/>
+                <Label Text="Last Played:" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <ListView ItemsSource="{Binding SavedGamesList}"
+                SeparatorVisibility="Default"
+                SelectedItem="{Binding SelectedGameSaveSlot, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="10">
+                                <Label Text="{Binding CompanyName}" WidthRequest="200"/>
+                                <Label Text="{Binding Difficulty}" WidthRequest="75"/>
+                                <Label Text="{Binding LastPlayed}" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout>
+                <Button Style="{StaticResource ButtonStandard}" WidthRequest="500" Text="Load Game" 
+                    Command="{Binding LoadGame}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

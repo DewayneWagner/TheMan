@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TheManXS.View.ParameterView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Settings / Parameters for Game" Style="{StaticResource MainHeading}"/>
+            <ListView x:Name="SettingsListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="5" HorizontalOptions="Center" WidthRequest="500">
+                                <Label Text="{Binding PrimaryIndexName}" WidthRequest="150"/>
+                                <Label Text="{Binding SecondarySubIndexName}" HorizontalOptions="Center" WidthRequest="150"/>
+                                <Entry Text="{Binding LBOrConstant, Mode=TwoWay}" WidthRequest="100" HorizontalOptions="Center"/>
+                                <Entry Text="{Binding UB, Mode=TwoWay}" WidthRequest="100" IsVisible="{Binding IsBounded}" HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Save Settings" 
+                    Style="{StaticResource ButtonStandard}"
+                    WidthRequest="250"
+                    Command="{Binding SaveChanges}" 
+                    HorizontalOptions="CenterAndExpand"/>
+                <Button Text="Update Settings (If settings added / deleted)" 
+                    Style="{StaticResource ButtonStandard}"
+                    WidthRequest="400"
+                    Command="{Binding UpdateSettings}" 
+                    HorizontalOptions="CenterAndExpand"/>
+                <Button Text="Load Settings From Binary" 
+                    Style="{StaticResource ButtonStandard}"
+                    WidthRequest="250"
+                    Command="{Binding LoadSettingsFromBinaryFileIntoDB}" 
+                    HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

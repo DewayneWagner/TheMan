@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:TheManXS.ViewModel.Services"
+             x:Class="TheManXS.View.DetailView.MainMenuView">
+    <ContentPage.Content>
+        <Grid>
+            <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
+                       Aspect="Fill" Opacity="0.7"/>
+            <StackLayout WidthRequest="250" VerticalOptions="Center">
+                <Button Style="{StaticResource ButtonStandard}" Text="Start New Game" Command="{Binding StartNewGame}"/>
+                <Button Style="{StaticResource ButtonStandard}" Text="Load Game" Command="{Binding LoadGame}"/>
+                <Button Style="{StaticResource ButtonStandard}" Text="Clusters" Command="{Binding Cluster}"/>
+                <Button Style="{StaticResource ButtonStandard}" Text="Settings" Command="{Binding Settings}"/>
+                <Button Style="{StaticResource ButtonStandard}" Text="Database Update" Command="{Binding DataBaseDelete}"/>
+            </StackLayout>
+        </Grid>        
+    </ContentPage.Content>
+</ContentPage>
