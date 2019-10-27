@@ -26,6 +26,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Pinch
 
         private double startScale;
         private double currentScale;
+        private double xOffset;
         private double yOffset;
 
         private GameBoard _gameBoard;

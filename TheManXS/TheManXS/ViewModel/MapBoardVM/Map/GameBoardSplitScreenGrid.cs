@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.Tiles;
@@ -28,6 +29,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
         public MapScrollView MapScrollView { get; set; }
         public bool SidePanelExists { get; set; }
         public ActionPanel ActionPanel { get; set; }
+        public Unit ActiveUnit { get; set; }
+        public bool IsThereActiveUnit { get; set; }
 
         void InitGrid()
         {

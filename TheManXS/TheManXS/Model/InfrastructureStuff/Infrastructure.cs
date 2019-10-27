@@ -1,16 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using TheManXS.Model.Map;
+using TheManXS.Model.Main;
+using TheManXS.Model.Map.Surface;
+using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
+using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using System.Linq;
+using TheManXS.Model.Settings;
+using TheManXS.Model.Map;
 
-namespace TheManXS.Model.Main.InfrastructureStuff
+namespace TheManXS.Model.InfrastructureStuff
 {
+    public enum InfrastructureType { MainTransporationCorridor, Secondary, Hub, Rail, Pipeline }
+    public enum InfrastructurePhase { IsProposed, IsUnderConstruction, IsActive, IsOutOfCommision }
     public class Infrastructure
     {
-        private SQMapConstructArray _map;
+        System.Random rnd = new System.Random();
         public Infrastructure() { }
+
+        private SQMapConstructArray _map;
         public Infrastructure(bool isNewGame, SQMapConstructArray map)
         {
             _map = map;
@@ -22,6 +32,136 @@ namespace TheManXS.Model.Main.InfrastructureStuff
             new MainRiver(_map);
             // pipelines
             // train
+        }
+
+        public SQ ClosestInfrastructureConnectedSQ(InfrastructureType ClosestInfrastructureTypeToFind, SQ sq)
+        {
+            int tRow, tCol;
+            using (DBContext db = new DBContext())
+            {
+                SQ adjacentSQ;
+                for (int x = 1; x < QC.ColQ; x++)
+                {
+                    for (int xx = x; xx >= -x; xx--)
+                    {
+                        for (int xxx = x; xxx >= -x; xxx--)
+                        {
+                            tRow = sq.Row + xx;
+                            tCol = sq.Col + xxx;                            
+
+                            if (Coordinate.DoesSquareExist(tRow, tCol))
+                            {
+                                adjacentSQ = db.SQ.Find(Coordinate.GetSQKey(tRow, tCol));
+
+                                if (adjacentSQ.IsHub ||
+                                    adjacentSQ.IsMainTransportationCorridor && ClosestInfrastructureTypeToFind == InfrastructureType.MainTransporationCorridor ||
+                                    adjacentSQ.IsPipelineConnected && ClosestInfrastructureTypeToFind == InfrastructureType.Pipeline ||
+                                    adjacentSQ.IsTrainConnected && ClosestInfrastructureTypeToFind == InfrastructureType.Rail ||
+                                    adjacentSQ.IsSecondaryRoad && ClosestInfrastructureTypeToFind == InfrastructureType.Secondary)
+                                {
+                                    return adjacentSQ;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return sq;
+        }
+        public List<SQ> FindRouteForRoadBetweenTwoPoints(SQ from, SQ to)
+        {
+            List<SQ> sqRoute = new List<SQ>();
+            int rDirection = GetDirection(to.Row - from.Row);
+            int cDirection = GetDirection(to.Col - from.Col);
+
+            int tCol = from.Col;
+            int tRow = from.Row;
+            SQ sq;
+
+            using (DBContext db = new DBContext())
+            {
+                do
+                {
+                    if (tRow != to.Row)
+                    {
+                        if(Math.Abs(tRow - to.Row) >= 3) { tRow += GetAdjustment(); }
+                        else { tRow += rDirection; }
+                    }
+
+                    if (tCol != to.Col)
+                    {
+                        if(Math.Abs(tCol - to.Col) >= 3) { tCol += GetAdjustment(); }
+                        else { tCol += cDirection; }
+                    }
+
+                    if (Coordinate.DoesSquareExist(tRow,tCol))
+                    {
+                        sq = db.SQ.Find(Coordinate.GetSQKey(tRow, tCol));
+                        sqRoute.Add(sq);
+                    }
+
+                } while (tRow != to.Row || tCol != to.Col);
+            }
+            return sqRoute;
+
+            int GetDirection(int diff)
+            {
+                if (diff < 0)
+                    return -1;
+                else if (diff == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+            int GetAdjustment() => rnd.Next(-1, 2);
+        }
+        public double EstimateRoadConstructionCost(List<SQ> roadRouteList)
+        {
+            int grassland = 0, forest = 0, mountain = 0;
+            
+            foreach (SQ sq in roadRouteList)
+            {
+                switch (sq.TerrainType)
+                {
+                    case TT.Forest:
+                        forest++;
+                        break;
+                    case TT.Grassland:
+                        grassland++;
+                        break;
+                    case TT.Mountain:
+                        mountain++;
+                        break;
+                }
+            }
+            return (grassland * Setting.GetConstant(AS.TransTT, (int)TT.Grassland)) +
+                (forest * Setting.GetConstant(AS.TransTT, (int)TT.Forest)) +
+                (mountain * Setting.GetConstant(AS.TransTT, (int)TT.Mountain));
+        }
+        public void ExecuteConstructionOfRoute(InfrastructureType it,List<SQ> sqList)
+        {
+            using (DBContext db = new DBContext())
+            {
+                foreach (SQ sq in sqList)
+                {
+                    switch (it)
+                    {
+                        case InfrastructureType.Secondary:
+                            sq.IsSecondaryRoad = true;
+                            break;
+                        case InfrastructureType.Rail:
+                            sq.IsTrainConnected = true;
+                            break;
+                        case InfrastructureType.Pipeline:
+                            sq.IsPipelineConnected = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    db.SQ.Update(sq);
+                }
+                db.SaveChanges();
+            }
         }
     }
 }

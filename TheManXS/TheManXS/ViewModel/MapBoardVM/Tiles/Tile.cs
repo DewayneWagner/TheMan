@@ -13,10 +13,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         public Tile(SQ sq, int sqSize)
         {
             g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            SQ = sq;
 
-            CompressedLayout.SetIsHeadless(this, true);
-            //HorizontalOptions = LayoutOptions.FillAndExpand;
-            //VerticalOptions = LayoutOptions.FillAndExpand;            
+            CompressedLayout.SetIsHeadless(this, true);     
 
             Terrain = AllImages.GetTerrainImage(sq.TerrainType);
             Rectangle rect = new Rectangle(0,0, sqSize,sqSize);
@@ -25,7 +24,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             OverlayGrid = new OverlayGrid(sq);
             Children.Add(OverlayGrid, rect);
 
-            SQKey = sq.Key;
             Row = sq.Row;
             Col = sq.Col;
             
@@ -33,19 +31,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             YCoord = Row * sqSize;
             PositionRectangle = new Rectangle(XCoord, YCoord, sqSize, sqSize);
 
-            // disable tap events for action view
-            if(sqSize == QC.SqSize) { InitEventHandlers(); }
+            sq.Tile = this;
+
+            InitEventHandlers();
         }
         public Image Terrain { get; set; }
         public int MapIndex { get; set; }
         public OverlayGrid OverlayGrid { get; set; }
-        public int SQKey { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
         public double XCoord { get; set; }
         public double YCoord { get; set; }
         public Rectangle PositionRectangle { get; set; }
         public GestureHandlers GestureHandlers { get; set; }
+        public SQ SQ { get; set; }
 
         public event EventHandler SingleTapped;
         public event EventHandler DoubleTapped;

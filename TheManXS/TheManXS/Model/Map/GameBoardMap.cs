@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.CityStuff;
 using TheManXS.Model.Main;
-using TheManXS.Model.Main.InfrastructureStuff;
+using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Map.Rocks;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;

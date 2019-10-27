@@ -4,6 +4,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
+using TheManXS.Model.Units;
 using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Map;
 using TheManXS.ViewModel.Services;
@@ -19,6 +20,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         private int _clickedCol = 0;
         private GameBoardSplitScreenGrid _gameBoardSplitGrid;
         private SQ _activeSQ;
+        private bool _unitHasBeenStarted;
 
         public GestureHandlers(Tile tile)
         {
@@ -48,7 +50,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             _clickedRow = t.Row;
             _clickedCol = t.Col;
             
-            SetActiveSQ();
+            //SetActiveSQ();
 
             tapHandled = true;
             ExecuteOnDoubleTap();
@@ -67,9 +69,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         }
         private async void ExecuteOnDoubleTap()
         {
-            Tile t = _gameBoardSplitGrid.MapScrollView.PinchToZoomContainer.GameBoard.FocusedGameBoard.
-                GetTile(_clickedRow, _clickedCol);
-            t.OverlayGrid.SetColorsOfAllSides(Color.Black);
+            Tile t = _gameBoardSplitGrid.MapScrollView.PinchToZoomContainer.GameBoard.FocusedGameBoard.GetTile(_clickedRow, _clickedCol);
+            if (!_gameBoardSplitGrid.IsThereActiveUnit)
+            {
+                _gameBoardSplitGrid.ActiveUnit = new Unit(t.SQ);
+                _gameBoardSplitGrid.IsThereActiveUnit = true;
+            }
+            else { _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(t.SQ); }
         }
         void SetActiveSQ()
         {

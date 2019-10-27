@@ -30,7 +30,6 @@ namespace TheManXS.Model.InfrastructureStuff
             if (_isNorth) { InitNewNorthTributary(); }
             else { InitNewSouthTributary(); }
         }
-
         private void InitNewNorthTributary()
         {
             int col = _startCol;
@@ -43,7 +42,7 @@ namespace TheManXS.Model.InfrastructureStuff
                     {
                         InitSideForest(row, col);
                     }
-                    col += rnd.Next(-1, 2);
+                    col += rnd.Next(_lb,_ub);
                 }                
             }
         }
@@ -52,24 +51,29 @@ namespace TheManXS.Model.InfrastructureStuff
             int col = _startCol;
             for (int row = (_startRow + 1); row < QC.RowQ; row++)
             {
-                _map[row, col].IsTributary = true;
-                if (_map[row, col].TerrainType == TT.Mountain)
+                if (Coordinate.DoesSquareExist(row, col))
                 {
-                    InitSideForest(row, col);
-                }
-                col += rnd.Next(-1, 2);
+                    _map[row, col].IsTributary = true;
+                    if (_map[row, col].TerrainType == TT.Mountain)
+                    {
+                        InitSideForest(row, col);
+                    }
+                    col += rnd.Next(_lb,_ub);
+                }                
             }
         }
         private void InitSideForest(int tribRow, int tribCol)
         {
             int forestWidth = rnd.Next(_LBForestWidthAroundTributary, _UBforestUBWidthAroundTributary);
             int col = (tribCol - (forestWidth / 2));
-
-            for (int i = 0; i < forestWidth; i++)
+            if (Coordinate.DoesSquareExist(tribRow, col))
             {
-                _map[tribRow, col].TerrainType = TT.Forest;
-                col++;
-            }
+                for (int i = 0; i < forestWidth; i++)
+                {
+                    _map[tribRow, col].TerrainType = TT.Forest;
+                    col++;
+                }
+            }            
         }
         private bool GetIsNorth() => (rnd.Next(0, 3) <= 1 ? true : false);
     }

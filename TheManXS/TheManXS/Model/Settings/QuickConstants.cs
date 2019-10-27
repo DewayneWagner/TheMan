@@ -25,9 +25,12 @@ namespace TheManXS.Model.Settings
             MaxResourceSQsInPool = (int)Setting.GetConstant(AS.ResConstant, (int)SettingsMaster.ResConstantParams.MaxPoolSQ);
 
             WidthOfActionPaneRatioOfScreenSize = 0.2;
-
             StartSQProduction = 8;
             StartSQOpex = 15;
+            UnitCounter = 0;
+            NameOfOwnerOfUnOwnedSquares = "The Man";
+            OPEXDiscountPerSQInUnit = 0.03;
+            CAPEXDiscountPerSQInUnit = 0.03;
         }
         public static int PlayerQ { get; set; }
         public static int RowQ { get; set; }
@@ -35,15 +38,18 @@ namespace TheManXS.Model.Settings
         public static int SqQ { get; set; }       
         public static int SqSize { get; set; }
         public static int SqLateralLength { get; set; }
-
-        public static int PlayerIndexActual = 0;
-        public static int PlayerIndexTheMan { get; set; }
         public static int TurnNumber { get; set; }
+        public static int PlayerIndexTheMan { get; set; }        
         public static double WidthOfActionPaneRatioOfScreenSize { get; set; }
         public static int MaxResourceSQsOnMap { get; set; }
         public static int MaxResourceSQsInPool { get; set; }
         public static int StartSQProduction { get; set; }
         public static double StartSQOpex { get; set; }
+        public static int PlayerIndexActual => 0;      
+        public static int UnitCounter { get; set; }
+        public static string NameOfOwnerOfUnOwnedSquares { get; set; }
+        public static double OPEXDiscountPerSQInUnit { get; set; }
+        public static double CAPEXDiscountPerSQInUnit { get; set; }
 
         // set when game begins ////////////////////////////////////////////////
         public static int CurrentSavedGameSlot { get; set; }

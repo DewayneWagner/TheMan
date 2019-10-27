@@ -27,7 +27,7 @@ namespace TheManXS.Model.Main
             NextAction = new NextAction(this);
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
-            OwnerName = "The Man";            
+            OwnerName = QC.NameOfOwnerOfUnOwnedSquares;         
         }
 
         public int Key { get; set; }
@@ -39,15 +39,18 @@ namespace TheManXS.Model.Main
         public StatusTypeE Status { get; set; }
         public int OwnerNumber { get; set; }
         public string OwnerName { get; set; }
+        public bool IsMainTransportationCorridor { get; set; }
         public bool IsRoadConnected { get; set; }
+        public bool IsSecondaryRoad { get; set; }
         public bool IsTrainConnected { get; set; }
         public bool IsPipelineConnected { get; set; }
         public bool IsStartSquare { get; set; }
         public bool IsHub { get; set; }
         public bool IsMainRiver { get; set; }
         public bool IsTributary { get; set; }
+        public bool IsPartOfUnit { get; set; }
+        public int UnitNumber { get; set; }
         public int Production { get; set; }
-        public double CAPEX { get; set; }
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
         public double Transport { get; set; }

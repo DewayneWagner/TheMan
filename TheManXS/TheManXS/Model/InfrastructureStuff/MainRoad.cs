@@ -37,6 +37,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 _map[row, col].IsRoadConnected = true;
                 _map[row, col].IsPipelineConnected = true;
                 _map[row, col].IsTrainConnected = true;
+                _map[row, col].IsMainTransportationCorridor = true;
             }
         }
         private void InitEastRoad()
@@ -55,6 +56,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 _map[row, col].IsRoadConnected = true;
                 _map[row, col].IsPipelineConnected = true;
                 _map[row, col].IsTrainConnected = true;
+                _map[row, col].IsMainTransportationCorridor = true;
             }
         }
         private int GetNextHubCol(int currentCol, bool isEastRoad)

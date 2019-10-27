@@ -33,13 +33,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             { 
                 SetOutsideColor();
                 SetColorsOfAllSides(OutsideColor);
-            }
+            }            
         }
 
         public BoxView InteriorSquare { get; set; }
         public Color InsideColor { get; set; }
         public Color OutsideColor { get; set; }
-
         private void InitGrid()
         {
             int sqDimension;
@@ -71,10 +70,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                 OutsideColor = cc.ColorXamarin;
             }
         }
-        public void SetOutsideBorderColors(Sides s1, Sides s2 = Sides.Dummy, Sides s3 = Sides.Dummy)
+        public object this[int row, int col]
         {
-            
-        }        
+            get => this[row, col];
+            set => this[row, col] = value;          
+        }          
         public void SetColorsOfAllSides(Color color)
         {
             for (int row = 0; row < 3; row++)
