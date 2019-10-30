@@ -27,7 +27,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
         }
 
         public MapScrollView MapScrollView { get; set; }
-        public bool SidePanelExists { get; set; }
+        public bool SideSQActionPanelExists { get; set; }
+        public bool UnitActionPanelExists { get; set; }
         public ActionPanel ActionPanel { get; set; }
         public Unit ActiveUnit { get; set; }
         public bool IsThereActiveUnit { get; set; }
@@ -37,18 +38,47 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
             ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
             RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
         }
-
-        public void AddSideActionPanel(Tile tile)
+        public void AddSideActionPanel(ActionPanel.PanelType pt, Tile tile)
         {
-            if (!SidePanelExists)
+            if(!SideSQActionPanelExists || !UnitActionPanelExists)
             {
-                ActionPanel = new ActionPanel();
+                ActionPanel = new ActionPanel(pt);
                 ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
                 Children.Add(ActionPanel, 1, 0);
                 HorizontalOptions = LayoutOptions.End;
-                SidePanelExists = true;
-                tile.OverlayGrid.SetColorsOfAllSides(Color.Red);
+
+                if (pt == ActionPanel.PanelType.SQ)
+                {
+                    SideSQActionPanelExists = true;
+                    tile.OverlayGrid.SetColorsOfAllSides(Color.Red);
+                }
+                else if (pt == ActionPanel.PanelType.Unit)
+                {
+                    UnitActionPanelExists = true;
+                }
+            }
+        }
+        public void AddSideActionPanel(Tile tile)
+        {
+            if (!SideSQActionPanelExists)
+            {
+                ActionPanel = new ActionPanel(ActionPanel.PanelType.SQ);
+                
+                
             }            
+        }
+        public void AddSideUnitPanel(Unit unit)
+        {
+            if (SideSQActionPanelExists) { ActionPanel.CloseActionPanel(); }
+            else if(!UnitActionPanelExists)
+            {
+                
+                ActionPanel = new ActionPanel(ActionPanel.PanelType.Unit);
+                ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
+                Children.Add(ActionPanel, 1, 0);
+                HorizontalOptions = LayoutOptions.End;
+
+            }
         }
     }
 }

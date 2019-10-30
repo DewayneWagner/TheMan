@@ -67,16 +67,23 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             _gameBoardSplitGrid.AddSideActionPanel(ActiveTile);
             //await _pageService.PushAsync(new ActionView());
         }
-        private async void ExecuteOnDoubleTap()
+        private void ExecuteOnDoubleTap()
         {
             Tile t = _gameBoardSplitGrid.MapScrollView.PinchToZoomContainer.GameBoard.FocusedGameBoard.GetTile(_clickedRow, _clickedCol);
             if (!_gameBoardSplitGrid.IsThereActiveUnit)
             {
-                _gameBoardSplitGrid.ActiveUnit = new Unit(t.SQ);
+                Unit activeUnit = new Unit(t.SQ);
+                Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)] = activeUnit;
+                _gameBoardSplitGrid.ActiveUnit = activeUnit;
                 _gameBoardSplitGrid.IsThereActiveUnit = true;
+                _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.Unit, t);
             }
-            else { _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(t.SQ); }
+            else if(_gameBoardSplitGrid.ActiveUnit.IsSQAdjacentToSQsAlreadyInUnit(t.SQ))
+            { 
+                _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(t.SQ); 
+            }
         }
+
         void SetActiveSQ()
         {
             using (DBContext db = new DBContext())

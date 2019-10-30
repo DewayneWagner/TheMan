@@ -12,23 +12,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class ActionPanel : BaseViewModel
     {
+        public enum PanelType { SQ, Unit }
         private GameBoardVM _gameBoardVM;
-        public ActionPanel()
+        public ActionPanel(PanelType pt)
         {
             _gameBoardVM = (GameBoardVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            ActionPanelGrid = new ActionPanelGrid(this);
-
-            ActionPanelGrid.BackgroundColor = Color.White;
-            ActionPanelGrid.VerticalOptions = LayoutOptions.FillAndExpand;
-            
-            Content = ActionPanelGrid;
+            CompressedLayout.SetIsHeadless(this, true);
+            Content = ActionPanelGrid = new ActionPanelGrid(this, pt);
         }
         public ActionPanelGrid ActionPanelGrid { get; set; }
         public void CloseActionPanel()
         {
             var g = _gameBoardVM.ActualGameBoardVM.GameBoardSplitScreenGrid;
             g.Children.Remove(this);
-            g.SidePanelExists = false;
+            g.SideSQActionPanelExists = false;
             g.ColumnDefinitions.RemoveAt(1);
         }
     }    

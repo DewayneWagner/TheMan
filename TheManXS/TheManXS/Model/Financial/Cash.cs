@@ -14,7 +14,6 @@ namespace TheManXS.Model.Financial
             Transport = transport;
 
             ProfitDollar = Revenue - OPEX - Transport;
-            //ProfitPercent = ProfitDollar / Revenue;
             ProfitPercent = (Revenue != 0) ? (ProfitDollar / Revenue) : 0;
         }
         public double Revenue { get; set; }
@@ -22,5 +21,7 @@ namespace TheManXS.Model.Financial
         public double Transport { get; set; }
         public double ProfitDollar { get; set; }
         public double ProfitPercent { get; set; }
+        public int UnitProduction { get; set; }
+        public double UnitNexActionCost { get; set; }
     }
 }

@@ -54,11 +54,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             InteriorSquare = new BoxView()
             {
                 BackgroundColor = InsideColor,
-                Opacity = 1,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,
+                Opacity = 0.5,
                 Margin = 0,
             };
+            CompressedLayout.SetIsHeadless(InteriorSquare, true);
             Children.Add(InteriorSquare, 1, 1);
         }
         private void SetOutsideColor()

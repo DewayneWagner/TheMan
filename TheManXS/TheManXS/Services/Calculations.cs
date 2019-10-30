@@ -8,6 +8,7 @@ using TheManXS.Model.Services.EntityFrameWork;
 using Xamarin.Forms;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Model.Units;
 
 namespace TheManXS.Services
 {
@@ -72,6 +73,25 @@ namespace TheManXS.Services
                 }
                 return new Cash(revenue, opex, transport);                
             }
-        }        
+        }
+        public Cash GetCash(Unit unit)
+        {
+            Cash unitCash = new Cash();
+
+            foreach (SQ sq in unit)
+            {
+                Cash sqCash = GetCash(sq);
+
+                unitCash.UnitProduction += sq.Production;                
+                unitCash.Revenue += sqCash.Revenue;
+                unitCash.OPEX += sqCash.OPEX;
+                unitCash.Transport += sqCash.Transport;
+                unitCash.UnitNexActionCost += sqCash.UnitNexActionCost;                
+            }
+            unitCash.ProfitDollar = unitCash.Revenue - unitCash.OPEX - unitCash.Transport;
+            unitCash.ProfitPercent = (unitCash.Revenue != 0) ? (unitCash.ProfitDollar / unitCash.Revenue) : 0;
+
+            return unitCash;
+        }
     }
 }
