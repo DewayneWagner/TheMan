@@ -57,28 +57,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
                     UnitActionPanelExists = true;
                 }
             }
-        }
-        public void AddSideActionPanel(Tile tile)
-        {
-            if (!SideSQActionPanelExists)
-            {
-                ActionPanel = new ActionPanel(ActionPanel.PanelType.SQ);
-                
-                
-            }            
-        }
-        public void AddSideUnitPanel(Unit unit)
-        {
-            if (SideSQActionPanelExists) { ActionPanel.CloseActionPanel(); }
-            else if(!UnitActionPanelExists)
-            {
-                
-                ActionPanel = new ActionPanel(ActionPanel.PanelType.Unit);
-                ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
-                Children.Add(ActionPanel, 1, 0);
-                HorizontalOptions = LayoutOptions.End;
-
-            }
-        }
+        }        
     }
 }

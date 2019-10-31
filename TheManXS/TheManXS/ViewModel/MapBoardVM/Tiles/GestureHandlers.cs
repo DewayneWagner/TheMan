@@ -20,7 +20,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         private int _clickedCol = 0;
         private GameBoardSplitScreenGrid _gameBoardSplitGrid;
         private SQ _activeSQ;
-        private bool _unitHasBeenStarted;
 
         public GestureHandlers(Tile tile)
         {
@@ -49,8 +48,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             Tile t = sender as Tile;
             _clickedRow = t.Row;
             _clickedCol = t.Col;
-            
-            //SetActiveSQ();
 
             tapHandled = true;
             ExecuteOnDoubleTap();
@@ -64,8 +61,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
 
         private void ExecuteOnSingleTap()
         {
-            _gameBoardSplitGrid.AddSideActionPanel(ActiveTile);
-            //await _pageService.PushAsync(new ActionView());
+            _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.SQ,ActiveTile);
         }
         private void ExecuteOnDoubleTap()
         {

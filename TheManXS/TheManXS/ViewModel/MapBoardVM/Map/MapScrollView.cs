@@ -28,12 +28,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             
             Margin = 0;
             Padding = 0;
-
-            //ScrollHandler = new ScrollHandler(_actualGameBoardVM);
-            //Scrolled += ScrollHandler.OnScroll;
-
-            //PinchToZoomContainer = new PinchToZoomContainer(_actualGameBoardVM);
-            //Content = PinchToZoomContainer;
         }
 
         public void InitChildrenClasses(ActualGameBoardVM a)

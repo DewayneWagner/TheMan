@@ -14,12 +14,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         ActionPanel _actionPanel;
         SQ _activeSQ;
 
-        public ActionButton(SQ sq, ActionPanel a)
+        public ActionButton(ActionPanel a)
         {
             _actionPanel = a;
-            _activeSQ = sq;
+            _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)];
 
-            Text = sq.NextAction.Text;
+            Text = _activeSQ.NextAction.Text;
             HorizontalOptions = LayoutOptions.CenterAndExpand;
             BackgroundColor = Color.Crimson;
             FontAttributes = FontAttributes.Bold;

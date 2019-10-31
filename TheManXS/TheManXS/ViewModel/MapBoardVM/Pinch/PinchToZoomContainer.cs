@@ -39,7 +39,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Pinch
                 _actualGameBoardVM.SetValue(ref _gameBoard, value);
             }
         }
-
         void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
         {
             if (e.Status == GestureStatus.Started)
