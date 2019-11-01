@@ -6,7 +6,6 @@ using System.Linq;
 using Xamarin.Forms;
 using TheManXS.Model.Company;
 using TheManXS.Model.Map.Surface;
-using System.Drawing.Drawing2D;
 
 namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {
@@ -35,15 +34,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             {
                 for (int col = -1; col <= 1; col++)
                 {
-                    if (row == 0 && col == 0) 
-                    {
-                        HatchBrush h = new HatchBrush(HatchStyle.BackwardDiagonal, System.Drawing.Color.DarkGray);
-                    }
+                    if (row == 0 && col == 0) {;}
                     else if (!IsSqPresent((_sq.Row + row), (_sq.Col + col))) { InitBoxView(row, col); }
                     else if (Math.Abs(row) == 1 && Math.Abs(col) == 1)
                     {
-                        if (!IsSqPresent(_sq.Row + row, _sq.Col) || !IsSqPresent(_sq.Row, _sq.Col + col)) 
-                            { InitBoxView(row, col); }
+                        if (!IsSqPresent(_sq.Row + row, _sq.Col) || !IsSqPresent(_sq.Row, _sq.Col + col))
+                        { InitBoxView(row, col); }
                     }
                 }
             }

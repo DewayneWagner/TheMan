@@ -24,10 +24,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Pinch
             Content = GameBoard;
         }
 
-        private double startScale;
-        private double currentScale;
-        private double xOffset;
-        private double yOffset;
+        private double _startScale;
+        private double _currentScale;
+        private double _xOffset;
+        private double _yOffset;
 
         private GameBoard _gameBoard;
         public GameBoard GameBoard
@@ -45,46 +45,46 @@ namespace TheManXS.ViewModel.MapBoardVM.Pinch
             {
                 // Store the current scale factor applied to the wrapped user interface element,
                 // and zero the components for the center point of the translate transform.
-                startScale = Content.Scale;
+                _startScale = Content.Scale;
                 Content.AnchorX = 0;
                 Content.AnchorY = 0;
             }
             if (e.Status == GestureStatus.Running)
             {
                 // Calculate the scale factor to be applied.
-                currentScale += (e.Scale - 1) * startScale;
-                currentScale = Math.Max(1, currentScale);
+                _currentScale += (e.Scale - 1) * _startScale;
+                _currentScale = Math.Max(1, _currentScale);
 
                 // The ScaleOrigin is in relative coordinates to the wrapped user interface element,
                 // so get the X pixel coordinate.
-                double renderedX = Content.X + xOffset;
+                double renderedX = Content.X + _xOffset;
                 double deltaX = renderedX / Width;
-                double deltaWidth = Width / (Content.Width * startScale);
+                double deltaWidth = Width / (Content.Width * _startScale);
                 double originX = (e.ScaleOrigin.X - deltaX) * deltaWidth;
 
                 // The ScaleOrigin is in relative coordinates to the wrapped user interface element,
                 // so get the Y pixel coordinate.
-                double renderedY = Content.Y + yOffset;
+                double renderedY = Content.Y + _yOffset;
                 double deltaY = renderedY / Height;
-                double deltaHeight = Height / (Content.Height * startScale);
+                double deltaHeight = Height / (Content.Height * _startScale);
                 double originY = (e.ScaleOrigin.Y - deltaY) * deltaHeight;
 
                 // Calculate the transformed element pixel coordinates.
-                double targetX = xOffset - (originX * Content.Width) * (currentScale - startScale);
-                double targetY = yOffset - (originY * Content.Height) * (currentScale - startScale);
+                double targetX = _xOffset - (originX * Content.Width) * (_currentScale - _startScale);
+                double targetY = _yOffset - (originY * Content.Height) * (_currentScale - _startScale);
 
                 // Apply translation based on the change in origin.
-                Content.TranslationX = targetX.Clamp(-Content.Width * (currentScale - 1), 0);
-                Content.TranslationY = targetY.Clamp(-Content.Height * (currentScale - 1), 0);
+                Content.TranslationX = targetX.Clamp(-Content.Width * (_currentScale - 1), 0);
+                Content.TranslationY = targetY.Clamp(-Content.Height * (_currentScale - 1), 0);
 
                 // Apply scale factor.
-                Content.Scale = currentScale;
+                Content.Scale = _currentScale;
             }
             if (e.Status == GestureStatus.Completed)
             {
                 // Store the translation delta's of the wrapped user interface element.
-                xOffset = Content.TranslationX;
-                yOffset = Content.TranslationY;
+                _xOffset = Content.TranslationX;
+                _yOffset = Content.TranslationY;
             }
         }
     }
