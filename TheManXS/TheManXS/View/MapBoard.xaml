@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:TheManXS.ViewModel.MapBoardVM"
              xmlns:main="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
-             xmlns:gameboard="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
-             xmlns:pz="clr-namespace:TheManXS.ViewModel.MapBoardVM.Pinch"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:tt="clr-namespace:TheManXS.ViewModel.MapBoardVM.TouchTracking"
              mc:Ignorable="d"
              x:Class="TheManXS.View.MapBoard">
     
@@ -54,11 +54,22 @@
                         WidthRequest="150"/>
             </StackLayout>
 
-            <ContentView Padding="0" Margin="0">
+            <Grid x:Name="ScreenGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <skia:SKCanvasView x:Name="mapBoardCanvasView" 
+                           PaintSurface="mapBoardCanvasView_PaintSurface"                        
+                           EnableTouchEvents="True"/>
+                <Grid.Effects>
+                    <tt:TouchEffect Capture="True" 
+                            TouchAction="TouchEffect_TouchAction"/>
+                </Grid.Effects>
+            </Grid>
+
+
+            <!--<ContentView Padding="0" Margin="0">
                 <ContentView.Content>
                     <gameboard:ActualGameBoardVM/>                    
                 </ContentView.Content>
-            </ContentView>
+            </ContentView>-->
 
             <Label Text="{Binding Ticker}" BackgroundColor="Black" TextColor="White"
                    HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"

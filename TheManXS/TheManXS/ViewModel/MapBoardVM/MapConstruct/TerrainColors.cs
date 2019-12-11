@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using SkiaSharp;
 using SkiaSharp.Views;
+using static TheManXS.Model.Settings.SettingsMaster;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
-    public enum TerrainTypeE { Grassland,Forest,Mountain,River,Slough,Sand,Total }
     public class TerrainColors : List<List<SKColor>>
     {
         private System.Random rnd = new System.Random();
         public TerrainColors()
-        {
+        {           
             this.Add(GetGrasslandColors());
             this.Add(GetForestColors());
             this.Add(GetMountainColors());
+            this.Add(GetCityColors());
             this.Add(GetRiverColors());
             this.Add(GetSloughColors());
             this.Add(GetSandColors());
@@ -53,6 +54,17 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 new SKColor(82,81,73),                
                 new SKColor(90,90,76),                
                 new SKColor(98,93,84),
+            };
+        }
+        private List<SKColor> GetCityColors()
+        {
+            return new List<SKColor>()
+            {
+                new SKColor(95,92,104),
+                new SKColor(168,165,161),
+                new SKColor(96,92,99),
+                new SKColor(97,100,123),
+                new SKColor(157,170,186),
             };
         }
         private List<SKColor> GetRiverColors()

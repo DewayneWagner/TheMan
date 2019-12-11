@@ -50,6 +50,7 @@ namespace TheManXS.Model.Settings
         public static string NameOfOwnerOfUnOwnedSquares { get; set; }
         public static double OPEXDiscountPerSQInUnit { get; set; }
         public static double CAPEXDiscountPerSQInUnit { get; set; }
+        public static bool IsNewGame { get; set; }
 
         // set when game begins ////////////////////////////////////////////////
         public static int CurrentSavedGameSlot { get; set; }
@@ -58,5 +59,10 @@ namespace TheManXS.Model.Settings
         public static int ScreenWidth { get; set; }
         public static int ScreenHeight { get; set; }
         public static double Rotation { get; set; }
+
+        // set by Gameboard Code-behind
+        public static float RenderedSQSize { get; set; }
+        public static double MapCanvasViewHeight { get; set; }
+        public static double MapCanvasViewWidth { get; set; }
     }
 }

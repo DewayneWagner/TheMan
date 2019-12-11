@@ -1,14 +1,13 @@
 ﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
-using SkiaSharpTouchEffects.MapBoardVM;
-using SkiaSharpTouchEffects.MapBoardVM.MapColors;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using static SkiaSharpTouchEffects.MapBoardVM.TileConstructCalc;
+using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM
@@ -20,8 +19,15 @@ namespace TheManXS.ViewModel.MapBoardVM
 
         public MapVM(TerrainTypeE tt)
         {
+            // need to update this later....
+            QC.IsNewGame = true;
+
             TerrainType = tt;
-            if (QC.IsNewGame) { new Map(this).InitMap(); }
+            if (QC.IsNewGame) 
+            {
+                Map = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
+                new Map(this);
+            }
             else { LoadMap(); }
 
             MapTouchList = new MapTouchListOfMapTouchIDLists();
