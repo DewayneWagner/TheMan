@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TheManXS.ViewModel.MapBoardVM.Pinch;
+using TheManXS.ViewModel.MapBoardVM.Map;
 using TheManXS.ViewModel.MapBoardVM.Scroll;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;

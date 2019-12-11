@@ -37,24 +37,26 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             CompressedLayout.SetIsHeadless(this, true);
             _actionPanel = a;
             _panelType = pt;
-            
-            _column1Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize * _widthRatioColumn1;
-            _column2Width = (QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize) - _column1Width;
 
+            SetPropertiesOfGrid();
+            InitFields();
+            InitAllElements();
+        }
+        private void SetPropertiesOfGrid()
+        {
             RowSpacing = 0;
             Padding = 0;
             VerticalOptions = LayoutOptions.Center;
             BackgroundColor = Color.White;
             VerticalOptions = LayoutOptions.FillAndExpand;
-
-            InitFields();
-            InitAllElements();
         }
         private void InitFields()
         {
             if (_panelType == ActionPanel.PanelType.SQ) { _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)]; }
             else if (_panelType == ActionPanel.PanelType.Unit) { _activeUnit = (Unit)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)]; }
             _gameBoardVM = (GameBoardVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _column1Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize * _widthRatioColumn1;
+            _column2Width = (QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize) - _column1Width;
         }
         private void InitAllElements()
         {
@@ -176,7 +178,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             _gameBoardVM.ActualGameBoardVM.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
 
             if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) 
-                { _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(); }
+                { _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
 
             else if(_panelType == ActionPanel.PanelType.Unit) { _activeUnit.KillUnit(); }
         }

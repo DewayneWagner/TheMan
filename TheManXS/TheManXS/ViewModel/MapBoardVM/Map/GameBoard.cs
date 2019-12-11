@@ -13,12 +13,15 @@ using TheManXS.ViewModel.MapBoardVM.Scroll;
 
 namespace TheManXS.ViewModel.MapBoardVM.Map
 {
-    public class GameBoard : AbsoluteLayout
+    public class GameBoard : Grid
     {
         private ActualGameBoardVM _actualGameBoardVM;
         public GameBoard(ActualGameBoardVM a)
         {
             CompressedLayout.SetIsHeadless(this, true);
+            RowSpacing = 1;
+            ColumnSpacing = 1;
+
             _actualGameBoardVM = a;
             FocusedGameBoard = new FocusedABS(_actualGameBoardVM);
             InitGameBoard();
@@ -34,24 +37,31 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
                 _actualGameBoardVM.SetValue(ref _focusedGameBoard, value);
             }
         }
+        public AbsoluteLayout this[int row, int col]
+        {
+            get => this[row, col];
+            set => this[row, col] = value;
+        }
         private void InitGameBoard()
         {
-            Rectangle rect = new Rectangle(0, 0, QC.SqSize * QC.ColQ, QC.SqSize * QC.RowQ);
-            BoxView bv = new BoxView()
+            for (int row = 0; row < QC.RowQ; row++)
             {
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                BackgroundColor = Color.Black
-            };
-            this.Children.Add(bv, rect);
+                RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
+
+                if(row == 0)
+                {
+                    for (int col = 0; col < QC.ColQ; col++)
+                    {
+                        ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
+                    }
+                }                
+            }
         }
         private void AddFocusedTiles()
         {
-            foreach(Tile tile in FocusedGameBoard)
+            foreach (Tile tile in FocusedGameBoard)
             {
-                Rectangle rect = new Rectangle(tile.XCoord, tile.YCoord, QC.SqSize, QC.SqSize);
-                this.Children.Add(tile, rect);
-                tile.MapIndex = Children.IndexOf(tile);
+                this.Children.Add(tile, tile.Col, tile.Row);
             }
         }
     }

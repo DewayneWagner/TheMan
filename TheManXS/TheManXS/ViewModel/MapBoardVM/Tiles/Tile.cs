@@ -10,6 +10,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
     public class Tile : AbsoluteLayout
     {
         private GameBoardVM g;
+        public Tile() { OverlayGrid = new OverlayGrid(); }
         public Tile(SQ sq, int sqSize)
         {
             g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];

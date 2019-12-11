@@ -6,7 +6,7 @@ using TheManXS.ViewModel.MapBoardVM.Map;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-namespace TheManXS.ViewModel.MapBoardVM.Pinch
+namespace TheManXS.ViewModel.MapBoardVM.Map
 {
     public class PinchToZoomContainer : ContentView
     {

@@ -19,6 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         private static double InsideRatio = 0.8;
         private static double OutsideRatio = 0.1;
 
+        public OverlayGrid() { }
         public OverlayGrid(SQ sq)
         {
             _activeSQ = sq;
@@ -93,6 +94,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                     }
                 }
             }
+        }
+        public void RemoveOutsideBorders(Tile tile)
+        {
+            int length = tile.Children.Count();
+            for (int i = 0; i < length; i++) { tile.Children.RemoveAt(0); }
         }
         public void RemoveOutsideBorders()
         {

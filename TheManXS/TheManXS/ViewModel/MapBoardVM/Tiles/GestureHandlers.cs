@@ -33,21 +33,22 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
 
         public void SingleTap(object sender, EventArgs e)
         {
-            Tile t = sender as Tile;
-            _clickedRow = t.Row;
-            _clickedCol = t.Col;
+            ActiveTile = sender as Tile;
+            
+            _clickedRow = ActiveTile.Row;
+            _clickedCol = ActiveTile.Col;
 
             SetActiveSQ();
 
             tapHandled = false;
-            ActiveTile = (Tile)sender;
             Device.StartTimer(new TimeSpan(0, 0, 0, 0, 300), ExecuteIfSingleTap);
         }
         public void DoubleTap(object sender, EventArgs e)
         {
-            Tile t = sender as Tile;
-            _clickedRow = t.Row;
-            _clickedCol = t.Col;
+            ActiveTile = sender as Tile;
+
+            _clickedRow = ActiveTile.Row;
+            _clickedCol = ActiveTile.Col;
 
             tapHandled = true;
             ExecuteOnDoubleTap();
@@ -65,18 +66,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         }
         private void ExecuteOnDoubleTap()
         {
-            Tile t = _gameBoardSplitGrid.MapScrollView.PinchToZoomContainer.GameBoard.FocusedGameBoard.GetTile(_clickedRow, _clickedCol);
             if (!_gameBoardSplitGrid.IsThereActiveUnit)
             {
-                Unit activeUnit = new Unit(t.SQ);
+                Unit activeUnit = new Unit(ActiveTile.SQ);
                 Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)] = activeUnit;
                 _gameBoardSplitGrid.ActiveUnit = activeUnit;
                 _gameBoardSplitGrid.IsThereActiveUnit = true;
-                _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.Unit, t);
+                _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.Unit, ActiveTile);
             }
-            else if(_gameBoardSplitGrid.ActiveUnit.IsSQAdjacentToSQsAlreadyInUnit(t.SQ))
+            else if(_gameBoardSplitGrid.ActiveUnit.IsSQAdjacentToSQsAlreadyInUnit(ActiveTile.SQ))
             { 
-                _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(t.SQ); 
+                _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(ActiveTile.SQ); 
             }
         }
 

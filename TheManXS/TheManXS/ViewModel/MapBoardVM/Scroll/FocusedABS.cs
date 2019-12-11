@@ -65,7 +65,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Scroll
             {
                 this.Add(t);
                 var m = _mapVM.PinchToZoomContainer.GameBoard;
-                m.Children.Add(t, t.PositionRectangle);
+                //m.Children.Add(t, t.PositionRectangle);
+                m.Children.Add(t, t.Row, t.Col);
                 t.MapIndex = m.Children.IndexOf(t);
             }
         }

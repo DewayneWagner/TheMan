@@ -15,7 +15,11 @@ namespace TheManXS.Model.Main
 {
     public class SQ
     {
-        public SQ() { NextAction = new NextAction(this); }
+        public SQ() 
+        { 
+            NextAction = new NextAction(this);
+            Tile = new Tile();
+        }
         public SQ(bool isForPropertyDictionary) { NextAction = new NextAction(this); }
 
         public SQ(int row, int col)

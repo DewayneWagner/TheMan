@@ -64,8 +64,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         private async void ShowResourceMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Resources));
 
-        private async void ShowTerrainMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Terrain));
-        
+        //private async void ShowTerrainMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Terrain));
+
+        private async void ShowTerrainMap() => await _pageService.PushAsync(new SKGameBoard());
         private async void EndTurnAction(object obj)
         {
             await _pageService.DisplayAlert("Turn has been ended.");

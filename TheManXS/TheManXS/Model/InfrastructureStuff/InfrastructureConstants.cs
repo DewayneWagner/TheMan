@@ -12,12 +12,13 @@ namespace TheManXS.Model.InfrastructureStuff
         public static double RailFromTopOfSQRatio = 0.5;
         public static double PipelineFromTopOfSQRatio = 0.6;
 
-        public static Color RoadColor = Color.Black;
+        public static Color MainRoadColor = Color.Black;
+        public static Color SecondaryRoadColor = Color.DarkGray;
         public static Color RailColor = Color.Violet;
-        public static Color PipeLineColor = Color.DarkSlateGray;
+        public static Color PipeLineColor = Color.DarkSlateBlue;
 
         public static double LengthStraight = ((QC.SqSize / 2)*1.1);
-        public static double LengthLateral = Math.Sqrt(((LengthStraight) * (LengthStraight))
+        public static double LengthDiagonal = Math.Sqrt(((LengthStraight) * (LengthStraight))
             + ((LengthStraight) * (LengthStraight)));
         public static double Width = QC.SqSize * 0.05;
         public static double CornerRadius = QC.SqSize * 0.025;

@@ -8,7 +8,6 @@ using TheManXS.ViewModel.MapBoardVM.Tiles;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.Services;
 using TheManXS.ViewModel.MapBoardVM.Scroll;
-using TheManXS.ViewModel.MapBoardVM.Pinch;
 using TheManXS.ViewModel.MapBoardVM.Action;
 
 namespace TheManXS.ViewModel.MapBoardVM
