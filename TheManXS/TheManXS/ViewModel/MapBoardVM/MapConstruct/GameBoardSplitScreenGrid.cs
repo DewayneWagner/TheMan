@@ -8,7 +8,7 @@ using TheManXS.ViewModel.MapBoardVM.Tiles;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.Map
+namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
     public class GameBoardSplitScreenGrid : Grid
     {
@@ -22,11 +22,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Map
             CompressedLayout.SetIsHeadless(this, true);
             _actualGameBoardVM = a;
             InitGrid();
-            MapScrollView = new MapScrollView(_actualGameBoardVM);
-            Children.Add(MapScrollView, 0, 0);
         }
 
-        public MapScrollView MapScrollView { get; set; }
         public bool SideSQActionPanelExists { get; set; }
         public bool UnitActionPanelExists { get; set; }
         public ActionPanel ActionPanel { get; set; }
