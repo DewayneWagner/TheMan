@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -9,11 +10,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {
     public class Tile : AbsoluteLayout
     {
-        private GameBoardVM g;
+        private MapVM _mapVM;
         public Tile() { OverlayGrid = new OverlayGrid(); }
         public Tile(SQ sq, int sqSize)
         {
-            g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _mapVM = (MapVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             SQ = sq;
 
             CompressedLayout.SetIsHeadless(this, true);     

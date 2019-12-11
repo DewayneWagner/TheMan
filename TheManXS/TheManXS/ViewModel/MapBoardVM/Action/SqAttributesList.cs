@@ -5,15 +5,16 @@ using Xamarin.Forms;
 using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
 using SA = TheManXS.ViewModel.MapBoardVM.Action.SqAttributes.AllSQAttributes;
 using System.Linq;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class SqAttributesList : List<SqAttributes>
     {
-        private GameBoardVM _gameBoardVM;
+        private MapVM _mapVM;
         public SqAttributesList()
         {
-            _gameBoardVM = (GameBoardVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             InitListWithDefaults();
             InitTrueBools();
         }

@@ -6,6 +6,8 @@ using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
 using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using TheManXS.Model.Main;
+using SkiaSharp;
+using Xamarin.Forms;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -13,7 +15,18 @@ namespace TheManXS.Model.Map.Surface
     {
         System.Random rnd = new System.Random();
         private SQMapConstructArray _map;
-        public Coordinate() { }
+        public Coordinate(SKPoint p) 
+        {
+            Row = (int)(p.Y / QC.RenderedSQSize);
+            Col = (int)(p.X / QC.RenderedSQSize);
+            SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+        }
+        public Coordinate(Point p)
+        {
+            Row = (int)(p.Y / QC.SqSize);
+            Col = (int)(p.X / QC.SqSize);
+            SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+        }
         public Coordinate(int row, int col)
         {
             Row = row;

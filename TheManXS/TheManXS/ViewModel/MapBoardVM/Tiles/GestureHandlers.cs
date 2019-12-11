@@ -6,7 +6,6 @@ using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Units;
 using TheManXS.View;
-using TheManXS.ViewModel.MapBoardVM.Map;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 
@@ -18,15 +17,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         private bool tapHandled;
         private int _clickedRow = 0;
         private int _clickedCol = 0;
-        private GameBoardSplitScreenGrid _gameBoardSplitGrid;
         private SQ _activeSQ;
 
         public GestureHandlers(Tile tile)
         {
             ActiveTile = tile;
             _pageService = new PageService();
-            GameBoardVM g = (GameBoardVM)(Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)]);
-            _gameBoardSplitGrid = g.ActualGameBoardVM.GameBoardSplitScreenGrid;
+            //GameBoardVM g = (GameBoardVM)(Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)]);
+            //_gameBoardSplitGrid = g.ActualGameBoardVM.GameBoardSplitScreenGrid;
         }
 
         public Tile ActiveTile { get; set; }
@@ -62,22 +60,22 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
 
         private void ExecuteOnSingleTap()
         {
-            _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.SQ,ActiveTile);
+            //_gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.SQ,ActiveTile);
         }
         private void ExecuteOnDoubleTap()
         {
-            if (!_gameBoardSplitGrid.IsThereActiveUnit)
-            {
-                Unit activeUnit = new Unit(ActiveTile.SQ);
-                Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)] = activeUnit;
-                _gameBoardSplitGrid.ActiveUnit = activeUnit;
-                _gameBoardSplitGrid.IsThereActiveUnit = true;
-                _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.Unit, ActiveTile);
-            }
-            else if(_gameBoardSplitGrid.ActiveUnit.IsSQAdjacentToSQsAlreadyInUnit(ActiveTile.SQ))
-            { 
-                _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(ActiveTile.SQ); 
-            }
+            //if (!_gameBoardSplitGrid.IsThereActiveUnit)
+            //{
+            //    Unit activeUnit = new Unit(ActiveTile.SQ);
+            //    Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)] = activeUnit;
+            //    _gameBoardSplitGrid.ActiveUnit = activeUnit;
+            //    _gameBoardSplitGrid.IsThereActiveUnit = true;
+            //    _gameBoardSplitGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.Unit, ActiveTile);
+            //}
+            //else if(_gameBoardSplitGrid.ActiveUnit.IsSQAdjacentToSQsAlreadyInUnit(ActiveTile.SQ))
+            //{ 
+            //    _gameBoardSplitGrid.ActiveUnit.AddSQToUnit(ActiveTile.SQ); 
+            //}
         }
 
         void SetActiveSQ()

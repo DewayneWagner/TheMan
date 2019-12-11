@@ -7,13 +7,14 @@ using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.Model.Units;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class ActionPanelGrid : Grid
     {
         private SQ _activeSQ;
-        private GameBoardVM _gameBoardVM;
+        private MapVM _mapVM;
         private ActionPanel _actionPanel;
         private Unit _activeUnit;
 
@@ -54,7 +55,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             if (_panelType == ActionPanel.PanelType.SQ) { _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)]; }
             else if (_panelType == ActionPanel.PanelType.Unit) { _activeUnit = (Unit)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)]; }
-            _gameBoardVM = (GameBoardVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             _column1Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize * _widthRatioColumn1;
             _column2Width = (QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize) - _column1Width;
         }
@@ -175,7 +176,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
-            _gameBoardVM.ActualGameBoardVM.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
+            _mapVM.ScreenGrid.ActionPanel.CloseActionPanel();
 
             if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) 
                 { _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }

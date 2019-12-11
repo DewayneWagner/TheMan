@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
+using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct

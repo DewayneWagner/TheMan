@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using TheManXS.View;
+using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 
@@ -11,7 +12,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     public enum ViewType { Terrain, Resources, Roads, Pipeline, TrainTracks, Total }
     public class TitleBarVM : BaseViewModel
     {
-        GameBoardVM g;
+        MapVM _mapVM;
 
         private string _quarter;
         private string _companyName;
@@ -20,8 +21,11 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public TitleBarVM(bool isForInitGameBoardVM) { }
         public TitleBarVM()
         {
-            g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
             g.TitleBar = this;
+
+            _mapVM = (MapVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
+            _mapVM.TitleBar = this;
             _pageService = new PageService();
             CompressedLayout.SetIsHeadless(this, true);
 
@@ -66,7 +70,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         //private async void ShowTerrainMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Terrain));
 
-        private async void ShowTerrainMap() => await _pageService.PushAsync(new SKGameBoard());
+        private async void ShowTerrainMap() => await _pageService.PushAsync(new MapBoard());
         private async void EndTurnAction(object obj)
         {
             await _pageService.DisplayAlert("Turn has been ended.");

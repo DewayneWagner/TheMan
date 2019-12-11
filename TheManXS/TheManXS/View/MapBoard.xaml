@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:TheManXS.ViewModel.MapBoardVM"
+             xmlns:local="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
              xmlns:main="clr-namespace:TheManXS.ViewModel.MapBoardVM.MainElements"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:tt="clr-namespace:TheManXS.ViewModel.MapBoardVM.TouchTracking"
@@ -54,7 +54,10 @@
                         WidthRequest="150"/>
             </StackLayout>
 
-            <Grid x:Name="ScreenGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid x:Name="ScreenGrid" 
+                  CompressedLayout.IsHeadless="True"
+                  HorizontalOptions="FillAndExpand" 
+                  VerticalOptions="FillAndExpand">
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
                            PaintSurface="mapBoardCanvasView_PaintSurface"                        
                            EnableTouchEvents="True"/>
@@ -63,14 +66,7 @@
                             TouchAction="TouchEffect_TouchAction"/>
                 </Grid.Effects>
             </Grid>
-
-
-            <!--<ContentView Padding="0" Margin="0">
-                <ContentView.Content>
-                    <gameboard:ActualGameBoardVM/>                    
-                </ContentView.Content>
-            </ContentView>-->
-
+            
             <Label Text="{Binding Ticker}" BackgroundColor="Black" TextColor="White"
                    HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
                    Margin="0">

@@ -6,13 +6,14 @@ using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
 using Xamarin.Forms;
 using TheManXS.Services;
 using TheManXS.Model.Financial;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class SqAttributes
     {
         private SQ sq;
-        GameBoardVM g;
+        MapVM _mapVM;
         public enum AllSQAttributes { Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Total }
 
@@ -20,11 +21,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         public SqAttributes(SQ square, AllSQAttributes attribute)
         {
-            g = (GameBoardVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             sq = square;
             StatusType = square.Status;
             SqAttribute = attribute;
-            IsVisible = g.SqAttributesList.GetVisibility(sq.Status, attribute);
+            IsVisible = _mapVM.SqAttributesList.GetVisibility(sq.Status, attribute);
             if(IsVisible) { Value = GetValue(); }
         }
 

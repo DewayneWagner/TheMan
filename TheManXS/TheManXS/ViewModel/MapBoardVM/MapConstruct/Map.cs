@@ -11,6 +11,7 @@ using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Main;
 using System.Linq;
 using TheManXS.Model.Map.Surface;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
@@ -18,8 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
     {
         MapVM _mapVM;
 
-        private System.Random rnd = new System.Random();
-        public TerrainColors TerrainColors { get; set; }
+        private System.Random rnd = new System.Random();       
 
         public Map(MapVM mapVM) 
         { 
@@ -28,21 +28,23 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             AddTerrainSQsToMap();
             new River(_mapVM, this);
         }
+        public TerrainColors TerrainColors { get; set; }
         public void AddTerrainSQsToMap()
         {
             using (DBContext db = new DBContext())
             {
                 using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
                 {
-                    gameboard.Clear();
-                    for (int col = 0; col < QC.ColQ; col++)
+                    using (SKPaint paint = new SKPaint())
                     {
-                        for (int row = 0; row < QC.RowQ; row++)
-                        {
-                            SQ sq = db.SQ.Find(Coordinate.GetSQKey(row, col));
+                        gameboard.Clear();
 
-                            using (SKPaint paint = new SKPaint())
+                        for (int col = 0; col < QC.ColQ; col++)
+                        {
+                            for (int row = 0; row < QC.RowQ; row++)
                             {
+                                SQ sq = db.SQ.Find(Coordinate.GetSQKey(row, col));
+
                                 TileConstructCalc t = new TileConstructCalc(_mapVM, row, col);
                                 int q = _mapVM.TerrainType == TerrainTypeE.Mountain ? rnd.Next(1, 500) : rnd.Next(1, 10);
                                 SKRect rect = new SKRect(col * QC.SqSize, row * QC.SqSize, (col + 1) * QC.SqSize, (row + 1) * QC.SqSize);
@@ -65,7 +67,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                                         break;
 
                                     case sqFormats.SolidColor:
-                                        paint.Color = TerrainColors.GetRandomColor(sq.TerrainType);
                                         break;
 
                                     case sqFormats.SweepGradient:

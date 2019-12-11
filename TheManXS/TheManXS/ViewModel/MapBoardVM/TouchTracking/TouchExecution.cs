@@ -7,6 +7,8 @@ using System.Linq;
 using SkiaSharp;
 using TheManXS.ViewModel.Services;
 using TheManXS.Model.Map.Surface;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 {
@@ -92,7 +94,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             float scaleX = newVector.X / oldVector.X;
             float scaleY = newVector.Y / oldVector.Y;
             float scale = (scaleX > scaleY) ? scaleX : scaleY;
-            float pinchScale = scale > QuickConstants.PinchMaxScale ? QuickConstants.PinchMaxScale : scale;
+            float pinchScale = scale > QC.PinchMaxScale ? QC.PinchMaxScale : scale;
 
             if(FloatIsValid(pinchScale))
             {

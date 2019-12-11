@@ -8,19 +8,21 @@ using TheManXS.ViewModel.MapBoardVM.Tiles;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
+namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardSplitScreenGrid : Grid
     {
-        private ActualGameBoardVM _actualGameBoardVM;
+        private MapVM _mapVM;
 
-        public GameBoardSplitScreenGrid(ActualGameBoardVM a)
+        public GameBoardSplitScreenGrid(MapVM mapVM)
         {
+            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            g.SplitScreenGrid = this;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
 
             CompressedLayout.SetIsHeadless(this, true);
-            _actualGameBoardVM = a;
+            _mapVM = mapVM;
             InitGrid();
         }
 

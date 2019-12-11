@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheManXS.ViewModel.MapBoardVM;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,10 +35,9 @@ namespace TheManXS.View
             // things that only need to be set once upon creation of canvas
             if (_createNewMap)
             {
-                _mapVM = new MapVM(_tt);
+                _mapVM = new MapVM();
                 _mapVM.MapCanvasView = mapBoardCanvasView;
                 _mapVM.MapCanvasView.IgnorePixelScaling = true;
-                _mapVM.ScreenGrid = ScreenGrid;
                 _createNewMap = false;
             }
 

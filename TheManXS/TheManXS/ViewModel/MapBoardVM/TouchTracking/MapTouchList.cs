@@ -4,8 +4,8 @@ using System.Text;
 using System.Linq;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using SkiaSharpTouchEffects.MapBoardVM;
 using SkiaSharp;
+using TheManXS.Model.Map.Surface;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 {

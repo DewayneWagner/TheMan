@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TheManXS.Model.Main;
 using TheManXS.View.DetailView;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,8 +13,8 @@ namespace TheManXS
 {
     public partial class App : Application
     {
-        public enum ObjectsInPropertyDictionary { GameBoardVM,ScreenWidth,ScreenHeight,Orientation,Rotation,
-            Density,ActiveSQ,ActivePlayer,ActiveUnit }
+        public enum ObjectsInPropertyDictionary { MapVM, GameBoardVM, ScreenWidth, ScreenHeight, Orientation,
+            Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit }
         public static string DataBaseLocation = string.Empty;
         public static string BinaryBackupPath = string.Empty;
 
@@ -31,7 +32,8 @@ namespace TheManXS
         }
         void InitPropertyDictionary()
         {
-            Properties[Convert.ToString(ObjectsInPropertyDictionary.GameBoardVM)] = new M.GameBoardVM(true);
+            Properties[Convert.ToString(ObjectsInPropertyDictionary.GameBoardVM)] = new GameBoardVM(true);
+            Properties[Convert.ToString(ObjectsInPropertyDictionary.MapVM)] = new MapVM(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveSQ)] = new TheManXS.Model.Main.SQ(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActivePlayer)] = new TheManXS.Model.Main.Player();
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveUnit)] = new TheManXS.Model.Units.Unit();

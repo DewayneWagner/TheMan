@@ -5,6 +5,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 using SkiaSharp.Views;
 using SkiaSharp;
 using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
