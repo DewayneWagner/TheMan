@@ -51,7 +51,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public MapTouchListOfMapTouchIDLists MapTouchList { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
-        public TerrainTypeE TerrainType { get; set; }
         public TitleBarVM TitleBar { get; set; }
         public StockTickerBarVM StockTicker { get; set; }
         public SqAttributesList SqAttributesList { get; set; }

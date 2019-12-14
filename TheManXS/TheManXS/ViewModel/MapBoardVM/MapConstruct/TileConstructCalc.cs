@@ -30,10 +30,10 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             float y = (float)((_row * QC.SqSize) + (rnd.NextDouble() * QC.SqSize));
             return new SKPoint(x, y);
         }
-        public SKColor[] GetGradientColors(int q)
+        public SKColor[] GetGradientColors(int q, TerrainTypeE tt)
         {
             SKColor[] colors = new SKColor[q];
-            for (int i = 0; i < q; i++) { colors[i] = _terrainColors.GetRandomColor(_mapVM.TerrainType); }
+            for (int i = 0; i < q; i++) { colors[i] = _terrainColors.GetRandomColor(tt); }
             return colors;
         }
         public Tuple<SKPoint, SKPoint> GetGradientPoints()
@@ -57,9 +57,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             for (int i = 0; i < q; i++) { positions[i] = (float)rnd.NextDouble(); }
             return positions;
         }
-        public sqFormats GetFormat()
+        public sqFormats GetFormat(TerrainTypeE tt)
         {
-            switch (_mapVM.TerrainType)
+            switch (tt)
             {
                 case TerrainTypeE.Grassland:
                     return (sqFormats)(rnd.Next(0, (int)sqFormats.Pixelly));

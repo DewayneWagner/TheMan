@@ -25,7 +25,7 @@ namespace TouchTracking.UWP
 
             // Get access to the TouchEffect class in the .NET Standard library
             effect = (TheManXS.ViewModel.MapBoardVM.TouchTracking.TouchEffect)Element.Effects.
-                        FirstOrDefault(e => e is TouchEffect);
+                        FirstOrDefault(e => e is TheManXS.ViewModel.MapBoardVM.TouchTracking.TouchEffect);
 
             if (effect != null && frameworkElement != null)
             {

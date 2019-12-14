@@ -15,10 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             this.Add(GetGrasslandColors());
             this.Add(GetForestColors());
             this.Add(GetMountainColors());
-            this.Add(GetCityColors());
-            this.Add(GetRiverColors());
-            this.Add(GetSloughColors());
-            this.Add(GetSandColors());
+            this.Add(GetCityColors());            
         }
         public SKColor GetRandomColor(TerrainTypeE tt) => this[(int)tt][rnd.Next(this[(int)tt].Count)];
         public SKColor GetBackGroundColor(TerrainTypeE tt) => this[(int)tt][0];
@@ -67,32 +64,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 new SKColor(157,170,186),
             };
         }
-        private List<SKColor> GetRiverColors()
-        {
-            return new List<SKColor>()
-            {
-                new SKColor(12,163,218),
-                new SKColor(63,179,236),
-                new SKColor(63,179,236),
-                new SKColor(130,193,247),
-                new SKColor(135,198,244),                
-            };
-        }
-        private List<SKColor> GetSloughColors()
-        {
-            return new List<SKColor>()
-            {
-                new SKColor(13, 36, 31),
-                new SKColor(15, 35, 24),
-                new SKColor(23, 48, 29),
-            };
-        }
-        private List<SKColor> GetSandColors()
-        {
-            return new List<SKColor>()
-            {
-                new SKColor(194, 178, 128),
-            };
-        }
+        
     }
 }

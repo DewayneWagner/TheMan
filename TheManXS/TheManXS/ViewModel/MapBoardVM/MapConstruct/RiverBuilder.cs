@@ -9,45 +9,47 @@ using TheManXS.ViewModel.MapBoardVM.MainElements;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
-    public class River
+    public class RiverBuilder
     {
         private bool[,] riverSQs = new bool[QC.ColQ, QC.RowQ];
         private System.Random rnd = new System.Random();
         private MapVM _mapVM;
-        private Map _map;
+        private WaterColors WaterColors { get; } = new WaterColors();
 
-        public River(MapVM mapVM, Map map)
+        SKPaint riverBank = new SKPaint
+        {
+            Style = SKPaintStyle.Stroke,
+            StrokeJoin = SKStrokeJoin.Round,
+        };
+
+        SKPaint water = new SKPaint
+        {
+            Style = SKPaintStyle.Stroke,
+            StrokeJoin = SKStrokeJoin.Round,
+            StrokeCap = SKStrokeCap.Round,
+        };
+
+        public RiverBuilder(MapVM mapVM)
         {
             _mapVM = mapVM;
-            _map = map;
+            InitVariables();
             InitAllRivers();
+        }
+        
+        private void InitVariables()
+        {
+            riverBank.Color = WaterColors.GetRandomColor(WaterColors.WaterColorTypesE.Bank);
+            riverBank.StrokeWidth = (float)(QC.SqSize * 0.3);
+
+            water.Color = WaterColors.GetRandomColor(WaterColors.WaterColorTypesE.River);
+            water.StrokeWidth = (float)(QC.SqSize * 0.2);
         }
 
         private void InitAllRivers()
         {
             using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
             {
-                float bankWidth = (float)(QC.SqSize * 0.3);
-                float riverWidth = (float)(QC.SqSize * 0.2);
-
-                SKPaint riverBank = new SKPaint
-                {
-                    Style = SKPaintStyle.Stroke,
-                    Color = _map.TerrainColors.GetRandomColor(TerrainTypeE.Sand),
-                    StrokeWidth = bankWidth,
-                    StrokeJoin = SKStrokeJoin.Round,
-                };
-
-                SKPaint water = new SKPaint
-                {
-                    Style = SKPaintStyle.Stroke,
-                    Color = _map.TerrainColors.GetRandomColor(TerrainTypeE.River),
-                    StrokeWidth = riverWidth,
-                    StrokeJoin = SKStrokeJoin.Round,
-                    StrokeCap = SKStrokeCap.Round,
-                };
-
-                River river = new River();
+                RiverBuilder river = new RiverBuilder();
                 SKPath riverPath = new SKPath();
                 riverPath.Convexity = SKPathConvexity.Convex;
                 Tuple<SKPoint, SKPoint> centerPoints;
@@ -77,13 +79,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             }
         }
 
-
-
-
-        public River()
-        {
-            InitArray();
-        }
         private void InitArray()
         {
             int row = rnd.Next((int)(0.4 * QC.RowQ), (int)(0.6 * QC.RowQ));
