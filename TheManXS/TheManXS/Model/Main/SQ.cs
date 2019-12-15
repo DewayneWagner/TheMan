@@ -22,6 +22,8 @@ namespace TheManXS.Model.Main
         }
         public SQ(bool isForPropertyDictionary) { NextAction = new NextAction(this); }
 
+        public SQ(bool isForSQPlaceHolder, bool alsoforSQPlaceHolder) { }
+
         public SQ(int row, int col)
         {
             Row = row;
@@ -52,6 +54,8 @@ namespace TheManXS.Model.Main
         public bool IsHub { get; set; }
         public bool IsMainRiver { get; set; }
         public bool IsTributary { get; set; }
+        public int TributaryNumber { get; set; }
+        public bool IsTributaryFlowingFromNorth { get; set; }
         public bool IsPartOfUnit { get; set; }
         public int UnitNumber { get; set; }
         public int Production { get; set; }

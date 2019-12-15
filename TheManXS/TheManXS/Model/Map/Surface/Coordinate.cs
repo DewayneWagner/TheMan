@@ -17,8 +17,8 @@ namespace TheManXS.Model.Map.Surface
         private SQMapConstructArray _map;
         public Coordinate(SKPoint p) 
         {
-            Row = (int)(p.Y / QC.RenderedSQSize);
-            Col = (int)(p.X / QC.RenderedSQSize);
+            Row = (int)(p.Y / QC.SqSize);
+            Col = (int)(p.X / QC.SqSize);
             SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
         }
         public Coordinate(Point p)

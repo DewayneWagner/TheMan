@@ -4,7 +4,7 @@ using System.Text;
 using TheManXS.Model.Map;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.Model.InfrastructureStuff
+namespace TheManXS.Model.Map.Surface
 {
     public class MainRiver
     {
@@ -14,6 +14,7 @@ namespace TheManXS.Model.InfrastructureStuff
         private int _ub = 2;
         private int _lbDistanceBetweenTributaries = 8;
         private int _ubDistanceBetweenTributaries = 16;
+        private int _tributaryCounter = 0;
         public MainRiver(SQMapConstructArray map)
         {
             _map = map;
@@ -24,15 +25,16 @@ namespace TheManXS.Model.InfrastructureStuff
         private void InitWestRiver()
         {
             int row = _map.CityStartSQ.Row - 1;
-            int nextRiverCol = GetNextTributaryCol(_map.CityStartSQ.Col, false);
+            int nextTributaryCol = GetNextTributaryCol(_map.CityStartSQ.Col, false);
 
             for (int col = _map.CityStartSQ.Col; col >= 0; col--)
             {
                 row += rnd.Next(_lb, _ub);
-                if(col == nextRiverCol)
+                if(col == nextTributaryCol)
                 {
-                    new Tributary(_map, row, col);
-                    nextRiverCol = GetNextTributaryCol(col, false);
+                    new Tributary(_map, row, col, _tributaryCounter);
+                    _tributaryCounter++;
+                    nextTributaryCol = GetNextTributaryCol(col, false);
                 }
                 if (_map[row, col].IsRoadConnected)
                 {
@@ -45,7 +47,7 @@ namespace TheManXS.Model.InfrastructureStuff
         private void InitEastRiver()
         {
             int row = _map.CityStartSQ.Row - 1;
-            int nextRiverCol = GetNextTributaryCol(_map.CityStartSQ.Col, true);
+            int nextTributaryCol = GetNextTributaryCol(_map.CityStartSQ.Col, true);
 
             for (int col = (_map.CityStartSQ.Col + 1); col < QC.ColQ; col++)
             {
@@ -56,9 +58,10 @@ namespace TheManXS.Model.InfrastructureStuff
                     _map[row, col].IsMainRiver = true;
                 }
                 else { _map[row, col].IsMainRiver = true; }
-                if(col == nextRiverCol)
+                if(col == nextTributaryCol)
                 {
-                    new Tributary(_map, row, col);
+                    new Tributary(_map, row, col, _tributaryCounter);
+                    _tributaryCounter++;
                     GetNextTributaryCol(col, true);
                 }
                 row += rnd.Next(_lb, _ub);
@@ -71,5 +74,4 @@ namespace TheManXS.Model.InfrastructureStuff
             else { return (currentCol - tributarySpacing); }
         }
     }
-
 }

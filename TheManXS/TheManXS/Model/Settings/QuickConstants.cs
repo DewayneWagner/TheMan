@@ -62,7 +62,6 @@ namespace TheManXS.Model.Settings
         public static double Rotation { get; set; }
 
         // set by Gameboard Code-behind
-        public static float RenderedSQSize { get; set; }
         public static double MapCanvasViewHeight { get; set; }
         public static double MapCanvasViewWidth { get; set; }
     }

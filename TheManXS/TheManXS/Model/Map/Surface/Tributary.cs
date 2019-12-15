@@ -6,7 +6,7 @@ using TheManXS.Model.Map.Surface;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
 
-namespace TheManXS.Model.InfrastructureStuff
+namespace TheManXS.Model.Map.Surface
 {
     public class Tributary
     {
@@ -16,18 +16,22 @@ namespace TheManXS.Model.InfrastructureStuff
         private int _startCol;
         private int _lb = -1;
         private int _ub = 2;
-        private int _LBForestWidthAroundTributary = 0;
-        private int _UBforestUBWidthAroundTributary = 5;
-        private bool _isNorth;
+        private int _LBForestWidthAroundTributary = 2;
+        private int _UBforestUBWidthAroundTributary = 6;
+        private bool _isFlowingToNorth;
+        private int _tributaryNumber;
 
-        public Tributary(SQMapConstructArray map, int startRow, int startCol)
+        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber)
         {
             _map = map;
             _startRow = startRow;
             _startCol = startCol;
-            _isNorth = GetIsNorth();
+            _isFlowingToNorth = GetIsNorth();            
 
-            if (_isNorth) { InitNewNorthTributary(); }
+            _map[startRow, startCol].IsTributary = true;
+            _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
+
+            if (_isFlowingToNorth) { InitNewNorthTributary(); }
             else { InitNewSouthTributary(); }
         }
         private void InitNewNorthTributary()
@@ -38,10 +42,10 @@ namespace TheManXS.Model.InfrastructureStuff
                 if (Coordinate.DoesSquareExist(row, col))
                 {
                     _map[row, col].IsTributary = true;
-                    if (_map[row, col].TerrainType == TT.Mountain)
-                    {
-                        InitSideForest(row, col);
-                    }
+                    _map[row, col].IsTributaryFlowingFromNorth = true;
+                    _map[row, col].TributaryNumber = _tributaryNumber;
+
+                    if (_map[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += rnd.Next(_lb,_ub);
                 }                
             }
@@ -54,10 +58,10 @@ namespace TheManXS.Model.InfrastructureStuff
                 if (Coordinate.DoesSquareExist(row, col))
                 {
                     _map[row, col].IsTributary = true;
-                    if (_map[row, col].TerrainType == TT.Mountain)
-                    {
-                        InitSideForest(row, col);
-                    }
+                    _map[row, col].IsTributaryFlowingFromNorth = false;
+                    _map[row, col].TributaryNumber = _tributaryNumber;
+
+                    if (_map[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += rnd.Next(_lb,_ub);
                 }                
             }

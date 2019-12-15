@@ -39,7 +39,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             _mapVM = mapVM;
             TerrainColors = new TerrainColors();
             AddTerrainSQsToMap();
-            new RiverBuilder(_mapVM, this);
+            new RiverBuilder(_mapVM);
         }
         public TerrainColors TerrainColors { get; set; }
         public void AddTerrainSQsToMap()
@@ -47,8 +47,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             using (DBContext db = new DBContext())
             {
                 using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
-                {
-                    
+                {                    
                     gameboard.Clear();
 
                     for (int col = 0; col < QC.ColQ; col++)

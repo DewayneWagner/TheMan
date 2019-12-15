@@ -20,7 +20,6 @@ namespace TheManXS.View
     {
         private MapVM _mapVM;
         bool _createNewMap;
-        private TerrainTypeE _tt;
         public MapBoard()
         {
             _createNewMap = true;
@@ -31,7 +30,9 @@ namespace TheManXS.View
         {
             QC.ScreenHeight = e.Info.Height;
             QC.ScreenWidth = e.Info.Width;
-
+            QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
+            QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
+            
             // things that only need to be set once upon creation of canvas
             if (_createNewMap)
             {
@@ -43,14 +44,11 @@ namespace TheManXS.View
 
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
-            QC.RenderedSQSize = _mapVM.Map.Width / QC.ColQ;
+            QC.SqSize = _mapVM.Map.Width / QC.ColQ;
 
             canvas.Clear();
             canvas.SetMatrix(_mapVM.MapMatrix);
             canvas.DrawBitmap(_mapVM.Map, 0, 0);
-
-            QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
-            QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
