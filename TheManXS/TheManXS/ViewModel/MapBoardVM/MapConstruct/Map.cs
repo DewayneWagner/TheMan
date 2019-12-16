@@ -124,8 +124,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                             }
                             if (sq.TerrainType == TerrainTypeE.Grassland) { standardTilePaint.BlendMode = SKBlendMode.Hue; }
                             else if (sq.TerrainType == TerrainTypeE.Mountain) { standardTilePaint.BlendMode = SKBlendMode.Screen; }
-                            if (sq.TerrainType != TerrainTypeE.Forest) { gameboard.DrawRect(rect, standardTilePaint); }
-                            
+                            if (sq.TerrainType != TerrainTypeE.Forest) { gameboard.DrawRect(rect, standardTilePaint); }                            
                         }
                     }
                     gameboard.Save();

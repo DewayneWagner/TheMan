@@ -11,6 +11,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     {
         public PaintTypes()
         {
+            for (int i = 0; i < (int)InfrastructureType.Total; i++) { this.Add(new SKPaint()); }
+
             this[(int)InfrastructureType.MainRiver] = GetMainRiverSKPaint();
             this[(int)InfrastructureType.Tributary] = GetTributarySKPaint();
             this[(int)InfrastructureType.Road] = GetRoadSKPaint();

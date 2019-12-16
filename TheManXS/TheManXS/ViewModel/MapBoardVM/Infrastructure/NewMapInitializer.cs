@@ -32,17 +32,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             using (DBContext db = new DBContext())
             {
-                _allInfrastructure[(int)InfrastructureType.MainRiver] = db.SQ.Where(s => s.IsMainRiver == true)
-                                                                    .OrderBy(s => s.Col)
-                                                                    .ToList();
+                _allInfrastructure[(int)InfrastructureType.MainRiver] = 
+                    db.SQ.Where(s => s.IsMainRiver == true)
+                        .OrderBy(s => s.Col)
+                        .ToList();
                 _allInfrastructure[(int)InfrastructureType.Tributary] = db.SQ.Where(s => s.IsTributary == true).ToList();
-                _allInfrastructure[(int)InfrastructureType.Road] = db.SQ.Where(s => s.IsMainTransportationCorridor == true ||
-                                                                    s.IsRoadConnected == true)
-                                                                    .ToList();
+                _allInfrastructure[(int)InfrastructureType.Road] = 
+                    db.SQ.Where(s => s.IsMainTransportationCorridor == true ||
+                        s.IsRoadConnected == true)
+                        .ToList();
                 _allInfrastructure[(int)InfrastructureType.Pipeline] = db.SQ.Where(s => s.IsPipelineConnected == true).ToList();
-                _allInfrastructure[(int)InfrastructureType.RailRoad] = db.SQ.Where(s => s.IsTrainConnected == true || 
-                                                                    s.IsMainTransportationCorridor == true)
-                                                                    .ToList();
+                _allInfrastructure[(int)InfrastructureType.RailRoad] = 
+                    db.SQ.Where(s => s.IsTrainConnected == true || 
+                        s.IsMainTransportationCorridor == true)
+                        .ToList();
                 _allInfrastructure[(int)InfrastructureType.Hub] = db.SQ.Where(s => s.IsHub == true).ToList();
             }
         }
@@ -71,7 +74,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
             {
-                gameboard.DrawPath(path, _infrastructureBuilder.Formats[(int)it]);
+                SKPaint paint = _infrastructureBuilder.Formats[(int)it];
+                gameboard.DrawPath(path, paint);
                 gameboard.Save();
             }
         }

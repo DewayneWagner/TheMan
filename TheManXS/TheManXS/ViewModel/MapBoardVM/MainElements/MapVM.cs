@@ -30,9 +30,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             if (QC.IsNewGame) 
             {
-                Map = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
-                InfrastructureBuilder = new Infrastructure.Builder(this);
+                Map = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));                
                 new Map(this);
+                InfrastructureBuilder = new Infrastructure.Builder(this);
             }
             else { LoadMap(); }
 
