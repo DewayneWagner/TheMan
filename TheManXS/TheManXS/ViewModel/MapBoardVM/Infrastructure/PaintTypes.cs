@@ -7,9 +7,9 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
-    public class InfrastructurePaintTypes : List<SKPaint>
+    public class PaintTypes : List<SKPaint>
     {
-        public InfrastructurePaintTypes()
+        public PaintTypes()
         {
             this[(int)InfrastructureType.MainRiver] = GetMainRiverSKPaint();
             this[(int)InfrastructureType.Tributary] = GetTributarySKPaint();

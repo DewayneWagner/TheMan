@@ -13,13 +13,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     public class NewMapInitializer
     {
         MapVM _mapVM;
-        InfrastructureBuilder _infrastructureBuilder;
+        Builder _infrastructureBuilder;
         PathCalculations _calc;
         TributaryPathList _tributaryPathList;
 
         List<SQ>[] _allInfrastructure = new List<SQ>[(int)InfrastructureType.Total];
 
-        public NewMapInitializer(MapVM mapVM, InfrastructureBuilder infrastructureBuilder)
+        public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
         {
             _mapVM = mapVM;
             _calc = new PathCalculations();
@@ -52,20 +52,23 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 if((InfrastructureType)i == InfrastructureType.Hub) { InitHubs(); }
                 else if((InfrastructureType)i == InfrastructureType.Tributary) { InitTributaries(); }
-                else { DrawPathsOnCanvas((InfrastructureType)i); }
+                else { CreatePaths((InfrastructureType)i); }
             }
         }
-        private void DrawPathsOnCanvas(InfrastructureType it)
+        private void CreatePaths(InfrastructureType it)
         {
             SKPath path = new SKPath();
 
             foreach (SQ sq in _allInfrastructure[(int)it])
             {
-                if (sq.Col == 0) { _calc.setStartPoint(sq,ref path); }
-                path.LineTo(_calc.GetInfrastructureSKPoint(sq,it));
+                if (sq.Col == 0) { _calc.setStartPoint(sq, ref path); }
+                path.LineTo(_calc.GetInfrastructureSKPoint(sq, it));
             }
             path.Close();
-
+            DrawPathsOnCanvas(path,it);
+        }
+        private void DrawPathsOnCanvas(SKPath path, InfrastructureType it)
+        {
             using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
             {
                 gameboard.DrawPath(path, _infrastructureBuilder.Formats[(int)it]);
@@ -85,7 +88,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         private void InitTributaries()
         {
-
+            foreach (SKPath path in _tributaryPathList) { DrawPathsOnCanvas(path, InfrastructureType.Tributary); }
         }
     }
 }

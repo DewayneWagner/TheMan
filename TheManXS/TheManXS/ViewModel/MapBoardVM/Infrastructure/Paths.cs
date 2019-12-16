@@ -8,10 +8,10 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
-    class InfrastructurePaths : SKPath
+    class Paths : SKPath
     {
         PathCalculations _calc;
-        public InfrastructurePaths(InfrastructureType type)
+        public Paths(InfrastructureType type)
         {
             Type = type;
             _calc = new PathCalculations();

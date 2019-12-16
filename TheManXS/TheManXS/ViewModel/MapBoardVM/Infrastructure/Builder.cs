@@ -8,21 +8,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
     public enum InfrastructureDirection { FromWest, FromNorth, FromEast, FromSouth }
-    public class InfrastructureBuilder
+    public class Builder
     {
-        public InfrastructureBuilder() { }
+        public Builder() { }
 
-        public InfrastructureBuilder(MapVM mapVM)
+        public Builder(MapVM mapVM)
         {
-            Formats = new InfrastructurePaintTypes();
+            Formats = new PaintTypes();
             new NewMapInitializer(mapVM,this);
         }
-
-        public InfrastructurePaintTypes Formats { get; set; }
+        public PaintTypes Formats { get; set; }
         
         public void UpdateInfrastructure(SKPath infrastructurePath, InfrastructureType it)
         {
-
+            // this will be for adding infrastructure segments throughout game
         }
     }
 }

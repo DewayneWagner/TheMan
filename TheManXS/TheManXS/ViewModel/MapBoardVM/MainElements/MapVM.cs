@@ -31,6 +31,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             if (QC.IsNewGame) 
             {
                 Map = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
+                InfrastructureBuilder = new Infrastructure.Builder(this);
                 new Map(this);
             }
             else { LoadMap(); }
@@ -54,6 +55,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public TitleBarVM TitleBar { get; set; }
         public StockTickerBarVM StockTicker { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
+        public Infrastructure.Builder InfrastructureBuilder { get; set; }
 
         public SKMatrix MapMatrix;
 

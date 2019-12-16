@@ -39,7 +39,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             _mapVM = mapVM;
             TerrainColors = new TerrainColors();
             AddTerrainSQsToMap();
-            new RiverBuilder(_mapVM);
         }
         public TerrainColors TerrainColors { get; set; }
         public void AddTerrainSQsToMap()
