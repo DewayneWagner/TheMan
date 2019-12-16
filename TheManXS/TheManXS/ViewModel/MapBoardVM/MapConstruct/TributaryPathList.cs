@@ -9,19 +9,35 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
-    public class RiverSQsList
+    public class TributaryPathList : List<SKPath>
     {
+        private List<SQ> _listOfAllSQsThatHaveTributaries;
+        public TributaryPathList(List<SQ> listOfAllSQsThatArePartOfTributary)
+        {
+            _listOfAllSQsThatHaveTributaries = listOfAllSQsThatArePartOfTributary;
+
+        }
+
+
+
+
+
+
+
+
+
+
         private List<SQ> _mainRiverSQs = new List<SQ>();
-        private List<SQ> _listOfAllSQsThatHaveTributaries = new List<SQ>();
         private System.Random rnd = new System.Random();
         private List<List<SQ>> _listOfAllTributaries = new List<List<SQ>>();
 
-        public RiverSQsList() 
+        public TributaryPathList() 
         { 
             InitList();
             BuildMainRiverPath();
             BuildListOfTributaries();
             AddAllTributariesToMap();
+            InitTributaryPaths();
         }
         public SKPath MainRiver { get; set; } = new SKPath();
         public List<SKPath> TributariesList { get; set; } = new List<SKPath>();
@@ -38,8 +54,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         }
         private void BuildMainRiverPath()
         {
-            MainRiver.Convexity = SKPathConvexity.Convex;
-
             foreach (SQ sq in _mainRiverSQs)
             {
                 if(sq.Row == 0 || sq.Col == 0) { setStartPoint(sq); }
@@ -50,20 +64,19 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 MainRiver.LineTo(new SKPoint(x, y));
 
                 if(sq.Row == (QC.RowQ - 1) || sq.Col == (QC.ColQ - 1)) { lineToEndPoint(sq); }
-            }            
-        }
-        void setStartPoint(SQ sq)
-        {
-            if(sq.Row == 0) { MainRiver.MoveTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), 0); }
-            else { MainRiver.MoveTo(0, ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
-        }
+            }
+            void setStartPoint(SQ sq)
+            {
+                if (sq.Row == 0) { MainRiver.MoveTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), 0); }
+                else { MainRiver.MoveTo(0, ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
+            }
 
-        void lineToEndPoint(SQ sq)
-        {
-            if(sq.Row == (QC.RowQ - 1)) { MainRiver.LineTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), ((QC.RowQ + 1) * QC.SqSize)); }
-            else { MainRiver.LineTo(((QC.ColQ + 1) * QC.SqSize), ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
+            void lineToEndPoint(SQ sq)
+            {
+                if (sq.Row == (QC.RowQ - 1)) { MainRiver.LineTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), ((QC.RowQ + 1) * QC.SqSize)); }
+                else { MainRiver.LineTo(((QC.ColQ + 1) * QC.SqSize), ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
+            }
         }
-
         private void BuildListOfTributaries()
         {
             List<int> tributaryNumbers = new List<int>();
@@ -100,51 +113,47 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 }
                 void InitTributaryFlowingFromSouth()
                 {
-                    foreach (SQ sq in _listOfAllTributaries[t])
+                    var thisTributary = _listOfAllTributaries[t].OrderByDescending(x => x.Row);
+                    foreach (SQ sq in thisTributary)
                     {
-                        if(sq.Row == (QC.RowQ - 1)) { tributary.LineTo((sq.Col * QC.SqSize + QC.SqSize / 2), (QC.RowQ + 1) * QC.SqSize); }
+                        if(sq.Row == (QC.RowQ - 1)) { tributary.MoveTo((sq.Col * QC.SqSize + QC.SqSize / 2), (QC.RowQ + 1) * QC.SqSize); }
                         tributary.LineTo((sq.Row * QC.SqSize + QC.SqSize / 2), (sq.Col * QC.SqSize + QC.SqSize / 2));
                     }
                 }
             }
-
+        }
+        private void InitTributaryPaths()
+        {
             foreach (List<SQ> listSQ in _listOfAllTributaries)
             {
                 SKPath tributary = new SKPath();
                 TributariesList.Add(tributary);
 
-                for (int i = 0; i < listSQ.Count; i++) 
+                for (int i = 0; i < listSQ.Count; i++)
                 {
-
                     foreach (SQ sq in listSQ)
                     {
-                        if (sq.Row == 0 || sq.Col == 0) { setStartPoint(sq); }
+                        if (sq.Row == 0 || sq.Col == 0) { setStartPoint(sq, ref tributary); }
 
                         float x = getX(sq.Col);
                         float y = getY(sq.Row);
 
-                        MainRiver.LineTo(new SKPoint(x, y));
+                        tributary.LineTo(new SKPoint(x, y));
 
-                        if (sq.Row == (QC.RowQ - 1) || sq.Col == (QC.ColQ - 1)) { lineToEndPoint(sq); }
+                        if (sq.Row == (QC.RowQ - 1) || sq.Col == (QC.ColQ - 1)) { lineToEndPoint(sq, ref tributary); }
                     }
                 }
             }
-        }
-        private void AddAllTributariesToMap(bool scrap)
-        {
-            MainRiver.Convexity = SKPathConvexity.Convex;
-
-            SQ fromSQ = new SQ(true, true);
-            SQ toSQ = new SQ(true, true);
-
-            foreach (List<SQ> listSQ in _listOfAllTributaries)
+            void setStartPoint(SQ sq, ref SKPath tributary)
             {
-                SKPath tributary = new SKPath();
-                TributariesList.Add(tributary);
-
-                for (int i = 0; i < listSQ.Count; i++) { tributary.MoveTo(getX(listSQ[i].Col), getY(listSQ[i].Row)); }
+                if (sq.Row == 0) { tributary.MoveTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), 0); }
+                else { tributary.MoveTo(0, ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
             }
-
+            void lineToEndPoint(SQ sq, ref SKPath tributary)
+            {
+                if (sq.Row == (QC.RowQ - 1)) { tributary.LineTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), ((QC.RowQ + 1) * QC.SqSize)); }
+                else { tributary.LineTo(((QC.ColQ + 1) * QC.SqSize), ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
+            }
         }
         private float getX(int col) => (col * QC.SqSize) + QC.SqSize / 2;
         private float getY(int row) => (QC.SqSize * row) + QC.SqSize / 2;

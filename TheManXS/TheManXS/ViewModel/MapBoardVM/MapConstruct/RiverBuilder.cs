@@ -15,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         private System.Random rnd = new System.Random();
         private MapVM _mapVM;
         private WaterColors WaterColors { get; } = new WaterColors();
-        RiverSQsList _riverSQList;
+        TributaryPathList _riverSQList;
 
         SKPaint riverBank = new SKPaint
         {
@@ -30,15 +30,21 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             StrokeCap = SKStrokeCap.Round,
         };
 
+        SKPaint tributary = new SKPaint
+        {
+            Style = SKPaintStyle.Stroke,
+            StrokeJoin = SKStrokeJoin.Round,
+            StrokeCap = SKStrokeCap.Round,
+        };
+
         public RiverBuilder(MapVM mapVM)
         {
             _mapVM = mapVM;
-            _riverSQList = new RiverSQsList();
+            _riverSQList = new TributaryPathList();
             InitVariables();
             InitMainRiver();
             InitTributaries();
-        }
-        
+        }        
         private void InitVariables()
         {
             riverBank.Color = WaterColors.GetRandomColor(WaterColors.WaterColorTypesE.Bank);
@@ -46,8 +52,10 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
             water.Color = WaterColors.GetRandomColor(WaterColors.WaterColorTypesE.River);
             water.StrokeWidth = (float)(QC.SqSize * 0.2);
-        }
 
+            tributary.Color = riverBank.Color;
+            tributary.StrokeWidth = (float)(QC.SqSize * 0.1);
+        }
         private void InitMainRiver()
         {
             using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
@@ -69,8 +77,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 {
                     SKPath t = _riverSQList.TributariesList[i];
                     
-                    gameboard.DrawPath(t, riverBank);
-                    gameboard.DrawPath(t, water);
+                    gameboard.DrawPath(t, tributary);
                     t.Close();
                 }
                 gameboard.Save();

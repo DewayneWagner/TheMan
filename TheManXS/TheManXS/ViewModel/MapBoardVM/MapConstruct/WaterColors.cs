@@ -22,7 +22,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             {
                 new SKColor(12,163,218),
                 new SKColor(63,179,236),
-                new SKColor(63,179,236),
                 new SKColor(130,193,247),
                 new SKColor(135,198,244),
             };
