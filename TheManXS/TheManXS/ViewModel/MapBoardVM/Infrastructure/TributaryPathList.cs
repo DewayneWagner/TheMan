@@ -21,7 +21,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             _calc = new PathCalculations();
 
             BuildListOfTributaries();
-            InitTributaryPaths();
         }
 
         private void BuildListOfTributaries()
@@ -51,7 +50,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 {
                     foreach (SQ sq in listSQ)
                     {
-                        if (_calc.isMapEdge(sq))
+                        if (_calc.IsMapEdge(sq))
                             { _calc.ProcessMapEdge(sq, ref tributary, InfrastructureType.Tributary); }
                         tributary.LineTo(_calc.GetInfrastructureSKPoint(sq, InfrastructureType.Tributary));
                     }

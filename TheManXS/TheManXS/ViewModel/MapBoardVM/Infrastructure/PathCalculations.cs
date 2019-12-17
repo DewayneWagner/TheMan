@@ -15,20 +15,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             _centerPointRatios = new CenterPointRatios();
         }
-        public void setStartPoint(SQ sq, ref SKPath path)
-        {
-            if (sq.Row == 0) { path.MoveTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), 0); }
-            else { path.MoveTo(0, ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
-        }
-        public void lineToEndPoint(SQ sq, ref SKPath path)
-        {
-            if (sq.Row == (QC.RowQ - 1)) { path.LineTo(((sq.Col * QC.SqSize) + (QC.SqSize / 2)), ((QC.RowQ + 1) * QC.SqSize)); }
-            else { path.LineTo(((QC.ColQ + 1) * QC.SqSize), ((sq.Row * QC.SqSize) + (QC.SqSize / 2))); }
-        }
         public SKPoint GetInfrastructureSKPoint(SQ sq, InfrastructureType it)
         {
             float ratio = _centerPointRatios.GetRatio(it);
-            float x = (sq.Col * QC.SqSize) + (QC.SqSize * ratio);
+            float x = (sq.Col * QC.SqSize) + (QC.SqSize / 2);
             float y = (sq.Row * QC.SqSize) + (QC.SqSize * ratio);
             return new SKPoint(x, y);
         }
@@ -41,16 +31,16 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         public void ProcessMapEdge(SQ sq, ref SKPath path, InfrastructureType it)
         {
             DirectionsCompass d = getMapEdge();
-
             bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
+            SKPoint edgePoint = getEdgePoint();
 
-            if(isStartOfPath) { path.MoveTo(getEdgePoint()); }
-            else if (!isStartOfPath) { path.LineTo(getEdgePoint()); }
-
+            path.MoveTo(edgePoint);
+            path.LineTo(GetInfrastructureSKPoint(sq, it));
+            
             DirectionsCompass getMapEdge()
             {
                 if(sq.Row == 0) { return DirectionsCompass.N; }
-                else if(sq.Row == QC.RowQ) { return DirectionsCompass.S; }
+                else if(sq.Row == (QC.RowQ - 1)) { return DirectionsCompass.S; }
                 else if(sq.Col == 0) { return DirectionsCompass.W; }
                 else { return DirectionsCompass.E; }
             }
@@ -65,7 +55,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         y = 0;
                         break;
                     case DirectionsCompass.E:
-                        x = 0;
+                        x = (QC.ColQ + 1) * QC.SqSize;
                         y = sq.Row * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
                         break;
                     case DirectionsCompass.S:
@@ -73,7 +63,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         y = (QC.RowQ + 1) * QC.SqSize;
                         break;
                     case DirectionsCompass.W:
-                        x = (QC.ColQ + 1) * QC.SqSize;
+                        x = 0;
                         y = sq.Row * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
                         break;
                     default:
@@ -82,7 +72,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 return new SKPoint(x, y);
             }                  
         }
-        public bool isMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == QC.RowQ || sq.Col == 0 || sq.Col == QC.ColQ) ? true : false;
+        public bool IsMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
     }
     public class CenterPointRatios
     {
