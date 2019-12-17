@@ -10,7 +10,7 @@ using TheManXS.Model.InfrastructureStuff;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
-    public enum DirectionsCompass { N, NE, E, SE, S, SW, W, NW }
+    public enum DirectionsCompass { N, NE, E, SE, S, SW, W, NW, Total }
     public enum DegreesOfRotation { N = 0, NE = 45, E = 90, SE = 135, S = 180, SW = 225, W = 270, NW = 315 }
 
     public class InfrastructureVM : BoxView

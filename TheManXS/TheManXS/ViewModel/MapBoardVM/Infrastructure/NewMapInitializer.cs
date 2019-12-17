@@ -25,6 +25,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             _calc = new PathCalculations();
             _infrastructureBuilder = infrastructureBuilder;
             InitListOfInfrastructureSQs();
+
             _tributaryPathList = new TributaryPathList(_allInfrastructure[(int)InfrastructureType.Tributary]);
             InitInfrastructure();
         }
@@ -34,7 +35,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 _allInfrastructure[(int)InfrastructureType.MainRiver] = 
                     db.SQ.Where(s => s.IsMainRiver == true)
-                        .OrderBy(s => s.Col)
                         .ToList();
                 _allInfrastructure[(int)InfrastructureType.Tributary] = db.SQ.Where(s => s.IsTributary == true).ToList();
                 _allInfrastructure[(int)InfrastructureType.Road] = 
@@ -53,22 +53,47 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             for (int i = 0; i < (int)InfrastructureType.Total; i++)
             {
-                if((InfrastructureType)i == InfrastructureType.Hub) { InitHubs(); }
-                else if((InfrastructureType)i == InfrastructureType.Tributary) { InitTributaries(); }
-                else { CreatePaths((InfrastructureType)i); }
+                var sortedList = _allInfrastructure[(int)i].OrderBy(s => s.Row).ThenBy(s => s.Col).ToList();
+                if ((InfrastructureType)i == InfrastructureType.Hub) { InitHubs(); }
+                else
+                {                    
+                    CreateMainTransporationCorridor((InfrastructureType)i, sortedList);
+                    CreateSmallPaths((InfrastructureType)i, sortedList);
+                }
             }
         }
-        private void CreatePaths(InfrastructureType it)
+        private void CreateMainTransporationCorridor(InfrastructureType it, List<SQ> sortedList)
         {
             SKPath path = new SKPath();
-
-            foreach (SQ sq in _allInfrastructure[(int)it])
+            foreach (SQ sq in sortedList)
             {
-                if (sq.Col == 0) { _calc.setStartPoint(sq, ref path); }
-                path.LineTo(_calc.GetInfrastructureSKPoint(sq, it));
+                if (sq.IsMainTransportationCorridor || sq.IsMainRiver)
+                {
+                    if(_calc.isMapEdge(sq)) { _calc.ProcessMapEdge(sq, ref path, it); }
+                    else { path.LineTo(_calc.GetInfrastructureSKPoint(sq, it)); }
+                }
             }
             path.Close();
-            DrawPathsOnCanvas(path,it);
+            DrawPathsOnCanvas(path, it);
+        }
+        private void CreateSmallPaths(InfrastructureType it, List<SQ> sortedList)
+        {
+            SKPath path = new SKPath();
+            foreach (SQ sq in sortedList)
+            {
+                AdjacentSQsList sl = new AdjacentSQsList(sq, sortedList);                
+
+                for (int i = 0; i < sl.Count; i++)
+                {
+                    if (sl[i].HasTheSameInfrastructureType)
+                    {                        
+                        path.MoveTo(_calc.GetInfrastructureSKPoint(sq, it));
+                        path.LineTo(_calc.GetInfrastructureSKPoint(sl[i].square, it));
+                    }
+                }
+            }
+            path.Close();
+            DrawPathsOnCanvas(path, it);
         }
         private void DrawPathsOnCanvas(SKPath path, InfrastructureType it)
         {
@@ -89,10 +114,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 }
                 gameboard.Save();
             }
-        }
-        private void InitTributaries()
-        {
-            foreach (SKPath path in _tributaryPathList) { DrawPathsOnCanvas(path, InfrastructureType.Tributary); }
         }
     }
 }

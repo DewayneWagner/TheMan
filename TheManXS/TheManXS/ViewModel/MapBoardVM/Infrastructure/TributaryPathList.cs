@@ -46,17 +46,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             foreach (List<SQ> listSQ in _listOfAllTributaries)
             {
                 SKPath tributary = new SKPath();
-                this.Add(tributary);
 
                 for (int i = 0; i < listSQ.Count; i++)
                 {
                     foreach (SQ sq in listSQ)
                     {
-                        if (sq.Row == 0 || sq.Col == 0) { _calc.setStartPoint(sq, ref tributary); }
+                        if (_calc.isMapEdge(sq))
+                            { _calc.ProcessMapEdge(sq, ref tributary, InfrastructureType.Tributary); }
                         tributary.LineTo(_calc.GetInfrastructureSKPoint(sq, InfrastructureType.Tributary));
-                        if (sq.Row == (QC.RowQ - 1) || sq.Col == (QC.ColQ - 1)) { _calc.lineToEndPoint(sq, ref tributary); }
                     }
                 }
+                this.Add(tributary);
             }
         }
     }
