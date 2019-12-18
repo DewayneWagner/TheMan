@@ -33,13 +33,12 @@ namespace TheManXS.View
             QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
             QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
             
-            // things that only need to be set once upon creation of canvas
             if (_createNewMap)
             {
                 _mapVM = new MapVM();
+                _createNewMap = false;
                 _mapVM.MapCanvasView = mapBoardCanvasView;
                 _mapVM.MapCanvasView.IgnorePixelScaling = true;
-                _createNewMap = false;
             }
 
             SKSurface surface = e.Surface;

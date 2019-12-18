@@ -51,7 +51,7 @@ namespace TheManXS.Model.Settings
         public static double OPEXDiscountPerSQInUnit { get; set; }
         public static double CAPEXDiscountPerSQInUnit { get; set; }
         public static bool IsNewGame { get; set; }
-        public static float PinchMaxScale => 1.5f;
+        public static float PinchMaxScale => 10f;
 
         // set when game begins ////////////////////////////////////////////////
         public static int CurrentSavedGameSlot { get; set; }

@@ -55,14 +55,15 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         }
         private List<SKColor> GetCityColors()
         {
-            return new List<SKColor>()
-            {
-                new SKColor(95,92,104),
-                new SKColor(168,165,161),
-                new SKColor(96,92,99),
-                new SKColor(97,100,123),
-                new SKColor(157,170,186),
-            };
+            return new List<SKColor>() { SKColors.AliceBlue };
+            //return new List<SKColor>()
+            //{
+            //    new SKColor(95,92,104),
+            //    new SKColor(168,165,161),
+            //    new SKColor(96,92,99),
+            //    new SKColor(97,100,123),
+            //    new SKColor(157,170,186),
+            //};
         }
         
     }

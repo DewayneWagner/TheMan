@@ -99,20 +99,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private static int[] R = new int[(int)AdjSqsDirection.Total] { 0, 1, 1, 1 };
         private static int[] C = new int[(int)AdjSqsDirection.Total] { 1, 1, 0, -1 };
         public enum AdjSqsDirection { E, SE, S, SW, Total }
-        SQ _sq;
-        List<SQ> _sortedList;
         public AdjacentSQsList(SQ sq, List<SQ> sortedList)
-        {
-            _sq = sq;
-            _sortedList = sortedList;
-            UpdateList();
-        }
-        void UpdateList()
         {
             for (int i = 0; i < (int)AdjSqsDirection.Total; i++)
             {
-                if(_sortedList.Any(s => s.Row == _sq.Row + R[i] && _sq.Col == _sq.Col + C[i]))
-                    { this.Add(new AdjSQ() { square = _sortedList[i], HasTheSameInfrastructureType = true }); }
+                if (sortedList.Any(s => s.Row == sq.Row + R[i] && sq.Col == sq.Col + C[i]))
+                { this.Add(new AdjSQ() { square = sortedList[i], HasTheSameInfrastructureType = true }); }
                 else { this.Add(new AdjSQ() { HasTheSameInfrastructureType = false }); }
             }
         }
