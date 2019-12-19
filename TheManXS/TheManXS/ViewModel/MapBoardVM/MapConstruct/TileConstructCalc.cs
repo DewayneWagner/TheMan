@@ -13,7 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         MapVM _mapVM;
         private int _row;
         private int _col;
-        private TerrainColors _terrainColors = new TerrainColors();
+        private static TerrainColors _terrainColors = new TerrainColors();
         System.Random rnd = new System.Random();
 
         public enum sqFormats { LinearGradient, SolidColor, SweepGradient, VerticalSplit, HorizontalSplit, Pixelly }
@@ -67,8 +67,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     return sqFormats.Pixelly;
                 case TerrainTypeE.Mountain:
                     return sqFormats.SweepGradient;
-                case TerrainTypeE.River:
-                    return sqFormats.Pixelly;
+                case TerrainTypeE.City:
+                    return sqFormats.SolidColor;
                 default:
                     return sqFormats.SolidColor;
             }

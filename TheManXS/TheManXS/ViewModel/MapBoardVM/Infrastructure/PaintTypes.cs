@@ -36,7 +36,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.DarkGray,
-                StrokeWidth = QC.SqSize / 10,
+                StrokeWidth = QC.SqSize * 0.1f,
                 StrokeCap = SKStrokeCap.Round,
             };
         }
@@ -46,7 +46,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.Black,
-                StrokeWidth = QC.SqSize / 10,
+                StrokeWidth = QC.SqSize * 0.1f,
                 StrokeCap = SKStrokeCap.Round,
             };
         }
@@ -56,7 +56,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.DarkBlue,
-                StrokeWidth = QC.SqSize / 10,
+                StrokeWidth = QC.SqSize * 0.1f,
                 StrokeCap = SKStrokeCap.Round,
             };
         }

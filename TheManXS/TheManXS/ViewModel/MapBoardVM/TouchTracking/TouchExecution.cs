@@ -93,8 +93,8 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 
             float scaleX = newVector.X / oldVector.X;
             float scaleY = newVector.Y / oldVector.Y;
-            float scale = (scaleX > scaleY) ? scaleX : scaleY;
-            float pinchScale = scale > QC.PinchMaxScale ? QC.PinchMaxScale : scale;
+
+            float pinchScale = (scaleX > scaleY) ? scaleX : scaleY;
 
             if(FloatIsValid(pinchScale))
             {

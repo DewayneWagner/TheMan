@@ -8,7 +8,7 @@ using TheManXS.ViewModel.MapBoardVM.MainElements;
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
-    public enum InfrastructureDirection { FromWest, FromNorth, FromEast, FromSouth }
+    public enum DirectionsCompass { N, E, S, W, Total }
     public class Builder
     {
         private PathCalculations _calc;

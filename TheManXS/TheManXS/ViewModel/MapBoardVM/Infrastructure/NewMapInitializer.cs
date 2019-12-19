@@ -92,6 +92,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
             foreach (SQ sq in doubleSortedList)
             {
+                if (_calc.IsMapEdge(sq)) { _calc.ProcessMapEdge(sq, ref path, it); }
                 path.MoveTo(_calc.GetInfrastructureSKPoint(sq, it));
                 for (int i = 0; i < (int)AdjSqsDirection.Total; i++)
                 {
@@ -101,7 +102,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     if(adjSQ != null) { path.LineTo(_calc.GetInfrastructureSKPoint(adjSQ, it)); }
                 }
             }
-
             path.Close();
         }
         private void DrawAllPathsOnCanvas()

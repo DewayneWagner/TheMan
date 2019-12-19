@@ -55,7 +55,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         }
         private List<SKColor> GetCityColors()
         {
-            return new List<SKColor>() { SKColors.AliceBlue };
+            return new List<SKColor>() { SKColors.Black };
             //return new List<SKColor>()
             //{
             //    new SKColor(95,92,104),

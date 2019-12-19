@@ -52,7 +52,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     for (int col = 0; col < QC.ColQ; col++)
                     {
                         for (int row = 0; row < QC.RowQ; row++)
-                        {
+                        {                            
                             SQ sq = db.SQ.Find(Coordinate.GetSQKey(row, col));
 
                             TileConstructCalc t = new TileConstructCalc(_mapVM, row, col);

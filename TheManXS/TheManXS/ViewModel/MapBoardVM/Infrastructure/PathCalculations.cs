@@ -88,25 +88,4 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         public float GetRatio(InfrastructureType it) => _centerPointRatios[(int)it];
     }    
-    public class AdjSQ
-    {
-        public AdjSQ() {}
-        public SQ square { get; set; }
-        public bool HasTheSameInfrastructureType { get; set; }
-    }
-    public class AdjacentSQsList : List<AdjSQ>
-    {
-        private static int[] R = new int[(int)AdjSqsDirection.Total] { 0, 1, 1, 1 };
-        private static int[] C = new int[(int)AdjSqsDirection.Total] { 1, 1, 0, -1 };
-        public enum AdjSqsDirection { E, SE, S, SW, Total }
-        public AdjacentSQsList(SQ sq, List<SQ> sortedList)
-        {
-            for (int i = 0; i < (int)AdjSqsDirection.Total; i++)
-            {
-                if (sortedList.Any(s => s.Row == sq.Row + R[i] && sq.Col == sq.Col + C[i]))
-                { this.Add(new AdjSQ() { square = sortedList[i], HasTheSameInfrastructureType = true }); }
-                else { this.Add(new AdjSQ() { HasTheSameInfrastructureType = false }); }
-            }
-        }
-    }
 }
