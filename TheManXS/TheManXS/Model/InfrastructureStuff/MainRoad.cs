@@ -28,12 +28,14 @@ namespace TheManXS.Model.InfrastructureStuff
 
             for (int col = (_map.CityStartSQ.Col - 1); col >= 0; col--)
             {
-                if(col == hubCol)
+                row += rnd.Next(_lb, _ub);
+
+                if (col == hubCol)
                 {
                     _map[row, col].IsHub = true;
                     hubCol = GetNextHubCol(col, false);
                 }
-                row += rnd.Next(_lb, _ub);
+                
                 _map[row, col].IsRoadConnected = true;
                 _map[row, col].IsPipelineConnected = true;
                 _map[row, col].IsTrainConnected = true;

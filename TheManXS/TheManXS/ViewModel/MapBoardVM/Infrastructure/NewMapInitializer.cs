@@ -7,6 +7,7 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
+using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -16,8 +17,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         Builder _infrastructureBuilder;
         PathCalculations _calc;  
 
-        List<SQ>[] _allInfrastructure = new List<SQ>[(int)InfrastructureType.Total];
-        List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)InfrastructureType.Total);
+        List<SQ>[] _allInfrastructure = new List<SQ>[(int)IT.Total];
+        List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);
 
         public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
         {
@@ -33,36 +34,36 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             using (DBContext db = new DBContext())
             {
-                _allInfrastructure[(int)InfrastructureType.MainRiver] = db.SQ.Where(s => s.IsMainRiver == true).ToList();
+                _allInfrastructure[(int)IT.MainRiver] = db.SQ.Where(s => s.IsMainRiver == true).ToList();
 
-                _allInfrastructure[(int)InfrastructureType.Tributary] = db.SQ.Where(s => s.IsTributary == true).ToList();
+                _allInfrastructure[(int)IT.Tributary] = db.SQ.Where(s => s.IsTributary == true).ToList();
 
-                _allInfrastructure[(int)InfrastructureType.Road] = db.SQ.Where(s => s.IsRoadConnected == true ||
+                _allInfrastructure[(int)IT.Road] = db.SQ.Where(s => s.IsRoadConnected == true ||
                         s.IsMainTransportationCorridor == true ).ToList();
 
-                _allInfrastructure[(int)InfrastructureType.Pipeline] = db.SQ.Where(s => s.IsPipelineConnected == true ||
+                _allInfrastructure[(int)IT.Pipeline] = db.SQ.Where(s => s.IsPipelineConnected == true ||
                         s.IsMainTransportationCorridor == true).ToList();
 
-                _allInfrastructure[(int)InfrastructureType.RailRoad] = db.SQ.Where(s => s.IsTrainConnected == true || 
+                _allInfrastructure[(int)IT.RailRoad] = db.SQ.Where(s => s.IsTrainConnected == true || 
                         s.IsMainTransportationCorridor == true).ToList();
 
-                _allInfrastructure[(int)InfrastructureType.Hub] = db.SQ.Where(s => s.IsHub == true).ToList();
+                _allInfrastructure[(int)IT.Hub] = db.SQ.Where(s => s.IsHub == true).ToList();
             }
         }
         private void InitInfrastructure()
         {
-            for (int i = 0; i < (int)InfrastructureType.Total; i++)
+            for (int i = 0; i < (int)IT.Total; i++)
             {
                 var sortedList = _allInfrastructure[i].OrderBy(s => s.Col).ToList();
-                InfrastructureType it = (InfrastructureType)i;
+                IT it = (IT)i;
 
-                if(it != InfrastructureType.Hub && it != InfrastructureType.Tributary)
+                if(it != IT.Hub && it != IT.Tributary)
                 { CreateMainTransporationCorridorAndMainRiver(it, sortedList); }
-                if (it != InfrastructureType.Hub && it != InfrastructureType.MainRiver)
-                { CreateSmallPaths((InfrastructureType)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
+                if (it != IT.Hub && it != IT.MainRiver)
+                { CreateSmallPaths((IT)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
             }
         }
-        private void CreateMainTransporationCorridorAndMainRiver(InfrastructureType it, List<SQ> sortedList)
+        private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQ> sortedList)
         {
             SKPath path = new SKPath();
 
@@ -80,10 +81,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private static int[] C = new int[(int)AdjSqsDirection.Total] { 1, 1, 0, -1 };
         private enum AdjSqsDirection { E, SE, S, SW, Total }
 
-        private void CreateSmallPaths(InfrastructureType it, List<SQ> doubleSortedList)
+        private void CreateSmallPaths(IT it, List<SQ> doubleSortedList)
         {
             SKPath path;
-            if(it == InfrastructureType.Tributary) 
+            if(it == IT.Tributary) 
             { 
                 path = new SKPath();
                 _listOfAllSKPaths.Add(path);            
@@ -120,9 +121,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
             {
-                foreach (SQ sq in _allInfrastructure[(int)InfrastructureType.Hub])
+                foreach (SQ sq in _allInfrastructure[(int)IT.Hub])
                 {
-                    gameboard.DrawRect(_calc.GetHubRect(sq), _infrastructureBuilder.Formats[(int)InfrastructureType.Hub]);
+                    gameboard.DrawRect(_calc.GetHubRect(sq), _infrastructureBuilder.Formats[(int)IT.Hub]);
                 }
                 gameboard.Save();
             }

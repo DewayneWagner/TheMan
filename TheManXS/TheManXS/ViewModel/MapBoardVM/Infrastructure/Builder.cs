@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
+using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
-{
-    public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
+{    
     public enum DirectionsCompass { N, E, S, W, Total }
     public class Builder
     {
@@ -26,7 +26,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         public PaintTypes Formats { get; set; }
         
-        public void UpdateInfrastructure(List<SQ> sqList, InfrastructureType it)
+        public void UpdateInfrastructure(List<SQ> sqList, IT it)
         {
             SKPath path = new SKPath();
             path.MoveTo(_calc.GetInfrastructureSKPoint(sqList[0], it));

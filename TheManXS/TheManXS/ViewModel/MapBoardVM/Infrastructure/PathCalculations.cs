@@ -5,6 +5,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
+using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -15,7 +16,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             _centerPointRatios = new CenterPointRatios();
         }
-        public SKPoint GetInfrastructureSKPoint(SQ sq, InfrastructureType it)
+        public SKPoint GetInfrastructureSKPoint(SQ sq, IT it)
         {
             float ratio = _centerPointRatios.GetRatio(it);
             float x = (sq.Col * QC.SqSize) + (QC.SqSize / 2);
@@ -28,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.75f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.75f));
 
-        public void ProcessMapEdge(SQ sq, ref SKPath path, InfrastructureType it)
+        public void ProcessMapEdge(SQ sq, ref SKPath path, IT it)
         {
             DirectionsCompass d = getMapEdge();
             bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
@@ -76,16 +77,16 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     }
     public class CenterPointRatios
     {
-        float[] _centerPointRatios = new float[(int)InfrastructureType.Total];
+        float[] _centerPointRatios = new float[(int)IT.Total];
 
         public CenterPointRatios()
         {
-            _centerPointRatios[(int)InfrastructureType.MainRiver] = 0.5f;
-            _centerPointRatios[(int)InfrastructureType.Pipeline] = 0.4f;
-            _centerPointRatios[(int)InfrastructureType.RailRoad] = 0.6f;
-            _centerPointRatios[(int)InfrastructureType.Road] = 0.7f;
-            _centerPointRatios[(int)InfrastructureType.Tributary] = 0.5f;
+            _centerPointRatios[(int)IT.MainRiver] = 0.5f;
+            _centerPointRatios[(int)IT.Pipeline] = 0.4f;
+            _centerPointRatios[(int)IT.RailRoad] = 0.6f;
+            _centerPointRatios[(int)IT.Road] = 0.7f;
+            _centerPointRatios[(int)IT.Tributary] = 0.5f;
         }
-        public float GetRatio(InfrastructureType it) => _centerPointRatios[(int)it];
+        public float GetRatio(IT it) => _centerPointRatios[(int)it];
     }    
 }

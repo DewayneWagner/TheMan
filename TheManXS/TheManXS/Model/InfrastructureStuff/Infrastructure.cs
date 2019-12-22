@@ -10,10 +10,10 @@ using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using System.Linq;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Map;
+using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
 
 namespace TheManXS.Model.InfrastructureStuff
 {
-    public enum InfrastructureType { MainTransporationCorridor, Secondary, Hub, Rail, Pipeline }
     public enum InfrastructurePhase { IsProposed, IsUnderConstruction, IsActive, IsOutOfCommision }
     public class Infrastructure
     {
@@ -30,11 +30,33 @@ namespace TheManXS.Model.InfrastructureStuff
         {
             new MainRoad(_map);
             new MainRiver(_map);
+            new StartSQ(_map);
             // pipelines
             // train
+
+            
         }
 
-        public SQ ClosestInfrastructureConnectedSQ(InfrastructureType ClosestInfrastructureTypeToFind, SQ sq)
+        private void InitInfrastructureForStartSQsToHubs()
+        {
+            using (DBContext db = new DBContext())
+            {
+                var startSQList = db.SQ.Where(s => s.IsStartSquare == true).ToList();
+                var sqList = db.SQ.ToList();
+
+                for (int i = 0; i < startSQList.Count; i++)
+                {
+                    
+                }
+
+                void initInfrastructure(SQ sq)
+                {
+
+                }
+            }
+        }
+
+        public SQ ClosestInfrastructureConnectedSQ(IT ClosestITToFind, SQ sq)
         {
             int tRow, tCol;
             using (DBContext db = new DBContext())
@@ -49,19 +71,19 @@ namespace TheManXS.Model.InfrastructureStuff
                             tRow = sq.Row + xx;
                             tCol = sq.Col + xxx;                            
 
-                            if (Coordinate.DoesSquareExist(tRow, tCol))
-                            {
-                                adjacentSQ = db.SQ.Find(Coordinate.GetSQKey(tRow, tCol));
+                            //if (Coordinate.DoesSquareExist(tRow, tCol))
+                            //{
+                            //    adjacentSQ = db.SQ.Find(Coordinate.GetSQKey(tRow, tCol));
 
-                                if (adjacentSQ.IsHub ||
-                                    adjacentSQ.IsMainTransportationCorridor && ClosestInfrastructureTypeToFind == InfrastructureType.MainTransporationCorridor ||
-                                    adjacentSQ.IsPipelineConnected && ClosestInfrastructureTypeToFind == InfrastructureType.Pipeline ||
-                                    adjacentSQ.IsTrainConnected && ClosestInfrastructureTypeToFind == InfrastructureType.Rail ||
-                                    adjacentSQ.IsSecondaryRoad && ClosestInfrastructureTypeToFind == InfrastructureType.Secondary)
-                                {
-                                    return adjacentSQ;
-                                }
-                            }
+                            //    if (adjacentSQ.IsHub ||
+                            //        adjacentSQ.IsMainTransportationCorridor && ClosestITToFind == IT.Road ||
+                            //        adjacentSQ.IsPipelineConnected && ClosestITToFind == IT.Pipeline ||
+                            //        adjacentSQ.IsTrainConnected && ClosestITToFind == IT.RailRoad ||
+                            //        adjacentSQ.IsSecondaryRoad && ClosestITToFind == IT.Secondary)
+                            //    {
+                            //        return adjacentSQ;
+                            //    }
+                            //}
                         }
                     }
                 }
@@ -138,7 +160,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 (forest * Setting.GetConstant(AS.TransTT, (int)TT.Forest)) +
                 (mountain * Setting.GetConstant(AS.TransTT, (int)TT.Mountain));
         }
-        public void ExecuteConstructionOfRoute(InfrastructureType it,List<SQ> sqList)
+        public void ExecuteConstructionOfRoute(IT it,List<SQ> sqList)
         {
             using (DBContext db = new DBContext())
             {
@@ -146,13 +168,13 @@ namespace TheManXS.Model.InfrastructureStuff
                 {
                     switch (it)
                     {
-                        case InfrastructureType.Secondary:
+                        case IT.Road:
                             sq.IsSecondaryRoad = true;
                             break;
-                        case InfrastructureType.Rail:
+                        case IT.RailRoad:
                             sq.IsTrainConnected = true;
                             break;
-                        case InfrastructureType.Pipeline:
+                        case IT.Pipeline:
                             sq.IsPipelineConnected = true;
                             break;
                         default:

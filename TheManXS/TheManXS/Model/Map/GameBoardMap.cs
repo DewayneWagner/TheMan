@@ -46,6 +46,7 @@ namespace TheManXS.Model.Map
         {
             using (DBContext db = new DBContext())
             {
+                
                 var _existingSQs = db.SQ.ToList();
                 if(_existingSQs != null) { db.SQ.RemoveRange(_existingSQs); }
                                 

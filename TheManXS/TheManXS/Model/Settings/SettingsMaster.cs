@@ -37,6 +37,7 @@ namespace TheManXS.Model.Settings
         public enum TerrainConstructBounded { ForestWidthRatio, GrasslandWidthRatio, AxisShift, TerrainOffset, Total }
         public enum CityDensity { Low, Medium, High, Total }
         public enum MiscellaneousStuff { SavedGameSlotsQ, Total }
+        public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
 
         public enum Difficulty { Easy, Medium, Hard }
         

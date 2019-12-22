@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.ViewModel.MapBoardVM;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -11,14 +12,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     {
         public PaintTypes()
         {
-            for (int i = 0; i < (int)InfrastructureType.Total; i++) { this.Add(new SKPaint()); }
+            for (int i = 0; i < (int)IT.Total; i++) { this.Add(new SKPaint()); }
 
-            this[(int)InfrastructureType.MainRiver] = GetMainRiverSKPaint();
-            this[(int)InfrastructureType.Tributary] = GetTributarySKPaint();
-            this[(int)InfrastructureType.Road] = GetRoadSKPaint();
-            this[(int)InfrastructureType.Pipeline] = GetPipelineSKPaint();
-            this[(int)InfrastructureType.RailRoad] = GetRailroadSKPaint();
-            this[(int)InfrastructureType.Hub] = GetHubSKPaint();
+            this[(int)IT.MainRiver] = GetMainRiverSKPaint();
+            this[(int)IT.Tributary] = GetTributarySKPaint();
+            this[(int)IT.Road] = GetRoadSKPaint();
+            this[(int)IT.Pipeline] = GetPipelineSKPaint();
+            this[(int)IT.RailRoad] = GetRailroadSKPaint();
+            this[(int)IT.Hub] = GetHubSKPaint();
         }
 
         private SKPaint GetHubSKPaint()
