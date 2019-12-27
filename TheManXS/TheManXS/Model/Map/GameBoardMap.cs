@@ -14,7 +14,7 @@ namespace TheManXS.Model.Map
 {
     public class GameBoardMap
     {
-         public SQMapConstructArray SQMap { get; set; }
+        public SQMapConstructArray SQMap { get; set; }
 
         public GameBoardMap() { }
         public GameBoardMap(bool isNewGame)

@@ -5,11 +5,11 @@ using System.Text;
 using Xamarin.Forms;
 using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using TheManXS.Model.Services.EntityFrameWork;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TheManXS.Model.Settings
 {

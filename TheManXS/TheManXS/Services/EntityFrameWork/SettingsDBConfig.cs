@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
 {
     public class SettingsDBConfig : IEntityTypeConfiguration<Setting>
     {
-        public void Configure(EntityTypeBuilder<Setting> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Setting> builder)
         {
             builder.HasKey(s => s.Key);
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +8,7 @@ namespace TheManXS.Services.EntityFrameWork
 {
     public class NextActionDBConfig : IEntityTypeConfiguration<NextAction>
     {
-        public void Configure(EntityTypeBuilder<NextAction> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<NextAction> builder)
         {
             builder.HasKey(n => n.Key);
 

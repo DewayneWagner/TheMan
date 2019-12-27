@@ -9,7 +9,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TheManXS.Model.Settings;
 using TheManXS.ViewModel.DetailPages;
-using SQLite;
 
 namespace TheManXS.View
 {

@@ -13,7 +13,6 @@ namespace TheManXS.Model.Gameplay
     public class Cluster
     {
         public int ID { get; set; }
-        [SQLite.MaxLength(250)]
         public string Headline { get; set; }
         public VariableImpactedE VariableImpacted { get; set; }
         public ApplicabilityE Applicability { get; set; }

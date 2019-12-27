@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using SQLite;
 using static TheManXS.Model.Settings.SettingsMaster;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +10,6 @@ using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 
 namespace TheManXS.Model.Settings
 {
-    [Table("Settings")]
     public class Setting
     {
         public Setting() { }

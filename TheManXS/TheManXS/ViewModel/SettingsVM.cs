@@ -5,7 +5,6 @@ using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
-using SQLite;
 using TheManXS.Model.Services.EntityFrameWork;
 using System.Linq;
 using static TheManXS.Model.Settings.SettingsMaster;
