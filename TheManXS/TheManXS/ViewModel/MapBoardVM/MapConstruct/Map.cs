@@ -52,8 +52,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     for (int col = 0; col < QC.ColQ; col++)
                     {
                         for (int row = 0; row < QC.RowQ; row++)
-                        {                            
-                            SQ sq = db.SQ.Find(Coordinate.GetSQKey(row, col));
+                        {
+                            SQ sq = getSQ(row, col);
 
                             TileConstructCalc t = new TileConstructCalc(_mapVM, row, col);
                             int q = sq.TerrainType == TerrainTypeE.Mountain ? rnd.Next(25,50) : rnd.Next(5, 10);
@@ -129,6 +129,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     }
                     gameboard.Save();
                 }
+                SQ getSQ(int row, int col) => db.SQ.Where(s => s.Row == row).Where(s => s.Col == col).FirstOrDefault();
             }
         }
     }
