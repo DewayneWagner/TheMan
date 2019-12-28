@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Map;
 using TheManXS.Model.Map.Surface;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -10,7 +11,8 @@ namespace TheManXS.Model.Map.Surface
 {
     public class Tributary
     {
-        private SQMapConstructArray _map;
+        private SQMapConstructArray _SQmap;
+        private SQ_Infrastructure[,] _map;
         private System.Random rnd = new System.Random();
         private int _startRow;
         private int _startCol;
@@ -21,9 +23,9 @@ namespace TheManXS.Model.Map.Surface
         private bool _isFlowingToNorth;
         private int _tributaryNumber;
 
-        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber)
+        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, bool forNewConcept)
         {
-            _map = map;
+            //_map = map;
             _startRow = startRow;
             _startCol = startCol;
             _isFlowingToNorth = GetIsNorth();            
@@ -32,6 +34,20 @@ namespace TheManXS.Model.Map.Surface
             _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
 
             if (_isFlowingToNorth) { InitNewNorthTributary(); }
+            else { InitNewSouthTributary(); }
+        }
+        public Tributary(SQ_Infrastructure[,] map, SQMapConstructArray mapSQ, int startRow, int startCol, int tributaryNumber)
+        {
+            _map = map;
+            _SQmap = mapSQ;
+            _startRow = startRow;
+            _startCol = startCol;
+            _isFlowingToNorth = GetIsNorth();
+
+            _map[startRow, startCol].IsTributary = true;
+            _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
+
+            if(_isFlowingToNorth) { InitNewNorthTributary(); }
             else { InitNewSouthTributary(); }
         }
         private void InitNewNorthTributary()
@@ -45,7 +61,7 @@ namespace TheManXS.Model.Map.Surface
                     _map[row, col].IsTributaryFlowingFromNorth = true;
                     _map[row, col].TributaryNumber = _tributaryNumber;
 
-                    if (_map[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
+                    if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += rnd.Next(_lb,_ub);
                 }                
             }
@@ -61,7 +77,7 @@ namespace TheManXS.Model.Map.Surface
                     _map[row, col].IsTributaryFlowingFromNorth = false;
                     _map[row, col].TributaryNumber = _tributaryNumber;
 
-                    if (_map[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
+                    if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += rnd.Next(_lb,_ub);
                 }                
             }
@@ -74,7 +90,7 @@ namespace TheManXS.Model.Map.Surface
             {
                 for (int i = 0; i < forestWidth; i++)
                 {
-                    _map[tribRow, col].TerrainType = TT.Forest;
+                    _SQmap[tribRow, col].TerrainType = TT.Forest;
                     col++;
                 }
             }            

@@ -6,6 +6,7 @@ using TheManXS.Model;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Gameplay;
+using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Rocks;
 using TheManXS.Model.Settings;
@@ -33,6 +34,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<Formation> Formation { get; set; }
         public DbSet<Commodity> Commodity { get; set; }
         public DbSet<NextAction> NextAction { get; set; }
+        public DbSet<SQ_Infrastructure> Infrastructure { get; set; }
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 

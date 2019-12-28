@@ -11,6 +11,7 @@ using System.Linq;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Map;
 using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
+using EFCore.BulkExtensions;
 
 namespace TheManXS.Model.InfrastructureStuff
 {
@@ -18,6 +19,7 @@ namespace TheManXS.Model.InfrastructureStuff
     public class Infrastructure
     {
         System.Random rnd = new System.Random();
+        
         public Infrastructure() { }
 
         private SQMapConstructArray _map;
@@ -26,13 +28,58 @@ namespace TheManXS.Model.InfrastructureStuff
             _map = map;
             if (isNewGame) { InitNewInfrastructure(); }
         }
-        private void InitNewInfrastructure()
+        private void InitNewInfrastructure(bool oldMethod)
         {
             new MainRoad(_map);
             new MainRiver(_map);
             new StartSQ(_map);
             // pipelines
             // train
+            WriteArrayToDB();
+        }
+
+        private void InitNewInfrastructure()
+        {
+            infrastructureMapArray = InitArray();
+            new MainRoad(infrastructureMapArray,_map.CityStartSQ);
+            new MainRiver(infrastructureMapArray, _map);
+            new StartSQ(infrastructureMapArray, _map);
+        }
+
+        private SQ_Infrastructure[,] infrastructureMapArray { get; set; }
+
+        private SQ_Infrastructure[,] InitArray()
+        {
+            SQ_Infrastructure[,] a = new SQ_Infrastructure[QC.RowQ, QC.ColQ];
+            for (int row = 0; row < QC.RowQ; row++)
+            {
+                for (int col = 0; col < QC.ColQ; col++)
+                {
+                    a[row, col] = new SQ_Infrastructure(row, col);
+                }
+            }
+            return a;
+        }
+        private void WriteArrayToDB()
+        {
+            using (DBContext db = new DBContext())
+            {
+                db.Infrastructure.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).BatchDelete();
+                db.BulkInsert<SQ_Infrastructure>(getList());
+            }
+
+            List<SQ_Infrastructure> getList()
+            {
+                List<SQ_Infrastructure> sqList = new List<SQ_Infrastructure>();
+                for (int row = 0; row < infrastructureMapArray.GetLength(0); row++)
+                {
+                    for (int col = 0; col < infrastructureMapArray.GetLength(1); col++)
+                    {
+                        sqList.Add(infrastructureMapArray[row, col]);
+                    }
+                }
+                return sqList;
+            }
         }
 
         private void InitInfrastructureForStartSQsToHubs()
@@ -166,17 +213,17 @@ namespace TheManXS.Model.InfrastructureStuff
                 {
                     switch (it)
                     {
-                        case IT.Road:
-                            sq.IsSecondaryRoad = true;
-                            break;
-                        case IT.RailRoad:
-                            sq.IsTrainConnected = true;
-                            break;
-                        case IT.Pipeline:
-                            sq.IsPipelineConnected = true;
-                            break;
-                        default:
-                            break;
+                        //case IT.Road:
+                        //    sq.IsSecondaryRoad = true;
+                        //    break;
+                        //case IT.RailRoad:
+                        //    sq.IsTrainConnected = true;
+                        //    break;
+                        //case IT.Pipeline:
+                        //    sq.IsPipelineConnected = true;
+                        //    break;
+                        //default:
+                        //    break;
                     }
                     db.SQ.Update(sq);
                 }

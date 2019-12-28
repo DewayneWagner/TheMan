@@ -106,11 +106,11 @@ namespace TheManXS.ViewModel
         {
             Color c;
 
-            if (sq.IsHub) { c = Color.White; }
-            else if (sq.IsRoadConnected) { c = Color.Black; }
-            else if (sq.IsMainRiver) { c = Color.Blue; }
-            else if (sq.IsTributary) { c = Color.Blue; }
-            else if (sq.OwnerNumber == QC.PlayerIndexTheMan) { c = GetTerrainColor(sq.TerrainType); }
+            //if (sq.IsHub) { c = Color.White; }
+            //else if (sq.IsRoadConnected) { c = Color.Black; }
+            //else if (sq.IsMainRiver) { c = Color.Blue; }
+            //else if (sq.IsTributary) { c = Color.Blue; }
+            if (sq.OwnerNumber == QC.PlayerIndexTheMan) { c = GetTerrainColor(sq.TerrainType); }
             else
             {
                 using (DBContext db = new DBContext())

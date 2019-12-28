@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.InfrastructureStuff;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Surface
@@ -8,11 +9,20 @@ namespace TheManXS.Model.Map.Surface
     public class StartSQ
     {
         System.Random rnd = new System.Random();
-        SQMapConstructArray _map;
+        SQMapConstructArray _sqMap;
+        SQ_Infrastructure[,] _map;
+
         public StartSQ() { }
         public StartSQ(SQMapConstructArray map)
         {
+            //_map = map;
+        }
+        public StartSQ(SQ_Infrastructure[,] map, SQMapConstructArray sqMap)
+        {
             _map = map;
+            _sqMap = sqMap;
+
+            InitNewStartSQ();
         }
         private void InitNewStartSQ()
         {
@@ -25,12 +35,12 @@ namespace TheManXS.Model.Map.Surface
                 row = rnd.Next(QC.RowQ);
                 col = rnd.Next(QC.ColQ);
 
-                if(_map[row,col].TerrainType == Settings.SettingsMaster.TerrainTypeE.Grassland && 
-                    _map[row,col].ResourceType != Settings.SettingsMaster.ResourceTypeE.Nada &&
-                    _map[row,col].OwnerNumber == 0)
+                if(_sqMap[row,col].TerrainType == Settings.SettingsMaster.TerrainTypeE.Grassland && 
+                    _sqMap[row,col].ResourceType != Settings.SettingsMaster.ResourceTypeE.Nada &&
+                    _sqMap[row,col].OwnerNumber == 0)
                 {
-                    _map[row, col].OwnerNumber = countOfStSQs;
-                    _map[row, col].IsStartSquare = true;
+                    _sqMap[row, col].OwnerNumber = countOfStSQs;
+                    _sqMap[row, col].IsStartSquare = true;
                     countOfStSQs++;
                 }
             } while (countOfStSQs < QC.PlayerQ);
