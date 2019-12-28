@@ -10,19 +10,14 @@ using TheManXS.Model.Financial;
 using TheManXS.Model.CityStuff;
 using TheManXS.Model.Map.Surface;
 using TheManXS.ViewModel.MapBoardVM.Tiles;
+using TheManXS.Model.InfrastructureStuff;
 
 namespace TheManXS.Model.Main
 {
     public class SQ
     {
-        public SQ() 
-        { 
-            NextAction = new NextAction(this);
-            Tile = new Tile();
-        }
+        public SQ() { }
         public SQ(bool isForPropertyDictionary) { NextAction = new NextAction(this); }
-
-        public SQ(bool isForSQPlaceHolder, bool alsoforSQPlaceHolder) { }
 
         public SQ(int row, int col)
         {
@@ -31,6 +26,7 @@ namespace TheManXS.Model.Main
             SavedGameSlot = QC.CurrentSavedGameSlot;
             Key = Coordinate.GetSQKey(row, col);
             NextAction = new NextAction(this);
+            new SQ_Infrastructure(this);
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;         
@@ -45,17 +41,7 @@ namespace TheManXS.Model.Main
         public StatusTypeE Status { get; set; }
         public int OwnerNumber { get; set; }
         public string OwnerName { get; set; }
-        public bool IsMainTransportationCorridor { get; set; }
-        public bool IsRoadConnected { get; set; }
-        public bool IsSecondaryRoad { get; set; }
-        public bool IsTrainConnected { get; set; }
-        public bool IsPipelineConnected { get; set; }
         public bool IsStartSquare { get; set; }
-        public bool IsHub { get; set; }
-        public bool IsMainRiver { get; set; }
-        public bool IsTributary { get; set; }
-        public int TributaryNumber { get; set; }
-        public bool IsTributaryFlowingFromNorth { get; set; }
         public bool IsPartOfUnit { get; set; }
         public int UnitNumber { get; set; }
         public int Production { get; set; }
@@ -68,6 +54,5 @@ namespace TheManXS.Model.Main
         public City City { get; set; }
         public Coordinate FullCoordinate { get; set; }
         public Tile Tile { get; set; }
-        
     }    
 }

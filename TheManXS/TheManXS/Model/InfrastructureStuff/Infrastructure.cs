@@ -33,8 +33,6 @@ namespace TheManXS.Model.InfrastructureStuff
             new StartSQ(_map);
             // pipelines
             // train
-
-            
         }
 
         private void InitInfrastructureForStartSQsToHubs()
