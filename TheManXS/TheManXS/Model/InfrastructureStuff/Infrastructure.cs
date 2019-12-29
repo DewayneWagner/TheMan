@@ -43,7 +43,7 @@ namespace TheManXS.Model.InfrastructureStuff
             infrastructureMapArray = InitArray();
             new MainRoad(infrastructureMapArray,_map.CityStartSQ);
             new MainRiver(infrastructureMapArray, _map);
-            new StartSQ(infrastructureMapArray, _map);
+            //new StartSQ(infrastructureMapArray, _map);
         }
 
         private SQ_Infrastructure[,] infrastructureMapArray { get; set; }

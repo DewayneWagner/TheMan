@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
@@ -12,7 +13,18 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
     {
         private MapVM _mapVM;
         public Tile() { OverlayGrid = new OverlayGrid(); }
-        public Tile(SQ sq, int sqSize)
+
+        public Tile(SQ sq)
+        {
+            SQ = sq;
+            
+        }
+
+        // new SkiaSharp Gameboard
+        public SKRect SKRect { get; }
+
+
+        public Tile(SQ sq, int sqSize, bool isOldVersion)
         {
             _mapVM = (MapVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             SQ = sq;

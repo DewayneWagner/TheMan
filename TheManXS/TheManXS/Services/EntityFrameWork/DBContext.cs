@@ -54,6 +54,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new FormationDBConfig());
             modelBuilder.ApplyConfiguration(new CommodityDBConfig());
             modelBuilder.ApplyConfiguration(new NextActionDBConfig());
+            modelBuilder.ApplyConfiguration(new InfrastructureDBConfig());
         }
     }    
 }

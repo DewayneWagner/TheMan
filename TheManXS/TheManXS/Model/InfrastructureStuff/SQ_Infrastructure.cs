@@ -11,6 +11,7 @@ namespace TheManXS.Model.InfrastructureStuff
 {
     public class SQ_Infrastructure
     {
+        public SQ_Infrastructure() { }
         public SQ_Infrastructure(SQ sq) 
         { 
             Key = sq.Key;
@@ -39,9 +40,9 @@ namespace TheManXS.Model.InfrastructureStuff
         public int TributaryNumber { get; set; }
         public bool IsTributaryFlowingFromNorth { get; set; }
     }
-    public class InfrastructureDBConfig : IEntityTypeConfiguration<SQ>
+    public class InfrastructureDBConfig : IEntityTypeConfiguration<SQ_Infrastructure>
     {
-        public void Configure(EntityTypeBuilder<SQ> builder)
+        public void Configure(EntityTypeBuilder<SQ_Infrastructure> builder)
         {
             builder.HasKey(s => s.Key);
         }
