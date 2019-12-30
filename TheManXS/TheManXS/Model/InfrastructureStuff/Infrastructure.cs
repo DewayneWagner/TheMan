@@ -35,7 +35,7 @@ namespace TheManXS.Model.InfrastructureStuff
             new StartSQ(_map);
             // pipelines
             // train
-            WriteArrayToDB();
+            
         }
 
         private void InitNewInfrastructure()
@@ -43,45 +43,26 @@ namespace TheManXS.Model.InfrastructureStuff
             infrastructureMapArray = InitArray();
             new MainRoad(infrastructureMapArray,_map.CityStartSQ);
             new MainRiver(infrastructureMapArray, _map);
-            //new StartSQ(infrastructureMapArray, _map);
+            // need to initialize the infrastructure from startSqs to Hubs
+
+            SQInfrastructure.WriteArrayToDB(infrastructureMapArray);
         }
 
-        private SQ_Infrastructure[,] infrastructureMapArray { get; set; }
+        private SQInfrastructure[,] infrastructureMapArray;
 
-        private SQ_Infrastructure[,] InitArray()
+        private SQInfrastructure[,] InitArray()
         {
-            SQ_Infrastructure[,] a = new SQ_Infrastructure[QC.RowQ, QC.ColQ];
+            SQInfrastructure[,] a = new SQInfrastructure[QC.RowQ, QC.ColQ];
             for (int row = 0; row < QC.RowQ; row++)
             {
                 for (int col = 0; col < QC.ColQ; col++)
                 {
-                    a[row, col] = new SQ_Infrastructure(row, col);
+                    a[row, col] = new SQInfrastructure(row, col);
                 }
             }
             return a;
         }
-        private void WriteArrayToDB()
-        {
-            using (DBContext db = new DBContext())
-            {
-                db.Infrastructure.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).BatchDelete();
-                db.BulkInsert<SQ_Infrastructure>(getList());
-            }
-
-            List<SQ_Infrastructure> getList()
-            {
-                List<SQ_Infrastructure> sqList = new List<SQ_Infrastructure>();
-                for (int row = 0; row < infrastructureMapArray.GetLength(0); row++)
-                {
-                    for (int col = 0; col < infrastructureMapArray.GetLength(1); col++)
-                    {
-                        sqList.Add(infrastructureMapArray[row, col]);
-                    }
-                }
-                return sqList;
-            }
-        }
-
+        
         private void InitInfrastructureForStartSQsToHubs()
         {
             using (DBContext db = new DBContext())

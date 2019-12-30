@@ -10,14 +10,14 @@ namespace TheManXS.Model.Map.Surface
     {
         System.Random rnd = new System.Random();
         SQMapConstructArray _sqMap;
-        SQ_Infrastructure[,] _map;
+        SQInfrastructure[,] _map;
 
         public StartSQ() { }
         public StartSQ(SQMapConstructArray map)
         {
             //_map = map;
         }
-        public StartSQ(SQ_Infrastructure[,] map, SQMapConstructArray sqMap)
+        public StartSQ(SQInfrastructure[,] map, SQMapConstructArray sqMap)
         {
             _map = map;
             _sqMap = sqMap;

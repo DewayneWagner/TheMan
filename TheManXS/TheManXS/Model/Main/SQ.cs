@@ -26,7 +26,7 @@ namespace TheManXS.Model.Main
             SavedGameSlot = QC.CurrentSavedGameSlot;
             Key = Coordinate.GetSQKey(row, col);
             NextAction = new NextAction(this);
-            new SQ_Infrastructure(this);
+            //new SQInfrastructure(this);
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;         

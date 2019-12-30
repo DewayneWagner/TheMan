@@ -37,12 +37,13 @@ namespace TheManXS.Model.Map
             new Terrain(true, SQMap); // build new terrain
             new ResourcePools(true, SQMap); // build resource pools
             new City(SQMap); // build new city
-            new Infrastructure(true,SQMap);
-            //new StartSQ(true); // set starting SQ's for each player
-
-            //new WriteMapToDB(SQMap.GetListOfSQs());
 
             AddNewListOfSQToDB();
+
+            new Infrastructure(true,SQMap);
+
+            //new StartSQ(true); // set starting SQ's for each player
+            //new WriteMapToDB(SQMap.GetListOfSQs());
         }
 
         private void AddNewListOfSQToDB()

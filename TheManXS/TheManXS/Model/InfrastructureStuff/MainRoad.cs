@@ -10,7 +10,7 @@ namespace TheManXS.Model.InfrastructureStuff
    public class MainRoad
     {
         //private SQMapConstructArray _map;
-        private SQ_Infrastructure[,] _map;
+        private SQInfrastructure[,] _map;
         private SQ _cityStartSQ;
 
         private int _lb = -1;
@@ -25,7 +25,7 @@ namespace TheManXS.Model.InfrastructureStuff
             InitWestRoad();
             InitEastRoad();
         }
-        public MainRoad(SQ_Infrastructure[,] sqInfrastructure, SQ cityStartSQ)
+        public MainRoad(SQInfrastructure[,] sqInfrastructure, SQ cityStartSQ)
         {
             _cityStartSQ = cityStartSQ;
             _map = sqInfrastructure;

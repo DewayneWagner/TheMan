@@ -12,7 +12,7 @@ namespace TheManXS.Model.Map.Surface
     public class Tributary
     {
         private SQMapConstructArray _SQmap;
-        private SQ_Infrastructure[,] _map;
+        private SQInfrastructure[,] _map;
         private System.Random rnd = new System.Random();
         private int _startRow;
         private int _startCol;
@@ -36,7 +36,7 @@ namespace TheManXS.Model.Map.Surface
             if (_isFlowingToNorth) { InitNewNorthTributary(); }
             else { InitNewSouthTributary(); }
         }
-        public Tributary(SQ_Infrastructure[,] map, SQMapConstructArray mapSQ, int startRow, int startCol, int tributaryNumber)
+        public Tributary(SQInfrastructure[,] map, SQMapConstructArray mapSQ, int startRow, int startCol, int tributaryNumber)
         {
             _map = map;
             _SQmap = mapSQ;

@@ -22,7 +22,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
             if (!_isCreated)
             {
                 _isCreated = true;
-                //Database.EnsureDeleted();
                 Database.EnsureCreated();
             }
         }
@@ -34,7 +33,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<Formation> Formation { get; set; }
         public DbSet<Commodity> Commodity { get; set; }
         public DbSet<NextAction> NextAction { get; set; }
-        public DbSet<SQ_Infrastructure> Infrastructure { get; set; }
+        public DbSet<SQInfrastructure> SQInfrastructure { get; set; }
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 
@@ -54,7 +53,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new FormationDBConfig());
             modelBuilder.ApplyConfiguration(new CommodityDBConfig());
             modelBuilder.ApplyConfiguration(new NextActionDBConfig());
-            modelBuilder.ApplyConfiguration(new InfrastructureDBConfig());
+            modelBuilder.ApplyConfiguration(new SQInfrastructureDBConfig());
         }
     }    
 }

@@ -24,7 +24,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             float y = (sq.Row * QC.SqSize) + (QC.SqSize * ratio);
             return new SKPoint(x, y);
         }
-        public SKPoint GetInfrastructureSKPoint(SQ_Infrastructure sq, IT it)
+        public SKPoint GetInfrastructureSKPoint(SQInfrastructure sq, IT it)
         {
             float ratio = _centerPointRatios.GetRatio(it);
             float x = (sq.Col * QC.SqSize) + (QC.SqSize / 2);
@@ -36,7 +36,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.25f),
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.75f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.75f));
-        public SKRect GetHubRect(SQ_Infrastructure sq) => new SKRect(
+        public SKRect GetHubRect(SQInfrastructure sq) => new SKRect(
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.25f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.25f),
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.75f),
@@ -86,7 +86,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 return new SKPoint(x, y);
             }                  
         }
-        public void ProcessMapEdge(SQ_Infrastructure sq, ref SKPath path, IT it)
+        public void ProcessMapEdge(SQInfrastructure sq, ref SKPath path, IT it)
         {
             DirectionsCompass d = getMapEdge();
             bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
@@ -131,7 +131,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             }
         }
         public bool IsMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
-        public bool IsMapEdge(SQ_Infrastructure sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
+        public bool IsMapEdge(SQInfrastructure sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
     }
     public class CenterPointRatios
     {
