@@ -22,6 +22,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             if (!_isCreated)
             {
                 _isCreated = true;
+                //Database.EnsureDeleted();
                 Database.EnsureCreated();
             }
         }

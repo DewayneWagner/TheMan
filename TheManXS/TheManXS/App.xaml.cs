@@ -55,6 +55,7 @@ namespace TheManXS
         }
         private void InitScreenMetrics()
         {
+
             // Get Metrics
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
 
@@ -62,7 +63,7 @@ namespace TheManXS
             var orientation = mainDisplayInfo.Orientation;
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.Orientation))] = mainDisplayInfo.Orientation;
 
-            // Rotation (0, 90, 180, 270)
+            //Rotation(0, 90, 180, 270)
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.Rotation))] = mainDisplayInfo.Rotation;
 
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.ScreenWidth))] = mainDisplayInfo.Width;

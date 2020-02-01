@@ -10,7 +10,6 @@ using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
 using TheManXS.Services.EntityFrameWork;
-using EFCore.BulkExtensions;
 
 namespace TheManXS.Model.Map
 {
@@ -50,12 +49,14 @@ namespace TheManXS.Model.Map
         {
             using (DBContext db = new DBContext())
             {
-                db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).BatchDelete();
+                //db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).BatchDelete();
+                var oldList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                db.SQ.RemoveRange(oldList);
                 db.SaveChanges();
 
                 var sqList = SQMap.GetListOfSQs();
-
-                db.BulkInsert<SQ>(sqList);
+                db.SQ.AddRange(sqList);
+                //db.BulkInsert<SQ>(sqList);
                 db.SaveChanges();
             }
 

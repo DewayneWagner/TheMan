@@ -5,7 +5,6 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.Services;
-using EFCore.BulkExtensions;
 
 namespace TheManXS.Services.EntityFrameWork
 {
@@ -72,7 +71,7 @@ namespace TheManXS.Services.EntityFrameWork
         {
             using (DBContext db = new DBContext())
             {
-                DbContextBulkExtensions.BulkInsert<SQ>(db, _mapList);
+                //DbContextBulkExtensions.BulkInsert<SQ>(db, _mapList);
                 db.SaveChanges();
             }
         }
@@ -80,7 +79,7 @@ namespace TheManXS.Services.EntityFrameWork
         {
             using (DBContext db = new DBContext())
             {
-                db.BulkInsert<SQ>(_mapList);
+                //db.BulkInsert<SQ>(_mapList);
                 db.SaveChanges();
             }
         }

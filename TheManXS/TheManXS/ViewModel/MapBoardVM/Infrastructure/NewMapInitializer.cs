@@ -34,6 +34,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             DrawAllPathsOnCanvas();
             InitHubs();
         }
+        // this doesn't fix problem
+        //private void InitLists()
+        //{
+        //    for (int i = 0; i < (int)IT.Total; i++)
+        //    {
+        //        _allInfrastructure[i] = new List<SQInfrastructure>();
+        //    }
+        //}
         private void InitListOfInfrastructureSQs()
         {
             using (DBContext db = new DBContext())
@@ -50,10 +58,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 //    .Where(s => s.OwnerNumber == 0)
                 //    .ToList();
 
-                var testList = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsMainRiver == true)
-                    .ToList();
+                //var testList = db.SQInfrastructure
+                //    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
+                //    .ToList();
 
                 _allInfrastructure[(int)IT.MainRiver] = db.SQInfrastructure
                     .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)

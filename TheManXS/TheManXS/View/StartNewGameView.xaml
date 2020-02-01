@@ -24,10 +24,10 @@
                     <Label Text="Select Difficulty" Style="{StaticResource SubHeading}"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="50">
                         <Button Style="{StaticResource ButtonStandard}"
-                        Text="Rookie" 
-                        Command="{Binding Easy}" 
-                        Opacity="{Binding EasyButtonOpacity}"
-                        WidthRequest="125"/>
+                            Text="Rookie" 
+                            Command="{Binding Easy}" 
+                            Opacity="{Binding EasyButtonOpacity}"
+                            WidthRequest="125"/>
                         <Button Style="{StaticResource ButtonStandard}"
                         Text="Know-it-all" 
                         Command="{Binding Medium}"

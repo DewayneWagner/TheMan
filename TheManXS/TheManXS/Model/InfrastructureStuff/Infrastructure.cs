@@ -11,7 +11,6 @@ using System.Linq;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Map;
 using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
-using EFCore.BulkExtensions;
 
 namespace TheManXS.Model.InfrastructureStuff
 {
@@ -45,7 +44,8 @@ namespace TheManXS.Model.InfrastructureStuff
             new MainRiver(infrastructureMapArray, _map);
             // need to initialize the infrastructure from startSqs to Hubs
 
-            SQInfrastructure.WriteArrayToDB(infrastructureMapArray);
+            //SQInfrastructure.WriteArrayToDB(infrastructureMapArray);
+            new SQInfrastructureList(infrastructureMapArray);
         }
 
         private SQInfrastructure[,] infrastructureMapArray;
