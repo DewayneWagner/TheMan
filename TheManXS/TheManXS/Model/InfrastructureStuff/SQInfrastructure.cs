@@ -18,7 +18,7 @@ namespace TheManXS.Model.InfrastructureStuff
         {
             Row = row;
             Col = col;
-            Key = Coordinate.GetSQKey(row, col);
+            Key = Coordinate.GetSQKey(row, col);            
             SavedGameSlot = QC.CurrentSavedGameSlot;
         }
         public int Key { get; }
@@ -35,6 +35,7 @@ namespace TheManXS.Model.InfrastructureStuff
         public bool IsTributary { get; set; }
         public int TributaryNumber { get; set; }
         public bool IsTributaryFlowingFromNorth { get; set; }
+        public SQ ThisSQ { get; set; }
         public static void WriteArrayToDB(SQInfrastructure[,] infrastructureMapArray)
         {
             //using (DBContext db = new DBContext())
@@ -79,6 +80,22 @@ namespace TheManXS.Model.InfrastructureStuff
         }
         private void InitList()
         {
+            using (DBContext db = new DBContext())
+            {
+                for (int row = 0; row < _mapArray.GetLength(0); row++)
+                {
+                    for (int col = 0; col < _mapArray.GetLength(1); col++)
+                    {
+                        this.Add(new SQInfrastructure(row, col)
+                        {
+                            ThisSQ = db.SQ.Find(Coordinate.GetSQKey(row, col)),
+                        });
+                    }
+                }
+            }
+        }
+        private void InitList(bool testingAboveMethod)
+        {
             for (int row = 0; row < _mapArray.GetLength(0); row++)
             {
                 for (int col = 0; col < _mapArray.GetLength(1); col++)
@@ -101,8 +118,10 @@ namespace TheManXS.Model.InfrastructureStuff
         public void Configure(EntityTypeBuilder<SQInfrastructure> builder)
         {
             builder.HasKey(s => s.Key);
-            builder.Property(s => s.Row).IsRequired();
-            builder.Property(s => s.Col).IsRequired();
+            builder.Ignore(s => s.ThisSQ);
+            builder.HasOne(s => s.ThisSQ).WithOne();
+            //builder.Property(s => s.Row).IsRequired();
+            //builder.Property(s => s.Col).IsRequired();
         }
     }
 }

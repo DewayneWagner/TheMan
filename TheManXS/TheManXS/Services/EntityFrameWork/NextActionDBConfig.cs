@@ -12,6 +12,8 @@ namespace TheManXS.Services.EntityFrameWork
         {
             builder.HasKey(n => n.Key);
 
+            //builder.Ignore(n => n._sq);
+            //builder.HasOne(n => n._sq).WithOne();
             builder.Property(n => n.Cost).IsRequired();
             builder.Property(n => n.Text).IsRequired();
         }

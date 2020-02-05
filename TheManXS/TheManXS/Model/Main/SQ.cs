@@ -48,6 +48,7 @@ namespace TheManXS.Model.Main
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
         public double Transport { get; set; }
+
         
         // not included in DB
         public NextAction NextAction { get; set; }

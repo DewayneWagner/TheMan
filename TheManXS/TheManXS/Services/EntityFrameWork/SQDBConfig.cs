@@ -29,6 +29,8 @@ namespace TheManXS.Model.Services.EntityFrameWork
             builder.Property(s => s.Status)
                 .HasConversion(new EnumToStringConverter<StatusTypeE>());
 
+            builder.HasOne(s => s.NextAction).WithOne();
+
             builder.Ignore(s => s.NextAction);
             builder.Ignore(s => s.City);
             builder.Ignore(s => s.Tile);

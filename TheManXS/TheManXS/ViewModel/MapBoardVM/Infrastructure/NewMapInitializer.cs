@@ -62,6 +62,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 //    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
                 //    .ToList();
 
+                var testToSeeIfSQReadsFromDB = db.SQ.ToList();
+                var testToSeeIfSQInfrastructureReadsFromDB = db.SQInfrastructure.ToList();
+
                 _allInfrastructure[(int)IT.MainRiver] = db.SQInfrastructure
                     .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
                     .Where(i => i.IsMainRiver == true)                    
