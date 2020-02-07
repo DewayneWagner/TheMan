@@ -14,16 +14,17 @@ namespace TheManXS.Model.InfrastructureStuff
     public class SQInfrastructure
     {
         public SQInfrastructure() { }
-        public SQInfrastructure(int row, int col)
+        public SQInfrastructure(SQ thisSQ)
         {
-            Row = row;
-            Col = col;
-            Key = Coordinate.GetSQKey(row, col);            
+            ThisSQ = thisSQ;
+            Row = ThisSQ.Row;
+            Col = ThisSQ.Col;
+            Key = ThisSQ.Key;        
             SavedGameSlot = QC.CurrentSavedGameSlot;
         }
-        public int Key { get; }
-        public int Row { get; }
-        public int Col { get; }
+        public int Key { get; set; }
+        public int Row { get; set; }
+        public int Col { get; set; }
         public int SavedGameSlot { get; set; }
         public bool IsMainTransportationCorridor { get; set; }
         public bool IsRoadConnected { get; set; }
@@ -86,7 +87,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 {
                     for (int col = 0; col < _mapArray.GetLength(1); col++)
                     {
-                        this.Add(new SQInfrastructure(row, col)
+                        this.Add(new SQInfrastructure(db.SQ.Find(Coordinate.GetSQKey(row,col)))
                         {
                             ThisSQ = db.SQ.Find(Coordinate.GetSQKey(row, col)),
                         });
@@ -117,11 +118,20 @@ namespace TheManXS.Model.InfrastructureStuff
     {
         public void Configure(EntityTypeBuilder<SQInfrastructure> builder)
         {
+            
             builder.HasKey(s => s.Key);
             builder.Ignore(s => s.ThisSQ);
-            builder.HasOne(s => s.ThisSQ).WithOne();
+            
+
+            
+
+            //builder.HasOne(s => s.ThisSQ).WithOne();
             //builder.Property(s => s.Row).IsRequired();
             //builder.Property(s => s.Col).IsRequired();
+
+
+
+            
         }
     }
 }

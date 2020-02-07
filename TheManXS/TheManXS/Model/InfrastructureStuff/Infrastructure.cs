@@ -52,15 +52,18 @@ namespace TheManXS.Model.InfrastructureStuff
 
         private SQInfrastructure[,] InitArray()
         {
-            SQInfrastructure[,] a = new SQInfrastructure[QC.RowQ, QC.ColQ];
-            for (int row = 0; row < QC.RowQ; row++)
+            using (DBContext db = new DBContext())
             {
-                for (int col = 0; col < QC.ColQ; col++)
+                SQInfrastructure[,] a = new SQInfrastructure[QC.RowQ, QC.ColQ];
+                for (int row = 0; row < QC.RowQ; row++)
                 {
-                    a[row, col] = new SQInfrastructure(row, col);
+                    for (int col = 0; col < QC.ColQ; col++)
+                    {
+                        a[row, col] = new SQInfrastructure(db.SQ.Find(Coordinate.GetSQKey(row, col)));
+                    }
                 }
-            }
-            return a;
+                return a;
+            }            
         }
         
         private void InitInfrastructureForStartSQsToHubs()

@@ -59,7 +59,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 case AllSQAttributes.GrossProfitP:
                     return cash.ProfitPercent.ToString("P1");
                 case AllSQAttributes.ActionCost:
-                    return sq.NextAction.Cost.ToString("C0");
+                    return sq.NextActionCost.ToString("C0");
                 default:
                     return null;
             }

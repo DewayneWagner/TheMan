@@ -71,7 +71,7 @@ namespace TheManXS.Model.Units
                     sq.IsPartOfUnit = true;
                     sq.UnitNumber = Number;
                     sq.OPEXPerUnit *= (1 - OPEXDiscount);
-                    sq.NextAction.Cost *= (1 - DevelopmentDiscount);
+                    sq.NextActionCost *= (1 - DevelopmentDiscount);
                 }
                 db.SaveChanges();
             }

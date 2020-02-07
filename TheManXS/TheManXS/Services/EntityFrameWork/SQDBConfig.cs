@@ -28,13 +28,20 @@ namespace TheManXS.Model.Services.EntityFrameWork
 
             builder.Property(s => s.Status)
                 .HasConversion(new EnumToStringConverter<StatusTypeE>());
-
-            builder.HasOne(s => s.NextAction).WithOne();
-
-            builder.Ignore(s => s.NextAction);
+            
             builder.Ignore(s => s.City);
             builder.Ignore(s => s.Tile);
             builder.Ignore(s => s.FullCoordinate);
+            builder.Ignore(s => s.SQInfrastructure);
+
+            builder.HasOne(s => s.SQInfrastructure)
+                .WithOne(s => s.ThisSQ)
+                .HasForeignKey<SQ>(s => s.Key);
+
+            //    modelBuilder.Entity<Author>()
+            //.HasOne(a => a.Biography)
+            //.WithOne(b => b.Author)
+            //.HasForeignKey<AuthorBiography>(b => b.AuthorRef);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace TheManXS.Model.Settings
 {
     public class QuickConstants
     {
+        public const int playerQ = 5;
         public QuickConstants()
         {
             PlayerQ = (int)Setting.GetConstant(AS.PlayerConstants, (int)SettingsMaster.PlayerConstants.PlayerQ);

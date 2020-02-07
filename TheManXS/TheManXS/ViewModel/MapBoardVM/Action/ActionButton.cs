@@ -19,7 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             _actionPanel = a;
             _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)];
 
-            Text = _activeSQ.NextAction.Text;
+            Text = _activeSQ.NextActionText;
             HorizontalOptions = LayoutOptions.CenterAndExpand;
             BackgroundColor = Color.Crimson;
             FontAttributes = FontAttributes.Bold;
