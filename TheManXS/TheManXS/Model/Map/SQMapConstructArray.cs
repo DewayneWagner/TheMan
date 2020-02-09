@@ -13,7 +13,6 @@ namespace TheManXS.Model.Map
         {
             _mapArray = new SQ[QC.RowQ, QC.ColQ];
             InitNewMap();
-            QC.player
         }
         public SQ CityStartSQ { get; set; }
         public SQ this[int r, int c]

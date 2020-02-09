@@ -46,6 +46,10 @@ namespace TheManXS.Model.Services.EntityFrameWork
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
+
+
             modelBuilder.ApplyConfiguration(new ClusterDBConfig());
             modelBuilder.ApplyConfiguration(new SettingsDBConfig());
             modelBuilder.ApplyConfiguration(new GSPDBConfig());

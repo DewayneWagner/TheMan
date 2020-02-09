@@ -118,12 +118,17 @@ namespace TheManXS.Model.InfrastructureStuff
     {
         public void Configure(EntityTypeBuilder<SQInfrastructure> builder)
         {
-            
+            //builder.HasOne<SQ>().WithOne(s => s.Key)
+
             builder.HasKey(s => s.Key);
             builder.Ignore(s => s.ThisSQ);
-            
 
-            
+            //    modelBuilder.Entity<Author>()
+            //.HasOne(a => a.AuthorBiography).WithOne(b => b.Author)
+            //.HasForeignKey<AuthorBiography>(e => e.AuthorId);
+            //    modelBuilder.Entity<Author>().ToTable("Authors");
+            //    modelBuilder.Entity<AuthorBiography>().ToTable("Authors");
+
 
             //builder.HasOne(s => s.ThisSQ).WithOne();
             //builder.Property(s => s.Row).IsRequired();
@@ -131,7 +136,7 @@ namespace TheManXS.Model.InfrastructureStuff
 
 
 
-            
+
         }
     }
 }

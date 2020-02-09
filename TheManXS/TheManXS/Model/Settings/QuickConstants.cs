@@ -9,7 +9,6 @@ namespace TheManXS.Model.Settings
 {
     public class QuickConstants
     {
-        public const int playerQ = 5;
         public QuickConstants()
         {
             PlayerQ = (int)Setting.GetConstant(AS.PlayerConstants, (int)SettingsMaster.PlayerConstants.PlayerQ);
@@ -25,8 +24,6 @@ namespace TheManXS.Model.Settings
             MaxResourceSQsOnMap = (int)(SqQ * resSQRatioPerMap);
             MaxResourceSQsInPool = (int)Setting.GetConstant(AS.ResConstant, (int)SettingsMaster.ResConstantParams.MaxPoolSQ);
 
-            WidthOfActionPaneRatioOfScreenSize = 0.2;
-            StartSQProduction = 8;
             StartSQOpex = 15;
             UnitCounter = 0;
             NameOfOwnerOfUnOwnedSquares = "The Man";
@@ -40,11 +37,14 @@ namespace TheManXS.Model.Settings
         public static int SqSize { get; set; }
         public static int SqLateralLength { get; set; }
         public static int TurnNumber { get; set; }
-        public static int PlayerIndexTheMan { get; set; }        
-        public static double WidthOfActionPaneRatioOfScreenSize { get; set; }
+        public static int PlayerIndexTheMan { get; set; }
+
+        public const int StartSQProduction = 8;
+        public const double WidthOfActionPaneRatioOfScreenSize = 0.2;
+
         public static int MaxResourceSQsOnMap { get; set; }
         public static int MaxResourceSQsInPool { get; set; }
-        public static int StartSQProduction { get; set; }
+        
         public static double StartSQOpex { get; set; }
         public static int PlayerIndexActual => 0;      
         public static int UnitCounter { get; set; }

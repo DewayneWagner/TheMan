@@ -34,9 +34,9 @@ namespace TheManXS.Model.Services.EntityFrameWork
             builder.Ignore(s => s.FullCoordinate);
             builder.Ignore(s => s.SQInfrastructure);
 
-            builder.HasOne(s => s.SQInfrastructure)
-                .WithOne(s => s.ThisSQ)
-                .HasForeignKey<SQ>(s => s.Key);
+            //builder.HasOne(s => s.SQInfrastructure)
+            //    .WithOne(s => s.ThisSQ)
+            //    .HasForeignKey<SQ>(s => s.Key);
 
             //    modelBuilder.Entity<Author>()
             //.HasOne(a => a.Biography)
