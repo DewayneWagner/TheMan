@@ -27,15 +27,6 @@ namespace TheManXS.Model.InfrastructureStuff
             _map = map;
             if (isNewGame) { InitNewInfrastructure(); }
         }
-        private void InitNewInfrastructure(bool oldMethod)
-        {
-            new MainRoad(_map);
-            new MainRiver(_map);
-            new StartSQ(_map);
-            // pipelines
-            // train
-            
-        }
 
         private void InitNewInfrastructure()
         {

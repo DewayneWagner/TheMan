@@ -34,86 +34,37 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             DrawAllPathsOnCanvas();
             InitHubs();
         }
-        // this doesn't fix problem
-        //private void InitLists()
-        //{
-        //    for (int i = 0; i < (int)IT.Total; i++)
-        //    {
-        //        _allInfrastructure[i] = new List<SQInfrastructure>();
-        //    }
-        //}
         private void InitListOfInfrastructureSQs()
         {
             using (DBContext db = new DBContext())
             {
-                //var sqsWithInfrastructure = db.SQInfrastructure
-                //    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                //    .ToList();
-
-                // var testList = db.SQ.Where(s => s.Row == 0).ToList(); this works
-                // var testList = db.SQInfrastructure.Where(i => i.Row == 0).ToList(); this errors out
-
-                // this also works
-                //List<SQ> testList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot)
-                //    .Where(s => s.OwnerNumber == 0)
-                //    .ToList();
-
-                //var testList = db.SQInfrastructure
-                //    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                //    .ToList();
-
-                var testToSeeIfSQReadsFromDB = db.SQ.ToList();
-                var testToSeeIfSQInfrastructureReadsFromDB = db.SQInfrastructure.ToList();
-
-                _allInfrastructure[(int)IT.MainRiver] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsMainRiver == true)                    
+                var allSQInfrastructure = db.SQInfrastructure
+                    .Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot)
                     .ToList();
 
-                _allInfrastructure[(int)IT.Tributary] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsTributary == true)
+                _allInfrastructure[(int)IT.MainRiver] = allSQInfrastructure
+                    .Where(s => s.IsMainRiver == true)
                     .ToList();
 
-                _allInfrastructure[(int)IT.Road] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsRoadConnected == true || i.IsMainTransportationCorridor == true)
+                _allInfrastructure[(int)IT.Tributary] = allSQInfrastructure
+                    .Where(s => s.IsTributary)
                     .ToList();
 
-                _allInfrastructure[(int)IT.Pipeline] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsPipelineConnected || i.IsMainTransportationCorridor == true)
+                _allInfrastructure[(int)IT.Road] = allSQInfrastructure
+                    .Where(s => s.IsRoadConnected)
                     .ToList();
 
-                _allInfrastructure[(int)IT.RailRoad] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsTrainConnected == true || i.IsMainTransportationCorridor == true)
+                _allInfrastructure[(int)IT.Pipeline] = allSQInfrastructure
+                    .Where(s => s.IsPipelineConnected)
                     .ToList();
 
-                _allInfrastructure[(int)IT.Hub] = db.SQInfrastructure
-                    .Where(i => i.SavedGameSlot == QC.CurrentSavedGameSlot)
-                    .Where(i => i.IsHub == true)
+                _allInfrastructure[(int)IT.RailRoad] = allSQInfrastructure
+                    .Where(s => s.IsTrainConnected)
                     .ToList();
-            }
-        }
-        private void InitListOfInfrastructureSQs(bool isOldVersion)
-        {
-            using (DBContext db = new DBContext())
-            {
-                //_allInfrastructure[(int)IT.MainRiver] = db.SQ.Where(s => s.IsMainRiver == true).ToList();
 
-                //_allInfrastructure[(int)IT.Tributary] = db.SQ.Where(s => s.IsTributary == true).ToList();
-
-                //_allInfrastructure[(int)IT.Road] = db.SQ.Where(s => s.IsRoadConnected == true ||
-                //        s.IsMainTransportationCorridor == true ).ToList();
-
-                //_allInfrastructure[(int)IT.Pipeline] = db.SQ.Where(s => s.IsPipelineConnected == true ||
-                //        s.IsMainTransportationCorridor == true).ToList();
-
-                //_allInfrastructure[(int)IT.RailRoad] = db.SQ.Where(s => s.IsTrainConnected == true || 
-                //        s.IsMainTransportationCorridor == true).ToList();
-
-                //_allInfrastructure[(int)IT.Hub] = db.SQ.Where(s => s.IsHub == true).ToList();
+                _allInfrastructure[(int)IT.Hub] = allSQInfrastructure
+                    .Where(s => s.IsHub)
+                    .ToList();
             }
         }
         private void InitInfrastructure()

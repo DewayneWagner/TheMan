@@ -40,35 +40,20 @@ namespace TheManXS.Model.Map
             AddNewListOfSQToDB();
 
             new Infrastructure(true,SQMap);
-
-            //new StartSQ(true); // set starting SQ's for each player
-            //new WriteMapToDB(SQMap.GetListOfSQs());
         }
 
         private void AddNewListOfSQToDB()
         {
             using (DBContext db = new DBContext())
             {
-                //db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).BatchDelete();
                 var oldList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
                 db.SQ.RemoveRange(oldList);
                 db.SaveChanges();
 
                 var sqList = SQMap.GetListOfSQs();
                 db.SQ.AddRange(sqList);
-                //db.BulkInsert<SQ>(sqList);
                 db.SaveChanges();
             }
-
-            //using (DBContext db = new DBContext())
-            //{                
-            //    var _existingSQs = db.SQ.ToList();
-            //    if(_existingSQs != null) { db.SQ.RemoveRange(_existingSQs); }
-                                
-            //    List<SQ> sList = SQMap.GetListOfSQs();
-            //    db.SQ.AddRange(sList);
-            //    db.SaveChanges();
-            //}
         }
     }
 }

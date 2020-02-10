@@ -9,7 +9,6 @@ namespace TheManXS.Model.InfrastructureStuff
 {
    public class MainRoad
     {
-        //private SQMapConstructArray _map;
         private SQInfrastructure[,] _map;
         private SQ _cityStartSQ;
 
@@ -19,64 +18,56 @@ namespace TheManXS.Model.InfrastructureStuff
         private int _lbHubDistance = 8;
         private int _ubHubDistance = 16;
 
-        public MainRoad(SQMapConstructArray map)
-        {
-            //_map = map;
-            InitWestRoad();
-            InitEastRoad();
-        }
         public MainRoad(SQInfrastructure[,] sqInfrastructure, SQ cityStartSQ)
         {
             _cityStartSQ = cityStartSQ;
             _map = sqInfrastructure;
-            InitWestRoad();
-            InitEastRoad();
+
+            InitMainTransportationCorridor();
         }
-        private void InitWestRoad()
+        private void InitMainTransportationCorridor()
         {
-            int row = _cityStartSQ.Row;
-            int hubCol = GetNextHubCol(_cityStartSQ.Col, false);
+            int hubCol = GetNextHubCol(_cityStartSQ.Col, -1);
 
-            for (int col = (_cityStartSQ.Col - 1); col >= 0; col--)
+            for (int i = -1; i < 2; i+=2)
             {
-                row += rnd.Next(_lb, _ub);
+                int row = _cityStartSQ.Row;
+                int col = i == (-1) ? _cityStartSQ.Col - 1 : _cityStartSQ.Col + 3;
 
-                if (col == hubCol)
+                do
                 {
-                    _map[row, col].IsHub = true;
-                    hubCol = GetNextHubCol(col, false);
-                }
-                
-                _map[row, col].IsRoadConnected = true;
-                _map[row, col].IsPipelineConnected = true;
-                _map[row, col].IsTrainConnected = true;
-                _map[row, col].IsMainTransportationCorridor = true;
+                    if (col == hubCol)
+                    {
+                        _map[row, col].IsHub = true;
+                        hubCol = GetNextHubCol(col, i);
+                    }
+
+                    setMainTransportationCorridor(row, col);
+                    row = getNextRow(row);
+                    col += i;
+
+                } while (!isEdgeOfMap(col));
+            }
+
+            void setMainTransportationCorridor(int r, int c)
+            {
+                _map[r, c].IsRoadConnected = true;
+                _map[r, c].IsPipelineConnected = true;
+                _map[r, c].IsTrainConnected = true;
+                _map[r, c].IsMainTransportationCorridor = true;
+            }
+
+            bool isEdgeOfMap(int col) => col == 0 || col == QC.ColQ ? true : false;
+
+            int getNextRow(int row)
+            {
+                int nextRow = rnd.Next(_lb, _ub);
+                if(row + nextRow == 0) { return 1; }
+                else if(row + nextRow == QC.RowQ) { return - 1; }
+                else { return row + nextRow; }
             }
         }
-        private void InitEastRoad()
-        {
-            int row = _cityStartSQ.Row;
-            int hubCol = GetNextHubCol(_cityStartSQ.Col, true);
-
-            for (int col = (_cityStartSQ.Col + 3); col < QC.ColQ; col++)
-            {
-                if (col == hubCol)
-                {
-                    _map[row, col].IsHub = true;
-                    hubCol = GetNextHubCol(col, false);
-                }
-                row += rnd.Next(_lb, _ub);
-                _map[row, col].IsRoadConnected = true;
-                _map[row, col].IsPipelineConnected = true;
-                _map[row, col].IsTrainConnected = true;
-                _map[row, col].IsMainTransportationCorridor = true;
-            }
-        }
-        private int GetNextHubCol(int currentCol, bool isEastRoad)
-        {
-            int hubColSpacing = rnd.Next(_lbHubDistance, _ubHubDistance);
-            if (isEastRoad) { return (hubColSpacing + currentCol); }
-            else { return (currentCol - hubColSpacing); }
-        }  
+        private int GetNextHubCol(int currentCol, int increment) => currentCol + 
+            rnd.Next(_lbHubDistance, _ubHubDistance) * increment;
    }
 }

@@ -37,38 +37,6 @@ namespace TheManXS.Model.InfrastructureStuff
         public int TributaryNumber { get; set; }
         public bool IsTributaryFlowingFromNorth { get; set; }
         public SQ ThisSQ { get; set; }
-        public static void WriteArrayToDB(SQInfrastructure[,] infrastructureMapArray)
-        {
-            //using (DBContext db = new DBContext())
-            //{
-                //var list = getList(); // this works - creates list of 6000 items.
-
-                // var eistingSQ = db.SQ.ToList(); this works
-                // var existing = db.SQInfrastructure.ToList(); this errors out
-                //var existing = db.SQInfrastructure.Select(x => x).ToList();
-                //db.SQInfrastructure.RemoveRange(existing); this errors out
-
-                //db.SQInfrastructure.UpdateRange(list); // this works!  save changes works with this method...but can't change map size
-                //db.SQInfrastructure.AddRange(list); save changes does not work with this method
-
-                //db.BulkInsert<SQInfrastructure>(list);
-                //db.SQInfrastructure.AddRange(list);
-                //db.SaveChanges();
-            //}
-
-            //List<SQInfrastructure> getList()
-            //{
-            //    List<SQInfrastructure> sqList = new List<SQInfrastructure>();
-            //    for (int row = 0; row < infrastructureMapArray.GetLength(0); row++)
-            //    {
-            //        for (int col = 0; col < infrastructureMapArray.GetLength(1); col++)
-            //        {
-            //            sqList.Add(infrastructureMapArray[row, col]);
-            //        }
-            //    }
-            //    return sqList;
-            //}
-        }
     }
     public class SQInfrastructureList : List<SQInfrastructure>
     {
@@ -109,7 +77,12 @@ namespace TheManXS.Model.InfrastructureStuff
         {
             using (DBContext db = new DBContext())
             {
-                db.SQInfrastructure.UpdateRange(this);
+                if (db.SQInfrastructure.Any(s => s.SavedGameSlot == QC.CurrentSavedGameSlot))
+                {
+                    db.SQInfrastructure.UpdateRange(this);
+                }
+                else { db.SQInfrastructure.AddRange(this); }
+
                 db.SaveChanges();
             }
         }
@@ -118,25 +91,8 @@ namespace TheManXS.Model.InfrastructureStuff
     {
         public void Configure(EntityTypeBuilder<SQInfrastructure> builder)
         {
-            //builder.HasOne<SQ>().WithOne(s => s.Key)
-
             builder.HasKey(s => s.Key);
             builder.Ignore(s => s.ThisSQ);
-
-            //    modelBuilder.Entity<Author>()
-            //.HasOne(a => a.AuthorBiography).WithOne(b => b.Author)
-            //.HasForeignKey<AuthorBiography>(e => e.AuthorId);
-            //    modelBuilder.Entity<Author>().ToTable("Authors");
-            //    modelBuilder.Entity<AuthorBiography>().ToTable("Authors");
-
-
-            //builder.HasOne(s => s.ThisSQ).WithOne();
-            //builder.Property(s => s.Row).IsRequired();
-            //builder.Property(s => s.Col).IsRequired();
-
-
-
-
         }
     }
 }
