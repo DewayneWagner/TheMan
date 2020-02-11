@@ -16,10 +16,9 @@ namespace TheManXS.Model.InfrastructureStuff
         public SQInfrastructure() { }
         public SQInfrastructure(SQ thisSQ)
         {
-            ThisSQ = thisSQ;
-            Row = ThisSQ.Row;
-            Col = ThisSQ.Col;
-            Key = ThisSQ.Key;        
+            Row = thisSQ.Row;
+            Col = thisSQ.Col;
+            Key = thisSQ.Key;        
             SavedGameSlot = QC.CurrentSavedGameSlot;
         }
         public int Key { get; set; }
@@ -36,7 +35,6 @@ namespace TheManXS.Model.InfrastructureStuff
         public bool IsTributary { get; set; }
         public int TributaryNumber { get; set; }
         public bool IsTributaryFlowingFromNorth { get; set; }
-        public SQ ThisSQ { get; set; }
     }
     public class SQInfrastructureList : List<SQInfrastructure>
     {
@@ -49,17 +47,11 @@ namespace TheManXS.Model.InfrastructureStuff
         }
         private void InitList()
         {
-            using (DBContext db = new DBContext())
+            for (int row = 0; row < _mapArray.GetLength(0); row++)
             {
-                for (int row = 0; row < _mapArray.GetLength(0); row++)
+                for (int col = 0; col < _mapArray.GetLength(1); col++)
                 {
-                    for (int col = 0; col < _mapArray.GetLength(1); col++)
-                    {
-                        this.Add(new SQInfrastructure(db.SQ.Find(Coordinate.GetSQKey(row,col)))
-                        {
-                            ThisSQ = db.SQ.Find(Coordinate.GetSQKey(row, col)),
-                        });
-                    }
+                    this.Add(_mapArray[row, col]);
                 }
             }
         }
@@ -92,7 +84,6 @@ namespace TheManXS.Model.InfrastructureStuff
         public void Configure(EntityTypeBuilder<SQInfrastructure> builder)
         {
             builder.HasKey(s => s.Key);
-            builder.Ignore(s => s.ThisSQ);
         }
     }
 }

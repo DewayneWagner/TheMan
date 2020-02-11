@@ -57,7 +57,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 _map[r, c].IsMainTransportationCorridor = true;
             }
 
-            bool isEdgeOfMap(int col) => col == 0 || col == QC.ColQ ? true : false;
+            bool isEdgeOfMap(int col) => col == 0 || col == (QC.ColQ - 1) ? true : false;
 
             int getNextRow(int row)
             {
@@ -66,8 +66,8 @@ namespace TheManXS.Model.InfrastructureStuff
                 else if(row + nextRow == QC.RowQ) { return - 1; }
                 else { return row + nextRow; }
             }
+
+            int GetNextHubCol(int currentCol, int increment) => currentCol + rnd.Next(_lbHubDistance, _ubHubDistance) * increment;
         }
-        private int GetNextHubCol(int currentCol, int increment) => currentCol + 
-            rnd.Next(_lbHubDistance, _ubHubDistance) * increment;
    }
 }
