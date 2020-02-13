@@ -59,6 +59,14 @@ namespace TheManXS.View
 
                 if (t.AllTouchEffectsExited && t.Count != 0)
                 {
+                    if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerSelect)
+                    {
+
+                    }
+                    else if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerDragSelect)
+                    {
+
+                    }
                     _createNewMap = false;
                     new TouchExecution(_mapVM);
                     t = new MapTouchListOfMapTouchIDLists();

@@ -23,24 +23,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             new NewMapInitializer(mapVM,this);
 
             // need to save raw terrain map here - before putting player owned sq's on
+            //SaveRawMap();
         }
         public PaintTypes Formats { get; set; }
-        
-        public void UpdateInfrastructure(List<SQ> sqList, IT it)
+        private void SaveRawMap()
         {
-            SKPath path = new SKPath();
-            path.MoveTo(_calc.GetInfrastructureSKPoint(sqList[0], it));
-            foreach (SQ sq in sqList)
-            {
-                path.LineTo(_calc.GetInfrastructureSKPoint(sq, it));
-            }
-            path.Close();
 
-            using (SKCanvas canvas = new SKCanvas(_mapVM.Map))
-            {
-                canvas.DrawPath(path, Formats[(int)it]);
-                canvas.Save();
-            }
         }
     }
 }
