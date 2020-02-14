@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheManXS.ViewModel.MapBoardVM;
+using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
@@ -20,10 +21,12 @@ namespace TheManXS.View
     {
         private MapVM _mapVM;
         bool _createNewMap;
+        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
         public MapBoard()
         {
             _createNewMap = true;
             InitializeComponent();
+            ScreenGrid = _gameBoardSplitScreenGrid;
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -61,12 +64,21 @@ namespace TheManXS.View
                 {
                     if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerSelect)
                     {
+                        _gameBoardSplitScreenGrid.AddSideActionPanel(ActionPanel.PanelType.SQ);
 
+
+                        ScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * 0.1 });
+                        ScreenGrid.Children.Add(new ActionPanel(ActionPanel.PanelType.SQ));
                     }
                     else if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerDragSelect)
                     {
-
+                        _mapVM.ScreenGrid = ScreenGrid;
+                        ScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * 0.1 });
+                        ScreenGrid.Children.Add(new ActionPanel(ActionPanel.PanelType.Unit));
                     }
+
+
+
                     _createNewMap = false;
                     new TouchExecution(_mapVM);
                     t = new MapTouchListOfMapTouchIDLists();
