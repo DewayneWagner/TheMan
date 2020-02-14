@@ -36,7 +36,7 @@ namespace TheManXS.Model.Main
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;
-
+            Tile = new Tile(this);
         }
 
         public int Key { get; set; }

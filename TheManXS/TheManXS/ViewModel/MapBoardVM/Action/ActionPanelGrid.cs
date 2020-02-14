@@ -176,7 +176,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
-            _mapVM.ScreenGrid.ActionPanel.CloseActionPanel();
+            _mapVM.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
 
             if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) 
                 { _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }

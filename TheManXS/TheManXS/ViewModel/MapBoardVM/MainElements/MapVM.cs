@@ -2,6 +2,7 @@
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
@@ -59,17 +60,29 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public SKMatrix MapMatrix;
 
-        private GameBoardSplitScreenGrid _screenGrid;
-        public GameBoardSplitScreenGrid ScreenGrid
+        private GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
+        public GameBoardSplitScreenGrid GameBoardSplitScreenGrid
         {
-            get => _screenGrid;
+            get => _gameBoardSplitScreenGrid;
             set
             {
-                SetValue(ref _screenGrid, value);
-                _screenGrid = value;
+                SetValue(ref _gameBoardSplitScreenGrid, value);
+                _gameBoardSplitScreenGrid = value;
             }
         }
-        
+
+        private async void SaveMap()
+        {
+            /***********************
+             * using (Stream s = await file.OpenAsync(FileAccess.ReadAndWrite)) {
+    SKData d = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+    d.SaveTo(s);
+             * ***************************/
+
+
+
+        }
+
         private void LoadMap() { }
     }   
     

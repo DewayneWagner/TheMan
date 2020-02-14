@@ -25,7 +25,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         public void CloseActionPanel()
         {
             //var g = _gameBoardVM.ActualGameBoardVM.GameBoardSplitScreenGrid;
-            var g = _mapVM.ScreenGrid;
+            var g = _mapVM.GameBoardSplitScreenGrid;
             g.Children.Remove(this);
             g.SideSQActionPanelExists = false;
             g.ColumnDefinitions.RemoveAt(1);

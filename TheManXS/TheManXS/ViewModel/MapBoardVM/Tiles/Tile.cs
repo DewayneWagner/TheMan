@@ -16,13 +16,23 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
 
         public Tile(SQ sq)
         {
-            SQ = sq;
-            
+            // find position of square on screen vs. map
+            int xCoordScreenTopLeftCorner = sq.Row * QC.SqSize;
+            int yCoordScreenTopLeftCorner = sq.Col * QC.SqSize;
+            int sqSizeAtCurrentResolution = 10;
+
+            SKRect = new SKRect(sq.Row * QC.SqSize, sq.Col * QC.SqSize,
+                (sq.Row + 1) * QC.SqSize, (sq.Col + 1) * QC.SqSize);
+
+            OverlayGrid = new OverlayGrid(sq);
         }
+
+
+
+
 
         // new SkiaSharp Gameboard
         public SKRect SKRect { get; }
-
 
         public Tile(SQ sq, int sqSize, bool isOldVersion)
         {

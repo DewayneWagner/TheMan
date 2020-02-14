@@ -8,6 +8,7 @@ using TheManXS.ViewModel.MapBoardVM;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
+using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -62,31 +63,35 @@ namespace TheManXS.View
 
                 if (t.AllTouchEffectsExited && t.Count != 0)
                 {
-                    if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerSelect)
-                    {
-                        _gameBoardSplitScreenGrid.AddSideActionPanel(ActionPanel.PanelType.SQ);
-
-
-                        ScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * 0.1 });
-                        ScreenGrid.Children.Add(new ActionPanel(ActionPanel.PanelType.SQ));
-                    }
-                    else if (_mapVM.MapTouchList.MapTouchType == MapTouchType.OneFingerDragSelect)
-                    {
-                        _mapVM.ScreenGrid = ScreenGrid;
-                        ScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * 0.1 });
-                        ScreenGrid.Children.Add(new ActionPanel(ActionPanel.PanelType.Unit));
-                    }
-
-
-
                     _createNewMap = false;
-                    new TouchExecution(_mapVM);
+                    ExecuteTouch();
+                    
                     t = new MapTouchListOfMapTouchIDLists();
                     _createNewMap = true;
                 }
                 else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
             }
             catch { _mapVM.MapTouchList = new MapTouchListOfMapTouchIDLists(); }
+        }
+        private void ExecuteTouch()
+        {
+            switch (_mapVM.MapTouchList.MapTouchType)
+            {
+                case MapTouchType.OneFingerSelect:
+                    new ExecuteOneFingerSelect(_mapVM);
+                    break;
+                case MapTouchType.OneFingerDragSelect:
+                    new ExecuteOneFingerDrag(_mapVM);
+                    break;
+                case MapTouchType.TwoFingerPan:
+                    new ExecuteTwoFingerPan(_mapVM);
+                    break;
+                case MapTouchType.Pinch:
+                    new ExecutePinch(_mapVM);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
