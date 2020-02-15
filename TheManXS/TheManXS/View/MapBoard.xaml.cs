@@ -56,22 +56,21 @@ namespace TheManXS.View
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
+            var t = _mapVM.MapTouchList;
             try
-            {
-                var t = _mapVM.MapTouchList;
+            {                
                 t.AddTouchAction(args);
 
                 if (t.AllTouchEffectsExited && t.Count != 0)
                 {
                     _createNewMap = false;
                     ExecuteTouch();
-                    
                     t = new MapTouchListOfMapTouchIDLists();
                     _createNewMap = true;
                 }
                 else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
             }
-            catch { _mapVM.MapTouchList = new MapTouchListOfMapTouchIDLists(); }
+            catch { t = new MapTouchListOfMapTouchIDLists(); }
         }
         private void ExecuteTouch()
         {

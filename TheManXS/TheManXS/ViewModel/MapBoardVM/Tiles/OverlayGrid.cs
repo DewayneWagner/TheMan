@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -75,6 +76,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             get => this[row, col];
             set => this[row, col] = value;          
         }          
+        public void SetColorOfAllSides(SKColor color)
+        {
+            
+        }
         public void SetColorsOfAllSides(Color color)
         {
             for (int row = 0; row < 3; row++)
