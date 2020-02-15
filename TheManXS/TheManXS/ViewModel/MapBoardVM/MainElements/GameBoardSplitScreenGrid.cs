@@ -37,25 +37,25 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
             RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
         }
-        public void AddSideActionPanel(ActionPanel.PanelType pt, Tile tile)
-        {
-            if(!SideSQActionPanelExists || !UnitActionPanelExists)
-            {
-                ActionPanel = new ActionPanel(pt);
-                ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
-                Children.Add(ActionPanel, 1, 0);
-                HorizontalOptions = LayoutOptions.End;
+        //public void AddSideActionPanel(ActionPanel.PanelType pt, Tile tile)
+        //{
+        //    if(!SideSQActionPanelExists || !UnitActionPanelExists)
+        //    {
+        //        ActionPanel = new ActionPanel(pt);
+        //        ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
+        //        Children.Add(ActionPanel, 1, 0);
+        //        HorizontalOptions = LayoutOptions.End;
 
-                if (pt == ActionPanel.PanelType.SQ)
-                {
-                    SideSQActionPanelExists = true;
-                    tile.OverlayGrid.SetColorsOfAllSides(Color.Red);
-                }
-                else if (pt == ActionPanel.PanelType.Unit)
-                {
-                    UnitActionPanelExists = true;
-                }
-            }
-        }        
+        //        if (pt == ActionPanel.PanelType.SQ)
+        //        {
+        //            SideSQActionPanelExists = true;
+        //            tile.OverlayGrid.SetColorsOfAllSides(Color.Red);
+        //        }
+        //        else if (pt == ActionPanel.PanelType.Unit)
+        //        {
+        //            UnitActionPanelExists = true;
+        //        }
+        //    }
+        //}        
     }
 }

@@ -30,7 +30,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
                 .HasConversion(new EnumToStringConverter<StatusTypeE>());
             
             builder.Ignore(s => s.City);
-            builder.Ignore(s => s.Tile);
             builder.Ignore(s => s.FullCoordinate);
             builder.Ignore(s => s.SQInfrastructure);
         }

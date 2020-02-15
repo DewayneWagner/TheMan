@@ -20,6 +20,7 @@ namespace TheManXS.Model.Map.Surface
             Row = (int)(p.Y / QC.SqSize);
             Col = (int)(p.X / QC.SqSize);
             SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+            SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
         }
         public Coordinate(Point p)
         {
@@ -42,6 +43,7 @@ namespace TheManXS.Model.Map.Surface
         public int SQKey { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
+        public SKRect SKRect { get; set; }
 
         public static int GetSQKey(int row, int col) => ((100 + row) * 1000 + (100 + col)) * 10 + QC.CurrentSavedGameSlot;
         public void GetPoolStartCoordinate(bool IsPlayerStartSQ)

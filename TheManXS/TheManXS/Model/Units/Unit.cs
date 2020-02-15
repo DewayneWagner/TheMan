@@ -45,7 +45,7 @@ namespace TheManXS.Model.Units
             else
             {
                 this.Remove(sq);
-                sq.Tile.OverlayGrid.RemoveOutsideBorders();
+                //sq.Tile.OverlayGrid.RemoveOutsideBorders();
                 OPEXDiscount -= QC.OPEXDiscountPerSQInUnit;
                 DevelopmentDiscount -= QC.CAPEXDiscountPerSQInUnit;
                 new StaggeredBorder(c).InitStaggeredBorders(this);
@@ -79,7 +79,7 @@ namespace TheManXS.Model.Units
         public void KillUnit()
         {
             QC.UnitCounter--;
-            foreach (SQ sq in this) { sq.Tile.OverlayGrid.RemoveOutsideBorders(); }
+            foreach (SQ sq in this) {; }//sq.Tile.OverlayGrid.RemoveOutsideBorders(); }
         }
         public bool IsSQAdjacentToSQsAlreadyInUnit(SQ sq)
         {

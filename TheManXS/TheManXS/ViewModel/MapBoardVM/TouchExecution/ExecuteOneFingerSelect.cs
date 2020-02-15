@@ -14,6 +14,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
     public class ExecuteOneFingerSelect
     {
         MapVM _mapVM;
+        SKPaint highlightedSq = new SKPaint
+        {
+            Style = SKPaintStyle.Fill,
+            Color = SKColors.Red,
+        };
+        SQ _touchedSQ;
         public ExecuteOneFingerSelect(MapVM mapVM)
         {
             _mapVM = mapVM;
@@ -21,16 +27,30 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         }
         private void ExecuteOneFingerSelectAction()
         {
-            Coordinate tp = new Coordinate(getTouchPointOnBitMap());
-            _mapVM.SquareDictionary[tp.SQKey].Tile.OverlayGrid.SetColorsOfAllSides(SKColors.Black);
+            Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
+            _touchedSQ = _mapVM.SquareDictionary[touchPoint.SQKey];
+            paintSKRect();
+
+            // create side panel here
             
             SKPoint getTouchPointOnBitMap()
             {
-                SKPoint pt = _mapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
-                float bitmapX = ((pt.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
-                float bitmapY = ((pt.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
+                SKPoint touchPointOnScreen = getTouchPointOnScreen();
+                float bitmapX = ((touchPointOnScreen.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
+                float bitmapY = ((touchPointOnScreen.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
 
                 return new SKPoint(bitmapX, bitmapY);
+            }
+            
+            SKPoint getTouchPointOnScreen() => _mapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
+            
+            void paintSKRect()
+            {
+                using (SKCanvas gameBoard = new SKCanvas(_mapVM.Map))
+                {
+                    gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
+                    gameBoard.Save();
+                }
             }
         }
     }

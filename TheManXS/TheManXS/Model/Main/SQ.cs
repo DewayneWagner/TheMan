@@ -36,7 +36,6 @@ namespace TheManXS.Model.Main
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;
-            Tile = new Tile(this);
         }
 
         public int Key { get; set; }
@@ -75,7 +74,6 @@ namespace TheManXS.Model.Main
         public SQInfrastructure SQInfrastructure { get; set; }
         public City City { get; set; }
         public Coordinate FullCoordinate { get; set; }
-        public Tile Tile { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

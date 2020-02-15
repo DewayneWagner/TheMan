@@ -178,8 +178,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             _mapVM.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
 
-            if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) 
-                { _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
+            if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
+                //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
 
             else if(_panelType == ActionPanel.PanelType.Unit) { _activeUnit.KillUnit(); }
         }

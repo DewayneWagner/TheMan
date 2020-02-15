@@ -28,7 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         }
         private void InitSides()
         {
-            _sq.Tile.OverlayGrid.RemoveOutsideBorders();
+            //_sq.Tile.OverlayGrid.RemoveOutsideBorders();
 
             for (int row = -1; row <= 1; row++)
             {
@@ -58,7 +58,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                     Opacity = 0.5,
                 };
                 CompressedLayout.SetIsHeadless(bv, true);
-                _sq.Tile.OverlayGrid.Children.Add(bv, c, r);
+                //_sq.Tile.OverlayGrid.Children.Add(bv, c, r);
             }
         }
     }   

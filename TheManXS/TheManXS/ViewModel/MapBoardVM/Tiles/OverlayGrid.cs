@@ -100,11 +100,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                 }
             }
         }
-        public void RemoveOutsideBorders(Tile tile)
-        {
-            int length = tile.Children.Count();
-            for (int i = 0; i < length; i++) { tile.Children.RemoveAt(0); }
-        }
+        //public void RemoveOutsideBorders(Tile tile)
+        //{
+        //    int length = tile.Children.Count();
+        //    for (int i = 0; i < length; i++) { tile.Children.RemoveAt(0); }
+        //}
         public void RemoveOutsideBorders()
         {
             int length = Children.Count();

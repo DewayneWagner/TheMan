@@ -19,7 +19,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         Builder _infrastructureBuilder;
         PathCalculations _calc;
 
-        //List<SQ>[] _allInfrastructure = new List<SQ>[(int)IT.Total];
         List<SQInfrastructure>[] _allInfrastructure = new List<SQInfrastructure>[(int)IT.Total];
         List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);
 
