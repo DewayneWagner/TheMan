@@ -27,7 +27,8 @@ namespace TheManXS.View
         {
             _createNewMap = true;
             InitializeComponent();
-            ScreenGrid = _gameBoardSplitScreenGrid;
+            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            g.GameBoardSplitScreenGrid = _gameBoardSplitScreenGrid = (GameBoardSplitScreenGrid)ScreenGrid;
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -77,10 +78,10 @@ namespace TheManXS.View
             switch (_mapVM.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
-                    new ExecuteOneFingerSelect(_mapVM);
+                    new ExecuteOneFingerSelect(_gameBoardSplitScreenGrid);
                     break;
                 case MapTouchType.OneFingerDragSelect:
-                    new ExecuteOneFingerDrag(_mapVM);
+                    new ExecuteOneFingerDrag(_gameBoardSplitScreenGrid);
                     break;
                 case MapTouchType.TwoFingerPan:
                     new ExecuteTwoFingerPan(_mapVM);

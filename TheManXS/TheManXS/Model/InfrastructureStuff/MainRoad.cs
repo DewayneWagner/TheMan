@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map;
+using TheManXS.Model.Map.Surface;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.InfrastructureStuff
@@ -36,6 +37,7 @@ namespace TheManXS.Model.InfrastructureStuff
 
                 do
                 {
+                    if (!Coordinate.DoesSquareExist(row,col)) { break; }
                     if (col == hubCol)
                     {
                         _map[row, col].IsHub = true;

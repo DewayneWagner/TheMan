@@ -13,25 +13,26 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteOneFingerSelect
     {
-        MapVM _mapVM;
+        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
         SKPaint highlightedSq = new SKPaint
         {
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
         SQ _touchedSQ;
-        public ExecuteOneFingerSelect(MapVM mapVM)
+        public ExecuteOneFingerSelect(GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
         {
-            _mapVM = mapVM;
+            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
             ExecuteOneFingerSelectAction();
         }
         private void ExecuteOneFingerSelectAction()
         {
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            _touchedSQ = _mapVM.SquareDictionary[touchPoint.SQKey];
+            _gameBoardSplitScreenGrid.ActiveSQ = _touchedSQ = _mapVM.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
 
             // create side panel here
+            _mapVM.GameBoardSplitScreenGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.SQ);
             
             SKPoint getTouchPointOnBitMap()
             {

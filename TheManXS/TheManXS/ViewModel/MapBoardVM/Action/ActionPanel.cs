@@ -15,9 +15,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     {
         public enum PanelType { SQ, Unit }
         private MapVM _mapVM;
-        public ActionPanel(PanelType pt)
+        public ActionPanel(PanelType pt, MapVM mapVM)
         {
-            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
+            _mapVM = mapVM;
+            //_mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             CompressedLayout.SetIsHeadless(this, true);
             Content = ActionPanelGrid = new ActionPanelGrid(this, pt);
         }

@@ -28,7 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             // need to update this later....
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.ActualMap = this;
+            g.MapVM = this;
             LoadDictionaries();
             QC.IsNewGame = true;
 
@@ -56,6 +56,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         }
 
         public MapTouchListOfMapTouchIDLists MapTouchList { get; set; }
+        public SQ ActiveSQ { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
         public TitleBarVM TitleBar { get; set; }
         public StockTickerBarVM StockTicker { get; set; }
@@ -66,17 +67,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public SKMatrix MapMatrix;
 
-        private GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
-        public GameBoardSplitScreenGrid GameBoardSplitScreenGrid
-        {
-            get => _gameBoardSplitScreenGrid;
-            set
-            {
-                SetValue(ref _gameBoardSplitScreenGrid, value);
-                _gameBoardSplitScreenGrid = value;
-            }
-        }
-
+        
         private void LoadDictionaries()
         {
             using (DBContext db = new DBContext())
