@@ -13,8 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class ActionPanelGrid : Grid
     {
-        private SQ _activeSQ;
-        private MapVM _mapVM;
+        GameBoardVM _gvm;
         private ActionPanel _actionPanel;
         private Unit _activeUnit;
 
@@ -38,6 +37,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             CompressedLayout.SetIsHeadless(this, true);
             _actionPanel = a;
             _panelType = pt;
+            _gvm = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
 
             SetPropertiesOfGrid();
             InitFields();
@@ -53,9 +53,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         private void InitFields()
         {
-            if (_panelType == ActionPanel.PanelType.SQ) { _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)]; }
-            else if (_panelType == ActionPanel.PanelType.Unit) { _activeUnit = (Unit)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveUnit)]; }
-            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
             _column1Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize * _widthRatioColumn1;
             _column2Width = (QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize) - _column1Width;
         }
@@ -122,7 +119,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                     Label rowHeading = new Label() { Text = Convert.ToString((ActionRows)i) };
                     this.Children.Add(rowHeading, 0, i);
 
-                    sqAttributes = new SqAttributes(_activeSQ, (SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
+                    sqAttributes = new SqAttributes(_gvm.GameBoardSplitScreenGrid.MapVM.ActiveSQ, (SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
                     Label rowValue = new Label()
                     {
                         Text = sqAttributes.Value,
@@ -176,9 +173,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
-            _mapVM.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
+            _gvm.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
 
-            if(_panelType == ActionPanel.PanelType.SQ && _activeSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
+            if(_panelType == ActionPanel.PanelType.SQ && _gvm.GameBoardSplitScreenGrid.MapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
                 //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
 
             else if(_panelType == ActionPanel.PanelType.Unit) { _activeUnit.KillUnit(); }

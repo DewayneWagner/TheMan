@@ -20,15 +20,15 @@ namespace TheManXS.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapBoard : ContentPage
     {
-        private MapVM _mapVM;
         bool _createNewMap;
         GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
         public MapBoard()
         {
             _createNewMap = true;
             InitializeComponent();
+
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.GameBoardSplitScreenGrid = _gameBoardSplitScreenGrid = (GameBoardSplitScreenGrid)ScreenGrid;
+            _gameBoardSplitScreenGrid = g.GameBoardSplitScreenGrid;
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -37,27 +37,29 @@ namespace TheManXS.View
             QC.ScreenWidth = e.Info.Width;
             QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
             QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
+
+            var m = _gameBoardSplitScreenGrid.MapVM;
             
             if (_createNewMap)
             {
-                _mapVM = new MapVM();
+                m = new MapVM();
                 _createNewMap = false;
-                _mapVM.MapCanvasView = mapBoardCanvasView;
-                _mapVM.MapCanvasView.IgnorePixelScaling = true;
+                m.MapCanvasView = mapBoardCanvasView;
+                m.MapCanvasView.IgnorePixelScaling = true;
             }
 
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
-            QC.SqSize = _mapVM.Map.Width / QC.ColQ;
+            QC.SqSize = m.Map.Width / QC.ColQ;
 
             canvas.Clear();
-            canvas.SetMatrix(_mapVM.MapMatrix);
-            canvas.DrawBitmap(_mapVM.Map, 0, 0);
+            canvas.SetMatrix(m.MapMatrix);
+            canvas.DrawBitmap(m.Map, 0, 0);
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
-            var t = _mapVM.MapTouchList;
+            var t = _gameBoardSplitScreenGrid.MapVM.MapTouchList;
             try
             {                
                 t.AddTouchAction(args);
@@ -75,7 +77,8 @@ namespace TheManXS.View
         }
         private void ExecuteTouch()
         {
-            switch (_mapVM.MapTouchList.MapTouchType)
+            var m = _gameBoardSplitScreenGrid.MapVM;
+            switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
                     new ExecuteOneFingerSelect(_gameBoardSplitScreenGrid);
@@ -84,10 +87,10 @@ namespace TheManXS.View
                     new ExecuteOneFingerDrag(_gameBoardSplitScreenGrid);
                     break;
                 case MapTouchType.TwoFingerPan:
-                    new ExecuteTwoFingerPan(_mapVM);
+                    new ExecuteTwoFingerPan(m);
                     break;
                 case MapTouchType.Pinch:
-                    new ExecutePinch(_mapVM);
+                    new ExecutePinch(m);
                     break;
                 default:
                     break;

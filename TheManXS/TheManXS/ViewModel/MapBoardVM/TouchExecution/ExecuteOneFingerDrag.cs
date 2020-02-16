@@ -7,10 +7,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteOneFingerDrag
     {
-        MapVM _mapVM;
-        public ExecuteOneFingerDrag(MapVM mapVM)
+        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
+        public ExecuteOneFingerDrag(GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
         {
-            _mapVM = mapVM;
+            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
+
         }
     }
 }

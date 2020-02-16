@@ -13,16 +13,12 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardSplitScreenGrid : Grid
     {
-        //public GameBoardSplitScreenGrid(MapVM mapVM)
-        //{
-        //    GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-        //    HorizontalOptions = LayoutOptions.FillAndExpand;
-        //    VerticalOptions = LayoutOptions.FillAndExpand;
+        public GameBoardSplitScreenGrid()
+        {
+            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            g.GameBoardSplitScreenGrid = this;
+        }
 
-        //    CompressedLayout.SetIsHeadless(this, true);
-        //    _mapVM = mapVM;
-        //    InitGrid();
-        //}
         public MapVM MapVM { get; set; }
         public bool SideSQActionPanelExists { get; set; }
         public bool UnitActionPanelExists { get; set; }
@@ -30,11 +26,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Unit ActiveUnit { get; set; }
         public bool IsThereActiveUnit { get; set; }
 
-        //void InitGrid()
-        //{
-        //    ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
-        //    RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
-        //}
         public void AddSideActionPanel(ActionPanel.PanelType pt)
         {
             if (!SideSQActionPanelExists || !UnitActionPanelExists)

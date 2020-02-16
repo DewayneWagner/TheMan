@@ -14,19 +14,18 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     public class ActionPanel : BaseViewModel
     {
         public enum PanelType { SQ, Unit }
-        private MapVM _mapVM;
+        GameBoardVM gvm;
         public ActionPanel(PanelType pt, MapVM mapVM)
         {
-            _mapVM = mapVM;
-            //_mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
+            gvm = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
             CompressedLayout.SetIsHeadless(this, true);
             Content = ActionPanelGrid = new ActionPanelGrid(this, pt);
         }
         public ActionPanelGrid ActionPanelGrid { get; set; }
         public void CloseActionPanel()
         {
-            //var g = _gameBoardVM.ActualGameBoardVM.GameBoardSplitScreenGrid;
-            var g = _mapVM.GameBoardSplitScreenGrid;
+            var g = gvm.GameBoardSplitScreenGrid;
+
             g.Children.Remove(this);
             g.SideSQActionPanelExists = false;
             g.ColumnDefinitions.RemoveAt(1);

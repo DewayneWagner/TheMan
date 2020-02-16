@@ -54,14 +54,19 @@
                         WidthRequest="150"/>
             </StackLayout>
 
-            <Grid x:Name="ScreenGrid" 
-                  CompressedLayout.IsHeadless="True"
+            <Grid CompressedLayout.IsHeadless="True"
                   HorizontalOptions="FillAndExpand" 
                   VerticalOptions="FillAndExpand">
+                
+                <Grid.BindingContext>
+                    <local:GameBoardSplitScreenGrid/>
+                </Grid.BindingContext>
+                
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
                            PaintSurface="mapBoardCanvasView_PaintSurface"                        
                            EnableTouchEvents="True"/>
-                <Grid.Effects>
+                
+                <Grid.Effects>                    
                     <tt:TouchEffect Capture="True" 
                             TouchAction="TouchEffect_TouchAction"/>
                 </Grid.Effects>

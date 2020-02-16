@@ -9,9 +9,28 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     {
         public GameBoardVM() { }
         public GameBoardVM(bool isForAppDictionary) { }
-        public MapVM MapVM { get; set; }
-        public StockTickerBarVM StockTicker { get; set; }
-        public TitleBarVM TitleBar { get; set; }
+
+        private StockTickerBarVM _stockTickerBarVM;
+        public StockTickerBarVM StockTicker
+        {
+            get => _stockTickerBarVM;
+            set
+            {
+                _stockTickerBarVM = value;
+                SetValue(ref _stockTickerBarVM, value);
+            }
+        }
+
+        private TitleBarVM _titleBar;
+        public TitleBarVM TitleBar
+        {
+            get => _titleBar;
+            set
+            {
+                _titleBar = value;
+                SetValue(ref _titleBar, value);
+            }
+        }
 
         private GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
         public GameBoardSplitScreenGrid GameBoardSplitScreenGrid
@@ -19,8 +38,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             get => _gameBoardSplitScreenGrid;
             set
             {
-                SetValue(ref _gameBoardSplitScreenGrid, value);
                 _gameBoardSplitScreenGrid = value;
+                SetValue(ref _gameBoardSplitScreenGrid, value);
             }
         }
     }

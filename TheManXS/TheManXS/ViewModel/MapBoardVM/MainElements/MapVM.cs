@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
+using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
@@ -28,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             // need to update this later....
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.MapVM = this;
+            g.GameBoardSplitScreenGrid.MapVM = this;
             LoadDictionaries();
             QC.IsNewGame = true;
 
@@ -57,6 +58,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public MapTouchListOfMapTouchIDLists MapTouchList { get; set; }
         public SQ ActiveSQ { get; set; }
+        public Unit ActiveUnit { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
         public TitleBarVM TitleBar { get; set; }
         public StockTickerBarVM StockTicker { get; set; }
@@ -66,7 +68,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
 
         public SKMatrix MapMatrix;
-
         
         private void LoadDictionaries()
         {
