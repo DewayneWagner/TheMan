@@ -12,8 +12,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     public enum ViewType { Terrain, Resources, Roads, Pipeline, TrainTracks, Total }
     public class TitleBarVM : BaseViewModel
     {
-        MapVM _mapVM;
-
         private string _quarter;
         private string _companyName;
         private PageService _pageService;
@@ -24,8 +22,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
             g.TitleBar = this;
 
-            _mapVM = (MapVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
-            _mapVM.TitleBar = this;
             _pageService = new PageService();
             CompressedLayout.SetIsHeadless(this, true);
 

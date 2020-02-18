@@ -33,7 +33,6 @@ namespace TheManXS
         void InitPropertyDictionary()
         {
             Properties[Convert.ToString(ObjectsInPropertyDictionary.GameBoardVM)] = new GameBoardVM(true);
-            Properties[Convert.ToString(ObjectsInPropertyDictionary.MapVM)] = new MapVM(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveSQ)] = new TheManXS.Model.Main.SQ(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActivePlayer)] = new TheManXS.Model.Main.Player();
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveUnit)] = new TheManXS.Model.Units.Unit();

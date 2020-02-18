@@ -19,7 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
-        SQ _touchedSQ;
+
         public ExecuteOneFingerSelect(GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
         {
             _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
@@ -29,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             var m = _gameBoardSplitScreenGrid.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            m.ActiveSQ = _touchedSQ = m.SquareDictionary[touchPoint.SQKey];
+            m.ActiveSQ = m.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
 
             // create side panel here

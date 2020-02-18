@@ -27,7 +27,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public MapVM()
         {
-            // need to update this later....
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
             g.GameBoardSplitScreenGrid.MapVM = this;
             LoadDictionaries();
@@ -43,8 +42,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             MapTouchList = new MapTouchListOfMapTouchIDLists();
             MapMatrix = SKMatrix.MakeIdentity();
-            
+            SqAttributesList = new SqAttributesList(this);
         }
+
         private SKBitmap _map;
         public SKBitmap Map
         {
@@ -60,7 +60,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public SQ ActiveSQ { get; set; }
         public Unit ActiveUnit { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
-        public TitleBarVM TitleBar { get; set; }
         public StockTickerBarVM StockTicker { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
         public Infrastructure.Builder InfrastructureBuilder { get; set; }

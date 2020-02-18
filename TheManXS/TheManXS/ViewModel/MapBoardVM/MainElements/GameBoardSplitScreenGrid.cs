@@ -13,16 +13,39 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardSplitScreenGrid : Grid
     {
+        private GameBoardVM _gameBoardVM;
         public GameBoardSplitScreenGrid()
         {
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _gameBoardVM = g;
             g.GameBoardSplitScreenGrid = this;
         }
 
-        public MapVM MapVM { get; set; }
+        private MapVM _mapVM;
+        public MapVM MapVM
+        {
+            get => _mapVM;
+            set
+            {
+                _mapVM = value;
+                _gameBoardVM.SetValue(ref _mapVM, value);
+            }
+        }
+
+        private ActionPanel _actionPanel;
+        public ActionPanel ActionPanel
+        {
+            get => _actionPanel;
+            set
+            {
+                _actionPanel = value;
+                _gameBoardVM.SetValue(ref _actionPanel, value);
+            }
+        }
+
         public bool SideSQActionPanelExists { get; set; }
         public bool UnitActionPanelExists { get; set; }
-        public ActionPanel ActionPanel { get; set; }
+        
         public Unit ActiveUnit { get; set; }
         public bool IsThereActiveUnit { get; set; }
 
@@ -30,7 +53,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             if (!SideSQActionPanelExists || !UnitActionPanelExists)
             {
-                ActionPanel = new ActionPanel(pt,MapVM);
+                ActionPanel = new ActionPanel(pt,this);
                 ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
                 Children.Add(ActionPanel, 1, 0);
                 HorizontalOptions = LayoutOptions.End;

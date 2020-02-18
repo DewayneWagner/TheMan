@@ -19,9 +19,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         public SqAttributes() { }
 
-        public SqAttributes(SQ square, AllSQAttributes attribute)
+        public SqAttributes(SQ square, AllSQAttributes attribute, MapVM mapVM)
         {
-            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
+            _mapVM = mapVM;
             sq = square;
             StatusType = square.Status;
             SqAttribute = attribute;

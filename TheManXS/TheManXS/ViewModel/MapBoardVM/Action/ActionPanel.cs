@@ -14,21 +14,19 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     public class ActionPanel : BaseViewModel
     {
         public enum PanelType { SQ, Unit }
-        GameBoardVM gvm;
-        public ActionPanel(PanelType pt, MapVM mapVM)
+        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
+        public ActionPanel(PanelType pt, GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
         {
-            gvm = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
             CompressedLayout.SetIsHeadless(this, true);
-            Content = ActionPanelGrid = new ActionPanelGrid(this, pt);
+            Content = ActionPanelGrid = new ActionPanelGrid(this, pt, _gameBoardSplitScreenGrid);
         }
         public ActionPanelGrid ActionPanelGrid { get; set; }
         public void CloseActionPanel()
         {
-            var g = gvm.GameBoardSplitScreenGrid;
-
-            g.Children.Remove(this);
-            g.SideSQActionPanelExists = false;
-            g.ColumnDefinitions.RemoveAt(1);
+            _gameBoardSplitScreenGrid.Children.Remove(this);
+            _gameBoardSplitScreenGrid.SideSQActionPanelExists = false;
+            _gameBoardSplitScreenGrid.ColumnDefinitions.RemoveAt(1);
         }
     }    
 }

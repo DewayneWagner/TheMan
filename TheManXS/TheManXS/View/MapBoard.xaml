@@ -56,11 +56,12 @@
 
             <Grid CompressedLayout.IsHeadless="True"
                   HorizontalOptions="FillAndExpand" 
-                  VerticalOptions="FillAndExpand">
+                  VerticalOptions="FillAndExpand"
+                  x:Name="SplitScreenGrid">
                 
-                <Grid.BindingContext>
+                <!--<Grid.BindingContext>
                     <local:GameBoardSplitScreenGrid/>
-                </Grid.BindingContext>
+                </Grid.BindingContext>-->
                 
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
                            PaintSurface="mapBoardCanvasView_PaintSurface"                        

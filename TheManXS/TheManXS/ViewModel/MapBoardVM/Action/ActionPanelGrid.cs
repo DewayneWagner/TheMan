@@ -13,7 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class ActionPanelGrid : Grid
     {
-        GameBoardVM _gvm;
+        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
         private ActionPanel _actionPanel;
         private Unit _activeUnit;
 
@@ -32,12 +32,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private const int _numberOfButtons = 2;
         private ActionPanel.PanelType _panelType;
 
-        public ActionPanelGrid(ActionPanel a, ActionPanel.PanelType pt)
+        public ActionPanelGrid(ActionPanel a, ActionPanel.PanelType pt, GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
         {
             CompressedLayout.SetIsHeadless(this, true);
             _actionPanel = a;
             _panelType = pt;
-            _gvm = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
 
             SetPropertiesOfGrid();
             InitFields();
@@ -119,7 +119,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                     Label rowHeading = new Label() { Text = Convert.ToString((ActionRows)i) };
                     this.Children.Add(rowHeading, 0, i);
 
-                    sqAttributes = new SqAttributes(_gvm.GameBoardSplitScreenGrid.MapVM.ActiveSQ, (SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
+                    sqAttributes = new SqAttributes(_gameBoardSplitScreenGrid.MapVM.ActiveSQ, 
+                        (SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner), _gameBoardSplitScreenGrid.MapVM);
                     Label rowValue = new Label()
                     {
                         Text = sqAttributes.Value,
@@ -173,9 +174,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
-            _gvm.GameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
+            _gameBoardSplitScreenGrid.ActionPanel.CloseActionPanel();
 
-            if(_panelType == ActionPanel.PanelType.SQ && _gvm.GameBoardSplitScreenGrid.MapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
+            if(_panelType == ActionPanel.PanelType.SQ && _gameBoardSplitScreenGrid.MapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
                 //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
 
             else if(_panelType == ActionPanel.PanelType.Unit) { _activeUnit.KillUnit(); }

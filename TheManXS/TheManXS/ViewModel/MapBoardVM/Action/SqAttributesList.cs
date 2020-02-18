@@ -12,9 +12,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     public class SqAttributesList : List<SqAttributes>
     {
         private MapVM _mapVM;
-        public SqAttributesList()
+        public SqAttributesList(MapVM mapVM)
         {
-            _mapVM = (MapVM)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.MapVM)];
+            _mapVM = mapVM;
             InitListWithDefaults();
             InitTrueBools();
         }
