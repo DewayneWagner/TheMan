@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
@@ -32,14 +33,25 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
-        private GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
-        public GameBoardSplitScreenGrid GameBoardSplitScreenGrid
+        private MapVM _mapVM;
+        public MapVM MapVM
         {
-            get => _gameBoardSplitScreenGrid;
+            get => _mapVM;
             set
             {
-                _gameBoardSplitScreenGrid = value;
-                SetValue(ref _gameBoardSplitScreenGrid, value);
+                _mapVM = value;
+                SetValue(ref _mapVM, value);
+            }
+        }
+
+        private ActionPanel _actionPanel;
+        public ActionPanel ActionPanel
+        {
+            get => _actionPanel;
+            set
+            {
+                _actionPanel = value;
+                SetValue(ref _actionPanel, value);
             }
         }
     }

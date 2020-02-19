@@ -28,7 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public MapVM()
         {
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.GameBoardSplitScreenGrid.MapVM = this;
+            g.MapVM = this;
             LoadDictionaries();
             QC.IsNewGame = true;
 
@@ -65,9 +65,25 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Infrastructure.Builder InfrastructureBuilder { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
+        
+        private ActionPanel _actionPanel;
+        public ActionPanel ActionPanel
+        {
+            get => _actionPanel;
+            set
+            {
+                _actionPanel = value;
+                SetValue(ref _actionPanel, value);
+            }
+        }
 
         public SKMatrix MapMatrix;
-        
+
+        // copied from gameboardsplitscreengrid class - not sure if these will be needed?
+        public bool SideSQActionPanelExists { get; set; }
+        public bool UnitActionPanelExists { get; set; }
+        public bool IsThereActiveUnit { get; set; }
+
         private void LoadDictionaries()
         {
             using (DBContext db = new DBContext())
@@ -75,6 +91,20 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 SquareDictionary = db.SQ.ToDictionary(sq => sq.Key);
                 PlayerDictionary = db.Player.ToDictionary(p => p.Key);
             }
+        }
+        // from gameboardsplitscreengrid class
+        public void AddSideActionPanel(ActionPanel.PanelType pt)
+        {
+            //if (!SideSQActionPanelExists || !UnitActionPanelExists)
+            //{
+            //    ActionPanel = new ActionPanel(pt, this);
+            //    ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
+            //    Children.Add(ActionPanel, 1, 0);
+            //    HorizontalOptions = LayoutOptions.End;
+
+            //    if (pt == ActionPanel.PanelType.SQ) { SideSQActionPanelExists = true; }
+            //    else if (pt == ActionPanel.PanelType.Unit) { UnitActionPanelExists = true; }
+            //}
         }
 
         private async void SaveMap()

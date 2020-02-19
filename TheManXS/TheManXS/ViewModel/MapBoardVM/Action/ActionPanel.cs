@@ -14,19 +14,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     public class ActionPanel : BaseViewModel
     {
         public enum PanelType { SQ, Unit }
-        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
-        public ActionPanel(PanelType pt, GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
+        MapVM _mapVM;
+        public ActionPanel(PanelType pt, MapVM mapVM)
         {
-            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
+            _mapVM = mapVM;
             CompressedLayout.SetIsHeadless(this, true);
-            Content = ActionPanelGrid = new ActionPanelGrid(this, pt, _gameBoardSplitScreenGrid);
+            Content = ActionPanelGrid = new ActionPanelGrid(this, pt, _mapVM);
         }
         public ActionPanelGrid ActionPanelGrid { get; set; }
         public void CloseActionPanel()
         {
-            _gameBoardSplitScreenGrid.Children.Remove(this);
-            _gameBoardSplitScreenGrid.SideSQActionPanelExists = false;
-            _gameBoardSplitScreenGrid.ColumnDefinitions.RemoveAt(1);
+            // need to figure-out where this should live - somehow link to code-behind?
+            //_gameBoardSplitScreenGrid.Children.Remove(this);
+            //_gameBoardSplitScreenGrid.SideSQActionPanelExists = false;
+            //_gameBoardSplitScreenGrid.ColumnDefinitions.RemoveAt(1);
         }
     }    
 }

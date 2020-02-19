@@ -59,12 +59,17 @@
                   VerticalOptions="FillAndExpand"
                   x:Name="SplitScreenGrid">
                 
-                <!--<Grid.BindingContext>
-                    <local:GameBoardSplitScreenGrid/>
-                </Grid.BindingContext>-->
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
-                           PaintSurface="mapBoardCanvasView_PaintSurface"                        
+                           PaintSurface="mapBoardCanvasView_PaintSurface"  
+                           HorizontalOptions="FillAndExpand"
+                           Grid.Row="0" Grid.Column="0"
                            EnableTouchEvents="True"/>
                 
                 <Grid.Effects>                    

@@ -21,25 +21,18 @@ namespace TheManXS.View
     public partial class MapBoard : ContentPage
     {
         bool _createNewMap;
-        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
+        private GameBoardVM g;
+
         public MapBoard()
         {
+            g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
             _createNewMap = true;
-            InitializeComponent();
-
-            InitSplitScreenGrid();
-            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            //_gameBoardSplitScreenGrid = g.GameBoardSplitScreenGrid;
-        }
-        private void InitSplitScreenGrid()
-        {
-            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            SplitScreenGrid.Children.Add(mapBoardCanvasView, 0, 0);
+            InitializeComponent();     
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {
-            var m = _gameBoardSplitScreenGrid.MapVM;
+            var m = g.MapVM;
             
             if (_createNewMap) { createNewMap(); }
 
@@ -61,13 +54,15 @@ namespace TheManXS.View
                 m = new MapVM();
                 _createNewMap = false;
                 m.MapCanvasView = mapBoardCanvasView;
+                m.MapCanvasView.HorizontalOptions = LayoutOptions.FillAndExpand;
+                m.MapCanvasView.VerticalOptions = LayoutOptions.FillAndExpand;
                 m.MapCanvasView.IgnorePixelScaling = true;
             }
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
-            var t = _gameBoardSplitScreenGrid.MapVM.MapTouchList;
+            var t = g.MapVM.MapTouchList;
 
             t.AddTouchAction(args);
 
@@ -97,15 +92,17 @@ namespace TheManXS.View
         }
         private void ExecuteTouch()
         {
-            var m = _gameBoardSplitScreenGrid.MapVM;
+            var m = g.MapVM;
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
+                    new ExecuteOneFingerSelect(g.MapVM);
+                    
                     AddSidePanel();
-                    //new ExecuteOneFingerSelect(_gameBoardSplitScreenGrid);
+                    
                     break;
                 case MapTouchType.OneFingerDragSelect:
-                    new ExecuteOneFingerDrag(_gameBoardSplitScreenGrid);
+                    new ExecuteOneFingerDrag(g.MapVM);
                     break;
                 case MapTouchType.TwoFingerPan:
                     new ExecuteTwoFingerPan(m);
@@ -119,13 +116,19 @@ namespace TheManXS.View
         }
         private void AddSidePanel()
         {
-            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
-            SplitScreenGrid.Children.Add(new BoxView()
-            {
-                BackgroundColor = Color.Red,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-            });
+            int widthOfActionPanel = (int)(QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize);
+            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1,GridUnitType.Auto) });
+
+            SplitScreenGrid.Children.Add();
+
+
+            //SplitScreenGrid.Children.Add(new BoxView()
+            //{
+            //    BackgroundColor = Color.Red,
+            //    HorizontalOptions = LayoutOptions.FillAndExpand,
+            //    VerticalOptions = LayoutOptions.FillAndExpand,
+            //    WidthRequest = 250,
+            //},1,0);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
+using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 
@@ -13,42 +14,39 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteOneFingerSelect
     {
-        GameBoardSplitScreenGrid _gameBoardSplitScreenGrid;
+        MapVM _mapVM;
         SKPaint highlightedSq = new SKPaint
         {
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
 
-        public ExecuteOneFingerSelect(GameBoardSplitScreenGrid gameBoardSplitScreenGrid)
+        public ExecuteOneFingerSelect(MapVM mapVM)
         {
-            _gameBoardSplitScreenGrid = gameBoardSplitScreenGrid;
+            _mapVM = mapVM;
             ExecuteOneFingerSelectAction();
         }
         private void ExecuteOneFingerSelectAction()
         {
-            var m = _gameBoardSplitScreenGrid.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            m.ActiveSQ = m.SquareDictionary[touchPoint.SQKey];
+            _mapVM.ActiveSQ = _mapVM.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
+            g.ActionPanel = new ActionPanel(ActionPanel.PanelType.SQ, _mapVM);
 
-            // create side panel here
-            _gameBoardSplitScreenGrid.AddSideActionPanel(MapBoardVM.Action.ActionPanel.PanelType.SQ);
-            
             SKPoint getTouchPointOnBitMap()
             {
                 SKPoint touchPointOnScreen = getTouchPointOnScreen();
-                float bitmapX = ((touchPointOnScreen.X - m.MapMatrix.TransX) / m.MapMatrix.ScaleX);
-                float bitmapY = ((touchPointOnScreen.Y - m.MapMatrix.TransY) / m.MapMatrix.ScaleY);
+                float bitmapX = ((touchPointOnScreen.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
+                float bitmapY = ((touchPointOnScreen.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
 
                 return new SKPoint(bitmapX, bitmapY);
             }
-            
-            SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
+
+            SKPoint getTouchPointOnScreen() => _mapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
             
             void paintSKRect()
             {
-                using (SKCanvas gameBoard = new SKCanvas(m.Map))
+                using (SKCanvas gameBoard = new SKCanvas(_mapVM.Map))
                 {
                     gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
                     gameBoard.Save();
