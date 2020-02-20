@@ -64,14 +64,16 @@ namespace TheManXS.View
         {
             var t = g.MapVM.MapTouchList;
 
-            t.AddTouchAction(args);
+            if (g.MapVM.TouchEffectsEnabled) { t.AddTouchAction(args); }
 
             if (t.AllTouchEffectsExited && t.Count != 0)
             {
                 _createNewMap = false;
+                g.MapVM.TouchEffectsEnabled = false;
                 ExecuteTouch();
                 t = new MapTouchListOfMapTouchIDLists();
                 _createNewMap = true;
+                g.MapVM.TouchEffectsEnabled = true;
             }
             else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
 
@@ -90,19 +92,18 @@ namespace TheManXS.View
             //}
             //catch { t = new MapTouchListOfMapTouchIDLists(); }
         }
+
         private void ExecuteTouch()
         {
             var m = g.MapVM;
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
-                    new ExecuteOneFingerSelect(g.MapVM);
-                    
-                    AddSidePanel();
-                    
+                    new ExecuteOneFingerSelect(g);                    
+                    AddSidePanel();                    
                     break;
                 case MapTouchType.OneFingerDragSelect:
-                    new ExecuteOneFingerDrag(g.MapVM);
+                    new ExecuteOneFingerDrag(g);
                     break;
                 case MapTouchType.TwoFingerPan:
                     new ExecuteTwoFingerPan(m);
@@ -114,21 +115,25 @@ namespace TheManXS.View
                     break;
             }
         }
+
         private void AddSidePanel()
         {
-            int widthOfActionPanel = (int)(QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize);
             SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1,GridUnitType.Auto) });
+            SplitScreenGrid.Children.Add(g.ActionPanelGrid,1,0);
+            g.SideSQActionPanelExists = true;
+        }
 
-            SplitScreenGrid.Children.Add();
+        // from Action Panel Class before deleting
+        public void CloseActionPanel()
+        {
+            SplitScreenGrid.Children.Remove(g.ActionPanelGrid);
+            g.SideSQActionPanelExists = false;
+            SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
 
-
-            //SplitScreenGrid.Children.Add(new BoxView()
-            //{
-            //    BackgroundColor = Color.Red,
-            //    HorizontalOptions = LayoutOptions.FillAndExpand,
-            //    VerticalOptions = LayoutOptions.FillAndExpand,
-            //    WidthRequest = 250,
-            //},1,0);
+            // need to figure-out where this should live - somehow link to code-behind?
+            //_gameBoardSplitScreenGrid.Children.Remove(this);
+            //_gameBoardSplitScreenGrid.SideSQActionPanelExists = false;
+            //_gameBoardSplitScreenGrid.ColumnDefinitions.RemoveAt(1);
         }
     }
 }

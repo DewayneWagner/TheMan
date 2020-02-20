@@ -44,18 +44,21 @@ namespace TheManXS.Model.Map.Surface
             for (int col = _cityStartSQ.Col; col >= 0; col--)
             {
                 row += rnd.Next(_lb, _ub);
-                if(col == nextTributaryCol)
+                if (Coordinate.DoesSquareExist(row,col))
                 {
-                    new Tributary(_map,_SQmap, row, col, _tributaryCounter);
-                    _tributaryCounter++;
-                    nextTributaryCol = GetNextTributaryCol(col, false);
-                }
-                if (_map[row, col].IsRoadConnected)
-                {
-                    row++;
-                    _map[row, col].IsMainRiver = true;
-                }
-                else { _map[row, col].IsMainRiver = true; }
+                    if (col == nextTributaryCol)
+                    {
+                        new Tributary(_map, _SQmap, row, col, _tributaryCounter);
+                        _tributaryCounter++;
+                        nextTributaryCol = GetNextTributaryCol(col, false);
+                    }
+                    if (_map[row, col].IsRoadConnected)
+                    {
+                        row++;
+                        _map[row, col].IsMainRiver = true; 
+                    }
+                    else { _map[row, col].IsMainRiver = true; }
+                }                
             }
         }
         private void InitEastRiver()

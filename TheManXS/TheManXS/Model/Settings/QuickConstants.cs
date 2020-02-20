@@ -37,7 +37,7 @@ namespace TheManXS.Model.Settings
 
         // Constants /////////////////////////////////////////////////////////////////
         public const int StartSQProduction = 8;
-        public const double WidthOfActionPaneRatioOfScreenSize = 0.2;
+        public const double WidthOfActionPanel = 300;
         public const double StartSQOpex = 15;
         public const string NameOfOwnerOfUnOwnedSquares = "The Man";
         public const double OPEXDiscountPerSQInUnit = 0.03;

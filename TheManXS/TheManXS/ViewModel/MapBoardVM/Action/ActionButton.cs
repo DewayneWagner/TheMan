@@ -11,12 +11,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     class ActionButton : Button
     {
         PageService _pageServices;
-        ActionPanel _actionPanel;
+        ActionPanelGrid _actionPanelGrid;
         SQ _activeSQ;
 
-        public ActionButton(ActionPanel a)
+        public ActionButton(ActionPanelGrid actionPanelGrid)
         {
-            _actionPanel = a;
+            _actionPanelGrid = actionPanelGrid;
             _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)];
 
             Text = _activeSQ.NextActionText;
@@ -25,7 +25,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             FontAttributes = FontAttributes.Bold;
             TextColor = Color.White;
 
-            WidthRequest = (QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize) * 0.8;
+            WidthRequest = QC.WidthOfActionPanel * 0.8;
 
             IsEnabled = true;
 

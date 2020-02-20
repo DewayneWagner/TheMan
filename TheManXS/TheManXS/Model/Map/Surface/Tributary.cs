@@ -86,14 +86,15 @@ namespace TheManXS.Model.Map.Surface
         {
             int forestWidth = rnd.Next(_LBForestWidthAroundTributary, _UBforestUBWidthAroundTributary);
             int col = (tribCol - (forestWidth / 2));
-            if (Coordinate.DoesSquareExist(tribRow, col))
+
+            for (int i = 0; i < forestWidth; i++)
             {
-                for (int i = 0; i < forestWidth; i++)
+                if (Coordinate.DoesSquareExist(tribRow, col))
                 {
                     _SQmap[tribRow, col].TerrainType = TT.Forest;
                     col++;
                 }
-            }            
+            }
         }
         private bool GetIsNorth() => (rnd.Next(0, 3) <= 1 ? true : false);
     }

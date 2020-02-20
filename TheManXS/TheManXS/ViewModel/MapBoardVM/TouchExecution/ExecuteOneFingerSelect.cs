@@ -14,39 +14,39 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteOneFingerSelect
     {
-        MapVM _mapVM;
+        GameBoardVM g;
         SKPaint highlightedSq = new SKPaint
         {
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
 
-        public ExecuteOneFingerSelect(MapVM mapVM)
+        public ExecuteOneFingerSelect(GameBoardVM gameBoardVM)
         {
-            _mapVM = mapVM;
+            g = gameBoardVM;
             ExecuteOneFingerSelectAction();
         }
         private void ExecuteOneFingerSelectAction()
         {
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            _mapVM.ActiveSQ = _mapVM.SquareDictionary[touchPoint.SQKey];
+            g.MapVM.ActiveSQ = g.MapVM.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
-            g.ActionPanel = new ActionPanel(ActionPanel.PanelType.SQ, _mapVM);
+            g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, g.MapVM);
 
             SKPoint getTouchPointOnBitMap()
             {
                 SKPoint touchPointOnScreen = getTouchPointOnScreen();
-                float bitmapX = ((touchPointOnScreen.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
-                float bitmapY = ((touchPointOnScreen.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
+                float bitmapX = ((touchPointOnScreen.X - g.MapVM.MapMatrix.TransX) / g.MapVM.MapMatrix.ScaleX);
+                float bitmapY = ((touchPointOnScreen.Y - g.MapVM.MapMatrix.TransY) / g.MapVM.MapMatrix.ScaleY);
 
                 return new SKPoint(bitmapX, bitmapY);
             }
 
-            SKPoint getTouchPointOnScreen() => _mapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
+            SKPoint getTouchPointOnScreen() => g.MapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
             
             void paintSKRect()
             {
-                using (SKCanvas gameBoard = new SKCanvas(_mapVM.Map))
+                using (SKCanvas gameBoard = new SKCanvas(g.MapVM.Map))
                 {
                     gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
                     gameBoard.Save();

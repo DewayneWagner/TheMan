@@ -43,6 +43,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             MapTouchList = new MapTouchListOfMapTouchIDLists();
             MapMatrix = SKMatrix.MakeIdentity();
             SqAttributesList = new SqAttributesList(this);
+            TouchEffectsEnabled = true;
         }
 
         private SKBitmap _map;
@@ -66,18 +67,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
         
-        private ActionPanel _actionPanel;
-        public ActionPanel ActionPanel
-        {
-            get => _actionPanel;
-            set
-            {
-                _actionPanel = value;
-                SetValue(ref _actionPanel, value);
-            }
-        }
-
         public SKMatrix MapMatrix;
+        public bool TouchEffectsEnabled { get; set; }
 
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
         public bool SideSQActionPanelExists { get; set; }
@@ -93,7 +84,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
         // from gameboardsplitscreengrid class
-        public void AddSideActionPanel(ActionPanel.PanelType pt)
+        public void AddSideActionPanel(ActionPanelGrid.PanelType pt)
         {
             //if (!SideSQActionPanelExists || !UnitActionPanelExists)
             //{

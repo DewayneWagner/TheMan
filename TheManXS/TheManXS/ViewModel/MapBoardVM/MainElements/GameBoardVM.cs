@@ -44,15 +44,17 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
-        private ActionPanel _actionPanel;
-        public ActionPanel ActionPanel
+        private ActionPanelGrid _actionPanelGrid;
+        public ActionPanelGrid ActionPanelGrid
         {
-            get => _actionPanel;
+            get => _actionPanelGrid;
             set
             {
-                _actionPanel = value;
-                SetValue(ref _actionPanel, value);
+                _actionPanelGrid = value;
+                SetValue(ref _actionPanelGrid, value);
             }
         }
+
+        public bool SideSQActionPanelExists { get; set; }
     }
 }

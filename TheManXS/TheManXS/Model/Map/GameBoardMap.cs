@@ -15,6 +15,7 @@ namespace TheManXS.Model.Map
 {
     public class GameBoardMap
     {
+        private System.Random rnd = new System.Random();
         public SQMapConstructArray SQMap { get; set; }
 
         public GameBoardMap() { }
@@ -37,6 +38,8 @@ namespace TheManXS.Model.Map
             new ResourcePools(true, SQMap); // build resource pools
             new City(SQMap); // build new city
 
+            InitSQsForTesting();
+
             AddNewListOfSQToDB();
 
             new Infrastructure(true,SQMap);
@@ -53,6 +56,20 @@ namespace TheManXS.Model.Map
                 var sqList = SQMap.GetListOfSQs();
                 db.SQ.AddRange(sqList);
                 db.SaveChanges();
+            }
+        }
+        private void InitSQsForTesting()
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    SQMap[row, col].ResourceType = Settings.SettingsMaster.ResourceTypeE.Oil;
+                    SQMap[row, col].Production = rnd.Next(5, 20);
+                    SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
+                    SQMap[row, col].FormationID = 50;
+                    SQMap[row, col].Transport = rnd.Next(5, 20);
+                }
             }
         }
     }
