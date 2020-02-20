@@ -17,6 +17,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             GrossProfitD, GrossProfitP, ActionCost, Total }
 
         private Cash _cash;
+
+        public SqAttributes() { }
         public SqAttributes(MapVM mapVM) 
         { 
             _mapVM = mapVM;

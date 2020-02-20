@@ -68,20 +68,23 @@ namespace TheManXS.Model.Map.Surface
 
             for (int col = (_cityStartSQ.Col + 1); col < QC.ColQ; col++)
             {
-                if(col < (_cityStartSQ.Col + 2)) { _map[row, col].IsMainRiver = true; }
-                else if (_map[row, col].IsRoadConnected)
+                if (Coordinate.DoesSquareExist(row,col))
                 {
-                    row++;
-                    _map[row, col].IsMainRiver = true;
-                }
-                else { _map[row, col].IsMainRiver = true; }
-                if(col == nextTributaryCol)
-                {
-                    new Tributary(_map, _SQmap, row, col, _tributaryCounter);
-                    _tributaryCounter++;
-                    GetNextTributaryCol(col, true);
-                }
-                row += rnd.Next(_lb, _ub);
+                    if (col < (_cityStartSQ.Col + 2)) { _map[row, col].IsMainRiver = true; }
+                    else if (_map[row, col].IsRoadConnected)
+                    {
+                        row++;
+                        _map[row, col].IsMainRiver = true;
+                    }
+                    else { _map[row, col].IsMainRiver = true; }
+                    if (col == nextTributaryCol)
+                    {
+                        new Tributary(_map, _SQmap, row, col, _tributaryCounter);
+                        _tributaryCounter++;
+                        GetNextTributaryCol(col, true);
+                    }
+                    row += rnd.Next(_lb, _ub);
+                }                
             }
         }
         private int GetNextTributaryCol(int currentCol, bool isEastRiver)

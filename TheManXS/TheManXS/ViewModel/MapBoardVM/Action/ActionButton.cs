@@ -14,11 +14,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         ActionPanelGrid _actionPanelGrid;
         SQ _activeSQ;
 
-        public ActionButton(ActionPanelGrid actionPanelGrid)
+        public ActionButton(ActionPanelGrid actionPanelGrid, SQ activeSQ)
         {
             _actionPanelGrid = actionPanelGrid;
-            _activeSQ = (SQ)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActiveSQ)];
-
+            _activeSQ = activeSQ;
             Text = _activeSQ.NextActionText;
             HorizontalOptions = LayoutOptions.CenterAndExpand;
             BackgroundColor = Color.Crimson;

@@ -8,6 +8,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Units;
+using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
@@ -69,6 +70,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         
         public SKMatrix MapMatrix;
         public bool TouchEffectsEnabled { get; set; }
+        public MapBoard MapBoard { get; set; } = new MapBoard(true);
 
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
         public bool SideSQActionPanelExists { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
 
@@ -54,7 +55,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 SetValue(ref _actionPanelGrid, value);
             }
         }
-
+        
         public bool SideSQActionPanelExists { get; set; }
     }
 }

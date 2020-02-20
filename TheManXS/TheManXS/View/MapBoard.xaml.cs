@@ -22,10 +22,10 @@ namespace TheManXS.View
     {
         bool _createNewMap;
         private GameBoardVM g;
-
+        public MapBoard(bool isForMapVM) { }
         public MapBoard()
         {
-            g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];            
             _createNewMap = true;
             InitializeComponent();     
         }
@@ -33,7 +33,7 @@ namespace TheManXS.View
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {
             var m = g.MapVM;
-            
+
             if (_createNewMap) { createNewMap(); }
 
             SKSurface surface = e.Surface;
@@ -63,7 +63,6 @@ namespace TheManXS.View
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
             var t = g.MapVM.MapTouchList;
-
             if (g.MapVM.TouchEffectsEnabled) { t.AddTouchAction(args); }
 
             if (t.AllTouchEffectsExited && t.Count != 0)
@@ -73,7 +72,6 @@ namespace TheManXS.View
                 ExecuteTouch();
                 t = new MapTouchListOfMapTouchIDLists();
                 _createNewMap = true;
-                g.MapVM.TouchEffectsEnabled = true;
             }
             else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
 
@@ -118,7 +116,7 @@ namespace TheManXS.View
 
         private void AddSidePanel()
         {
-            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1,GridUnitType.Auto) });
+            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             SplitScreenGrid.Children.Add(g.ActionPanelGrid,1,0);
             g.SideSQActionPanelExists = true;
         }
@@ -126,14 +124,10 @@ namespace TheManXS.View
         // from Action Panel Class before deleting
         public void CloseActionPanel()
         {
+            g.MapVM.TouchEffectsEnabled = true;
             SplitScreenGrid.Children.Remove(g.ActionPanelGrid);
             g.SideSQActionPanelExists = false;
             SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
-
-            // need to figure-out where this should live - somehow link to code-behind?
-            //_gameBoardSplitScreenGrid.Children.Remove(this);
-            //_gameBoardSplitScreenGrid.SideSQActionPanelExists = false;
-            //_gameBoardSplitScreenGrid.ColumnDefinitions.RemoveAt(1);
         }
     }
 }

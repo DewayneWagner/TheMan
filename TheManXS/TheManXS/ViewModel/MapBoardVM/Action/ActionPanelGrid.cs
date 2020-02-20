@@ -17,7 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         MapVM _mapVM;
         private Unit _activeUnit;
 
-        public enum ActionRows { BackButton, Logo, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
+        public enum ActionRows { LogoAndBackButton, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount }
 
         private int _quantityOfRowsInSQ = (int)ActionRows.Button + 1;
@@ -27,8 +27,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private double _column2Width;
         private const double _widthRatioColumn1 = 0.4;
 
-        private double _standardRowHeight;
-        private double _buttonRowHeight;
+        private double _buttonAndTitleHeight = 35;
         private const int _numberOfButtons = 2;
         private PanelType _panelType;
 
@@ -58,7 +57,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         private void InitAllElements()
         {
-            SetRowHeightFields();
             InitGrid();
             AddLogoToTopOfGrid();
             InitDataRows();
@@ -66,47 +64,31 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             InitTitle();
             InitActionButton();
         }        
-        public void SetRowHeightFields()
-        {
-            _standardRowHeight = _panelType == PanelType.SQ ?
-                (QC.ScreenHeight * 0.75) / (_quantityOfRowsInSQ + _numberOfButtons) :
-                (QC.ScreenHeight * 0.75) / (_quantityOfRowsInUnit + _numberOfButtons);
-
-            _buttonRowHeight = _standardRowHeight * 1.25;
-        }
         public void InitGrid()
         {
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column1Width });
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column2Width });
 
-            if (_panelType == PanelType.SQ)
-            {
-                for (int i = 0; i < _quantityOfRowsInSQ; i++)
-                {
-                    if (i == (int)ActionRows.BackButton || i == (int)ActionRows.Button) 
-                        { RowDefinitions.Add(new RowDefinition() { Height = _buttonRowHeight }); }
-                    else if (i == (int)ActionRows.Logo) { RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star }); }
-                    else { RowDefinitions.Add(new RowDefinition() { Height = _standardRowHeight }); }
-                }
-            }
+            if (_panelType == PanelType.SQ) {for (int i = 0; i < _quantityOfRowsInSQ; i++) { RowDefinitions.Add(new RowDefinition()); }}
+            
             else if(_panelType == PanelType.Unit)
             {
                 for (int i = 0; i < _quantityOfRowsInUnit; i++)
                 {
-                    if (i == (int)ActionRows.BackButton || i == (int)ActionRows.Button) 
-                        { RowDefinitions.Add(new RowDefinition() { Height = _buttonRowHeight }); }
-                    else if (i == (int)ActionRows.Logo) { RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star }); }
-                    else { RowDefinitions.Add(new RowDefinition() { Height = _standardRowHeight }); }
+                    if (i == (int)ActionRows.LogoAndBackButton || i == (int)ActionRows.Button) 
+                        { RowDefinitions.Add(new RowDefinition()); }
+                    else { RowDefinitions.Add(new RowDefinition()); }
                 }
             }
         }
         public void AddLogoToTopOfGrid()
         {
             Image logo = AllImages.GetImage(AllImages.ImagesAvailable.Logo);
-            logo.Aspect = Aspect.AspectFill;
-            Children.Add(logo, 0, (int)ActionRows.Logo);
+            logo.Aspect = Aspect.AspectFit;
+            Children.Add(logo, 0, (int)ActionRows.LogoAndBackButton);
             Grid.SetColumnSpan(logo, 2);
             logo.VerticalOptions = LayoutOptions.StartAndExpand;
+            logo.HorizontalOptions = LayoutOptions.StartAndExpand;
         }
         public void InitDataRows()
         {
@@ -116,15 +98,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
-                    Label rowHeading = new Label() { Text = Convert.ToString((ActionRows)i) };
+                    Label rowHeading = new Label() 
+                    { 
+                        Text = Convert.ToString((ActionRows)i),
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    };
                     this.Children.Add(rowHeading, 0, i);
-
-                    //sqAttributes = new SqAttributes(_mapVM,(SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
 
                     Label rowValue = new Label()
                     {
                         Text = sqAttributes.GetValue((SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner)),
-                        //Text = sqAttributes.Value,
                         HorizontalTextAlignment = TextAlignment.Center,
                     };
                     this.Children.Add(rowValue, 1, i);
@@ -164,23 +148,25 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             Button backButton = new Button()
             {
-                Text = "Close",
+                Text = "X",
                 HorizontalOptions = LayoutOptions.EndAndExpand,
                 FontAttributes = FontAttributes.Bold,
+                BackgroundColor = Color.Transparent,
                 TextColor = Color.Black,
             };
-            if(_panelType == PanelType.SQ) { Children.Add(backButton, 1, (int)ActionRows.BackButton); }
-            else if(_panelType == PanelType.Unit) { Children.Add(backButton, 1, (int)ActionRows.BackButton); }
+
+            Children.Add(backButton, 1, (int)ActionRows.LogoAndBackButton);
             backButton.Clicked += OnBackButton;
         }
         public void OnBackButton(object sender, EventArgs e)
         {
+            _mapVM.MapBoard.CloseActionPanel();
             //_mapVM.ActionPanel.CloseActionPanel();
 
-            if(_panelType == PanelType.SQ && _mapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
-                //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
+            //if(_panelType == PanelType.SQ && _mapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
+            //    //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
 
-            else if(_panelType == PanelType.Unit) { _activeUnit.KillUnit(); }
+            //else if(_panelType == PanelType.Unit) { _activeUnit.KillUnit(); }
         }
         public void InitTitle()
         {
@@ -194,8 +180,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 VerticalTextAlignment = TextAlignment.Center,
                 BackgroundColor = Color.Crimson,
                 TextColor = Color.White,
-                Margin = (_standardRowHeight * 0.05),
-                FontSize = (_standardRowHeight * 0.8),
+                HeightRequest = _buttonAndTitleHeight,
+                Margin = (_buttonAndTitleHeight * 0.1),
+                FontSize = (_buttonAndTitleHeight * 0.75),
             };
 
             if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
@@ -204,10 +191,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }        
         public void InitActionButton()
         {
-            ActionButton actionButton = new ActionButton(this);
-            if(_panelType == PanelType.SQ) { Children.Add(actionButton, 0, (int)ActionRows.Button); }
-            else if(_panelType == PanelType.Unit) { Children.Add(actionButton, 0, (int)ActionRows.Button); }
-            
+            ActionButton actionButton = new ActionButton(this, _mapVM.ActiveSQ)
+            {
+                HeightRequest = _buttonAndTitleHeight,
+                Margin = (_buttonAndTitleHeight * 0.1),
+                FontSize = (_buttonAndTitleHeight * 0.75),
+            };
+            Children.Add(actionButton, 0, (int)ActionRows.Button); 
             Grid.SetColumnSpan(actionButton, 2);            
         }
     }
