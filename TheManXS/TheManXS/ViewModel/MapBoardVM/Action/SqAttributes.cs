@@ -12,74 +12,33 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class SqAttributes
     {
-        private SQ sq;
         MapVM _mapVM;
         public enum AllSQAttributes { Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Total }
-
-        public SqAttributes() { }
 
         private Cash _cash;
         public SqAttributes(MapVM mapVM) 
         { 
             _mapVM = mapVM;
-            _cash = new Calculations().GetCash(sq);
-        }
-        public SqAttributes(MapVM mapVM, AllSQAttributes attribute)
-        {
-            _mapVM = mapVM;
-            sq = _mapVM.ActiveSQ;
-            StatusType = sq.Status;
-            SqAttribute = attribute;
-            IsVisible = _mapVM.SqAttributesList.GetVisibility(sq.Status, attribute);
-            if(IsVisible) { Value = GetValue(); }
+            _cash = new Calculations().GetCash(_mapVM.ActiveSQ);
         }
 
         public ST StatusType { get; set; }
         public AllSQAttributes SqAttribute { get; set; }
         public bool IsVisible { get; set; }
-        public string Value { get; set; }
 
-        public string GetValue()
-        {
-            switch (SqAttribute)
-            {
-                case AllSQAttributes.Owner:
-                    return sq.OwnerName;
-                case AllSQAttributes.Status:
-                    return Convert.ToString(StatusType);
-                case AllSQAttributes.Resource:
-                    return Convert.ToString(sq.ResourceType);
-                case AllSQAttributes.Production:
-                    return Convert.ToString(sq.Production);
-                case AllSQAttributes.Revenue:
-                    return _cash.Revenue.ToString("C0");
-                case AllSQAttributes.OPEX:
-                    return _cash.OPEX.ToString("C0");
-                case AllSQAttributes.TransportCost:
-                    return _cash.Transport.ToString("C0");
-                case AllSQAttributes.GrossProfitD:
-                    return _cash.ProfitDollar.ToString("C0");
-                case AllSQAttributes.GrossProfitP:
-                    return _cash.ProfitPercent.ToString("P1");
-                case AllSQAttributes.ActionCost:
-                    return sq.NextActionCost.ToString("C0");
-                default:
-                    return null;
-            }
-        }
         public string GetValue(AllSQAttributes sqAttribute)
         {
             switch (sqAttribute)
             {
                 case AllSQAttributes.Owner:
-                    return sq.OwnerName;
+                    return _mapVM.ActiveSQ.OwnerName;
                 case AllSQAttributes.Status:
                     return Convert.ToString(StatusType);
                 case AllSQAttributes.Resource:
-                    return Convert.ToString(sq.ResourceType);
+                    return Convert.ToString(_mapVM.ActiveSQ.ResourceType);
                 case AllSQAttributes.Production:
-                    return Convert.ToString(sq.Production);
+                    return Convert.ToString(_mapVM.ActiveSQ.Production);
                 case AllSQAttributes.Revenue:
                     return _cash.Revenue.ToString("C0");
                 case AllSQAttributes.OPEX:
@@ -91,7 +50,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 case AllSQAttributes.GrossProfitP:
                     return _cash.ProfitPercent.ToString("P1");
                 case AllSQAttributes.ActionCost:
-                    return sq.NextActionCost.ToString("C0");
+                    return _mapVM.ActiveSQ.NextActionCost.ToString("C0");
                 default:
                     return null;
             }

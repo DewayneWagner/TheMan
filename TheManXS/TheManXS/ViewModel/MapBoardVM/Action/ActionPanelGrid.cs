@@ -112,17 +112,19 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             if (_panelType == PanelType.SQ)
             {
-                SqAttributes sqAttributes;
+                SqAttributes sqAttributes = new SqAttributes(_mapVM);
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
                     Label rowHeading = new Label() { Text = Convert.ToString((ActionRows)i) };
                     this.Children.Add(rowHeading, 0, i);
 
-                    sqAttributes = new SqAttributes(_mapVM,(SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
+                    //sqAttributes = new SqAttributes(_mapVM,(SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner));
+
                     Label rowValue = new Label()
                     {
-                        Text = sqAttributes.Value,
+                        Text = sqAttributes.GetValue((SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner)),
+                        //Text = sqAttributes.Value,
                         HorizontalTextAlignment = TextAlignment.Center,
                     };
                     this.Children.Add(rowValue, 1, i);
