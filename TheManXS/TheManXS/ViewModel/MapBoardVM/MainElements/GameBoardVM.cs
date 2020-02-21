@@ -34,27 +34,29 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
-        private MapVM _mapVM;
-        public MapVM MapVM
+        private GameBoardGridVM _gameBoardGridVM;
+        public GameBoardGridVM GameBoardGridVM
         {
-            get => _mapVM;
+            get => _gameBoardGridVM;
             set
             {
-                _mapVM = value;
-                SetValue(ref _mapVM, value);
+                _gameBoardGridVM = value;
+                SetValue(ref _gameBoardGridVM, value);
             }
         }
 
-        private ActionPanelGrid _actionPanelGrid;
-        public ActionPanelGrid ActionPanelGrid
-        {
-            get => _actionPanelGrid;
-            set
-            {
-                _actionPanelGrid = value;
-                SetValue(ref _actionPanelGrid, value);
-            }
-        }
+        //private MapVM _mapVM;
+        //public MapVM MapVM
+        //{
+        //    get => _mapVM;
+        //    set
+        //    {
+        //        _mapVM = value;
+        //        SetValue(ref _mapVM, value);
+        //    }
+        //}
+
+        
         
         public bool SideSQActionPanelExists { get; set; }
     }

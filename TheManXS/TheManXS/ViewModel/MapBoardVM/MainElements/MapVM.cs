@@ -29,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public MapVM()
         {
             GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.MapVM = this;
+            g.GameBoardGridVM.GameBoardGrid.MapVM = this;
             LoadDictionaries();
             QC.IsNewGame = true;
 

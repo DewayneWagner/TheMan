@@ -57,7 +57,7 @@
             <Grid CompressedLayout.IsHeadless="True"
                   HorizontalOptions="FillAndExpand" 
                   VerticalOptions="FillAndExpand"
-                  x:Name="SplitScreenGrid">
+                  BindingContext="{Binding GameBoardGridVM}">
                 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -73,8 +73,7 @@
                            EnableTouchEvents="True"/>
                 
                 <Grid.Effects>                    
-                    <tt:TouchEffect Capture="True" 
-                            TouchAction="TouchEffect_TouchAction"/>
+                    <tt:TouchEffect Capture="True" TouchAction="TouchEffect_TouchAction"/>
                 </Grid.Effects>
             </Grid>
             
