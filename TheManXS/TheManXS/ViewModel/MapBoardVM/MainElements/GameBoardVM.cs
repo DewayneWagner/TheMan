@@ -4,12 +4,16 @@ using System.Text;
 using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardVM : BaseViewModel
     {
-        public GameBoardVM() { }
+        public GameBoardVM() 
+        {
+            App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)] = this;
+        }
         public GameBoardVM(bool isForAppDictionary) { }
 
         private StockTickerBarVM _stockTickerBarVM;
@@ -34,30 +38,28 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
-        private GameBoardGridVM _gameBoardGridVM;
-        public GameBoardGridVM GameBoardGridVM
+        private Grid _splitScreenGrid;
+        public Grid SplitScreenGrid
         {
-            get => _gameBoardGridVM;
+            get => _splitScreenGrid;
             set
             {
-                _gameBoardGridVM = value;
-                SetValue(ref _gameBoardGridVM, value);
+                _splitScreenGrid = value;
+                SetValue(ref _splitScreenGrid, value);
             }
         }
 
-        //private MapVM _mapVM;
-        //public MapVM MapVM
-        //{
-        //    get => _mapVM;
-        //    set
-        //    {
-        //        _mapVM = value;
-        //        SetValue(ref _mapVM, value);
-        //    }
-        //}
+        private GameBoardGrid _gameBoardGrid;
+        public GameBoardGrid GameBoardGrid
+        {
+            get => _gameBoardGrid;
+            set
+            {
+                _gameBoardGrid = value;
+                SetValue(ref _gameBoardGrid, value);
+            }
+        }
 
-        
-        
         public bool SideSQActionPanelExists { get; set; }
     }
 }

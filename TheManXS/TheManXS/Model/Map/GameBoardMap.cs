@@ -39,7 +39,6 @@ namespace TheManXS.Model.Map
             new City(SQMap); // build new city
 
             InitSQsForTesting();
-
             AddNewListOfSQToDB();
 
             new Infrastructure(true,SQMap);

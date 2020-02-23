@@ -23,13 +23,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     {
         private SKPaint tile = new SKPaint() { Style = SKPaintStyle.StrokeAndFill };
         private System.Random rnd = new System.Random();
+        GameBoardVM g;
 
         public MapVM(bool isForAppDictionary) { }
 
-        public MapVM()
+        public MapVM(GameBoardVM gameBoardVM)
         {
-            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.GameBoardGridVM.GameBoardGrid.MapVM = this;
+            g = gameBoardVM;
             LoadDictionaries();
             QC.IsNewGame = true;
 
@@ -62,7 +62,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public SQ ActiveSQ { get; set; }
         public Unit ActiveUnit { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
-        public StockTickerBarVM StockTicker { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
         public Infrastructure.Builder InfrastructureBuilder { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
@@ -70,7 +69,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         
         public SKMatrix MapMatrix;
         public bool TouchEffectsEnabled { get; set; }
-        public MapBoard MapBoard { get; set; } = new MapBoard(true);
 
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
         public bool SideSQActionPanelExists { get; set; }

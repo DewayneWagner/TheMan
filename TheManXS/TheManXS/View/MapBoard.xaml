@@ -54,10 +54,11 @@
                         WidthRequest="150"/>
             </StackLayout>
 
-            <Grid CompressedLayout.IsHeadless="True"
-                  HorizontalOptions="FillAndExpand" 
-                  VerticalOptions="FillAndExpand"
-                  BindingContext="{Binding GameBoardGridVM}">
+            <Grid BindingContext="{Binding GameBoardGrid}"                
+                CompressedLayout.IsHeadless="True"
+                x:Name="SplitScreenGrid"
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand">          
                 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -67,8 +68,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
-                           PaintSurface="mapBoardCanvasView_PaintSurface"  
-                           HorizontalOptions="FillAndExpand"
+                           PaintSurface="mapBoardCanvasView_PaintSurface"                             
                            Grid.Row="0" Grid.Column="0"
                            EnableTouchEvents="True"/>
                 

@@ -28,11 +28,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         }
         private void ExecuteOneFingerSelectAction()
         {
-            var m = g.GameBoardGridVM.GameBoardGrid.MapVM;
+            var m = g.GameBoardGrid.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
             m.ActiveSQ = m.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
-            g.GameBoardGridVM.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, m);
+            g.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, m);
 
             SKPoint getTouchPointOnBitMap()
             {
@@ -47,7 +47,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             
             void paintSKRect()
             {
-                using (SKCanvas gameBoard = new SKCanvas(g.GameBoardGridVM.GameBoardGrid.MapVM.Map))
+                using (SKCanvas gameBoard = new SKCanvas(g.GameBoardGrid.MapVM.Map))
                 {
                     gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
                     gameBoard.Save();

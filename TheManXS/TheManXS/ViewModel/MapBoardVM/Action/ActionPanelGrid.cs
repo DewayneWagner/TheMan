@@ -30,13 +30,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private double _buttonAndTitleHeight = 35;
         private const int _numberOfButtons = 2;
         private PanelType _panelType;
+        private const int SIDEPANELWIDTH = 300;
 
         public ActionPanelGrid(PanelType pt, MapVM mapVM)
         {
             CompressedLayout.SetIsHeadless(this, true);
             _panelType = pt;
             _mapVM = mapVM;
-
+            WidthRequest = SIDEPANELWIDTH;
             SetPropertiesOfGrid();
             InitFields();
             InitAllElements();
@@ -160,7 +161,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
-            _mapVM.MapBoard.CloseActionPanel();
+            //_mapVM.MapBoard.CloseActionPanel();
             //_mapVM.ActionPanel.CloseActionPanel();
 
             //if(_panelType == PanelType.SQ && _mapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }

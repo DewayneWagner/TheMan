@@ -8,10 +8,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardGrid : Grid
     {
-        GameBoardGridVM _gameBoardGridVM;
-        public GameBoardGrid(GameBoardGridVM gameBoardGridVM)
+        GameBoardVM _gameBoardVM;
+        public GameBoardGrid(GameBoardVM gameBoardVM)
         {
-            _gameBoardGridVM = gameBoardGridVM;
+            _gameBoardVM = gameBoardVM;
+
+            //HorizontalOptions = LayoutOptions.FillAndExpand;
+            //VerticalOptions = LayoutOptions.FillAndExpand;
         }
 
         private ActionPanelGrid _actionPanelGrid;
@@ -21,7 +24,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             set
             {
                 _actionPanelGrid = value;
-                _gameBoardGridVM.SetValue(ref _actionPanelGrid, value);
+                _gameBoardVM.SetValue(ref _actionPanelGrid, value);
             }
         }
 
@@ -32,8 +35,30 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             set
             {
                 _mapVM = value;
-                _gameBoardGridVM.SetValue(ref _mapVM, value);
+                _gameBoardVM.SetValue(ref _mapVM, value);
             }
+        }
+
+        public void AddSidePanel()
+        {
+            this.ColumnDefinitions.Add(new ColumnDefinition());
+            //{
+            //    Width = new GridLength(100, GridUnitType.Absolute),
+            //});
+
+            BoxView bv = new BoxView()
+            {
+                Color = Color.Red,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+            };
+
+            this.Children.Add(bv, 1, 0);
+            
+            //_gameBoardVM.GameBoardGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+            //_gameBoardVM.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, _gameBoardVM.GameBoardGrid.MapVM);
+            //_gameBoardVM.GameBoardGrid.Children.Add(_gameBoardVM.GameBoardGrid.ActionPanelGrid, 1, 0);
+            //_gameBoardVM.SideSQActionPanelExists = true;
         }
     }
 }
