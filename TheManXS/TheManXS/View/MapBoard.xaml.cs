@@ -35,7 +35,8 @@ namespace TheManXS.View
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {            
             if (_createNewMap) { createNewMap(); }
-            var m = _gameBoardVM.GameBoardGrid.MapVM;
+
+            var m = _gameBoardVM.MapVM;
 
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -52,70 +53,42 @@ namespace TheManXS.View
                 QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
                 QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
 
-                m = createMapObjects();
+                m = _gameBoardVM.MapVM = new MapVM(_gameBoardVM);
                 _createNewMap = false;
                 m.MapCanvasView = mapBoardCanvasView;
                 m.MapCanvasView.IgnorePixelScaling = true;
-                
-                //m.MapCanvasView.HorizontalOptions = LayoutOptions.FillAndExpand;
-                //m.MapCanvasView.VerticalOptions = LayoutOptions.FillAndExpand;
-            }
-
-            MapVM createMapObjects()
-            {
-                _gameBoardVM.GameBoardGrid = new GameBoardGrid(_gameBoardVM);
-                _gameBoardVM.Content = _gameBoardVM.GameBoardGrid;
-                _gameBoardVM.GameBoardGrid.MapVM = new MapVM(_gameBoardVM);
-
-                _gameBoardVM.GameBoardGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
-                _gameBoardVM.GameBoardGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-
-                _gameBoardVM.GameBoardGrid.Children.Add(_gameBoardVM.GameBoardGrid.MapVM, 0, 0);
-                return _gameBoardVM.GameBoardGrid.MapVM;
             }
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
-        {
-            var t = _gameBoardVM.GameBoardGrid.MapVM.MapTouchList;
-            //if (t.TouchEffectsEnabled) 
-            { t.AddTouchAction(args); }
-
-            if (t.AllTouchEffectsExited && t.Count != 0)
+        {            
+            if (_gameBoardVM.MapVM.TouchEffectsEnabled)
             {
-                _createNewMap = false;
-                //g.MapVM.TouchEffectsEnabled = false;
-                ExecuteTouch();
-                t = new MapTouchListOfMapTouchIDLists();
-                _createNewMap = true;
+                var t = _gameBoardVM.MapVM.MapTouchList;
+                t.AddTouchAction(args);
+
+                if (t.AllTouchEffectsExited && t.Count != 0)
+                {
+                    _createNewMap = false;
+                    ExecuteTouch();
+                    t = new MapTouchListOfMapTouchIDLists();
+                    _createNewMap = true;
+                }
+                else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
             }
-            else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
-
-            //try
-            //{                
-            //    t.AddTouchAction(args);
-
-            //    if (t.AllTouchEffectsExited && t.Count != 0)
-            //    {
-            //        _createNewMap = false;
-            //        ExecuteTouch();
-            //        t = new MapTouchListOfMapTouchIDLists();
-            //        _createNewMap = true;
-            //    }
-            //    else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
-            //}
+            
+            // try / catch loop to wrap this section in, once bugs are out to prevent crashing
+            //try {}
             //catch { t = new MapTouchListOfMapTouchIDLists(); }
         }
 
         private void ExecuteTouch()
         {
-            var m = _gameBoardVM.GameBoardGrid.MapVM;
+            var m = _gameBoardVM.MapVM;
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
                     new ExecuteOneFingerSelect(_gameBoardVM);
-                    AddSidePanel();                 
-                    //_gameBoardVM.GameBoardGrid.AddSidePanel();
                     break;
                 case MapTouchType.OneFingerDragSelect:
                     new ExecuteOneFingerDrag(_gameBoardVM);
@@ -129,29 +102,6 @@ namespace TheManXS.View
                 default:
                     break;
             }
-        }
-
-        private void AddSidePanel()
-        {
-            SplitScreenGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-            //_gameBoardVM.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, _gameBoardVM.GameBoardGrid.MapVM);
-            //SplitScreenGrid.Children.Add(_gameBoardVM.GameBoardGrid.ActionPanelGrid, 1, 0);
-            _gameBoardVM.SplitScreenGrid.Children.Add(new ActionPanelGrid(ActionPanelGrid.PanelType.SQ,
-                _gameBoardVM.GameBoardGrid.MapVM),1,0);
-
-            //_gameBoardVM.GameBoardGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-            //_gameBoardVM.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, _gameBoardVM.GameBoardGrid.MapVM);
-            //_gameBoardVM.GameBoardGrid.Children.Add(_gameBoardVM.GameBoardGrid.ActionPanelGrid,1,0);
-            //_gameBoardVM.SideSQActionPanelExists = true;
-        }
-
-        // from Action Panel Class before deleting
-        public void CloseActionPanel()
-        {
-            //g.MapVM.TouchEffectsEnabled = true;
-            _gameBoardVM.GameBoardGrid.Children.Remove(_gameBoardVM.GameBoardGrid.ActionPanelGrid);
-            _gameBoardVM.SideSQActionPanelExists = false;
-            _gameBoardVM.GameBoardGrid.ColumnDefinitions.RemoveAt(1);
         }
     }
 }

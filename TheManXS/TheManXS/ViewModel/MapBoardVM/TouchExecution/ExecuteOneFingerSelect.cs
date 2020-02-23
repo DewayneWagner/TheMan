@@ -9,6 +9,7 @@ using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
@@ -28,11 +29,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         }
         private void ExecuteOneFingerSelectAction()
         {
-            var m = g.GameBoardGrid.MapVM;
+            var m = g.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
             m.ActiveSQ = m.SquareDictionary[touchPoint.SQKey];
             paintSKRect();
-            g.GameBoardGrid.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, m);
+            addSidePanel();
 
             SKPoint getTouchPointOnBitMap()
             {
@@ -47,11 +48,21 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             
             void paintSKRect()
             {
-                using (SKCanvas gameBoard = new SKCanvas(g.GameBoardGrid.MapVM.Map))
+                using (SKCanvas gameBoard = new SKCanvas(g.MapVM.Map))
                 {
                     gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
                     gameBoard.Save();
                 }
+            }
+
+            void addSidePanel()
+            {
+                g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, g);
+                g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
+                    { Width = new GridLength(1, GridUnitType.Auto) });
+                g.SplitScreenGrid.Children.Add(g.ActionPanelGrid, 1, 0);
+                g.SideSQActionPanelExists = true;
+                g.MapVM.TouchEffectsEnabled = false;
             }
         }
     }

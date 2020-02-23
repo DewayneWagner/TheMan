@@ -39,27 +39,39 @@ namespace TheManXS.Model.Map.Rocks
             int playerNumber = QC.PlayerIndexActual;
             int row, col;
             SQ sq;
+            int loopCounter = 0;
+            int maxLoops = 100;
 
             while (playerNumber <= QC.PlayerQ)
             {
                 row = rnd.Next(0, QC.RowQ);
                 col = rnd.Next(0, QC.ColQ);
+                loopCounter++;
 
                 if (Coordinate.DoesSquareExist(row, col))
                 {
                     sq = _map[row, col];
-                    if (sq.TerrainType == TT.Grassland &&
-                        sq.OwnerNumber == QC.PlayerIndexTheMan &&
-                        sq.ResourceType != RT.Nada)
-                    {
-                        sq.OwnerNumber = playerNumber;
-                        sq.Status = SettingsMaster.StatusTypeE.Producing;
-                        sq.Production = QC.StartSQProduction;
-                        sq.OPEXPerUnit = QC.StartSQOpex;
-                        playerNumber++;
-                    }
+                    if (SQMeetsStartSqConditions()) { assignStartSQ(); }
                 }
             };
+            bool SQMeetsStartSqConditions()
+            {
+                if (sq.OwnerNumber == QC.PlayerIndexTheMan && sq.ResourceType != RT.Nada)
+                {
+                    if (loopCounter < maxLoops && sq.TerrainType == TT.Grassland) { return true; }
+                    else if (loopCounter > maxLoops && sq.TerrainType == TT.Forest) { return true; }
+                    else { return false; }
+                }
+                else { return false; }
+            }
+            void assignStartSQ()
+            {
+                sq.OwnerNumber = playerNumber;
+                sq.Status = SettingsMaster.StatusTypeE.Producing;
+                sq.Production = QC.StartSQProduction;
+                sq.OPEXPerUnit = QC.StartSQOpex;
+                playerNumber++;
+            }            
         }
     }
 }

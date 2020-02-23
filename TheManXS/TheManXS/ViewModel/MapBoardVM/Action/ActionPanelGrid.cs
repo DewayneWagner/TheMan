@@ -15,6 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     {
         public enum PanelType { SQ, Unit }
         MapVM _mapVM;
+        GameBoardVM _gameBoardVM;
         private Unit _activeUnit;
 
         public enum ActionRows { LogoAndBackButton, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
@@ -32,11 +33,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private PanelType _panelType;
         private const int SIDEPANELWIDTH = 300;
 
-        public ActionPanelGrid(PanelType pt, MapVM mapVM)
+        public ActionPanelGrid(PanelType pt, GameBoardVM gameBoardVM)
         {
             CompressedLayout.SetIsHeadless(this, true);
             _panelType = pt;
-            _mapVM = mapVM;
+            _gameBoardVM = gameBoardVM;
+            _mapVM = _gameBoardVM.MapVM;
             WidthRequest = SIDEPANELWIDTH;
             SetPropertiesOfGrid();
             InitFields();
@@ -161,6 +163,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
         public void OnBackButton(object sender, EventArgs e)
         {
+            _gameBoardVM.SplitScreenGrid.Children.RemoveAt(1);
+            _gameBoardVM.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
+            _gameBoardVM.MapVM.SideSQActionPanelExists = false;
             //_mapVM.MapBoard.CloseActionPanel();
             //_mapVM.ActionPanel.CloseActionPanel();
 

@@ -58,15 +58,15 @@
                 CompressedLayout.IsHeadless="True"
                 x:Name="SplitScreenGrid"
                 HorizontalOptions="FillAndExpand" 
-                VerticalOptions="FillAndExpand">          
-                
+                VerticalOptions="FillAndExpand">
+
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+                                
                 <skia:SKCanvasView x:Name="mapBoardCanvasView" 
                            PaintSurface="mapBoardCanvasView_PaintSurface"                             
                            Grid.Row="0" Grid.Column="0"
