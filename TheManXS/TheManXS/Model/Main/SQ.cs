@@ -23,7 +23,6 @@ namespace TheManXS.Model.Main
     {
         public SQ() { }
         public SQ(bool isForPropertyDictionary) { }
-
         
         public SQ(int row, int col)
         {
@@ -31,11 +30,11 @@ namespace TheManXS.Model.Main
             Col = col;
             SavedGameSlot = QC.CurrentSavedGameSlot;
             Key = Coordinate.GetSQKey(row, col);
-            //NextAction = new NextAction(this);
             SQInfrastructure = new SQInfrastructure(this);
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;
+            SetNextActionCostAndText();
         }
 
         public int Key { get; set; }
@@ -66,8 +65,11 @@ namespace TheManXS.Model.Main
         public double Transport { get; set; }        
 
         // next action section
-        private NextActions NextActionType => UpdateNextAction(Status);
-        public string NextActionText { get; set; }
+        private NextAction NextActionType => UpdateNextAction(Status);
+        public string NextActionText
+        {
+            get => NextActionType.
+        }
         public double NextActionCost { get; set; }
 
         // not included in DB
@@ -79,6 +81,11 @@ namespace TheManXS.Model.Main
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        private void SetNextActionCostAndText()
+        {
+            NextAction n = new NextAction(this);
+
         }
         private NextActions UpdateNextAction(ST status)
         {

@@ -12,8 +12,8 @@ using System.Linq;
 namespace TheManXS.Model.Financial
 {
     public class NextAction
-    {             
-
+    {
+        private SQ _sq;
         public NextAction() { }
         public NextAction(SQ square)
         {
@@ -21,40 +21,41 @@ namespace TheManXS.Model.Financial
             Key = _sq.Key;
             UpdateNextAction();
         }
+        
         public int Key { get; set; }
-        public string NetActionText { get; set; }
-        public double NextActionCost { get; set; }
-        private SQ _sq;
+        public string Text { get; set; }
+        public double Cost { get; set; }
+        
         public void UpdateNextAction()
         {
             switch (_sq.Status)
             {
                 case ST.Nada:
-                    NetActionText = "Purchase Property";
-                    NextActionCost = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.SquarePrice);
+                    Text = "Purchase Property";
+                    Cost = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.SquarePrice);
                     break;
                 case ST.Unexplored:
-                    NetActionText = "Explore for Resources";
-                    NextActionCost = Setting.GetRand(AS.ExpTT, (int)_sq.TerrainType);
+                    Text = "Explore for Resources";
+                    Cost = Setting.GetRand(AS.ExpTT, (int)_sq.TerrainType);
                     break;
                 case ST.Explored:
-                    NetActionText = "Develop Property";
-                    NextActionCost = Setting.GetRand(AS.DevTT, (int)_sq.TerrainType) * _sq.Production;
+                    Text = "Develop Property";
+                    Cost = Setting.GetRand(AS.DevTT, (int)_sq.TerrainType) * _sq.Production;
                     break;
                 case ST.Developing:
-                    NetActionText = "Under Development";
-                    NextActionCost = Setting.GetRand(AS.ProductionTT, (int)_sq.TerrainType) * _sq.Production;
+                    Text = "Under Development";
+                    Cost = Setting.GetRand(AS.ProductionTT, (int)_sq.TerrainType) * _sq.Production;
                     break;
                 case ST.Producing:
-                    NetActionText = "Suspend Production";
-                    NextActionCost = Setting.GetRand(AS.SusTT, (int)_sq.TerrainType) * _sq.Production;
+                    Text = "Suspend Production";
+                    Cost = Setting.GetRand(AS.SusTT, (int)_sq.TerrainType) * _sq.Production;
                     break;
                 case ST.Suspended:
-                    NetActionText = "Reactive Property";
-                    NextActionCost = Setting.GetRand(AS.ReactivateSingleP, (int)_sq.TerrainType) * _sq.Production;
+                    Text = "Reactive Property";
+                    Cost = Setting.GetRand(AS.ReactivateSingleP, (int)_sq.TerrainType) * _sq.Production;
                     break;
                 default:
-                    NetActionText = "Nada";
+                    Text = "Nada";
                     break;
             }
             //UpdateDB();

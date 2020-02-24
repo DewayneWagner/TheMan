@@ -14,8 +14,8 @@ namespace TheManXS.Services.EntityFrameWork
 
             //builder.Ignore(n => n._sq);
             //builder.HasOne(n => n._sq).WithOne();
-            builder.Property(n => n.NextActionCost).IsRequired();
-            builder.Property(n => n.NetActionText).IsRequired();
+            builder.Property(n => n.Cost).IsRequired();
+            builder.Property(n => n.Text).IsRequired();
         }
     }
 }

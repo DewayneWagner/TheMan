@@ -57,6 +57,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
             void addSidePanel()
             {
+                new SelectedSQHighlight(g, ActionPanelGrid.PanelType.SQ);
                 g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, g);
                 g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
                     { Width = new GridLength(1, GridUnitType.Auto) });

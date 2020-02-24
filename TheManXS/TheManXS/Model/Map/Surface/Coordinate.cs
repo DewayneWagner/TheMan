@@ -19,20 +19,20 @@ namespace TheManXS.Model.Map.Surface
         {
             Row = (int)(p.Y / QC.SqSize);
             Col = (int)(p.X / QC.SqSize);
-            SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+            SQKey = GetSQKey(Row, Col);
             SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
         }
         public Coordinate(Point p)
         {
             Row = (int)(p.Y / QC.SqSize);
             Col = (int)(p.X / QC.SqSize);
-            SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+            SQKey = GetSQKey(Row, Col);
         }
         public Coordinate(int row, int col)
         {
             Row = row;
             Col = col;
-            SQKey = ((100 + Row) * 1000 + (100 + Col)) * 10 + QC.CurrentSavedGameSlot;
+            SQKey = GetSQKey(row, col);
             // row 1, col 1, saved game slot 1 - 1011011;
         }
         public Coordinate(bool isStartSQ, SQMapConstructArray map)

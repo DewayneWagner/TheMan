@@ -19,6 +19,22 @@ namespace TheManXS.Model.Units
     {
         public enum UnitStatus { Tentative, Complete, }
         public Unit() { }
+
+        public Unit(List<SQ> listOfSquaresInUnit)
+        {
+            SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);
+            foreach (SQ sq in listOfSquaresInUnit) { AddSQToUnit(sq); }
+        }
+
+        void SetPropertiesOfUnitFromFirstSQInList(SQ sq)
+        {
+            Number = QC.UnitCounter + 1;
+            Status = UnitStatus.Tentative;
+            ResourceType = sq.ResourceType;
+            PlayerNumber = sq.OwnerNumber;
+            PlayerName = sq.OwnerName;
+            FormationNumber = sq.FormationID;
+        }
         public Unit(SQ sq) 
         {
             Number = QC.UnitCounter + 1;
@@ -50,7 +66,7 @@ namespace TheManXS.Model.Units
                 DevelopmentDiscount -= QC.CAPEXDiscountPerSQInUnit;
                 new StaggeredBorder(c).InitStaggeredBorders(this);
             }
-        }       
+        }
         public int Number { get; set; }
         public UnitStatus Status { get; set; }
         public double OPEXDiscount { get; set; }

@@ -61,7 +61,7 @@ namespace TheManXS.View
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
-        {            
+        {
             if (_gameBoardVM.MapVM.TouchEffectsEnabled)
             {
                 var t = _gameBoardVM.MapVM.MapTouchList;
