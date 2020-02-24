@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Main;
 using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
@@ -10,9 +11,11 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardVM : BaseViewModel
     {
+        Game _game;
         public GameBoardVM() 
         {
-            App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)] = this;
+            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+            _game.GameBoardVM = this;
         }
         public GameBoardVM(bool isForAppDictionary) { }
 

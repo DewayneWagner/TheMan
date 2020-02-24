@@ -64,8 +64,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public SKCanvasView MapCanvasView { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
         public Infrastructure.Builder InfrastructureBuilder { get; set; }
-        public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
-        public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
+        
         
         public SKMatrix MapMatrix;
         public bool TouchEffectsEnabled { get; set; }
@@ -75,14 +74,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public bool UnitActionPanelExists { get; set; }
         public bool IsThereActiveUnit { get; set; }
 
-        private void LoadDictionaries()
-        {
-            using (DBContext db = new DBContext())
-            {
-                SquareDictionary = db.SQ.ToDictionary(sq => sq.Key);
-                PlayerDictionary = db.Player.ToDictionary(p => p.Key);
-            }
-        }
+        
         // from gameboardsplitscreengrid class
         public void AddSideActionPanel(ActionPanelGrid.PanelType pt)
         {
