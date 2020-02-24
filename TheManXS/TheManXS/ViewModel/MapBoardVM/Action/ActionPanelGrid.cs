@@ -201,11 +201,16 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }        
         public void InitActionButton()
         {
-            ActionButton actionButton = new ActionButton(this, _mapVM.ActiveSQ)
+            ActionButton actionButton = new ActionButton(_gameBoardVM, PanelTypeProp)
             {
                 HeightRequest = _buttonAndTitleHeight,
                 Margin = (_buttonAndTitleHeight * 0.1),
-                FontSize = (_buttonAndTitleHeight * 0.75),
+                FontSize = (_buttonAndTitleHeight * 0.5),
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                BackgroundColor = Color.Crimson,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Color.White,
+                WidthRequest = QC.WidthOfActionPanel * 0.8,
             };
             Children.Add(actionButton, 0, (int)ActionRows.Button); 
             Grid.SetColumnSpan(actionButton, 2);            

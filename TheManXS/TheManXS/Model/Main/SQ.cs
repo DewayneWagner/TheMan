@@ -62,14 +62,8 @@ namespace TheManXS.Model.Main
         public int Production { get; set; }
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
-        public double Transport { get; set; }        
-
-        // next action section
-        private NextAction NextActionType => UpdateNextAction(Status);
-        public string NextActionText
-        {
-            get => NextActionType.
-        }
+        public double Transport { get; set; }      
+        public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
 
         // not included in DB
@@ -85,40 +79,8 @@ namespace TheManXS.Model.Main
         private void SetNextActionCostAndText()
         {
             NextAction n = new NextAction(this);
-
-        }
-        private NextActions UpdateNextAction(ST status)
-        {
-            switch (status)
-            {
-                case ST.Nada:
-                    NextActionText = "Purchase Property";
-                    NextActionCost = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.SquarePrice);
-                    return NextActions.Purchase;
-                case ST.Unexplored:
-                    NextActionText = "Explore for Resources";
-                    NextActionCost = Setting.GetRand(AS.ExpTT, (int)TerrainType);
-                    return NextActions.Explore;
-                case ST.Explored:
-                    NextActionText = "Develop Property";
-                    NextActionCost = Setting.GetRand(AS.DevTT, (int)TerrainType) * Production;
-                    return NextActions.Develop;
-                case ST.Developing:
-                    NextActionText = "Under Development";
-                    NextActionCost = Setting.GetRand(AS.ProductionTT, (int)TerrainType) * Production;
-                    return NextActions.Suspend;
-                case ST.Producing:
-                    NextActionText = "Suspend Production";
-                    NextActionCost = Setting.GetRand(AS.SusTT, (int)TerrainType) * Production;
-                    return NextActions.ReclaimReactivate;
-                case ST.Suspended:
-                    NextActionText = "Reactive Property";
-                    NextActionCost = Setting.GetRand(AS.ReactivateSingleP, (int)TerrainType) * Production;
-                    return NextActions.ReclaimReactivate;
-                default:
-                    NextActionText = "Nada";
-                    return NextActions.Total;
-            }
-        }
+            NextActionText = n.Text;
+            NextActionCost = n.Cost;
+        }        
     }
 }

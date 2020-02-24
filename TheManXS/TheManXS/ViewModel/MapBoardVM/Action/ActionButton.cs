@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -11,25 +12,30 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     class ActionButton : Button
     {
         PageService _pageServices;
-        ActionPanelGrid _actionPanelGrid;
-        SQ _activeSQ;
+        GameBoardVM _gameBoardVM;
 
-        public ActionButton(ActionPanelGrid actionPanelGrid, SQ activeSQ)
+        public ActionButton(GameBoardVM gameBoardVM, ActionPanelGrid.PanelType pt)
         {
-            _actionPanelGrid = actionPanelGrid;
-            _activeSQ = activeSQ;
-            Text = _activeSQ.NextActionText;
+            setPropertiesOfButton();
+            _gameBoardVM = gameBoardVM;
+            Text = GetNextActionText(pt);
+            _pageServices = new PageService();
+            Clicked += ExecuteAction;
+        }
+        private void setPropertiesOfButton()
+        {
+            // button size, margin, and height set in ActionPanelGrid class
             HorizontalOptions = LayoutOptions.CenterAndExpand;
             BackgroundColor = Color.Crimson;
             FontAttributes = FontAttributes.Bold;
             TextColor = Color.White;
-
             WidthRequest = QC.WidthOfActionPanel * 0.8;
-
-            IsEnabled = true;
-
-            _pageServices = new PageService();
-            Clicked += ExecuteAction;
+        }
+        private string GetNextActionText(ActionPanelGrid.PanelType pt)
+        {
+            if (pt == ActionPanelGrid.PanelType.SQ) 
+                { return _gameBoardVM.MapVM.ActiveSQ.NextActionText; }
+            else { return _gameBoardVM.MapVM.ActiveUnit[0].NextActionText; }
         }
         public async void ExecuteAction(object sender, EventArgs e)
         {
