@@ -7,6 +7,7 @@ using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Map;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
+using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -43,6 +44,7 @@ namespace TheManXS.Model.Main
         private void InitClassesNeededForNewGameMethods()
         {            
             new PlayerList(true);
+            
             new CommodityList(true);
             Map = new GameBoardMap(true);
         }
@@ -53,17 +55,19 @@ namespace TheManXS.Model.Main
 
         public GameBoardMap Map { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
-        public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
+        public List<Player> PlayerList { get; set; } = new List<Player>();
         public List<Commodity> CommodityList { get; set; } = new List<Commodity>();
         public GameBoardVM GameBoardVM { get; set; }
         public Player ActivePlayer { get; set; }
+        public SQ ActiveSQ { get; set; }
+        public Unit ActiveUnit { get; set; }
 
         private void LoadDictionaries()
         {
             using (DBContext db = new DBContext())
             {
                 SquareDictionary = db.SQ.ToDictionary(sq => sq.Key);
-                PlayerDictionary = db.Player.ToDictionary(p => p.Key);
+                PlayerList = db.Player.ToDictionary(p => p.Key);
                 CommodityList = db.Commodity.ToList();
             }
         }

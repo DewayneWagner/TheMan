@@ -59,8 +59,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         }
 
         public MapTouchListOfMapTouchIDLists MapTouchList { get; set; }
-        public SQ ActiveSQ { get; set; }
-        public Unit ActiveUnit { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
         public Infrastructure.Builder InfrastructureBuilder { get; set; }        

@@ -28,7 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 case AllUnitAttributes.Owner:
                     return _unit.PlayerName;
                 case AllUnitAttributes.Status:
-                    return Convert.ToString(_unit.UnitSelectionStatus);
+                    return Convert.ToString(_unit.UnitCreationStatus);
                 case AllUnitAttributes.Resource:
                     return Convert.ToString(_unit.ResourceType);
                 case AllUnitAttributes.Production:
