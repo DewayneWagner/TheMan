@@ -12,44 +12,39 @@ using System.Linq;
 using TheManXS.Model.Map.Surface;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using TheManXS.Model.Financial;
 
 namespace TheManXS.Model.Units
 {    
     public class Unit : List<SQ>
     {
-        public enum UnitStatus { Tentative, Complete, }
-        public Unit() { }
+        public enum UnitSelectionStatus { Tentative, Complete, }
 
-        public Unit(List<SQ> listOfSquaresInUnit)
+        private Game _game;
+        public Unit() { }
+        public Unit(List<SQ> listOfSquaresInUnit, Game game)
         {
-            SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);
+            _game = game;
+            SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);            
             foreach (SQ sq in listOfSquaresInUnit) { AddSQToUnit(sq); }
+            SetNextActionCostAndText();
         }
 
         void SetPropertiesOfUnitFromFirstSQInList(SQ sq)
         {
             Number = QC.UnitCounter + 1;
-            Status = UnitStatus.Tentative;
+            UnitCreationStatus = UnitSelectionStatus.Tentative;
             ResourceType = sq.ResourceType;
             PlayerNumber = sq.OwnerNumber;
             PlayerName = sq.OwnerName;
             FormationNumber = sq.FormationID;
         }
-        public Unit(SQ sq) 
-        {
-            Number = QC.UnitCounter + 1;
-            Status = UnitStatus.Tentative;
-            ResourceType = sq.ResourceType;
-            PlayerNumber = sq.OwnerNumber;
-            PlayerName = sq.OwnerName;
-            FormationNumber = sq.FormationID;
-
-            AddSQToUnit(sq);
-        }
+        
         public void AddSQToUnit(SQ sq)
         {
             Player p = (Player)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActivePlayer)];
             Color c = new CompanyColors(p.Color).ColorXamarin;
+            Status = sq.Status;
 
             if (!this.Contains(sq))
             {
@@ -61,24 +56,40 @@ namespace TheManXS.Model.Units
             else
             {
                 this.Remove(sq);
-                //sq.Tile.OverlayGrid.RemoveOutsideBorders();
                 OPEXDiscount -= QC.OPEXDiscountPerSQInUnit;
                 DevelopmentDiscount -= QC.CAPEXDiscountPerSQInUnit;
                 new StaggeredBorder(c).InitStaggeredBorders(this);
             }
         }
+
         public int Number { get; set; }
-        public UnitStatus Status { get; set; }
+
+        public UnitSelectionStatus UnitCreationStatus { get; set; }
+
+        private ST _status;
+        public ST Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                SetNextActionCostAndText();
+            }
+        }
         public double OPEXDiscount { get; set; }
         public double DevelopmentDiscount { get; set; }
         public RT ResourceType { get; set; }
         public int FormationNumber { get; set; }
         public int PlayerNumber { get; set; }
         public string PlayerName { get; set; }
-        
+
+        public string NextActionText { get; set; }
+        public double NextActionCost { get; set; }
+        public NextAction.NextActionType NextActionType { get; set; }
+
         public void CreateUnit()
         {
-            this.Status = UnitStatus.Complete;
+            this.UnitCreationStatus = UnitSelectionStatus.Complete;
 
             using (DBContext db = new DBContext())
             {
@@ -95,7 +106,7 @@ namespace TheManXS.Model.Units
         public void KillUnit()
         {
             QC.UnitCounter--;
-            foreach (SQ sq in this) {; }//sq.Tile.OverlayGrid.RemoveOutsideBorders(); }
+            foreach (SQ sq in this) {; }
         }
         public bool IsSQAdjacentToSQsAlreadyInUnit(SQ sq)
         {
@@ -115,6 +126,18 @@ namespace TheManXS.Model.Units
                 sq.Status == ST.Explored)
             { return true; }
             { return false; }
+        }
+        private void SetNextActionCostAndText()
+        {
+            NextAction n = new NextAction(this[0]);
+            NextActionText = n.Text;            
+            NextActionType = n.ActionType;
+
+            foreach (SQ sq in this)
+            {
+                sq.Status = Status;
+                NextActionCost += n.Cost;
+            }
         }
     }    
 }

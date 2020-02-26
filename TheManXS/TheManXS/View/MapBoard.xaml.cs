@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
@@ -21,30 +22,30 @@ namespace TheManXS.View
     public partial class MapBoard : ContentPage
     {
         bool _createNewMap;
-        private GameBoardVM _gameBoardVM;
+        private Game _game;
         
         public MapBoard()
         {
-            _gameBoardVM = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
+            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             
             _createNewMap = true;
             InitializeComponent();
-            _gameBoardVM.SplitScreenGrid = SplitScreenGrid;
+            _game.GameBoardVM.SplitScreenGrid = SplitScreenGrid;
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {            
             if (_createNewMap) { createNewMap(); }
 
-            var m = _gameBoardVM.MapVM;
+            var m = _game.GameBoardVM.MapVM;
 
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
-            QC.SqSize = m.Map.Width / QC.ColQ;
+            QC.SqSize = m.SKBitMapOfMap.Width / QC.ColQ;
 
             canvas.Clear();
             canvas.SetMatrix(m.MapMatrix);
-            canvas.DrawBitmap(m.Map, 0, 0);
+            canvas.DrawBitmap(m.SKBitMapOfMap, 0, 0);
 
             void createNewMap()
             {
@@ -53,7 +54,7 @@ namespace TheManXS.View
                 QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
                 QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
 
-                m = _gameBoardVM.MapVM = new MapVM(_gameBoardVM);
+                m = _game.GameBoardVM.MapVM = new MapVM(_game);
                 _createNewMap = false;
                 m.MapCanvasView = mapBoardCanvasView;
                 m.MapCanvasView.IgnorePixelScaling = true;
@@ -62,9 +63,9 @@ namespace TheManXS.View
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
-            if (_gameBoardVM.MapVM.TouchEffectsEnabled)
+            if (_game.GameBoardVM.MapVM.TouchEffectsEnabled)
             {
-                var t = _gameBoardVM.MapVM.MapTouchList;
+                var t = _game.GameBoardVM.MapVM.MapTouchList;
                 t.AddTouchAction(args);
 
                 if (t.AllTouchEffectsExited && t.Count != 0)
@@ -84,14 +85,14 @@ namespace TheManXS.View
 
         private void ExecuteTouch()
         {
-            var m = _gameBoardVM.MapVM;
+            var m = _game.GameBoardVM.MapVM;
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
-                    new ExecuteOneFingerSelect(_gameBoardVM);
+                    new ExecuteOneFingerSelect(_game);
                     break;
                 case MapTouchType.OneFingerDragSelect:
-                    new ExecuteOneFingerDrag(_gameBoardVM);
+                    new ExecuteOneFingerDrag(_game);
                     break;
                 case MapTouchType.TwoFingerPan:
                     new ExecuteTwoFingerPan(m);

@@ -13,8 +13,9 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class SelectedSQHighlight
     {
-        GameBoardVM _gameBoardVM;
+        Game _game;
         PanelType _panelType;
+        List<SQ> _listOfSqsToHighlight;
 
         SKPaint highlightedSQ = new SKPaint()
         {
@@ -22,21 +23,47 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             Style = SKPaintStyle.Fill,
         };
 
-        public SelectedSQHighlight(GameBoardVM gameBoardVM, PanelType pt)
+        public SelectedSQHighlight(Game game, PanelType pt)
         {
-            _gameBoardVM = gameBoardVM;
-            if (pt == PanelType.SQ) { HighlightSQ(_gameBoardVM.MapVM.ActiveSQ); }
-            else { foreach (SQ sq in _gameBoardVM.MapVM.ActiveUnit) { HighlightSQ(sq); }}
+            _game = game;
+            _panelType = pt;
+            InitListOfSQsToHighlight();
+            HighlightSQForSelection();
+        }
+        void InitListOfSQsToHighlight()
+        {
+            _listOfSqsToHighlight = new List<SQ>();
+            if(_panelType == PanelType.SQ) { _listOfSqsToHighlight.Add(_game.GameBoardVM.MapVM.ActiveSQ); }
+            else { foreach(SQ sq in _game.GameBoardVM.MapVM.ActiveUnit) { _listOfSqsToHighlight.Add(sq); } }
         }
 
-        void HighlightSQ(SQ sq)
+        void HighlightSQForSelection()
         {
-            using (SKCanvas canvas = new SKCanvas(_gameBoardVM.MapVM.Map))
+            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
-                canvas.DrawRect(GetSKRect(), highlightedSQ);
+                foreach (SQ sq in _listOfSqsToHighlight)
+                {
+                    canvas.DrawRect(GetSKRect(sq), highlightedSQ);
+                }
             }
-            SKRect GetSKRect() => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, 
+
+            SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, 
                 (sq.Row + 1) * QC.SqSize);
         }
+        public void PermanentlyHighlightSQWithCompanyColors()
+        {
+            if (_panelType == PanelType.SQ)
+            {
+
+            }
+        }
+        public void RemoveSelectionHighlight()
+        {
+            if (_panelType == PanelType.SQ)
+            {
+
+            }
+        }
+        
     }
 }

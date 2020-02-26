@@ -19,7 +19,7 @@ using TheManXS.Model.Settings;
 namespace TheManXS.Model.Main
 {
     public enum NextActions { Purchase, Explore, Develop, Suspend, ReclaimReactivate, Total }
-    public class SQ : INotifyPropertyChanged
+    public class SQ
     {
         public SQ() { }
         public SQ(bool isForPropertyDictionary) { }
@@ -51,9 +51,10 @@ namespace TheManXS.Model.Main
             set
             {
                 _status = value;
-                OnPropertyChanged();
+                SetNextActionCostAndText();
             }
         }
+
         public int OwnerNumber { get; set; }
         public string OwnerName { get; set; }
         public bool IsStartSquare { get; set; }
@@ -62,25 +63,23 @@ namespace TheManXS.Model.Main
         public int Production { get; set; }
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
-        public double Transport { get; set; }      
+        public double Transport { get; set; }
+
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
+        public NextAction.NextActionType NextActionType { get; set; }
 
         // not included in DB
         public SQInfrastructure SQInfrastructure { get; set; }
         public City City { get; set; }
         public Coordinate FullCoordinate { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
         private void SetNextActionCostAndText()
         {
             NextAction n = new NextAction(this);
             NextActionText = n.Text;
             NextActionCost = n.Cost;
+            NextActionType = n.ActionType;
         }        
     }
 }

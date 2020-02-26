@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.Action.ActionExecution;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -11,60 +13,125 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     class ActionButton : Button
     {
+        Game _game;
+        ActionPanelGrid.PanelType _panelType;
         PageService _pageServices;
-        GameBoardVM _gameBoardVM;
-
-        public ActionButton(GameBoardVM gameBoardVM, ActionPanelGrid.PanelType pt)
+        bool _additionalDebtApproved;
+        public ActionButton(Game game, ActionPanelGrid.PanelType pt)
         {
-            setPropertiesOfButton();
-            _gameBoardVM = gameBoardVM;
-            Text = GetNextActionText(pt);
             _pageServices = new PageService();
-            Clicked += ExecuteAction;
+            setPropertiesOfButton();
+
+            _game = game;
+            _panelType = pt;
+
+            Text = GetNextActionText(pt);
+            AssignMethodToButton();
         }
-        private void setPropertiesOfButton()
+        void setPropertiesOfButton()
         {
             // button size, margin, and height set in ActionPanelGrid class
             HorizontalOptions = LayoutOptions.CenterAndExpand;
-            BackgroundColor = Color.Crimson;
-            FontAttributes = FontAttributes.Bold;
+            VerticalOptions = LayoutOptions.CenterAndExpand;
+            BackgroundColor = Color.Crimson;            
             TextColor = Color.White;
             WidthRequest = QC.WidthOfActionPanel * 0.8;
+            FontAttributes = FontAttributes.Bold;
         }
-        private string GetNextActionText(ActionPanelGrid.PanelType pt)
+
+        string GetNextActionText(ActionPanelGrid.PanelType pt)
         {
             if (pt == ActionPanelGrid.PanelType.SQ) 
-                { return _gameBoardVM.MapVM.ActiveSQ.NextActionText; }
-            else { return _gameBoardVM.MapVM.ActiveUnit[0].NextActionText; }
+                { return _game.GameBoardVM.MapVM.ActiveSQ.NextActionText; }
+            else { return _game.GameBoardVM.MapVM.ActiveUnit[0].NextActionText; }
         }
-        public async void ExecuteAction(object sender, EventArgs e)
+
+        void AssignMethodToButton()
         {
-            IsEnabled = false;
-            await _pageServices.DisplayAlert("stuff has been done");
+            NextAction.NextActionType n = _panelType == ActionPanelGrid.PanelType.SQ ? _game.GameBoardVM.MapVM.ActiveSQ.NextActionType :
+                _game.GameBoardVM.MapVM.ActiveUnit.NextActionType;
+
+            switch (n)
+            {
+                case NextAction.NextActionType.Purchase:
+                    Clicked += BuyAction;
+                    break;
+                case NextAction.NextActionType.Explore:
+                    Clicked += ExploreAction;
+                    break;
+                case NextAction.NextActionType.Develop:
+                    Clicked += DevelopAction;
+                    break;
+                case NextAction.NextActionType.Suspend:
+                    Clicked += SuspendAction;
+                    break;
+                case NextAction.NextActionType.Reactivate:
+                    Clicked += ReactivateAction;
+                    break;
+                case NextAction.NextActionType.NotEnabled:
+                default:
+                    break;
+            }
+            
         }
-        private void BuyAction(SQ sq)
+
+        void BuyAction(object sender, EventArgs e)
         {
+            ProcessCashTransaction();
+            if (_additionalDebtApproved) { new BuyAction(_game, _panelType); }
+            
+        }
+
+        void ExploreAction(object sender, EventArgs e)
+        {
+            ProcessCashTransaction();
+            if(_additionalDebtApproved) { new ExploreAction(_game); }
+        }
+
+        void DevelopAction(object sender, EventArgs e)
+        {
+            ProcessCashTransaction();
+            if (_additionalDebtApproved) { new DevelopAction(_game, _panelType); }
+        }
+
+        void SuspendAction(object sender, EventArgs e)
+        {
+            ProcessCashTransaction();
+            if (_additionalDebtApproved) { new SuspendAction(_game, _panelType); }
 
         }
-        private void ExploreAction(SQ sq)
-        {
 
+        void ReactivateAction(object sender, EventArgs e)
+        {
+            ProcessCashTransaction();
+            if(_additionalDebtApproved) { new ReActivateAction(_game, _panelType); }
         }
-        private void DevelopAction(SQ sq)
-        {
 
-        }
-        private void SuspendAction(SQ sq)
+        async void ProcessCashTransaction()
         {
+            double currentPlayerCash = _game.ActivePlayer.Cash;
+            double transactionCost = _panelType == ActionPanelGrid.PanelType.SQ ?
+                        _game.GameBoardVM.MapVM.ActiveSQ.NextActionCost :
+                        _game.GameBoardVM.MapVM.ActiveUnit.NextActionCost;
+            _additionalDebtApproved = true; // reset to false if it isn't
 
-        }
-        private void ReclaimAction(SQ sq)
-        {
+            if (transactionCost < currentPlayerCash) { _game.ActivePlayer.Cash -= transactionCost; }
+            else
+            {
+                double cashShortfall = transactionCost - currentPlayerCash;
+                bool additionalDebtIsApproved = await _pageServices.DisplayAlert("Borrow Cash", "You do not have enough cash to " + "\n"
+                    + "to complete this transaction - would you like " + "\n"
+                    + "to add " + cashShortfall.ToString("C0") + "to you long-term debt?",
+                    "Approved", "Declined");
 
-        }
-        private void ReActivateAction(SQ sq)
-        {
-
+                if (additionalDebtIsApproved)
+                {
+                    _game.ActivePlayer.Cash = 0;
+                    _game.ActivePlayer.Debt += (transactionCost - currentPlayerCash);
+                    _additionalDebtApproved = true;
+                }
+                else { _additionalDebtApproved = false; }
+            }
         }
     }
 }

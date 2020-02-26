@@ -13,7 +13,7 @@ namespace TheManXS
 {
     public partial class App : Application
     {
-        public enum ObjectsInPropertyDictionary { MapVM, GameBoardVM, ScreenWidth, ScreenHeight, Orientation,
+        public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game }
         public static string DataBaseLocation = string.Empty;
         public static string BinaryBackupPath = string.Empty;
@@ -32,7 +32,6 @@ namespace TheManXS
         }
         void InitPropertyDictionary()
         {
-            Properties[Convert.ToString(ObjectsInPropertyDictionary.GameBoardVM)] = new GameBoardVM(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveSQ)] = new TheManXS.Model.Main.SQ(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActivePlayer)] = new TheManXS.Model.Main.Player();
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveUnit)] = new TheManXS.Model.Units.Unit();

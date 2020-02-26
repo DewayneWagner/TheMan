@@ -75,5 +75,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         }
 
         public bool SideSQActionPanelExists { get; set; }
+        public bool UnitActionPanelExists { get; set; }
+        public bool IsThereActiveUnit { get; set; }
     }
 }

@@ -15,24 +15,25 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteOneFingerSelect
     {
-        GameBoardVM g;
+        Game _game;
         SKPaint highlightedSq = new SKPaint
         {
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
-
-        public ExecuteOneFingerSelect(GameBoardVM gameBoardVM)
+        
+        public ExecuteOneFingerSelect(Game game)
         {
-            g = gameBoardVM;
+            _game = game;
             ExecuteOneFingerSelectAction();
         }
+        public SelectedSQHighlight SelectedSQHighlight { get; set; }
+
         private void ExecuteOneFingerSelectAction()
         {
-            var m = g.MapVM;
+            var m = _game.GameBoardVM.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            m.ActiveSQ = m.SquareDictionary[touchPoint.SQKey];
-            paintSKRect();
+            m.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];
             addSidePanel();
 
             SKPoint getTouchPointOnBitMap()
@@ -45,20 +46,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             }
 
             SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
-            
-            void paintSKRect()
-            {
-                using (SKCanvas gameBoard = new SKCanvas(g.MapVM.Map))
-                {
-                    gameBoard.DrawRect(touchPoint.SKRect,highlightedSq);
-                    gameBoard.Save();
-                }
-            }
-
+                        
             void addSidePanel()
             {
-                new SelectedSQHighlight(g, ActionPanelGrid.PanelType.SQ);
-                g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, g);
+                var g = _game.GameBoardVM;
+                g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, _game);
                 g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
                     { Width = new GridLength(1, GridUnitType.Auto) });
                 g.SplitScreenGrid.Children.Add(g.ActionPanelGrid, 1, 0);

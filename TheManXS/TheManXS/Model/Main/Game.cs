@@ -56,7 +56,7 @@ namespace TheManXS.Model.Main
         public Dictionary<int, Player> PlayerDictionary { get; set; } = new Dictionary<int, Player>();
         public List<Commodity> CommodityList { get; set; } = new List<Commodity>();
         public GameBoardVM GameBoardVM { get; set; }
-
+        public Player ActivePlayer { get; set; }
 
         private void LoadDictionaries()
         {

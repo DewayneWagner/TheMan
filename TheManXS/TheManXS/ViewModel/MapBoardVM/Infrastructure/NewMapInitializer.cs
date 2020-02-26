@@ -123,7 +123,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         private void DrawAllPathsOnCanvas()
         {
-            using (SKCanvas gameBoard = new SKCanvas(_mapVM.Map))
+            using (SKCanvas gameBoard = new SKCanvas(_mapVM.SKBitMapOfMap))
             {
                 for (int i = 0; i < _listOfAllSKPaths.Count; i++)
                 {
@@ -135,7 +135,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         private void InitHubs()
         {
-            using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
+            using (SKCanvas gameboard = new SKCanvas(_mapVM.SKBitMapOfMap))
             {
                 foreach (SQInfrastructure sq in _allInfrastructure[(int)IT.Hub])
                 {

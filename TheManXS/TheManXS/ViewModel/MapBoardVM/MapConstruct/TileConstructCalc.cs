@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -10,7 +11,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
     public class TileConstructCalc
     {
-        MapVM _mapVM;
         private int _row;
         private int _col;
         private static TerrainColors _terrainColors = new TerrainColors();
@@ -18,9 +18,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
         public enum sqFormats { LinearGradient, SolidColor, SweepGradient, VerticalSplit, HorizontalSplit, Pixelly }
 
-        public TileConstructCalc(MapVM mapVM, int row, int col)
+        public TileConstructCalc(int row, int col)
         {
-            _mapVM = mapVM;
             _row = row;
             _col = col;
         }

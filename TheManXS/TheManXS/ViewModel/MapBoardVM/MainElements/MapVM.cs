@@ -23,20 +23,20 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     {
         private SKPaint tile = new SKPaint() { Style = SKPaintStyle.StrokeAndFill };
         private System.Random rnd = new System.Random();
-        GameBoardVM g;
+        Game _game;
 
         public MapVM(bool isForAppDictionary) { }
 
-        public MapVM(GameBoardVM gameBoardVM)
+        public MapVM(Game game)
         {
-            g = gameBoardVM;
-            LoadDictionaries();
+            _game = game;
+            _game.GameBoardVM.MapVM = this;
             QC.IsNewGame = true;
 
             if (QC.IsNewGame) 
             {
-                Map = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));                
-                new Map(this);
+                SKBitMapOfMap = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
+                new Map(_game);
                 InfrastructureBuilder = new Infrastructure.Builder(this);
             }
             else { LoadMap(); }
@@ -48,7 +48,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         }
 
         private SKBitmap _map;
-        public SKBitmap Map
+        public SKBitmap SKBitMapOfMap
         {
             get => _map;
             set
@@ -63,32 +63,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Unit ActiveUnit { get; set; }
         public SKCanvasView MapCanvasView { get; set; }
         public SqAttributesList SqAttributesList { get; set; }
-        public Infrastructure.Builder InfrastructureBuilder { get; set; }
-        
+        public Infrastructure.Builder InfrastructureBuilder { get; set; }        
         
         public SKMatrix MapMatrix;
         public bool TouchEffectsEnabled { get; set; }
 
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
-        public bool SideSQActionPanelExists { get; set; }
-        public bool UnitActionPanelExists { get; set; }
-        public bool IsThereActiveUnit { get; set; }
-
         
-        // from gameboardsplitscreengrid class
-        public void AddSideActionPanel(ActionPanelGrid.PanelType pt)
-        {
-            //if (!SideSQActionPanelExists || !UnitActionPanelExists)
-            //{
-            //    ActionPanel = new ActionPanel(pt, this);
-            //    ColumnDefinitions.Add(new ColumnDefinition() { Width = QC.ScreenWidth * QC.WidthOfActionPaneRatioOfScreenSize });
-            //    Children.Add(ActionPanel, 1, 0);
-            //    HorizontalOptions = LayoutOptions.End;
-
-            //    if (pt == ActionPanel.PanelType.SQ) { SideSQActionPanelExists = true; }
-            //    else if (pt == ActionPanel.PanelType.Unit) { UnitActionPanelExists = true; }
-            //}
-        }
 
         private async void SaveMap()
         {

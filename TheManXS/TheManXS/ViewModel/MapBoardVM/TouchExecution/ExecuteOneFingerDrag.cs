@@ -27,55 +27,34 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
          * 
          * ***************************/
 
-        GameBoardVM _gameBoardVM;
-        //private Dictionary<int, Coordinate> _touchedSQsInDragEvent;
+        Game _game;
         private List<SQ> _listOfTouchedSQs;
         private List<SQ> _filteredList;
-        public ExecuteOneFingerDrag(GameBoardVM gameBoardVM)
+        public ExecuteOneFingerDrag(Game game)
         {
-            _gameBoardVM = gameBoardVM;
+            _game = game;
             ExecuteOneFingerDragSelect();
         }
 
         private void ExecuteOneFingerDragSelect()
         {
             _listOfTouchedSQs = GetListOfTouchedSQs();
-            //_touchedSQsInDragEvent = GetDictionaryOfTouchedSQs();
             CreateFilteredListOfSqsToBeIncluded();
-            _gameBoardVM.MapVM.ActiveUnit = new Unit(_filteredList);
-            HighlightAllTouchedSQs();
+            _game.GameBoardVM.MapVM.ActiveUnit = new Unit(_filteredList,_game);
             addSidePanel();
-
-            // this section displays message with touched squares - delete later.
-            //string message = null;
-            //foreach (KeyValuePair<int, Coordinate> coordinate in touchedSQsInDragEvent)
-            //{ message += Convert.ToString(coordinate.Key) + "\n"; }
-            //await _pageService.DisplayAlert(message);
         }
 
         private List<SQ> GetListOfTouchedSQs()
         {
             List<SQ> listOfTouchedSQs = new List<SQ>();
-            foreach (TouchActionEventArgs args in _gameBoardVM.MapVM.MapTouchList[0])
+            foreach (TouchActionEventArgs args in _game.GameBoardVM.MapVM.MapTouchList[0])
             {
                 SKPoint touchPointOnMap = GetTouchPointOnBitMap(args.SKPoint);
                 Coordinate touchCoord = new Coordinate(touchPointOnMap);
-                SQ sq = _gameBoardVM.MapVM.SquareDictionary[touchCoord.SQKey];
+                SQ sq = _game.SquareDictionary[touchCoord.SQKey];
                 if (!listOfTouchedSQs.Contains(sq)) { listOfTouchedSQs.Add(sq); }
             }
             return listOfTouchedSQs;
-        }
-
-        private Dictionary<int, Coordinate> GetDictionaryOfTouchedSQs()
-        {
-            Dictionary<int, Coordinate> touchedSQs = new Dictionary<int, Coordinate>();
-            foreach (TouchActionEventArgs args in _gameBoardVM.MapVM.MapTouchList[0])
-            {
-                SKPoint touchPointOnMap = GetTouchPointOnBitMap(args.SKPoint);
-                Coordinate touchCoord = new Coordinate(touchPointOnMap);
-                if (!touchedSQs.ContainsKey(touchCoord.SQKey)) { touchedSQs.Add(touchCoord.SQKey, touchCoord); }
-            }
-            return touchedSQs;
         }
 
         void CreateFilteredListOfSqsToBeIncluded()
@@ -115,31 +94,24 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             }
         }
 
-        private void HighlightAllTouchedSQs()
-        {
-            
-
-
-
-
-        }
-
         private SKPoint GetTouchPointOnBitMap(SKPoint pt)
         {
-            float bitmapX = ((pt.X - _gameBoardVM.MapVM.MapMatrix.TransX) / _gameBoardVM.MapVM.MapMatrix.ScaleX);
-            float bitmapY = ((pt.Y - _gameBoardVM.MapVM.MapMatrix.TransY) / _gameBoardVM.MapVM.MapMatrix.ScaleY);
+            var m = _game.GameBoardVM.MapVM;
+            float bitmapX = ((pt.X - m.MapMatrix.TransX) / m.MapMatrix.ScaleX);
+            float bitmapY = ((pt.Y - m.MapMatrix.TransY) / m.MapMatrix.ScaleY);
 
             return new SKPoint(bitmapX, bitmapY);
         }
 
         void addSidePanel()
         {
-            _gameBoardVM.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.Unit, _gameBoardVM);
-            _gameBoardVM.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
+            var g = _game.GameBoardVM;
+            g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.Unit, _game);
+            g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
                 { Width = new GridLength(1, GridUnitType.Auto) });
-            _gameBoardVM.SplitScreenGrid.Children.Add(_gameBoardVM.ActionPanelGrid, 1, 0);
-            _gameBoardVM.SideSQActionPanelExists = true;
-            _gameBoardVM.MapVM.TouchEffectsEnabled = false;
+            g.SplitScreenGrid.Children.Add(_game.GameBoardVM.ActionPanelGrid, 1, 0);
+            g.SideSQActionPanelExists = true;
+            g.MapVM.TouchEffectsEnabled = false;
         }
     }
 }

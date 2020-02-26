@@ -17,7 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
     public class Map
     {
-        MapVM _mapVM;
+        Game _game;
 
         private System.Random rnd = new System.Random();
         private SQ sq;
@@ -37,16 +37,16 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             IsAntialias = true,
         };
 
-        public Map(MapVM mapVM) 
-        { 
-            _mapVM = mapVM;
+        public Map(Game game) 
+        {
+            _game = game;
             TerrainColors = new TerrainColors();
             AddTerrainSQsToMap();
         }
         public TerrainColors TerrainColors { get; set; }
         public void AddTerrainSQsToMap()
         {
-            using (SKCanvas gameboard = new SKCanvas(_mapVM.Map))
+            using (SKCanvas gameboard = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {                    
                 gameboard.Clear();
 
@@ -68,7 +68,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
                 void setTileFormat()
                 {
-                    t = new TileConstructCalc(_mapVM, sq.Row, sq.Col);
+                    t = new TileConstructCalc(sq.Row, sq.Col);
                     switch (t.GetFormat(sq.TerrainType))
                     {
                         case sqFormats.LinearGradient:
@@ -93,7 +93,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 }
             }
 
-            SQ getSQ(int row, int col) => _mapVM.SquareDictionary[Coordinate.GetSQKey(row, col)];
+            SQ getSQ(int row, int col) => _game.SquareDictionary[Coordinate.GetSQKey(row, col)];
             SKRect getSKRect() => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, (sq.Row + 1) * QC.SqSize);
             int getQ(TerrainTypeE tt) => tt == TerrainTypeE.Mountain ? rnd.Next(25, 50) : rnd.Next(5, 10);
                 

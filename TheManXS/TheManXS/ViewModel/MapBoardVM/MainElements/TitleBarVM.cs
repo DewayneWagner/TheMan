@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using TheManXS.Model.Main;
 using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.Services;
@@ -15,12 +16,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         private string _quarter;
         private string _companyName;
         private PageService _pageService;
+        private Game _game;
         
         public TitleBarVM(bool isForInitGameBoardVM) { }
         public TitleBarVM()
         {
-            GameBoardVM g = (GameBoardVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.GameBoardVM)];
-            g.TitleBar = this;
+            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+            _game.GameBoardVM.TitleBar = this;
 
             _pageService = new PageService();
             CompressedLayout.SetIsHeadless(this, true);

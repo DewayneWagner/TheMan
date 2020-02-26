@@ -8,6 +8,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
@@ -15,7 +16,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     {
         public enum PanelType { SQ, Unit }
         MapVM _mapVM;
-        GameBoardVM _gameBoardVM;
+        Game _game;
+        private SelectedSQHighlight _selectedSQHighlight;
 
         public enum ActionRows { LogoAndBackButton, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount }
@@ -31,20 +33,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private const int _numberOfButtons = 2;
         
         private const int SIDEPANELWIDTH = 300;
+        private PanelType _panelType;
 
-        public ActionPanelGrid(PanelType pt, GameBoardVM gameBoardVM)
+        public ActionPanelGrid(PanelType pt, Game game)
         {
+            _game = game;
             CompressedLayout.SetIsHeadless(this, true);
-            PanelTypeProp = pt;
-            _gameBoardVM = gameBoardVM;
-            _mapVM = _gameBoardVM.MapVM;
+            _panelType = pt;
+            _mapVM = _game.GameBoardVM.MapVM;
             WidthRequest = SIDEPANELWIDTH;
             SetPropertiesOfGrid();
             InitFields();
             InitAllElements();
-        }
 
-        public PanelType PanelTypeProp { get; set; }
+            _selectedSQHighlight = new SelectedSQHighlight(_game, pt);
+        }
 
         private void SetPropertiesOfGrid()
         {
@@ -54,6 +57,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             BackgroundColor = Color.White;
             VerticalOptions = LayoutOptions.FillAndExpand;
         }
+
         private void InitFields()
         {
             WidthRequest = QC.WidthOfActionPanel;
@@ -74,9 +78,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column1Width });
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column2Width });
 
-            if (PanelTypeProp == PanelType.SQ) {for (int i = 0; i < _quantityOfRowsInSQ; i++) { RowDefinitions.Add(new RowDefinition()); }}
+            if (_panelType == PanelType.SQ) {for (int i = 0; i < _quantityOfRowsInSQ; i++) { RowDefinitions.Add(new RowDefinition()); }}
             
-            else if(PanelTypeProp == PanelType.Unit)
+            else if(_panelType == PanelType.Unit)
             {
                 for (int i = 0; i < _quantityOfRowsInUnit; i++)
                 {
@@ -86,6 +90,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 }
             }
         }
+
         public void AddLogoToTopOfGrid()
         {
             Image logo = AllImages.GetImage(AllImages.ImagesAvailable.Logo);
@@ -95,9 +100,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             logo.VerticalOptions = LayoutOptions.StartAndExpand;
             logo.HorizontalOptions = LayoutOptions.StartAndExpand;
         }
+
         public void InitDataRows()
         {
-            if (PanelTypeProp == PanelType.SQ)
+            if (_panelType == PanelType.SQ)
             {
                 SqAttributes sqAttributes = new SqAttributes(_mapVM);
 
@@ -125,9 +131,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                     }
                 }
             }
-            else if(PanelTypeProp == PanelType.Unit)
+            else if(_panelType == PanelType.Unit)
             {
-                UnitAttributes unitAttributes = new UnitAttributes(_gameBoardVM.MapVM.ActiveUnit);
+                UnitAttributes unitAttributes = new UnitAttributes(_mapVM.ActiveUnit);
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
@@ -149,6 +155,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 }
             }
         }
+
         public void InitBackButton()
         {
             Button backButton = new Button()
@@ -163,24 +170,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             Children.Add(backButton, 1, (int)ActionRows.LogoAndBackButton);
             backButton.Clicked += OnBackButton;
         }
+
         public void OnBackButton(object sender, EventArgs e)
         {
-            _gameBoardVM.SplitScreenGrid.Children.RemoveAt(1);
-            _gameBoardVM.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
-            _gameBoardVM.MapVM.SideSQActionPanelExists = false;
-            _gameBoardVM.MapVM.TouchEffectsEnabled = true;
+            _game.GameBoardVM.SplitScreenGrid.Children.RemoveAt(1);
+            _game.GameBoardVM.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
+            _game.GameBoardVM.SideSQActionPanelExists = false;
+            _game.GameBoardVM.MapVM.TouchEffectsEnabled = true;
 
-            //_mapVM.MapBoard.CloseActionPanel();
-            //_mapVM.ActionPanel.CloseActionPanel();
-
-            //if(_panelType == PanelType.SQ && _mapVM.ActiveSQ.OwnerNumber == QC.PlayerIndexTheMan) {; }
-            //    //{ _activeSQ.Tile.OverlayGrid.RemoveOutsideBorders(_activeSQ.Tile); }
-
-            //else if(_panelType == PanelType.Unit) { _activeUnit.KillUnit(); }
+            QC.UnitCounter--;
+            _selectedSQHighlight.RemoveSelectionHighlight();
         }
+
         public void InitTitle()
         {
-            string text = PanelTypeProp == PanelType.SQ ? "SQ Action" : "Unit Action";
+            string text = _panelType == PanelType.SQ ? "SQ Action" : "Unit Action";
             Label titleLabel = new Label()
             {
                 Text = text,
@@ -195,22 +199,19 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 FontSize = (_buttonAndTitleHeight * 0.75),
             };
 
-            if (PanelTypeProp == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
-            else if(PanelTypeProp == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
+            if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
+            else if(_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
             Grid.SetColumnSpan(titleLabel, 2);
         }        
+
         public void InitActionButton()
         {
-            ActionButton actionButton = new ActionButton(_gameBoardVM, PanelTypeProp)
+            ActionButton actionButton = new ActionButton(_game, _panelType)
             {
                 HeightRequest = _buttonAndTitleHeight,
                 Margin = (_buttonAndTitleHeight * 0.1),
                 FontSize = (_buttonAndTitleHeight * 0.5),
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                BackgroundColor = Color.Crimson,
-                FontAttributes = FontAttributes.Bold,
-                TextColor = Color.White,
-                WidthRequest = QC.WidthOfActionPanel * 0.8,
+                
             };
             Children.Add(actionButton, 0, (int)ActionRows.Button); 
             Grid.SetColumnSpan(actionButton, 2);            
