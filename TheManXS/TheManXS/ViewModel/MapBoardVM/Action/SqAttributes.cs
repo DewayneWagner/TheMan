@@ -12,17 +12,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class SqAttributes
     {
-        MapVM _mapVM;
+        Game _game;
         public enum AllSQAttributes { Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Total }
 
         private Cash _cash;
 
         public SqAttributes() { }
-        public SqAttributes(MapVM mapVM) 
-        { 
-            _mapVM = mapVM;
-            _cash = new Calculations().GetCash(_mapVM.ActiveSQ);
+        public SqAttributes(Game game) 
+        {
+            _game = game;
+            _cash = new Calculations().GetCash(_game.ActiveSQ);
         }
 
         public ST StatusType { get; set; }
@@ -34,13 +34,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             switch (sqAttribute)
             {
                 case AllSQAttributes.Owner:
-                    return _mapVM.ActiveSQ.OwnerName;
+                    return _game.ActiveSQ.OwnerName;
                 case AllSQAttributes.Status:
                     return Convert.ToString(StatusType);
                 case AllSQAttributes.Resource:
-                    return Convert.ToString(_mapVM.ActiveSQ.ResourceType);
+                    return Convert.ToString(_game.ActiveSQ.ResourceType);
                 case AllSQAttributes.Production:
-                    return Convert.ToString(_mapVM.ActiveSQ.Production);
+                    return Convert.ToString(_game.ActiveSQ.Production);
                 case AllSQAttributes.Revenue:
                     return _cash.Revenue.ToString("C0");
                 case AllSQAttributes.OPEX:
@@ -52,7 +52,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 case AllSQAttributes.GrossProfitP:
                     return _cash.ProfitPercent.ToString("P1");
                 case AllSQAttributes.ActionCost:
-                    return _mapVM.ActiveSQ.NextActionCost.ToString("C0");
+                    return _game.ActiveSQ.NextActionCost.ToString("C0");
                 default:
                     return null;
             }

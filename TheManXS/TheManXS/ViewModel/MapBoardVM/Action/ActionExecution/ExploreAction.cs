@@ -18,7 +18,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         public ExploreAction(Game game)
         {
             _game = game;
-            _activeSQ = _game.GameBoardVM.MapVM.ActiveSQ;
+            _activeSQ = _game.ActiveSQ;
             ExecuteAction();
         }
         async void ExecuteAction()

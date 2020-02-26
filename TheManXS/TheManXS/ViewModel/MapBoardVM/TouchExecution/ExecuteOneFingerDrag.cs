@@ -40,7 +40,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             _listOfTouchedSQs = GetListOfTouchedSQs();
             CreateFilteredListOfSqsToBeIncluded();
-            _game.GameBoardVM.MapVM.ActiveUnit = new Unit(_filteredList,_game);
+            _game.ActiveUnit = new Unit(_filteredList,_game);
             addSidePanel();
         }
 
@@ -111,7 +111,6 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 { Width = new GridLength(1, GridUnitType.Auto) });
             g.SplitScreenGrid.Children.Add(_game.GameBoardVM.ActionPanelGrid, 1, 0);
             g.SideSQActionPanelExists = true;
-            g.MapVM.TouchEffectsEnabled = false;
         }
     }
 }

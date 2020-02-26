@@ -23,14 +23,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         {
             if(_panelType == ActionPanelGrid.PanelType.SQ)
             {
-                var sq = _game.GameBoardVM.MapVM.ActiveSQ;
+                var sq = _game.ActiveSQ;
                 sq.OwnerName = _game.ActivePlayer.Name;
                 sq.OwnerNumber = _game.ActivePlayer.Number;
                 sq.Status = ST.Unexplored;
             }
             else
             {
-                var u = _game.GameBoardVM.MapVM.ActiveUnit;
+                var u = _game.ActiveUnit;
                 u.PlayerName = _game.ActivePlayer.Name;
                 u.PlayerNumber = _game.ActivePlayer.Number;
                 u.Status = ST.Unexplored;

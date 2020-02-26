@@ -105,7 +105,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             if (_panelType == PanelType.SQ)
             {
-                SqAttributes sqAttributes = new SqAttributes(_mapVM);
+                SqAttributes sqAttributes = new SqAttributes(_game);
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
@@ -133,7 +133,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             }
             else if(_panelType == PanelType.Unit)
             {
-                UnitAttributes unitAttributes = new UnitAttributes(_mapVM.ActiveUnit);
+                UnitAttributes unitAttributes = new UnitAttributes(_game.ActiveUnit);
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
@@ -173,12 +173,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         public void OnBackButton(object sender, EventArgs e)
         {
-            _game.GameBoardVM.SplitScreenGrid.Children.RemoveAt(1);
-            _game.GameBoardVM.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
-            _game.GameBoardVM.SideSQActionPanelExists = false;
-            _game.GameBoardVM.MapVM.TouchEffectsEnabled = true;
+            var g = _game.GameBoardVM;
+            g.SplitScreenGrid.Children.RemoveAt(1);
+            g.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
+            g.SideSQActionPanelExists = false;
+            g.TouchEffectsEnabled = true;
 
-            QC.UnitCounter--;
+            if (_panelType == PanelType.Unit) { QC.UnitCounter--; }
             _selectedSQHighlight.RemoveSelectionHighlight();
         }
 

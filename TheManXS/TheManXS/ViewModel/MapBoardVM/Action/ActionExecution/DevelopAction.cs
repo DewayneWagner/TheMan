@@ -23,11 +23,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         {
             if (_panelType == PanelType.SQ)
             {
-                _game.GameBoardVM.MapVM.ActiveSQ.Status = ST.Producing;
+                _game.ActiveSQ.Status = ST.Producing;
             }
             else
             {
-                foreach (SQ sq in _game.GameBoardVM.MapVM.ActiveUnit)
+                foreach (SQ sq in _game.ActiveUnit)
                 {
                     sq.Status = ST.Producing;
                 }

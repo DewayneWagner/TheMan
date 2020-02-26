@@ -28,6 +28,7 @@ namespace TheManXS.Model.Main
         public double Debt { get; set; }
         public bool IsComputer { get; set; }
         public AllAvailableCompanyColors Color { get; set; }
+        public int SavedGameSlot { get; set; }
     }
     public class PlayerDBConfig : IEntityTypeConfiguration<Player>
     {

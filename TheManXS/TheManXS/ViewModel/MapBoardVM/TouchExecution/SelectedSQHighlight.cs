@@ -33,8 +33,8 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         void InitListOfSQsToHighlight()
         {
             _listOfSqsToHighlight = new List<SQ>();
-            if(_panelType == PanelType.SQ) { _listOfSqsToHighlight.Add(_game.GameBoardVM.MapVM.ActiveSQ); }
-            else { foreach(SQ sq in _game.GameBoardVM.MapVM.ActiveUnit) { _listOfSqsToHighlight.Add(sq); } }
+            if(_panelType == PanelType.SQ) { _listOfSqsToHighlight.Add(_game.ActiveSQ); }
+            else { foreach(SQ sq in _game.ActiveUnit) { _listOfSqsToHighlight.Add(sq); } }
         }
 
         void HighlightSQForSelection()

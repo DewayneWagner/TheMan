@@ -1,16 +1,39 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
     public class ExecuteTwoFingerPan
     {
-        MapVM _mapVM;
-        public ExecuteTwoFingerPan(MapVM mapVM)
+        Game _game;
+        public ExecuteTwoFingerPan(Game game)
         {
-            _mapVM = mapVM;
+            _game = game;
+            ExecuteTwoFingerPanAction();
         }
+        
+        private void ExecuteTwoFingerPanAction()
+        {
+            var m = _game.GameBoardVM.MapVM;
+            SKPoint pressed = m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
+            SKPoint released = m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Released).SKPoint;
+
+            float xDelta = released.X - pressed.X;
+            float yDelta = released.Y - pressed.Y;
+
+            if (FloatIsValid(xDelta) && FloatIsValid(yDelta))
+            {
+                SKMatrix panMatrix = SKMatrix.MakeTranslation(xDelta, yDelta);
+                SKMatrix.PostConcat(ref m.MapMatrix, panMatrix);
+                m.MapCanvasView.InvalidateSurface();
+            }
+        }
+        private bool FloatIsValid(float f) => !float.IsNaN(f) && !float.IsInfinity(f);
     }
 }

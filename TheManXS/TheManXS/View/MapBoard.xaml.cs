@@ -63,7 +63,7 @@ namespace TheManXS.View
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
-            if (_game.GameBoardVM.MapVM.TouchEffectsEnabled)
+            if (_game.GameBoardVM.TouchEffectsEnabled)            
             {
                 var t = _game.GameBoardVM.MapVM.MapTouchList;
                 t.AddTouchAction(args);
@@ -72,6 +72,7 @@ namespace TheManXS.View
                 {
                     _createNewMap = false;
                     ExecuteTouch();
+                    
                     t = new MapTouchListOfMapTouchIDLists();
                     _createNewMap = true;
                 }
@@ -89,16 +90,18 @@ namespace TheManXS.View
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
+                    _game.GameBoardVM.TouchEffectsEnabled = false;
                     new ExecuteOneFingerSelect(_game);
                     break;
                 case MapTouchType.OneFingerDragSelect:
+                    _game.GameBoardVM.TouchEffectsEnabled = false;
                     new ExecuteOneFingerDrag(_game);
                     break;
                 case MapTouchType.TwoFingerPan:
-                    new ExecuteTwoFingerPan(m);
+                    new ExecuteTwoFingerPan(_game);
                     break;
                 case MapTouchType.Pinch:
-                    new ExecutePinch(m);
+                    new ExecutePinch(_game);
                     break;
                 default:
                     break;

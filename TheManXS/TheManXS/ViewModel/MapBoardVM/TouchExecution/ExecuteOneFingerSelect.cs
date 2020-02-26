@@ -33,7 +33,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             var m = _game.GameBoardVM.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            m.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];
+            _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];
             addSidePanel();
 
             SKPoint getTouchPointOnBitMap()
@@ -55,7 +55,6 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                     { Width = new GridLength(1, GridUnitType.Auto) });
                 g.SplitScreenGrid.Children.Add(g.ActionPanelGrid, 1, 0);
                 g.SideSQActionPanelExists = true;
-                g.MapVM.TouchEffectsEnabled = false;
             }
         }
     }

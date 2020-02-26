@@ -44,7 +44,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             MapTouchList = new MapTouchListOfMapTouchIDLists();
             MapMatrix = SKMatrix.MakeIdentity();
             SqAttributesList = new SqAttributesList(this);
-            TouchEffectsEnabled = true;
         }
 
         private SKBitmap _map;
@@ -64,7 +63,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public Infrastructure.Builder InfrastructureBuilder { get; set; }        
         
         public SKMatrix MapMatrix;
-        public bool TouchEffectsEnabled { get; set; }
 
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
         

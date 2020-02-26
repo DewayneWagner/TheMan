@@ -11,69 +11,76 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Company
 {
-    public class PlayerList
+    public class PlayerList : List<Player>
     {
-        public PlayerList(bool isNewGame) { InitNewPlayersForGame(); }
-        private void InitNewPlayersForGame()
+        GameSpecificParameters _gsp;
+
+        public PlayerList(GameSpecificParameters gsp)
         {
-            int key = 0;
-            bool playerExists;
+            _gsp = gsp;
+            InitPlayerList();
+            WriteToDB();
+        }
+
+        private void InitPlayerList()
+        {
+            // init variables
+            CompanyNameGenerator companyNameGenerator = new CompanyNameGenerator();
+            CompanyColorsList companyColorsList = new CompanyColorsList();
+            CompanyColors cc = new CompanyColors(_gsp.Color);
+            double cash = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartCash);
+            double debt = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartDebt);
+
+            // init playerList with variables that change for each player
+            for (int i = 0; i < QC.PlayerQ; i++)
+            {
+                if(i == 0) { Add(getActualPlayer()); }
+                else { Add(getPlayer(i)); }
+            }
+
+            Player getActualPlayer()
+            {
+                return new Player()
+                {
+                    Key = GetPlayerKey(QC.PlayerIndexActual),
+                    SavedGameSlot = QC.CurrentSavedGameSlot,
+                    Color = _gsp.Color,
+                    IsComputer = false,
+                    Name = _gsp.CompanyName,
+                    Number = QC.PlayerIndexActual,
+                    Ticker = _gsp.Ticker,
+                    Cash = cash,
+                    Debt = debt,
+                };
+            }
+            Player getPlayer(int i)
+            {
+                return new Player()
+                {
+                    Key = GetPlayerKey(i),
+                    SavedGameSlot = QC.CurrentSavedGameSlot,
+                    Color = companyColorsList.GetRandomColor().ColorEnum,
+                    IsComputer = true,
+                    Name = companyNameGenerator[i].Name,
+                    Ticker = companyNameGenerator[i].Ticker,
+                    Number = i,
+                    Cash = cash,
+                    Debt = debt,
+                };
+            }
+        }
+
+        public static int GetPlayerKey(int playerNum) => QC.CurrentSavedGameSlot * 10 + playerNum;
+
+        private void WriteToDB()
+        {
             using (DBContext db = new DBContext())
             {
-                // initialize actual player here
-                CompanyNameGenerator companyNameGenerator = new CompanyNameGenerator();                
-                GameSpecificParameters gsp = db.GameSpecificParameters.Find(QC.CurrentSavedGameSlot);
-                key = GetPlayerKey(QC.PlayerIndexActual);
-                playerExists = db.Player.Any(p => p.Key == key);
-
-                CompanyColorsList companyColorsList = new CompanyColorsList();
-                CompanyColors cc = new CompanyColors(gsp.Color);
-
-                Player actualPlayer = new Player()
-                {
-                    Key = key,
-                    Number = QC.PlayerIndexActual,
-                    Cash = Settings.Setting.GetConstant(AS.CashConstant,
-                            (int)Settings.SettingsMaster.CashConstantParameters.StartCash),
-                    Debt = Settings.Setting.GetConstant(AS.CashConstant,
-                            (int)Settings.SettingsMaster.CashConstantParameters.StartDebt),
-                    Color = cc.ColorEnum,
-                    IsComputer = false,
-                    Name = gsp.CompanyName,
-                    Ticker = gsp.Ticker,
-                };
-
-                if (playerExists) { db.Player.Update(actualPlayer); }
-                else { db.Player.Add(actualPlayer); }
-
-                companyColorsList.RemoveColorFromList(cc.ColorXamarin);
-
-                for (int i = 1; i < QC.PlayerQ; i++)
-                {
-                    key = GetPlayerKey(i);
-                    playerExists = db.Player.Any(pl => pl.Key == key);
-                    CompanyColors companyColors = companyColorsList.GetRandomColor();
-
-                    Player p = new Player()
-                    {
-                        Key = key,
-                        Number = i,
-                        Cash = Settings.Setting.GetConstant(AS.CashConstant,
-                            (int)Settings.SettingsMaster.CashConstantParameters.StartCash),
-                        Debt = Settings.Setting.GetConstant(AS.CashConstant,
-                            (int)Settings.SettingsMaster.CashConstantParameters.StartDebt),
-                        IsComputer = true,
-                        Color = companyColors.ColorEnum,
-                        Name = companyNameGenerator[i].Name,
-                        Ticker = companyNameGenerator[i].Ticker,
-                    };
-                    
-                    if (playerExists) { db.Player.Update(p); }
-                    else { db.Player.Add(p); }
-                }
+                var listOfExistingPlayersInDB = db.Player.Where(p => p.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                db.RemoveRange(listOfExistingPlayersInDB);
+                db.Player.AddRange(this);
                 db.SaveChanges();
             }
         }
-        public static int GetPlayerKey(int playerNum) => QC.CurrentSavedGameSlot * 10 + playerNum;
     }
 }

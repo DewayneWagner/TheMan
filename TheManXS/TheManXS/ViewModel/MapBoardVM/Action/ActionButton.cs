@@ -42,14 +42,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         string GetNextActionText(ActionPanelGrid.PanelType pt)
         {
             if (pt == ActionPanelGrid.PanelType.SQ) 
-                { return _game.GameBoardVM.MapVM.ActiveSQ.NextActionText; }
-            else { return _game.GameBoardVM.MapVM.ActiveUnit[0].NextActionText; }
+                { return _game.ActiveSQ.NextActionText; }
+            else { return _game.ActiveUnit[0].NextActionText; }
         }
 
         void AssignMethodToButton()
         {
-            NextAction.NextActionType n = _panelType == ActionPanelGrid.PanelType.SQ ? _game.GameBoardVM.MapVM.ActiveSQ.NextActionType :
-                _game.GameBoardVM.MapVM.ActiveUnit.NextActionType;
+            NextAction.NextActionType n = _panelType == ActionPanelGrid.PanelType.SQ ? _game.ActiveSQ.NextActionType :
+                _game.ActiveUnit.NextActionType;
 
             switch (n)
             {
@@ -111,8 +111,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             double currentPlayerCash = _game.ActivePlayer.Cash;
             double transactionCost = _panelType == ActionPanelGrid.PanelType.SQ ?
-                        _game.GameBoardVM.MapVM.ActiveSQ.NextActionCost :
-                        _game.GameBoardVM.MapVM.ActiveUnit.NextActionCost;
+                        _game.ActiveSQ.NextActionCost :
+                        _game.ActiveUnit.NextActionCost;
             _additionalDebtApproved = true; // reset to false if it isn't
 
             if (transactionCost < currentPlayerCash) { _game.ActivePlayer.Cash -= transactionCost; }
