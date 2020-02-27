@@ -46,7 +46,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             InitFields();
             InitAllElements();
 
-            _selectedSQHighlight = new SelectedSQHighlight(_game, pt);
+            _game.GameBoardVM.SidePanelManager.SelectedSQHighlight = new SelectedSQHighlight(_game, pt);
         }
 
         private void SetPropertiesOfGrid()
@@ -64,6 +64,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             _column1Width = QC.WidthOfActionPanel * _widthRatioColumn1;
             _column2Width = QC.WidthOfActionPanel - _column1Width;
         }
+
         private void InitAllElements()
         {
             InitGrid();
@@ -73,6 +74,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             InitTitle();
             InitActionButton();
         }        
+
         public void InitGrid()
         {
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column1Width });
@@ -171,17 +173,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             backButton.Clicked += OnBackButton;
         }
 
-        public void OnBackButton(object sender, EventArgs e)
-        {
-            var g = _game.GameBoardVM;
-            g.SplitScreenGrid.Children.RemoveAt(1);
-            g.SplitScreenGrid.ColumnDefinitions.RemoveAt(1);
-            g.SideSQActionPanelExists = false;
-            g.TouchEffectsEnabled = true;
-
-            if (_panelType == PanelType.Unit) { QC.UnitCounter--; }
-            _selectedSQHighlight.RemoveSelectionHighlight();
-        }
+        public void OnBackButton(object sender, EventArgs e) => _game.GameBoardVM.SidePanelManager.RemoveSidePanel(_panelType);
 
         public void InitTitle()
         {

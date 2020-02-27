@@ -26,6 +26,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             _game = game;
             ExecuteOneFingerSelectAction();
+            _game.GameBoardVM.SidePanelManager.AddSidePanel(ActionPanelGrid.PanelType.SQ);
         }
         public SelectedSQHighlight SelectedSQHighlight { get; set; }
 
@@ -33,8 +34,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             var m = _game.GameBoardVM.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];
-            addSidePanel();
+            _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];            
 
             SKPoint getTouchPointOnBitMap()
             {
@@ -45,17 +45,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 return new SKPoint(bitmapX, bitmapY);
             }
 
-            SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
-                        
-            void addSidePanel()
-            {
-                var g = _game.GameBoardVM;
-                g.ActionPanelGrid = new ActionPanelGrid(ActionPanelGrid.PanelType.SQ, _game);
-                g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
-                    { Width = new GridLength(1, GridUnitType.Auto) });
-                g.SplitScreenGrid.Children.Add(g.ActionPanelGrid, 1, 0);
-                g.SideSQActionPanelExists = true;
-            }
+            SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;            
         }
     }
 }

@@ -23,6 +23,8 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             Style = SKPaintStyle.Fill,
         };
 
+        public SelectedSQHighlight(bool isForSidePanelInitialization) { }
+
         public SelectedSQHighlight(Game game, PanelType pt)
         {
             _game = game;
@@ -46,15 +48,21 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                     canvas.DrawRect(GetSKRect(sq), highlightedSQ);
                 }
             }
-
-            SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, 
-                (sq.Row + 1) * QC.SqSize);
         }
+        SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize,
+                (sq.Row + 1) * QC.SqSize);
         public void PermanentlyHighlightSQWithCompanyColors()
         {
             if (_panelType == PanelType.SQ)
             {
-
+                using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
+                {
+                    SKPaint ownerColor = new SKPaint()
+                    {
+                        Style = SKPaintStyle.Fill,
+                        Color = _game.ActivePlayer;
+                    };
+                }
             }
         }
         public void RemoveSelectionHighlight()

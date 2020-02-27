@@ -17,7 +17,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             _game.GameBoardVM = this;
             TouchEffectsEnabled = true;
+            SidePanelManager = new SidePanelManager(_game); 
         }
+
         public GameBoardVM(bool isForAppDictionary) { }
 
         private StockTickerBarVM _stockTickerBarVM;
@@ -79,7 +81,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public bool UnitActionPanelExists { get; set; }
         public bool IsThereActiveUnit { get; set; }
         public bool TouchEffectsEnabled { get; set; }
-
+        public SidePanelManager SidePanelManager { get; set; } 
 
     }
 }

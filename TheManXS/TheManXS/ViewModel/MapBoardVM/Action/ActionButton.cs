@@ -79,32 +79,35 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             ProcessCashTransaction();
             if (_additionalDebtApproved) { new BuyAction(_game, _panelType); }
-            
+            _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
         void ExploreAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
             if(_additionalDebtApproved) { new ExploreAction(_game); }
+            _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
         void DevelopAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
             if (_additionalDebtApproved) { new DevelopAction(_game, _panelType); }
+            _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
         void SuspendAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
             if (_additionalDebtApproved) { new SuspendAction(_game, _panelType); }
-
+            _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
         void ReactivateAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
             if(_additionalDebtApproved) { new ReActivateAction(_game, _panelType); }
+            _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
         async void ProcessCashTransaction()
