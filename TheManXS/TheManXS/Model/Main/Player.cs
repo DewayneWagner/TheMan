@@ -13,6 +13,7 @@ using TheManXS.Model.Company;
 using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SkiaSharp;
 
 namespace TheManXS.Model.Main
 {
@@ -27,7 +28,19 @@ namespace TheManXS.Model.Main
         public double Cash { get; set; }
         public double Debt { get; set; }
         public bool IsComputer { get; set; }
-        public AllAvailableCompanyColors Color { get; set; }
+
+        private SKColor _skColor;
+        public SKColor SKColor
+        {
+            get => _skColor;
+            set
+            {
+                _skColor = value;
+                ColorString = _skColor.ToString();
+            }
+        }
+
+        public string ColorString { get; set; }
         public int SavedGameSlot { get; set; }
     }
     public class PlayerDBConfig : IEntityTypeConfiguration<Player>
@@ -39,7 +52,9 @@ namespace TheManXS.Model.Main
             builder.Property(p => p.Ticker)
                 .HasMaxLength(3);
 
-            builder.Property(p => p.Color).HasConversion(new EnumToStringConverter<AllAvailableCompanyColors>());
+            builder.Ignore(p => p.SKColor);
+
+            //builder.Property(p => p.Color).HasConversion(new EnumToStringConverter<AllAvailableCompanyColors>());
         }
     }    
 }

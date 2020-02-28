@@ -43,7 +43,6 @@ namespace TheManXS.Model.Units
         public void AddSQToUnit(SQ sq)
         {
             Player p = (Player)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActivePlayer)];
-            Color c = new CompanyColors(p.Color).ColorXamarin;
             Status = sq.Status;
 
             if (!this.Contains(sq))
@@ -51,14 +50,14 @@ namespace TheManXS.Model.Units
                 this.Add(sq);
                 OPEXDiscount += QC.OPEXDiscountPerSQInUnit;
                 DevelopmentDiscount += QC.CAPEXDiscountPerSQInUnit;                
-                new StaggeredBorder(c).InitStaggeredBorders(this);
+                new StaggeredBorder(_game.ActivePlayer.SKColor).InitStaggeredBorders(this);
             }
             else
             {
                 this.Remove(sq);
                 OPEXDiscount -= QC.OPEXDiscountPerSQInUnit;
                 DevelopmentDiscount -= QC.CAPEXDiscountPerSQInUnit;
-                new StaggeredBorder(c).InitStaggeredBorders(this);
+                new StaggeredBorder(_game.ActivePlayer.SKColor).InitStaggeredBorders(this);
             }
         }
 

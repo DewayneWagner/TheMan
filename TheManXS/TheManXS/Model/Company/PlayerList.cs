@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,6 @@ namespace TheManXS.Model.Company
         {
             // init variables
             CompanyNameGenerator companyNameGenerator = new CompanyNameGenerator();
-            CompanyColorsList companyColorsList = new CompanyColorsList();
-            CompanyColors cc = new CompanyColors(_gsp.Color);
             double cash = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartCash);
             double debt = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartDebt);
 
@@ -44,7 +43,8 @@ namespace TheManXS.Model.Company
                 {
                     Key = GetPlayerKey(QC.PlayerIndexActual),
                     SavedGameSlot = QC.CurrentSavedGameSlot,
-                    Color = _gsp.Color,
+                    SKColor = _gsp.CompanyColor,
+                    ColorString = Convert.ToString(_gsp.CompanyColor),
                     IsComputer = false,
                     Name = _gsp.CompanyName,
                     Number = QC.PlayerIndexActual,
@@ -55,11 +55,13 @@ namespace TheManXS.Model.Company
             }
             Player getPlayer(int i)
             {
+                SKColor cc = _gsp.CompanyColorGenerator.GetRandomSKColor();
                 return new Player()
                 {
                     Key = GetPlayerKey(i),
                     SavedGameSlot = QC.CurrentSavedGameSlot,
-                    Color = companyColorsList.GetRandomColor().ColorEnum,
+                    SKColor = cc,
+                    ColorString = Convert.ToString(cc),
                     IsComputer = true,
                     Name = companyNameGenerator[i].Name,
                     Ticker = companyNameGenerator[i].Ticker,

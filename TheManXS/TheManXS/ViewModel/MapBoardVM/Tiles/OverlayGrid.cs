@@ -67,8 +67,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             using (DBContext db = new DBContext())
             {
                 Player player = db.Player.Where(p => p.Number == _activeSQ.OwnerNumber).FirstOrDefault();
-                CompanyColors cc = new CompanyColors(player.Color);
-                OutsideColor = cc.ColorXamarin;
+                //CompanyColors cc = new CompanyColors(player.Color);
+               // OutsideColor = cc.ColorXamarin;
             }
         }
         public object this[int row, int col]

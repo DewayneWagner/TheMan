@@ -60,7 +60,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                     SKPaint ownerColor = new SKPaint()
                     {
                         Style = SKPaintStyle.Fill,
-                        Color = _game.ActivePlayer;
+                        Color = _game.ActivePlayer.SKColor,
                     };
                 }
             }

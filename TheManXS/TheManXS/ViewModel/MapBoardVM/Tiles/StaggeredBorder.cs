@@ -6,16 +6,17 @@ using System.Linq;
 using Xamarin.Forms;
 using TheManXS.Model.Company;
 using TheManXS.Model.Map.Surface;
+using SkiaSharp;
 
 namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {
     public class StaggeredBorder
     {
-        private Color BorderColor;
+        private SKColor BorderColor;
         private SQ _sq;
         private List<SQ> _sqList;
 
-        public StaggeredBorder(Color c) { BorderColor = c; }
+        public StaggeredBorder(SKColor c) { BorderColor = c; }
         
         public void InitStaggeredBorders(List<SQ> sqList)
         {
@@ -52,12 +53,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                 r++;
                 c++;
 
-                BoxView bv = new BoxView()
-                {
-                    Color = BorderColor,
-                    Opacity = 0.5,
-                };
-                CompressedLayout.SetIsHeadless(bv, true);
+                //BoxView bv = new BoxView()
+                //{
+                //    Color = BorderColor,
+                //    Opacity = 0.5,
+                //};
+                //CompressedLayout.SetIsHeadless(bv, true);
                 //_sq.Tile.OverlayGrid.Children.Add(bv, c, r);
             }
         }

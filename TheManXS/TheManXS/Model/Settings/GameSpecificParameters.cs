@@ -10,6 +10,8 @@ using System.Linq;
 using TheManXS.Model.Services.EntityFrameWork;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SkiaSharp;
+using TheManXS.Model.Company;
 
 namespace TheManXS.Model.Settings
 {
@@ -23,7 +25,8 @@ namespace TheManXS.Model.Settings
         public string CompanyName { get; set; }
         public string Ticker { get; set; }
         public DateTime LastPlayed => DateTime.Now;
-        public Company.AllAvailableCompanyColors Color { get; set; }
+        public SKColor CompanyColor { get; set; }
+        public CompanyColorGenerator CompanyColorGenerator { get; set; }
         
         public static List<GameSpecificParameters> GetListOfSavedGameData()
         {
@@ -80,6 +83,10 @@ namespace TheManXS.Model.Settings
 
             builder.Property(g => g.Diff)
                 .HasConversion(new EnumToStringConverter<Difficulty>());
+
+            builder.Ignore(g => g.CompanyColorGenerator);
+
+            builder.Ignore(g => g.CompanyColor);
         }
     }
     

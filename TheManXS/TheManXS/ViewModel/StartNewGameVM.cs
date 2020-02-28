@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,13 +31,13 @@ namespace TheManXS.ViewModel
         public bool IsGameSlotSelected;
         private GameSpecificParameters _gameSaveSlot;
         private PageService _pageService = new PageService();
+        CompanyColorGenerator _companyColorGenerator;
 
         #endregion
 
         #region(Constructors)
         public StartNewGameVM()
         {
-            CompanyColorList = new AvailableCompanyColorsList(true);
             SavedGameSlotsList = GameSpecificParameters.GetListOfSavedGameData();
 
             Easy = new Command(OnEasyButton);
@@ -53,16 +54,16 @@ namespace TheManXS.ViewModel
         }
         #endregion
 
-        #region(Properties)
         public List<string> CompanyColorList
         {
-            get => _companyColorList;
-            set
+            get
             {
-                _companyColorList = value;
-                SetValue(ref _companyColorList, value);
+                _companyColorGenerator = new CompanyColorGenerator();
+                return _companyColorGenerator.GetListOfAvailableSKColors();
             }
         }
+
+        #region(Properties)
 
         public string CompanyColor
         {
@@ -204,15 +205,20 @@ namespace TheManXS.ViewModel
 
             else
             {
+                SKColor companyColor = _companyColorGenerator.GetSKColor(CompanyColor);
+                _companyColorGenerator.RemoveSelectedColorFromOptions(companyColor);                
+
                 GameSpecificParameters gsp = new GameSpecificParameters()
                 {
                     Slot = SelectedGameSaveSlot.Slot,
-                    Color = AllAvailableCompanyColors.Red,
+                    CompanyColor = companyColor,
                     CompanyName = CompanyName,
                     Diff = Difficulty,
                     PlayerNumber = 0,
                     Ticker = Ticker,
                 };
+                gsp.CompanyColorGenerator = _companyColorGenerator;
+
                 using (DBContext db = new DBContext())
                 {
                     var oldGame = db.GameSpecificParameters.Where(o => o.Slot == gsp.Slot);
@@ -224,13 +230,12 @@ namespace TheManXS.ViewModel
                 }
                 new Game(gsp, true);
                 GoToGameBoard();
-                //_pageService.PushAsync(new GameBoardView());
             }            
         }
         private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard()); //(new GameBoardView());
         private void AddTestData()
         {
-            CompanyColor = "Red";
+            CompanyColor = Convert.ToString(SKColors.Red);
             SelectedGameSaveSlot = SavedGameSlotsList[1];
             IsGameSlotSelected = true;
             CompanyName = "Rockyspring Ltd.";
