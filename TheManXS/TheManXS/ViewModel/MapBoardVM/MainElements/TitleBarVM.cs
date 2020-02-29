@@ -76,7 +76,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         private async void ShowFinancialsPage(object obj)
         {
-            await _pageService.DisplayAlert("Financials Page");
+            //await _pageService.DisplayAlert("Financials Page");
+            await _pageService.PushAsync(new FinancialsView());
         }
     }
 }

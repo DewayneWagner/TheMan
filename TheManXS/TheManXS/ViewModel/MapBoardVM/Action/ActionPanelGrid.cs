@@ -17,7 +17,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         public enum PanelType { SQ, Unit }
         MapVM _mapVM;
         Game _game;
-        private SelectedSQHighlight _selectedSQHighlight;
 
         public enum ActionRows { LogoAndBackButton, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount }

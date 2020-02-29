@@ -47,6 +47,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 {
                     canvas.DrawRect(GetSKRect(sq), highlightedSQ);
                 }
+                canvas.Save();
             }
         }
         SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize,

@@ -5,8 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="TheManXS.View.FinancialsView">
+   
   <!--Pages can be added as references or inline-->
   <ContentPage Title="Single Player" />
   <ContentPage Title="All Companies" />
   <ContentPage Title="All Resources" />
+  <ContentPage Title="Ratios"/>
+
 </TabbedPage>

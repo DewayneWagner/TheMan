@@ -27,10 +27,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
             }
             else
             {
-                foreach (SQ sq in _game.ActiveUnit)
-                {
-                    sq.Status = ST.Producing;
-                }
+                _game.ActiveUnit.CreateUnit();
             }
         }        
     }
