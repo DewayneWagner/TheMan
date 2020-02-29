@@ -1,15 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:FinVM="clr-namespace:TheManXS.ViewModel.FinancialVM.Financials"
              mc:Ignorable="d"
              x:Class="TheManXS.View.FinancialsView">
-   
-  <!--Pages can be added as references or inline-->
-  <ContentPage Title="Single Player" />
-  <ContentPage Title="All Companies" />
-  <ContentPage Title="All Resources" />
-  <ContentPage Title="Ratios"/>
 
-</TabbedPage>
+    <ContentPage.BindingContext>
+        <FinVM:FinancialsVM/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Button Panel-->
+        <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Button Command="{Binding SinglePlayer}" Text="SP" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="0" Grid.Column="0"/>
+            <Button Command="{Binding AllPlayers}" Text="AP" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="1" Grid.Column="0"/>
+            <Button Command="{Binding ResourceBreakdown}" Text="RB" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="2" Grid.Column="0"/>
+            <Button Command="{Binding Ratios}" Text="R" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="3" Grid.Column="0"/>
+        </Grid>
+
+        <ScrollView Grid.Row="0" Grid.Column="1" Orientation="Both" BindingContext="{Binding FinancialsScrollView}"/>
+
+
+    </Grid>
+    
+   
+    
+    
+</ContentPage>

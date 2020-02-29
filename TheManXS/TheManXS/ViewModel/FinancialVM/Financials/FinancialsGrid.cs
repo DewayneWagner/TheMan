@@ -11,12 +11,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
     public class FinancialsGrid : Grid
     {
         Game _game;
-        private List<FinancialsLineItems> _financialsLineItemsList;
-        public FinancialsGrid(Game game, List<FinancialsLineItems> financialsLineItemsList)
+        private FinancialsLineItems[] _financialsLineItemsArray;
+        public FinancialsGrid(Game game, FinancialsLineItems[] financialsLineItemsArray)
         {
             _game = game;
-            _financialsLineItemsList = financialsLineItemsList;
-            new CalculatedFinancialValuesList(_game,_financialsLineItemsList);
+            _financialsLineItemsArray = financialsLineItemsArray;
+            new CalculatedFinancialValuesList(_game,_financialsLineItemsArray);
             InitPropertiesOfGrid();
             InitRows();
             InitColumns();
@@ -35,7 +35,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 
         void InitRows()
         {
-            for (int i = 0; i < _financialsLineItemsList.Count; i++)
+            for (int i = 0; i < _financialsLineItemsArray.Length; i++)
             {
                 RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
             }
@@ -46,7 +46,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             ColumnDefinitions.Add(new ColumnDefinition());
             int qValuesToDisplay = 5;
             int valuesColumnsWidth = QC.ScreenWidth / (qValuesToDisplay + 1);
-            for (int i = 0; i < (_financialsLineItemsList[0].ValuesArray.Length); i++)
+            for (int i = 0; i < (_financialsLineItemsArray[0].ValuesArray.Length + 1); i++)
             {
                 ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(valuesColumnsWidth, GridUnitType.Absolute) });
             }
@@ -56,13 +56,13 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         {
             for (int column = 1; column <= QC.PlayerQ; column++)
             {
-                Children.Add(new RowTypeLabel(_game.PlayerList[column].Name));
+                Children.Add(new RowTypeLabel(_game.PlayerList[column-1].Name));
             }
         }
 
         void AddData()
         {
-            foreach (FinancialsLineItems f in _financialsLineItemsList)
+            foreach (FinancialsLineItems f in _financialsLineItemsArray)
             {
                 // add row heading
                 RowTypeLabel rtl = new RowTypeLabel(f);

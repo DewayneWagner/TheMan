@@ -6,20 +6,20 @@ using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials
 {
-    public class FinancialsLineItemsList
+    public class FinancialsLineItemsArray
     {
         Game _game;
-        List<FinancialsLineItems> _lineItemsList;
-        public FinancialsLineItemsList(Game game)
+        FinancialsLineItems[] _lineItemsArray;
+        public FinancialsLineItemsArray(Game game)
         {
             _game = game;
-            _lineItemsList = new List<FinancialsLineItems>((int)LineItemType.Total);
+            _lineItemsArray = new FinancialsLineItems[(int)LineItemType.Total];               
             InitListWithHeadings();
         }
-        public List<FinancialsLineItems> GetListOfFinancialsLineItems() => _lineItemsList;
+        public FinancialsLineItems[] GetArrayOfFinancialsLineItems() => _lineItemsArray;
         void InitListWithHeadings()
         {
-            _lineItemsList[(int)LineItemType.BalanceSheets] = 
+            _lineItemsArray[(int)LineItemType.BalanceSheets] = 
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.BalanceSheets,
@@ -27,7 +27,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.MainHeading,
                 });
 
-            _lineItemsList[(int)LineItemType.Assets] =
+            _lineItemsArray[(int)LineItemType.Assets] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Assets,
@@ -35,7 +35,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.SubHeading,
                 });
 
-            _lineItemsList[(int)LineItemType.Cash] =
+            _lineItemsArray[(int)LineItemType.Cash] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Cash,
@@ -43,7 +43,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.PPE] =
+            _lineItemsArray[(int)LineItemType.PPE] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.PPE,
@@ -51,7 +51,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.TotalAssets] =
+            _lineItemsArray[(int)LineItemType.TotalAssets] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.TotalAssets,
@@ -59,7 +59,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.Totals,
                 });
 
-            _lineItemsList[(int)LineItemType.Liabilities] = 
+            _lineItemsArray[(int)LineItemType.Liabilities] = 
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Liabilities,
@@ -67,7 +67,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.SubHeading,
                 });
 
-            _lineItemsList[(int)LineItemType.LongTermDebt] =
+            _lineItemsArray[(int)LineItemType.LongTermDebt] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.LongTermDebt,
@@ -75,7 +75,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.TotalCapital] =
+            _lineItemsArray[(int)LineItemType.TotalCapital] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.TotalCapital,
@@ -83,7 +83,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.Totals,
                 });
 
-            _lineItemsList[(int)LineItemType.CashFlowStateMent] =
+            _lineItemsArray[(int)LineItemType.CashFlowStateMent] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.CashFlowStateMent,
@@ -91,7 +91,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.MainHeading,
                 });
 
-            _lineItemsList[(int)LineItemType.Revenue] =
+            _lineItemsArray[(int)LineItemType.Revenue] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Revenue,
@@ -99,7 +99,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.Expenses] =
+            _lineItemsArray[(int)LineItemType.Expenses] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Expenses,
@@ -107,7 +107,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.SubHeading
                 });
 
-            _lineItemsList[(int)LineItemType.OPEX] = 
+            _lineItemsArray[(int)LineItemType.OPEX] = 
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.OPEX,
@@ -115,7 +115,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem
                 });
 
-            _lineItemsList[(int)LineItemType.TheManCut] =
+            _lineItemsArray[(int)LineItemType.TheManCut] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.TheManCut,
@@ -123,7 +123,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.DebtPayment] = 
+            _lineItemsArray[(int)LineItemType.DebtPayment] = 
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.DebtPayment,
@@ -131,7 +131,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.GrossProfitD] = 
+            _lineItemsArray[(int)LineItemType.GrossProfitD] = 
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.GrossProfitD,
@@ -139,7 +139,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.Totals,
                 });
 
-            _lineItemsList[(int)LineItemType.GrossProfitP] =
+            _lineItemsArray[(int)LineItemType.GrossProfitP] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.GrossProfitP,
@@ -147,7 +147,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.Totals
                 });
 
-            _lineItemsList[(int)LineItemType.CAPEXCosts] =
+            _lineItemsArray[(int)LineItemType.CAPEXCosts] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.CAPEXCosts,
@@ -155,7 +155,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
 
-            _lineItemsList[(int)LineItemType.NetProfitD] =
+            _lineItemsArray[(int)LineItemType.NetProfitD] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.NetProfitD,
@@ -163,12 +163,20 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.Totals,
                 });
 
-            _lineItemsList[(int)LineItemType.NetProfitP] =
+            _lineItemsArray[(int)LineItemType.NetProfitP] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.NetProfitP,
                     FinalText = "Net Profit (%)",
                     FormatType = FormatTypes.Totals,
+                });
+
+            _lineItemsArray[(int)LineItemType.InterestExpense] =
+                (new FinancialsLineItems()
+                {
+                    LineItemType = LineItemType.InterestExpense,
+                    FinalText = "Interest Expense",
+                    FormatType = FormatTypes.LineItem,
                 });
         }
     }

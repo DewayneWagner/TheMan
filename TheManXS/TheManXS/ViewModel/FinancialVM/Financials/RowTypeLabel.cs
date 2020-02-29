@@ -63,7 +63,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             {
                 FontAttributes = FontAttributes.Bold;
                 TextDecorations = TextDecorations.Underline;
-                //Text = _financialsLineItems.FinalText.ToUpper();
                 BackgroundColor = _mainHeadingColor;
                 TextColor = Color.White;
             }
@@ -71,7 +70,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             void initSubHeading()
             {
                 FontAttributes = FontAttributes.Bold;
-                //Text = _financialsLineItems.FinalText;
             }
 
             void initLineItems() { Text = "   " + _financialsLineItems.FinalText; }
@@ -79,7 +77,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             void initTotals()
             {
                 FontAttributes = FontAttributes.Bold;
-                //Text = _financialsLineItems.FinalText;
                 BackgroundColor = Color.LightGray;
             }
         }

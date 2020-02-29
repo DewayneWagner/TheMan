@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace TheManXS.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FinancialsView : TabbedPage
+    public partial class FinancialsView : ContentPage
     {
         public FinancialsView()
         {

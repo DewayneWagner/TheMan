@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.Services;
+using Xamarin.Forms;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials
 {
@@ -20,18 +23,63 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public FinancialsVM()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-            FinancialsGrid = new FinancialsGrid(_game,new FinancialsLineItemsList(_game).GetListOfFinancialsLineItems());
+            InitCommands();
+            ButtonSize = QC.ScreenHeight / 5;
+
+            FinancialsScrollView = new ScrollView();
+            FinancialsScrollView.Content = new FinancialsGrid(_game,new FinancialsLineItemsArray(_game).GetArrayOfFinancialsLineItems());
         }
 
-        private FinancialsGrid _financialsGrid;
-        public FinancialsGrid FinancialsGrid
+        private ScrollView _financialsScrollView;
+        public ScrollView FinancialsScrollView
         {
-            get => _financialsGrid;
+            get => _financialsScrollView;
             set
             {
-                _financialsGrid = value;
-                SetValue(ref _financialsGrid, value);
+                _financialsScrollView = value;
+                SetValue(ref _financialsScrollView, value);
             }
+        }
+
+        //private FinancialsGrid _financialsGrid;
+        //public FinancialsGrid FinancialsGrid
+        //{
+        //    get => _financialsGrid;
+        //    set
+        //    {
+        //        _financialsGrid = value;
+        //        SetValue(ref _financialsGrid, value);
+        //    }
+        //}
+
+        public ICommand SinglePlayer { get; set; }
+        public ICommand AllPlayers { get; set; }
+        public ICommand ResourceBreakdown { get; set; }
+        public ICommand Ratios { get; set; }
+        public double ButtonSize { get; set; }
+
+        void InitCommands()
+        {
+            SinglePlayer = new Command(OnSinglePlayer);
+            AllPlayers = new Command(OnAllPlayers);
+            ResourceBreakdown = new Command(OnResourceBreakdown);
+            Ratios = new Command(OnRatios);
+        }
+        void OnSinglePlayer()
+        {
+
+        }
+        void OnAllPlayers()
+        {
+
+        }
+        void OnResourceBreakdown()
+        {
+
+        }
+        void OnRatios()
+        {
+
         }
     }
 }
