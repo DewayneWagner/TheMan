@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.ViewModel.FinancialVM.Financials;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 
-namespace TheManXS.ViewModel.FinancialVM.Financials
+namespace TheManXS.Model.Financial
 {
     public class FinancialsLineItems
     {

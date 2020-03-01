@@ -7,14 +7,14 @@
              mc:Ignorable="d"
              x:Class="TheManXS.View.FinancialsView">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <FinVM:FinancialsVM/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -30,28 +30,32 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
-            <Button Command="{Binding SinglePlayer}" Text="SP" Style="{StaticResource FinGridButton}" 
+            <Button Command="{Binding SinglePlayer}" Text="Single Player" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="0" Grid.Column="0"/>
-            <Button Command="{Binding AllPlayers}" Text="AP" Style="{StaticResource FinGridButton}" 
+            <Button Command="{Binding AllPlayers}" Text="All Players" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="1" Grid.Column="0"/>
-            <Button Command="{Binding ResourceBreakdown}" Text="RB" Style="{StaticResource FinGridButton}" 
+            <Button Command="{Binding ResourceBreakdown}" Text="Resource Breakdown" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="2" Grid.Column="0"/>
-            <Button Command="{Binding Ratios}" Text="R" Style="{StaticResource FinGridButton}" 
+            <Button Command="{Binding Ratios}" Text="Ratios" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="3" Grid.Column="0"/>
-        </Grid>
-
-        <ScrollView Grid.Row="0" Grid.Column="1" Orientation="Both" BindingContext="{Binding FinancialsScrollView}"/>
+            <Button Command="{Binding PropertyBreakdown}" Text="Property Breakdown" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="4" Grid.Column="0"/>
+            <Button Command="{Binding Graphs}" Text="Graphs" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="5" Grid.Column="0"/>
+        </Grid>        
+        
+        <ScrollView Grid.Row="0" Grid.Column="1" Orientation="Vertical" x:Name="DataPresentationAreaSV"/>
 
 
     </Grid>
-    
-   
-    
-    
 </ContentPage>

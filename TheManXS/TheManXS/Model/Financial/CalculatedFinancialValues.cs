@@ -7,9 +7,9 @@ using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.FinancialVM.Financials
+namespace TheManXS.Model.Financial
 {
-    class CalculatedFinancialValues
+    public class CalculatedFinancialValues
     {
         Game _game;
         Player _player;
@@ -18,8 +18,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             _game = game;
             _player = player;
             InitFinancialValues();
+            WriteToDB();
         }
-
+        public int PlayerNumber { get; set; }
+        public int TurnNumber { get; set; }
         public double Cash { get; set; }
         public double Debt { get; set; }
         public double PPE { get; set; } 
@@ -78,6 +80,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 NetProfitD = GrossProfitD - CAPEXThisTurn - DebtPayment - InterestExpense;
                 NetProfitP = NetProfitD / Revenue;
             }
+        }
+        void WriteToDB()
+        {
+            // turn this on when Turn functionality goes live
         }
     }
 }

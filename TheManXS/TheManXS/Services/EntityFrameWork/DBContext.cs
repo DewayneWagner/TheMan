@@ -34,6 +34,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<Formation> Formation { get; set; }
         public DbSet<Commodity> Commodity { get; set; }
         public DbSet<SQInfrastructure> SQInfrastructure { get; set; }
+        //public DbSet<CalculatedFinancialValues> CalculatedFinancialValues { get; set; } activate this once Turn class is functioning
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 

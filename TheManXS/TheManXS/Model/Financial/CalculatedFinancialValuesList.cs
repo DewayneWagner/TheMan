@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.FinancialVM.Financials;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.FinancialVM.Financials
+namespace TheManXS.Model.Financial
 {
     class CalculatedFinancialValuesList : List<CalculatedFinancialValues>
     {

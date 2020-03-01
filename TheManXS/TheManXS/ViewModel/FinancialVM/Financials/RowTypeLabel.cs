@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Financial;
 using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials
@@ -48,6 +49,9 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 case FinancialsVM.FormatTypes.Totals:
                     initTotals();
                     break;
+                case FinancialsVM.FormatTypes.CompanyNameColHeading:
+                    initCompanyNameColHeading();
+                    break;
                 default:
                     break;
             }
@@ -56,7 +60,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand;
                 VerticalOptions = LayoutOptions.FillAndExpand;
-                HorizontalTextAlignment = TextAlignment.Start;
+                HorizontalTextAlignment = TextAlignment.Center;
+                WidthRequest = FinancialsVM.ColumnWidth;
             }
 
             void initMainHeading()
@@ -70,14 +75,29 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             void initSubHeading()
             {
                 FontAttributes = FontAttributes.Bold;
+                Text = "";
             }
 
-            void initLineItems() { Text = "   " + _financialsLineItems.FinalText; }
-            
+            void initLineItems() 
+            {
+                HorizontalTextAlignment = TextAlignment.Center;
+                Text = "";
+            }
+
             void initTotals()
             {
                 FontAttributes = FontAttributes.Bold;
                 BackgroundColor = Color.LightGray;
+                Text = "";
+            }
+            
+            void initCompanyNameColHeading()
+            {
+                FontAttributes = FontAttributes.Bold;
+                BackgroundColor = Color.LightSlateGray;
+                HorizontalTextAlignment = TextAlignment.Center;
+                VerticalTextAlignment = TextAlignment.Center;
+                TextDecorations = TextDecorations.Underline;
             }
         }
     }

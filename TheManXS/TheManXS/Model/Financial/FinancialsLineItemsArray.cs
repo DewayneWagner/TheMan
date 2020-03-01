@@ -4,21 +4,31 @@ using System.Text;
 using TheManXS.Model.Main;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 
-namespace TheManXS.ViewModel.FinancialVM.Financials
+namespace TheManXS.Model.Financial
 {
     public class FinancialsLineItemsArray
     {
         Game _game;
+        DataPanelType _dataPanelType;
         FinancialsLineItems[] _lineItemsArray;
-        public FinancialsLineItemsArray(Game game)
+        public FinancialsLineItemsArray(Game game, DataPanelType dataPanelType)
         {
             _game = game;
+            _dataPanelType = dataPanelType;
             _lineItemsArray = new FinancialsLineItems[(int)LineItemType.Total];               
             InitListWithHeadings();
         }
         public FinancialsLineItems[] GetArrayOfFinancialsLineItems() => _lineItemsArray;
         void InitListWithHeadings()
         {
+            _lineItemsArray[(int)LineItemType.CompanyNamesOrTurnNumber] =
+                (new FinancialsLineItems()
+                {
+                    LineItemType = LineItemType.CompanyNamesOrTurnNumber,
+                    FinalText = GetFinalTextForCompanyOrTurn(),
+                    FormatType = FormatTypes.CompanyNameColHeading,
+                });
+
             _lineItemsArray[(int)LineItemType.BalanceSheets] = 
                 (new FinancialsLineItems()
                 {
@@ -31,7 +41,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.Assets,
-                    FinalText = "Total Assets",
+                    FinalText = "Assets",
                     FormatType = FormatTypes.SubHeading,
                 });
 
@@ -179,5 +189,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FormatType = FormatTypes.LineItem,
                 });
         }
+        string GetFinalTextForCompanyOrTurn() => _dataPanelType == DataPanelType.AllPlayers ? "Company Name" : "Quarter";
     }
 }
