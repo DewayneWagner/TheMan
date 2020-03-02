@@ -6,6 +6,8 @@ using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TheManXS.Model.Financial
 {
@@ -13,13 +15,18 @@ namespace TheManXS.Model.Financial
     {
         Game _game;
         Player _player;
+
+        public FinancialValues() { }
         public FinancialValues(Game game, Player player)
         {
             _game = game;
             _player = player;
-            InitFinancialValues();
-            WriteToDB();
+            PlayerNumber = _player.Number;
+            TurnNumber = _game.TurnNumber;
+
+            CalculateFinancialValues();
         }
+
         public int PlayerNumber { get; set; }
         public int TurnNumber { get; set; }
         public double Cash { get; set; }
@@ -38,52 +45,57 @@ namespace TheManXS.Model.Financial
         public double NetProfitD { get; set; } 
         public double NetProfitP { get; set; }
         
-        private void InitFinancialValues()
+        private void addTestValues()
         {
             // for testing and set-up
             CAPEXThisTurn = 250;
             DebtPayment = 150;
             InterestExpense = 15;
             PPE = 1523;
+        }
 
-            // final
-            setRevenueAndOPEX();
+        private void CalculateFinancialValues()
+        {
+            addTestValues();
+            SetRevenueAndOPEX();
             TheManCut = Revenue * QC.TheManCut;
-            setGrossProfit();
+            SetGrossProfit();
             TotalAssets = PPE + _player.Cash;
             TotalCapital = TotalAssets - _player.Debt;
-
-            setNetProfit();
-            void setRevenueAndOPEX()
-            {
-                double rev = 0;
-                double opex = 0;
-
-                foreach (KeyValuePair<int, SQ> sq in _game.SquareDictionary)
-                {
-                    if (sq.Value.OwnerNumber == _player.Number && sq.Value.Status == ST.Producing)
-                    {
-                        rev += (sq.Value.Production * _game.CommodityList[(int)sq.Value.ResourceType].Price);
-                        opex += sq.Value.OPEXPerUnit * sq.Value.Production;
-                    }
-                }
-                Revenue = rev;
-                TotalOPEX = opex;
-            }
-            void setGrossProfit()
-            {
-                GrossProfitD = Revenue - TotalOPEX - TheManCut;
-                GrossProfitP = GrossProfitD / Revenue;
-            }
-            void setNetProfit()
-            {
-                NetProfitD = GrossProfitD - CAPEXThisTurn - DebtPayment - InterestExpense;
-                NetProfitP = NetProfitD / Revenue;
-            }
+            SetNetProfit();            
         }
-        void WriteToDB()
+        void SetRevenueAndOPEX()
         {
-            // turn this on when Turn functionality goes live
+            double rev = 0;
+            double opex = 0;
+
+            foreach (KeyValuePair<int, SQ> sq in _game.SquareDictionary)
+            {
+                if (sq.Value.OwnerNumber == _player.Number && sq.Value.Status == ST.Producing)
+                {
+                    rev += (sq.Value.Production * _game.CommodityList[(int)sq.Value.ResourceType].Price);
+                    opex += sq.Value.OPEXPerUnit * sq.Value.Production;
+                }
+            }
+            Revenue = rev;
+            TotalOPEX = opex;
+        }
+        void SetGrossProfit()
+        {
+            GrossProfitD = Revenue - TotalOPEX - TheManCut;
+            GrossProfitP = GrossProfitD / Revenue;
+        }
+        void SetNetProfit()
+        {
+            NetProfitD = GrossProfitD - CAPEXThisTurn - DebtPayment - InterestExpense;
+            NetProfitP = NetProfitD / Revenue;
+        }
+    }
+    public class FinancialValuesDBConfig : IEntityTypeConfiguration<FinancialValues>
+    {
+        public void Configure(EntityTypeBuilder<FinancialValues> builder)
+        {
+            builder.HasNoKey();
         }
     }
 }

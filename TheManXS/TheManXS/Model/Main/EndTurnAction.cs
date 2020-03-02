@@ -13,18 +13,13 @@ namespace TheManXS.Model.Main
         {
             _game = game;
             setNextPlayer();
+
             if (_isFullTurnAdvance)
             {
                 setNextQuarter();
                 _game.CommodityList.AdvancePricing();
-
             }
         }
-
-
-        void UpdateCommodityPricing() { }
-        void UpdateFinancials() { }
-        
 
         void setNextQuarter()
         {
@@ -42,6 +37,7 @@ namespace TheManXS.Model.Main
                 newQuarter = Convert.ToString(newYearNumber) + "-Q" + Convert.ToString(newQuarterNumber);
             }
             _game.Quarter = newQuarter;
+            _game.GameBoardVM.TitleBar.Quarter = newQuarter;
         }
         
         void setNextPlayer()
@@ -50,6 +46,7 @@ namespace TheManXS.Model.Main
             int nextPlayerIndex = currentPlayerIndex == (_game.PlayerList.Count - 1) ? 0 : currentPlayerIndex++;
             _isFullTurnAdvance = nextPlayerIndex == QC.PlayerIndexActual ? true : false;
             _game.ActivePlayer = _game.PlayerList[nextPlayerIndex];
+            _game.GameBoardVM.TitleBar.CompanyName = _game.ActivePlayer.Name;
         }
     }
 }

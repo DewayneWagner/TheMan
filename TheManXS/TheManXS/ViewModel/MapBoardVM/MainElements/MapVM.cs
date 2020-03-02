@@ -32,6 +32,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             _game = game;
             _game.GameBoardVM.MapVM = this;
             QC.IsNewGame = true;
+            CompressedLayout.SetIsHeadless(this, true);
 
             if (QC.IsNewGame) 
             {

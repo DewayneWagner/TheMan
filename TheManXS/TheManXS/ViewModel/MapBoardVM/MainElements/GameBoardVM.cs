@@ -16,6 +16,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             _game.GameBoardVM = this;
+            CompressedLayout.SetIsHeadless(this, true);
             TouchEffectsEnabled = true;
             SidePanelManager = new SidePanelManager(_game); 
         }

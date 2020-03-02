@@ -12,6 +12,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public PropertyBreakdownGrid(Game game)
         {
             _game = game;
+            CompressedLayout.SetIsHeadless(this, true);
             InitGrid();
             SetPropertiesOfGrid();
             AddTestLabel();

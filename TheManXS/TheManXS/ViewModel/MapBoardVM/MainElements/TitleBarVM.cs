@@ -23,20 +23,16 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             _game.GameBoardVM.TitleBar = this;
-
             _pageService = new PageService();
+
             CompressedLayout.SetIsHeadless(this, true);
 
             ShowFinancials = new Command(ShowFinancialsPage);
             EndTurn = new Command(EndTurnAction);
 
-            ShowTerrain = new Command(ShowTerrainMap);
             ShowResources = new Command(ShowResourceMap);
-
-#if DEBUG
-            Quarter = "1900-Q1";
-            CompanyName = "Rockyspring Ltd.";
-#endif
+            Quarter = _game.Quarter;
+            CompanyName = _game.ActivePlayer.Name;
         }
 
         public string Quarter
@@ -61,23 +57,10 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         
         public ICommand ShowFinancials { get; set; }
         public ICommand EndTurn { get; set; }
-        public ICommand ShowTerrain { get; set; }
         public ICommand ShowResources { get; set; }
 
         private async void ShowResourceMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Resources));
-
-        //private async void ShowTerrainMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Terrain));
-
-        private async void ShowTerrainMap() => await _pageService.PushAsync(new MapBoard());
-        private async void EndTurnAction(object obj)
-        {
-            await _pageService.DisplayAlert("Turn has been ended.");
-        }
-
-        private async void ShowFinancialsPage(object obj)
-        {
-            //await _pageService.DisplayAlert("Financials Page");
-            await _pageService.PushAsync(new FinancialsView());
-        }
+        private void EndTurnAction(object obj) => new EndTurnAction(_game);
+        private async void ShowFinancialsPage(object obj) => await _pageService.PushAsync(new FinancialsView());
     }
 }

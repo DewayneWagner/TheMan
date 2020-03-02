@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TheManXS.Model.Company;
+using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Map;
 using TheManXS.Model.Services.EntityFrameWork;
@@ -23,58 +24,43 @@ namespace TheManXS.Model.Main
         public Game(GameSpecificParameters gsp, bool isNewGame)
         {
             App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)] = this;
-            InitClassesNeededForNewOrLoadedGame();
             QC.CurrentSavedGameSlot = gsp.Slot;
             _gsp = gsp;
 
-            if (isNewGame)
-            {
-                InitClassesNeededForNewGameMethods();
-                Quarter = "1900-Q1";
-            }
+            if (isNewGame) { InitPropertiesForNewGame(); }
+
             else if (!isNewGame)
             {
-                InitClassesNeededForLoadedGame();
-                Map = new GameBoardMap(false);
+                InitPropertiesForLoadedGame();
+                Map = new GameBoardMap(this,false);
             }
-            LoadDictionaries();
         }
-        private void InitClassesNeededForNewOrLoadedGame()
+        private void InitPropertiesForNewGame()
         {
-            //new QuickConstants(); moved initialization to MainMenu
-            //new TerrainImage();
-        }
-        private void InitClassesNeededForNewGameMethods()
-        {            
+            Quarter = "1900-Q1";
+            TurnNumber = 1;
             PlayerList = new PlayerList(_gsp);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
-
-            new CommodityList(true);
-            Map = new GameBoardMap(true);
+            Map = new GameBoardMap(this,true);
+            CommodityList = new CommodityList(this);
+            FinancialValuesList = new FinancialValuesList(this);
         }
-        private void InitClassesNeededForLoadedGame()
+        private void InitPropertiesForLoadedGame()
         {
             
         }
 
         public GameBoardMap Map { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
-        public List<Player> PlayerList { get; set; }
-        public CommodityList CommodityList { get; set; } = new CommodityList(true);
+        public PlayerList PlayerList { get; set; }
+        public CommodityList CommodityList { get; set; } 
+        public FinancialValuesList FinancialValuesList { get; set; }
         public GameBoardVM GameBoardVM { get; set; }
-
         public Player ActivePlayer { get; set; }
         public SQ ActiveSQ { get; set; }
         public Unit ActiveUnit { get; set; }
         public string Quarter { get; set; }
+        public int TurnNumber { get; set; }
 
-        private void LoadDictionaries()
-        {
-            using (DBContext db = new DBContext())
-            {
-                SquareDictionary = db.SQ.ToDictionary(sq => sq.Key);
-                CommodityList = db.Commodity.ToList();
-            }
-        }
     }
 }

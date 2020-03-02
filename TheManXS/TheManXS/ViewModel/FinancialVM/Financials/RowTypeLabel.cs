@@ -13,6 +13,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public RowTypeLabel(FinancialsLineItems financialLineItem)
         {
             _financialsLineItems = financialLineItem;
+            CompressedLayout.SetIsHeadless(this, true);
             InitLabel();
         }
         public RowTypeLabel(string companyName)

@@ -18,9 +18,11 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         {
             _game = game;
             _dataPanelType = dataPanelType;
-
             _financialsLineItemsArray = financialsLineItemsArray;
-            new CalculatedFinancialValuesList(_game,_financialsLineItemsArray);
+            CompressedLayout.SetIsHeadless(this, true);
+
+            _game.FinancialValuesList.AssignValuesToFinancialLineItemsArrays(_financialsLineItemsArray);
+
             InitPropertiesOfGrid();
             InitRows();
             InitColumns();

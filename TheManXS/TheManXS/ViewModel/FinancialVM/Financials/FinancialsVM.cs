@@ -25,6 +25,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             DataPresentationArea = new ScrollView();
+            CompressedLayout.SetIsHeadless(this, true);
             InitCommands();
             ButtonSize = QC.ScreenHeight / 6;
             DataPanel = DataPanelType.AllPlayers;            

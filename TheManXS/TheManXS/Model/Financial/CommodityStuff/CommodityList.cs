@@ -7,11 +7,14 @@ using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
+using TheManXS.Model.Main;
 
 namespace TheManXS.Model.Financial.CommodityStuff
 {
-    public class CommodityList
+    public class CommodityList : List<Commodity>
     {
+        Game _game;
+
         private static double _startPrice;
         private static double _minPrice;
         private static double _maxPrice;
@@ -20,8 +23,9 @@ namespace TheManXS.Model.Financial.CommodityStuff
         private static double _spreadBetweenMinAndMax;
 
         private System.Random rnd = new System.Random();
-        public CommodityList(bool isForNewGame)
+        public CommodityList(Game game)
         {
+            _game = game;
             _startPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.CommStartPrice);
             _minPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MinCommPrice);
             _maxPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MaxCommPrice);
@@ -31,27 +35,32 @@ namespace TheManXS.Model.Financial.CommodityStuff
             _spreadBetweenMinAndMax = _minPriceFluctuation + _maxPriceFluctuation;
             _minPriceFluctuation *= (-1);
 
-            InitAllCommodityPricing();
+            InitPricingWithStartValues();
+            WriteCommodityListToDB();
         }
 
-        private void InitAllCommodityPricing()
+        public void InitPricingWithStartValues()
         {
-            using (DBContext db = new DBContext())
+            for (int i = 0; i < (int)RT.Total; i++)
             {
-                for (int i = 0; i < (int)RT.Total; i++)
+                Add(new Commodity()
                 {
-                    Commodity c = new Commodity()
-                    {
-                        Delta = 0,
-                        Price = _startPrice,
-                        ResourceTypeNumber = i,
-                        Turn = QC.TurnNumber,
-                    };
-                    db.Commodity.Add(c);
-                }
-                db.SaveChanges();
-            }            
+                    Delta = 0,
+                    Price = _startPrice,
+                    ResourceTypeNumber = (int)((RT)i),
+                    Turn = 1,
+                });
+            }
+            
+            Add(new Commodity()
+            {
+                Delta = 0,
+                Price = _startPrice,
+                ResourceTypeNumber = (int)(RT.RealEstate),
+                Turn = 1,
+            });            
         }
+
         public void AdvancePricing()
         {
             using (DBContext db = new DBContext())
@@ -82,6 +91,14 @@ namespace TheManXS.Model.Financial.CommodityStuff
 
                     db.Commodity.Add(newComm);
                 }
+            }
+        }
+        private void WriteCommodityListToDB()
+        {
+            using (DBContext db = new DBContext())
+            {
+                db.Commodity.AddRange(this);
+                db.SaveChanges();
             }
         }
     }
