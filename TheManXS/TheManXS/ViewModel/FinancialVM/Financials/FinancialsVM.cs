@@ -31,6 +31,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         }
 
         public static double ColumnWidth = QC.ScreenWidth / 6;
+        public double ButtonSize { get; set; }
 
         private ScrollView _dataPresentationArea;
         public ScrollView DataPresentationArea
@@ -42,17 +43,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 SetValue(ref _dataPresentationArea, value);
             }
         }
-
-        //private FinancialsGrid _financialsGrid;
-        //public FinancialsGrid FinancialsGrid
-        //{
-        //    get => _financialsGrid;
-        //    set
-        //    {
-        //        _financialsGrid = value;
-        //        SetValue(ref _financialsGrid, value);
-        //    }
-        //}
 
         private DataPanelType _dataPanelType;
         public DataPanelType DataPanel
@@ -71,8 +61,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public ICommand Ratios { get; set; }
         public ICommand PropertyBreakdown { get; set; }
         public ICommand Graphs { get; set; }
-        public double ButtonSize { get; set; }
-
+       
         void CreateNewDataPanel()
         {
             switch (DataPanel)
@@ -84,12 +73,16 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     DataPresentationArea.Content = fg;
                     break;
                 case DataPanelType.ResourceBreakdown:
+                    DataPresentationArea.Content = new ResourceBreakdownGrid(_game);
                     break;
                 case DataPanelType.Ratios:
+                    DataPresentationArea.Content = new FinancialRatiosGrid(_game);
                     break;
                 case DataPanelType.PropertyBreakdown:
+                    DataPresentationArea.Content = new PropertyBreakdownGrid(_game);
                     break;
                 case DataPanelType.Graphs:
+                    DataPresentationArea.Content = new GraphsGrid(_game);
                     break;
                 default:
                     break;

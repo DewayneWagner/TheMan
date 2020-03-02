@@ -9,11 +9,11 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Financial
 {
-    public class CalculatedFinancialValues
+    public class FinancialValues
     {
         Game _game;
         Player _player;
-        public CalculatedFinancialValues(Game game, Player player)
+        public FinancialValues(Game game, Player player)
         {
             _game = game;
             _player = player;

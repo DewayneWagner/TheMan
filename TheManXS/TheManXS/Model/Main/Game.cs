@@ -10,6 +10,7 @@ using TheManXS.Model.Settings;
 using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
+using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Main
@@ -29,7 +30,7 @@ namespace TheManXS.Model.Main
             if (isNewGame)
             {
                 InitClassesNeededForNewGameMethods();
-                //
+                Quarter = "1900-Q1";
             }
             else if (!isNewGame)
             {
@@ -59,12 +60,13 @@ namespace TheManXS.Model.Main
         public GameBoardMap Map { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public List<Player> PlayerList { get; set; }
-        public List<Commodity> CommodityList { get; set; } = new List<Commodity>();
+        public CommodityList CommodityList { get; set; } = new CommodityList(true);
         public GameBoardVM GameBoardVM { get; set; }
 
         public Player ActivePlayer { get; set; }
         public SQ ActiveSQ { get; set; }
         public Unit ActiveUnit { get; set; }
+        public string Quarter { get; set; }
 
         private void LoadDictionaries()
         {

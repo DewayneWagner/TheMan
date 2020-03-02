@@ -52,7 +52,7 @@ namespace TheManXS.Model.Financial.CommodityStuff
                 db.SaveChanges();
             }            
         }
-        public void AdjustPricing()
+        public void AdvancePricing()
         {
             using (DBContext db = new DBContext())
             {

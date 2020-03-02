@@ -8,7 +8,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Financial
 {
-    class CalculatedFinancialValuesList : List<CalculatedFinancialValues>
+    class CalculatedFinancialValuesList : List<FinancialValues>
     {
         Game _game;
         FinancialsLineItems[] _financialsLineItemsArray;
@@ -23,7 +23,7 @@ namespace TheManXS.Model.Financial
         {
             for (int i = 0; i < QC.PlayerQ; i++)
             {
-                Add(new CalculatedFinancialValues(_game, _game.PlayerList[i]));
+                Add(new FinancialValues(_game, _game.PlayerList[i]));
             }
         }
         void AssignValuesToFinancialLineItemsArrays()
