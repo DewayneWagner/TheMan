@@ -8,6 +8,8 @@ using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.Financial.StockPrice;
 
 namespace TheManXS.Model.Financial
 {
@@ -15,18 +17,21 @@ namespace TheManXS.Model.Financial
     {
         Game _game;
         Player _player;
+        private double _lastStockPrice;
 
         public FinancialValues() { }
         public FinancialValues(Game game, Player player)
         {
             _game = game;
             _player = player;
+            _lastStockPrice = _player.StockPrice;
             PlayerNumber = _player.Number;
             TurnNumber = _game.TurnNumber;
 
             CalculateFinancialValues();
         }
 
+        public int ID { get; set; }
         public int PlayerNumber { get; set; }
         public int TurnNumber { get; set; }
         public double Cash { get; set; }
@@ -44,7 +49,11 @@ namespace TheManXS.Model.Financial
         public double InterestExpense { get; set; } 
         public double NetProfitD { get; set; } 
         public double NetProfitP { get; set; }
-        
+        public double StockPrice { get; set; }
+        public double StockPriceDelta { get; set; }
+        public double InterestRate { get; set; }
+        public string CreditRating { get; set; }
+
         private void addTestValues()
         {
             // for testing and set-up
@@ -56,13 +65,16 @@ namespace TheManXS.Model.Financial
 
         private void CalculateFinancialValues()
         {
+            Cash = _player.Cash;
+            Debt = _player.Debt;
             addTestValues();
             SetRevenueAndOPEX();
             TheManCut = Revenue * QC.TheManCut;
             SetGrossProfit();
             TotalAssets = PPE + _player.Cash;
             TotalCapital = TotalAssets - _player.Debt;
-            SetNetProfit();            
+            SetNetProfit();
+            SetStockPrice();
         }
         void SetRevenueAndOPEX()
         {
@@ -90,12 +102,21 @@ namespace TheManXS.Model.Financial
             NetProfitD = GrossProfitD - CAPEXThisTurn - DebtPayment - InterestExpense;
             NetProfitP = NetProfitD / Revenue;
         }
+        private void SetStockPrice()
+        {
+            Stock s = new Stock(this,_lastStockPrice);
+            StockPrice = s.Price;
+            StockPriceDelta = s.Delta;
+            _player.StockPrice = s.Price;
+            _player.Delta = s.Delta;
+        }
     }
+    
     public class FinancialValuesDBConfig : IEntityTypeConfiguration<FinancialValues>
     {
         public void Configure(EntityTypeBuilder<FinancialValues> builder)
         {
-            builder.HasNoKey();
+            builder.Property(p => p.ID).ValueGeneratedOnAdd();
         }
     }
 }

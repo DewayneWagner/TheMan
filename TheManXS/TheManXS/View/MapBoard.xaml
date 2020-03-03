@@ -35,10 +35,7 @@
                 <Label Style="{StaticResource GameboardTopTitleLabels}" 
                        Text="{Binding CompanyName}" 
                        HorizontalOptions="StartAndExpand"/>
-                <Button Text="TER"
-                        Command="{Binding ShowTerrain}"
-                        Style="{StaticResource ButtonStandard}"
-                        WidthRequest="60"/>
+                
                 <Button Text="RES"
                         Command="{Binding ShowResources}"
                         Style="{StaticResource ButtonStandard}"

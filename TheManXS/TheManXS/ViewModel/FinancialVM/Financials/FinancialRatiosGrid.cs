@@ -36,7 +36,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.LightGreen,
-                Text = "COMING SOON!",
+                Text = "FINANCIAL RATIOS" + "\n" + "COMING SOON!",
                 FontSize = 50,
                 FontAttributes = FontAttributes.Bold,
                 HorizontalTextAlignment = TextAlignment.Center,

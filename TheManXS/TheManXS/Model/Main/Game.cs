@@ -50,6 +50,16 @@ namespace TheManXS.Model.Main
             
         }
 
+        void WriteClassesWithJSON()
+        {
+            // classes to write to JSON
+
+        }
+        void ReadClassesFromJSON()
+        {
+
+        }
+
         public GameBoardMap Map { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public PlayerList PlayerList { get; set; }
@@ -61,6 +71,5 @@ namespace TheManXS.Model.Main
         public Unit ActiveUnit { get; set; }
         public string Quarter { get; set; }
         public int TurnNumber { get; set; }
-
     }
 }

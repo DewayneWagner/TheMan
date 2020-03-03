@@ -87,7 +87,7 @@
                             Grid.Row="2"
                             Grid.Column="0"/>
                         <Picker ItemsSource="{Binding CompanyColorList}" 
-                            SelectedItem="{Binding CompanyColor}"   
+                            SelectedIndex="{Binding CompanyColorIndex}"
                             VerticalOptions="Center"
                             HorizontalOptions="FillAndExpand"
                             Grid.Row="2"

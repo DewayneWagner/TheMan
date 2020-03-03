@@ -14,6 +14,7 @@ using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
+using static TheManXS.Model.Settings.SettingsMaster;
 
 namespace TheManXS.Model.Main
 {
@@ -27,6 +28,9 @@ namespace TheManXS.Model.Main
         public string Ticker { get; set; }
         public double Cash { get; set; }
         public double Debt { get; set; }
+        public double StockPrice { get; set; }
+        public double Delta { get; set; }
+        public CreditRatingsE CreditRating { get; set; }
         public bool IsComputer { get; set; }
 
         private SKColor _skColor;
@@ -49,12 +53,11 @@ namespace TheManXS.Model.Main
         {
             builder.HasKey(p => p.Key);
 
-            builder.Property(p => p.Ticker)
-                .HasMaxLength(3);
+            builder.Property(p => p.Ticker).HasMaxLength(3);
 
             builder.Ignore(p => p.SKColor);
 
-            //builder.Property(p => p.Color).HasConversion(new EnumToStringConverter<AllAvailableCompanyColors>());
+            builder.Property(p => p.CreditRating).HasConversion(new EnumToStringConverter<CreditRatingsE>());
         }
     }    
 }

@@ -14,6 +14,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         Game _game;
         DataPanelType _dataPanelType;
         private FinancialsLineItems[] _financialsLineItemsArray;
+        int _numberOfColumns;
+        private List<string> _quarterColumnHeadings;
         public FinancialsGrid(Game game, DataPanelType dataPanelType,FinancialsLineItems[] financialsLineItemsArray)
         {
             _game = game;
@@ -22,11 +24,22 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             CompressedLayout.SetIsHeadless(this, true);
 
             _game.FinancialValuesList.AssignValuesToFinancialLineItemsArrays(_financialsLineItemsArray);
-
+                        
+            SetNumberOfColummns();
+            if (_dataPanelType == DataPanelType.SinglePlayer) { LoadListOfQuarterColumnHeadings(); }
             InitPropertiesOfGrid();
             InitRows();
             InitColumns();
             AddData();
+        }
+
+        void LoadListOfQuarterColumnHeadings() =>_quarterColumnHeadings = new QuarterCalc(_game).GetLastXQuarters(_numberOfColumns);
+
+        void SetNumberOfColummns()
+        {
+            if (_dataPanelType == DataPanelType.AllPlayers) { _numberOfColumns = FinancialsVM.QDATACOLUMNS; }
+            else if(_game.TurnNumber > FinancialsVM.QDATACOLUMNS) { _numberOfColumns = FinancialsVM.QDATACOLUMNS; }
+            else { _numberOfColumns = _game.TurnNumber; }
         }
 
         void InitPropertiesOfGrid()
@@ -49,7 +62,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         void InitColumns()
         {
             ColumnDefinitions.Add(new ColumnDefinition());
-            for (int i = 0; i < (FinancialsVM.QDATACOLUMNS + 1); i++)
+            for (int i = 0; i < (_numberOfColumns + 1); i++)
             {
                 ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -57,8 +70,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 
         void AddData()
         {
-            List<string> _quartersForTesting = new List<string>() { "1901-Q1", "1900-Q4", "1900-Q3", "1900-Q2", "1900-Q1" };
-
             foreach (FinancialsLineItems f in _financialsLineItemsArray)
             {
                 if(f.FormatType == FormatTypes.CompanyNameColHeading)
@@ -72,7 +83,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 
                 void addCompanyNames()
                 {
-                    for (int c = 1; c <= FinancialsVM.QDATACOLUMNS; c++)
+                    for (int c = 1; c <= _numberOfColumns; c++)
                     {
                         RowTypeLabel companyHeadingLabel = new RowTypeLabel(f);
                         companyHeadingLabel.Text = _game.PlayerList[(c - 1)].Name;
@@ -81,10 +92,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                 }
                 void addQuarterNames()
                 {
-                    for (int c = 1; c < FinancialsVM.QDATACOLUMNS; c++)
+                    for (int c = 1; c <= _numberOfColumns; c++)
                     {
                         RowTypeLabel quarterHeadingLabel = new RowTypeLabel(f);
-                        quarterHeadingLabel.Text = _quartersForTesting[(c - 1)];
+                        quarterHeadingLabel.Text = _quarterColumnHeadings[(c - 1)];
                         Children.Add(quarterHeadingLabel, c, (int)f.LineItemType);
                     }
                 }
@@ -93,7 +104,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     RowTypeLabel mainHeadingLabel = new RowTypeLabel(f);
                     mainHeadingLabel.Text = f.FinalText;
                     Children.Add(mainHeadingLabel, 0, (int)f.LineItemType);
-                    Grid.SetColumnSpan(mainHeadingLabel, FinancialsVM.QDATACOLUMNS + 1);
+                    Grid.SetColumnSpan(mainHeadingLabel, _numberOfColumns + 1);
                     mainHeadingLabel.VerticalOptions = LayoutOptions.Center;
                 }
                 void addAllOtherLines()
@@ -103,7 +114,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     rowHeadingLabel.Text = f.FinalText;
                     Children.Add(rowHeadingLabel, 0, (int)f.LineItemType);
 
-                    for (int i = 0; i < FinancialsVM.QDATACOLUMNS; i++)
+                    for (int i = 0; i < _numberOfColumns; i++)
                     {
                         RowTypeLabel l = new RowTypeLabel(f);
                         l.Text = f.ValuesArray[i];

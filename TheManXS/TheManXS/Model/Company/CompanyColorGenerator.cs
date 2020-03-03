@@ -33,7 +33,7 @@ namespace TheManXS.Model.Company
         {
             foreach (SKColor color in _listOfSKColors)
             {
-                _listOfAvailableColors.Add(Convert.ToString(color));
+                _listOfAvailableColors.Add(nameof(color));
             }
         }
         public void RemoveSelectedColorFromOptions(SKColor skColor) => _listOfSKColors.Remove(skColor);
@@ -42,6 +42,7 @@ namespace TheManXS.Model.Company
             int indexOfSelectedIndexColor = _listOfAvailableColors.IndexOf(colorName);
             return _listOfSKColors[indexOfSelectedIndexColor];
         }
+        public SKColor GetSKColor(int index) => _listOfSKColors[index];
         public SKColor GetRandomSKColor()
         {
             SKColor c = _listOfSKColors[rnd.Next(0, _listOfSKColors.Count)];

@@ -54,13 +54,28 @@ namespace TheManXS.Model.Company
 
         private string GetCompanyName()
         {
-            string name = null;
+            string first, second, third;                
+                
+            setFirstName();
+            setSecond();
+            setThird();
 
-            name += _firstNameList[rnd.Next(_firstNameList.Count)] + " ";
-            name += _seconNamesList[rnd.Next(_seconNamesList.Count)] + " ";
-            name += _lastNamesList[rnd.Next(_lastNamesList.Count)];
+            return (first + " " + second + " " + third);
 
-            return name;
+            void setFirstName()
+            {
+                first = _firstNameList[rnd.Next(_firstNameList.Count)];
+                _firstNameList.Remove(first);
+            }
+            void setSecond()
+            {
+                second = _seconNamesList[rnd.Next(_seconNamesList.Count)];
+                _seconNamesList.Remove(second);
+            }
+            void setThird()
+            {
+                third = _lastNamesList[rnd.Next(_lastNamesList.Count)];                
+            }
         }
 
         private string GetTicker(string name)

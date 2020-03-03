@@ -23,6 +23,8 @@ namespace TheManXS.Model.Financial.CommodityStuff
         private static double _spreadBetweenMinAndMax;
 
         private System.Random rnd = new System.Random();
+
+        public CommodityList() { }
         public CommodityList(Game game)
         {
             _game = game;
@@ -41,14 +43,14 @@ namespace TheManXS.Model.Financial.CommodityStuff
 
         public void InitPricingWithStartValues()
         {
-            for (int i = 0; i < (int)RT.Total; i++)
+            for (int i = 0; i < (int)RT.RealEstate; i++)
             {
                 Add(new Commodity()
                 {
                     Delta = 0,
                     Price = _startPrice,
                     ResourceTypeNumber = (int)((RT)i),
-                    Turn = 1,
+                    Turn = 1,                    
                 });
             }
             
@@ -63,41 +65,64 @@ namespace TheManXS.Model.Financial.CommodityStuff
 
         public void AdvancePricing()
         {
-            using (DBContext db = new DBContext())
+            CommodityList oldCommodityPricing = _game.CommodityList;
+            CommodityList newCommodityPricing = new CommodityList(_game);
+            double fluctuation, newPrice;
+
+            for (int i = 0; i < (int)RT.RealEstate; i++)
             {
-                int lastTurnNumber = QC.TurnNumber - 1;
-                double oldPrice;
-                double delta;
-                double newPrice;
+                setPriceFluctuation();
+                setNewPrice(oldCommodityPricing[i].Price);
 
-                for (int i = 0; i < (int)RT.Total; i++)
+                newCommodityPricing[i].Price = newPrice;
+                newCommodityPricing[i].Delta = fluctuation;
+                newCommodityPricing[i].ResourceTypeNumber = newCommodityPricing[i].ResourceTypeNumber;
+                newCommodityPricing[i].Turn = QC.TurnNumber;
+            }
+
+            setRealEstatePricing();
+            _game.CommodityList = newCommodityPricing;
+            WriteCommodityListToDB();
+
+            void setRealEstatePricing()
+            {
+                Commodity realEstate = new Commodity()
                 {
-                    var comm = db.Commodity
-                        .Where(c => c.Turn == lastTurnNumber)
-                        .Where(c => c.ResourceTypeNumber == i)
-                        .FirstOrDefault();
+                    Delta = 0,
+                    Price = _minPrice,
+                    Turn = QC.TurnNumber,
+                    ResourceTypeNumber = (int)(RT.RealEstate),
+                };
 
-                    oldPrice = comm.Price;
-                    delta = (rnd.NextDouble() * _spreadBetweenMinAndMax) + _minPriceFluctuation;
-                    newPrice = oldPrice * (1 + delta);
+                this[(int)RT.RealEstate] = realEstate;
+            }
 
-                    Commodity newComm = new Commodity()
-                    {
-                        Delta = delta,
-                        Price = newPrice,
-                        Turn = QC.TurnNumber,
-                        ResourceTypeNumber = i,
-                    };
-
-                    db.Commodity.Add(newComm);
+            void setPriceFluctuation()
+            {
+                fluctuation = (double)(_maxPriceFluctuation - (rnd.NextDouble() * (_maxPriceFluctuation + _minPriceFluctuation)) / 100);
+            }
+                
+            void setNewPrice(double oldPrice)
+            {
+                double tempNewPrice = oldPrice * fluctuation;
+                if (tempNewPrice < _minPrice) 
+                { 
+                    newPrice = _minPrice;
+                    fluctuation = (oldPrice - newPrice) / 100;
                 }
+                else if(tempNewPrice > _maxPrice) 
+                { 
+                    newPrice = _maxPrice;
+                    fluctuation = (oldPrice - newPrice) / 100;
+                }
+                else { newPrice = tempNewPrice; }
             }
         }
         private void WriteCommodityListToDB()
         {
             using (DBContext db = new DBContext())
             {
-                db.Commodity.AddRange(this);
+                db.Commodity.UpdateRange(this);
                 db.SaveChanges();
             }
         }

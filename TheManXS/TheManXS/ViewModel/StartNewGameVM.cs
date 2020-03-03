@@ -21,10 +21,10 @@ namespace TheManXS.ViewModel
         private double selectedButtonOpacity = 1, notSelectedButtonOpacity = 0.5,
             _easyButtonOpacity, _mediumButtonOpacity, _hardButtonOpacity;
 
-        private List<string> _companyColorList;
         private List<GameSpecificParameters> _savedGameSlotsList;
 
-        private string _companyColor, _companyName, _ticker;
+        private int _companyColorIndex;
+        private string _companyName, _ticker;
 
         private Difficulty _difficulty;
         private bool isDifficultySelected, isColorSelected;
@@ -65,13 +65,13 @@ namespace TheManXS.ViewModel
 
         #region(Properties)
 
-        public string CompanyColor
+        public int CompanyColorIndex
         {
-            get => _companyColor;
+            get => _companyColorIndex;
             set
             {
-                _companyColor = value;
-                SetValue(ref _companyColor, value);
+                _companyColorIndex = value;
+                SetValue(ref _companyColorIndex, value);
             }
         }
 
@@ -205,7 +205,7 @@ namespace TheManXS.ViewModel
 
             else
             {
-                SKColor companyColor = _companyColorGenerator.GetSKColor(CompanyColor);
+                SKColor companyColor = _companyColorGenerator.GetSKColor(CompanyColorIndex);
                 _companyColorGenerator.RemoveSelectedColorFromOptions(companyColor);                
 
                 GameSpecificParameters gsp = new GameSpecificParameters()
@@ -235,7 +235,7 @@ namespace TheManXS.ViewModel
         private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard()); //(new GameBoardView());
         private void AddTestData()
         {
-            CompanyColor = Convert.ToString(SKColors.Red);
+            CompanyColorIndex = 0;
             SelectedGameSaveSlot = SavedGameSlotsList[1];
             IsGameSlotSelected = true;
             CompanyName = "Rockyspring Ltd.";

@@ -7,6 +7,7 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using Xamarin.Forms;
+using static TheManXS.Model.Settings.SettingsMaster;
 using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -15,10 +16,12 @@ namespace TheManXS.Model.Company
     public class PlayerList : List<Player>
     {
         GameSpecificParameters _gsp;
+        double _startCash, _startDebt;
 
         public PlayerList(GameSpecificParameters gsp)
         {
             _gsp = gsp;
+            SetStartCashAndStartDebt();
             InitPlayerList();
             WriteToDB();
         }
@@ -27,8 +30,8 @@ namespace TheManXS.Model.Company
         {
             // init variables
             CompanyNameGenerator companyNameGenerator = new CompanyNameGenerator();
-            double cash = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartCash);
-            double debt = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartDebt);
+            //double cash = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartCash);
+            //double debt = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartDebt);
 
             // init playerList with variables that change for each player
             for (int i = 0; i < QC.PlayerQ; i++)
@@ -49,8 +52,8 @@ namespace TheManXS.Model.Company
                     Name = _gsp.CompanyName,
                     Number = QC.PlayerIndexActual,
                     Ticker = _gsp.Ticker,
-                    Cash = cash,
-                    Debt = debt,
+                    Cash = _startCash,
+                    Debt = _startDebt,
                 };
             }
             Player getPlayer(int i)
@@ -66,9 +69,22 @@ namespace TheManXS.Model.Company
                     Name = companyNameGenerator[i].Name,
                     Ticker = companyNameGenerator[i].Ticker,
                     Number = i,
-                    Cash = cash,
-                    Debt = debt,
+                    Cash = _startCash,
+                    Debt = _startDebt,
                 };
+            }
+        }
+        private void SetStartCashAndStartDebt()
+        {
+            using (DBContext db = new DBContext())
+            {
+                _startCash = db.Settings.Where(s => s.PrimaryIndex == AS.CashConstant)
+                    .Where(s => s.SecondaryIndexTypeName == (Convert.ToString(CashConstantParameters.StartCash)))
+                    .FirstOrDefault().LBOrConstant;
+
+                _startDebt = db.Settings.Where(s => s.PrimaryIndex == AS.CashConstant)
+                    .Where(s => s.SecondaryIndexTypeName == (Convert.ToString(CashConstantParameters.StartDebt)))
+                    .FirstOrDefault().LBOrConstant;
             }
         }
 

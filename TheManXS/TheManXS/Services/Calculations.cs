@@ -14,68 +14,63 @@ namespace TheManXS.Services
 {
     public class Calculations
     {
+        Game _game;
         public Cash GetCash(SQ sq)
         {
-            using (DBContext db = new DBContext())
+            SetGame();
+            double revenue, opex, transport;
+            if (sq.ResourceType != RT.Nada)
             {
-                double revenue, opex, transport;
-                if(sq.ResourceType != RT.Nada)
-                {
-                    var commPrice = db.Commodity.Where(p => p.Turn == QC.TurnNumber)
-                    .Where(p => p.ResourceTypeNumber == (int)sq.ResourceType)
-                    .FirstOrDefault();
-
-                    revenue = sq.Production * commPrice.Price;
-                    opex = sq.OPEXPerUnit * sq.Production;
-                    transport = sq.Transport * sq.Production;
-                }
-                else
-                {
-                    revenue = 0;
-                    opex = 0;
-                    transport = 0;
-                }              
-
-                return new Cash(revenue, opex, transport);
+                revenue = sq.Production * _game.CommodityList[(int)sq.ResourceType].Price;
+                opex = sq.OPEXPerUnit * sq.Production;
+                transport = sq.Transport * sq.Production;
             }
+            else
+            {
+                revenue = 0;
+                opex = 0;
+                transport = 0;
+            }
+            return new Cash(revenue, opex, transport);
         }
         public Cash GetCash(Player player, RT rt = RT.Nada)
         {
-            using (DBContext db = new DBContext())
+            SetGame();
+            List<SQ> sqList = new List<SQ>();
+
+            if(rt == RT.Nada)
             {
-                List<SQ> playerList;
-                if(rt == RT.Nada)
+                foreach (KeyValuePair<int,SQ> s in _game.SquareDictionary)
                 {
-                    playerList = db.SQ.Where(p => p.OwnerNumber == player.Number).ToList();
+                    if(s.Value.OwnerNumber == player.Number) { sqList.Add(s.Value); }
                 }
-                else 
-                { 
-                    playerList = db.SQ.Where(s => s.OwnerNumber == player.Number)
-                        .Where(s => s.ResourceType == rt)
-                        .ToList();
-                }
-
-                double revenue = 0;
-                double opex = 0;
-                double transport = 0;
-                double commPrice = 0;
-
-                foreach (SQ sq in playerList)
-                {
-                    var comm = db.Commodity.Where(p => p.Turn == QC.TurnNumber)
-                        .Where(p => p.ResourceTypeNumber == (int)sq.ResourceType)
-                        .FirstOrDefault();
-                    commPrice = comm.Price;
-
-                    revenue += sq.Production * commPrice;
-                    opex += sq.Production * sq.OPEXPerUnit;
-                    transport += sq.Production * sq.Transport;
-                }
-                return new Cash(revenue, opex, transport);                
             }
+            else
+            {
+                foreach (KeyValuePair<int,SQ> s in _game.SquareDictionary)
+                {
+                    if(s.Value.OwnerNumber == player.Number && s.Value.ResourceType == rt)
+                    {
+                        sqList.Add(s.Value);
+                    }
+                }
+            }
+
+            double revenue = 0, opex = 0, transport = 0, commPrice = 0;
+
+            foreach (SQ sq in sqList)
+            {
+                commPrice = _game.CommodityList[(int)sq.ResourceType].Price;
+                revenue += sq.Production * commPrice;
+                opex += sq.Production * sq.OPEXPerUnit;
+                transport += sq.Production * sq.Transport;
+            }
+            return new Cash(revenue, opex, transport);
         }
         public Cash GetCash(Unit unit)
         {
+            SetGame();
+
             Cash unitCash = new Cash();
 
             foreach (SQ sq in unit)
@@ -93,5 +88,6 @@ namespace TheManXS.Services
 
             return unitCash;
         }
+        private void SetGame() => _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
     }
 }
