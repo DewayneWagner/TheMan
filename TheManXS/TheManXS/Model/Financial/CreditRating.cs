@@ -26,7 +26,7 @@ namespace TheManXS.Model.Financial
         private void SetRating()
         {
             double debtToCashFlowRatio = _finacialValues.Debt / _finacialValues.GrossProfitD;
-            List<double> interestRates;
+            List<double> interestRates = new List<double>();
 
             setInterestRateListFromDB();
 
@@ -56,9 +56,14 @@ namespace TheManXS.Model.Financial
             
             void setInterestRateListFromDB()
             {
+                List<double> interestRatesFullValue;
                 using (DBContext db = new DBContext())
                 {
-                    interestRates = db.Settings.Where(s => s.PrimaryIndex == AS.IntRateCR).Select(s => s.LBOrConstant).ToList();
+                    interestRatesFullValue = db.Settings.Where(s => s.PrimaryIndex == AS.IntRateCR).Select(s => s.LBOrConstant).ToList();
+                }
+                foreach (double i in interestRatesFullValue)
+                {
+                    interestRates.Add(i / 100);
                 }
             }
         }

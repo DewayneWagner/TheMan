@@ -15,5 +15,6 @@ namespace TheManXS.Model.Financial.CommodityStuff
         public int ResourceTypeNumber { get; set; }
         public int Turn { get; set; }
         public int SavedGameSlot { get; set; }
+        public double FourTurnMovingAvgPricing { get; set; }
     }
 }

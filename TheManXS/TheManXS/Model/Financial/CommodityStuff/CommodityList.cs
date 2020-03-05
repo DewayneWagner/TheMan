@@ -50,7 +50,8 @@ namespace TheManXS.Model.Financial.CommodityStuff
                     Delta = 0,
                     Price = _startPrice,
                     ResourceTypeNumber = (int)((RT)i),
-                    Turn = 1,                    
+                    Turn = 1,            
+                    FourTurnMovingAvgPricing = _startPrice,
                 });
             }
             
@@ -81,8 +82,9 @@ namespace TheManXS.Model.Financial.CommodityStuff
             }
 
             setRealEstatePricing();
-            _game.CommodityList = newCommodityPricing;
+            _game.CommodityList = newCommodityPricing;            
             WriteCommodityListToDB();
+            setFourTurnMovingAveragePrice();
 
             void setRealEstatePricing()
             {
@@ -116,6 +118,25 @@ namespace TheManXS.Model.Financial.CommodityStuff
                     fluctuation = (oldPrice - newPrice) / 100;
                 }
                 else { newPrice = tempNewPrice; }
+            }
+
+            void setFourTurnMovingAveragePrice()
+            {
+                List<double> pastPrices = new List<double>();
+                using (DBContext db = new DBContext())
+                {
+                    for(int i = 0; i < this.Count; i++)
+                    {
+                        int turnNumber = getTurnNumber();
+                        pastPrices = db.Commodity.Where(c => c.Turn > turnNumber)
+                            .Where(c => c.ResourceTypeNumber == i)
+                            .Select(c => c.Price)
+                            .ToList();
+
+                        this[i].FourTurnMovingAvgPricing = pastPrices.Average();
+                    }
+                }
+                int getTurnNumber() => _game.TurnNumber <= 4 ? 0 : (_game.TurnNumber - 4); 
             }
         }
         private void WriteCommodityListToDB()

@@ -23,27 +23,9 @@ namespace TheManXS.Model.Financial.StockPrice
 
             _lastStockPrice = lastStockPrice;
             _financialValues = financialValues;
-
-            Price = GetStockPrice();
-            Delta = GetDelta();
         }
 
-        //public double Price => Math.Sqrt((peRatio * bookValueValuationRatio) * _financialValues.TotalCapital / numberOfOutstandingShares);
-
-        //public double Delta => (Price - _lastStockPrice) / _lastStockPrice;
-
-        public double Price { get; set; }
-        public double Delta { get; set; }
-
-        private double GetStockPrice()
-        {
-            double ratio = (peRatio * bookValueValuationRatio) * _financialValues.TotalCapital / numberOfOutstandingShares;
-            return Math.Sqrt(ratio);
-            //return Math.Sqrt((peRatio * bookValueValuationRatio) * _financialValues.TotalCapital / numberOfOutstandingShares);
-        }
-        private double GetDelta()
-        {
-            return (Price - _lastStockPrice) / _lastStockPrice;
-        }
+        public double Price => Math.Sqrt((peRatio * bookValueValuationRatio) * _financialValues.TotalCapital / numberOfOutstandingShares);
+        public double Delta => _lastStockPrice == 0 ? 0 : (Price - _lastStockPrice) / _lastStockPrice;
     }
 }

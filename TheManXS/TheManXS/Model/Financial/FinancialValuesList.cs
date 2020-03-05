@@ -52,6 +52,7 @@ namespace TheManXS.Model.Financial
                 financialsLineItemsArray[(int)LineItemType.StockPrice].ValuesArray[i] = this[i].StockPrice.ToString("c2");
             }
         }
+
         private void WriteListToDBAfterFullTurnComplete()
         {
             using (DBContext db = new DBContext())

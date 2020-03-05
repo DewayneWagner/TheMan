@@ -54,27 +54,24 @@ namespace TheManXS.Model.Financial
         public double InterestRate { get; set; }
         public string CreditRating { get; set; }
 
-        private void addTestValues()
-        {
-            // for testing and set-up
-            CAPEXThisTurn = 250;
-            PPE = 10000;
-        }
-
         private void CalculateFinancialValues()
         {
             Cash = _player.Cash;
             Debt = _player.Debt;
-            addTestValues();
+
             SetRevenueAndOPEX();
             TheManCut = Revenue * QC.TheManCut;
             SetGrossProfit();
+
+            SetPPE();
             TotalAssets = (PPE + Cash);
             TotalCapital = (TotalAssets - Debt);
-            SetNetProfit();
-            SetStockPrice();
+
             SetCreditRatingAndInterestRate();
             SetInterestExpense();
+            SetNetProfit();
+            SetStockPrice();
+            
         }
         void SetRevenueAndOPEX()
         {
@@ -102,7 +99,7 @@ namespace TheManXS.Model.Financial
             NetProfitD = GrossProfitD - CAPEXThisTurn - DebtPayment - InterestExpense;
             NetProfitP = NetProfitD / Revenue;
         }
-        private void SetStockPrice()
+        void SetStockPrice()
         {
             Stock s = new Stock(this,_lastStockPrice);
             StockPrice = s.Price;
@@ -110,7 +107,7 @@ namespace TheManXS.Model.Financial
             _player.StockPrice = s.Price;
             _player.Delta = s.Delta;
         }
-        private void SetCreditRatingAndInterestRate()
+        void SetCreditRatingAndInterestRate()
         {
             CreditRating cr = new CreditRating(this, _player);
             CreditRating = Convert.ToString(cr.Rating);
@@ -118,7 +115,7 @@ namespace TheManXS.Model.Financial
             InterestRate = cr.InterestRate;
             _player.InterestRate = cr.InterestRate;
         }
-        private void SetInterestExpense()
+        void SetInterestExpense()
         {
             // need to build a class that sets debt payment amount and interest when debt is incurred, and 
             // increased / decreased when debt is added / paid-down.
@@ -127,6 +124,11 @@ namespace TheManXS.Model.Financial
             int amortizationPeriod = 25;
             DebtPayment = Debt / amortizationPeriod;
             InterestExpense = DebtPayment * InterestRate;
+        }
+        void SetPPE()
+        {
+            PPE p = new PPE(_game, _player);
+            PPE = p.Valuation;
         }
     }
     
@@ -137,4 +139,5 @@ namespace TheManXS.Model.Financial
             builder.Property(p => p.ID).ValueGeneratedOnAdd();
         }
     }
+
 }

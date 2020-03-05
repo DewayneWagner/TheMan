@@ -26,16 +26,27 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public GameBoardVM(bool isForAppDictionary) { }
 
-        private string _tickerText;
-        public string TickerText
+        private TickerVM _tickerVM;
+        public TickerVM TickerVM
         {
-            get => _tickerText;
+            get => _tickerVM;
             set
             {
-                _tickerText = value;
-                SetValue(ref _tickerText, value);
+                _tickerVM = value;
+                SetValue(ref _tickerVM, value);
             }
         }
+
+        //private string _tickerText;
+        //public string TickerText
+        //{
+        //    get => _tickerText;
+        //    set
+        //    {
+        //        _tickerText = value;
+        //        SetValue(ref _tickerText, value);
+        //    }
+        //}
 
         private TitleBarVM _titleBar;
         public TitleBarVM TitleBar
