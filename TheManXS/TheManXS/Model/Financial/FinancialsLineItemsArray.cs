@@ -188,6 +188,30 @@ namespace TheManXS.Model.Financial
                     FinalText = "Interest Expense",
                     FormatType = FormatTypes.LineItem,
                 });
+
+            _lineItemsArray[(int)LineItemType.CreditRating] =
+                (new FinancialsLineItems()
+                {
+                    LineItemType = LineItemType.CreditRating,
+                    FinalText = "Credit Rating",
+                    FormatType = FormatTypes.LineItem,
+                });
+
+            _lineItemsArray[(int)LineItemType.InterestRate] =
+                (new FinancialsLineItems()
+                {
+                    LineItemType = LineItemType.InterestRate,
+                    FinalText = "Interest Rate",
+                    FormatType = FormatTypes.LineItem,
+                });
+
+            _lineItemsArray[(int)LineItemType.StockPrice] =
+                (new FinancialsLineItems()
+                {
+                    LineItemType = LineItemType.StockPrice,
+                    FinalText = "Stock Price",
+                    FormatType = FormatTypes.Totals,
+                });
         }
         string GetFinalTextForCompanyOrTurn() => _dataPanelType == DataPanelType.AllPlayers ? "Company Name" : "Quarter";
     }

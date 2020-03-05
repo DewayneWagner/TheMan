@@ -45,7 +45,7 @@ namespace TheManXS.Model.Financial
         public double GrossProfitD { get; set; } 
         public double GrossProfitP { get; set; } 
         public double CAPEXThisTurn { get; set; } 
-        public double DebtPayment { get; set; } 
+        public double DebtPayment { get; set; }
         public double InterestExpense { get; set; } 
         public double NetProfitD { get; set; } 
         public double NetProfitP { get; set; }
@@ -58,9 +58,7 @@ namespace TheManXS.Model.Financial
         {
             // for testing and set-up
             CAPEXThisTurn = 250;
-            DebtPayment = 150;
-            InterestExpense = 15;
-            PPE = 1523;
+            PPE = 10000;
         }
 
         private void CalculateFinancialValues()
@@ -71,10 +69,12 @@ namespace TheManXS.Model.Financial
             SetRevenueAndOPEX();
             TheManCut = Revenue * QC.TheManCut;
             SetGrossProfit();
-            TotalAssets = PPE + _player.Cash;
-            TotalCapital = TotalAssets - _player.Debt;
+            TotalAssets = (PPE + Cash);
+            TotalCapital = (TotalAssets - Debt);
             SetNetProfit();
             SetStockPrice();
+            SetCreditRatingAndInterestRate();
+            SetInterestExpense();
         }
         void SetRevenueAndOPEX()
         {
@@ -109,6 +109,24 @@ namespace TheManXS.Model.Financial
             StockPriceDelta = s.Delta;
             _player.StockPrice = s.Price;
             _player.Delta = s.Delta;
+        }
+        private void SetCreditRatingAndInterestRate()
+        {
+            CreditRating cr = new CreditRating(this, _player);
+            CreditRating = Convert.ToString(cr.Rating);
+            _player.CreditRating = cr.Rating;
+            InterestRate = cr.InterestRate;
+            _player.InterestRate = cr.InterestRate;
+        }
+        private void SetInterestExpense()
+        {
+            // need to build a class that sets debt payment amount and interest when debt is incurred, and 
+            // increased / decreased when debt is added / paid-down.
+            // temporary calculation below - that will change every turn.
+
+            int amortizationPeriod = 25;
+            DebtPayment = Debt / amortizationPeriod;
+            InterestExpense = DebtPayment * InterestRate;
         }
     }
     

@@ -23,6 +23,7 @@ namespace TheManXS.View
     {
         bool _createNewMap;
         private Game _game;
+        bool Execute;
         
         public MapBoard()
         {
@@ -30,7 +31,7 @@ namespace TheManXS.View
             
             _createNewMap = true;
             InitializeComponent();
-            _game.GameBoardVM.SplitScreenGrid = SplitScreenGrid;
+            _game.GameBoardVM.SplitScreenGrid = SplitScreenGrid;            
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -106,6 +107,29 @@ namespace TheManXS.View
                 default:
                     break;
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Execute = true;
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
+            {
+                StockTicker.TranslationX -= 5f;
+
+                if (Math.Abs(StockTicker.TranslationX) > Width)
+                {
+                    StockTicker.TranslationX = StockTicker.Width;
+                }
+
+                return Execute;
+            });
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Execute = false;
         }
     }
 }

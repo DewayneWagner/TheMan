@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Main;
 using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
+using static TheManXS.Model.Settings.SettingsMaster;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
@@ -18,19 +20,20 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             _game.GameBoardVM = this;
             CompressedLayout.SetIsHeadless(this, true);
             TouchEffectsEnabled = true;
-            SidePanelManager = new SidePanelManager(_game); 
+            SidePanelManager = new SidePanelManager(_game);
+            UpdateTickerText();
         }
 
         public GameBoardVM(bool isForAppDictionary) { }
 
-        private StockTickerBarVM _stockTickerBarVM;
-        public StockTickerBarVM StockTicker
+        private string _tickerText;
+        public string TickerText
         {
-            get => _stockTickerBarVM;
+            get => _tickerText;
             set
             {
-                _stockTickerBarVM = value;
-                SetValue(ref _stockTickerBarVM, value);
+                _tickerText = value;
+                SetValue(ref _tickerText, value);
             }
         }
 
@@ -82,7 +85,33 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public bool UnitActionPanelExists { get; set; }
         public bool IsThereActiveUnit { get; set; }
         public bool TouchEffectsEnabled { get; set; }
-        public SidePanelManager SidePanelManager { get; set; } 
+        public SidePanelManager SidePanelManager { get; set; }
 
+        public void UpdateTickerText()
+        {
+            TickerText = null;
+            updateStockPrices();
+            updateCommodityPrices();
+
+            void updateStockPrices()
+            {
+                foreach (Player player in _game.PlayerList)
+                {
+                    TickerText += player.Ticker + "   "
+                        + player.StockPrice.ToString("c2") + "   "
+                        + player.Delta.ToString("c2") + "  |  ";
+
+                }
+            }
+            void updateCommodityPrices()
+            {
+                foreach (Commodity c in _game.CommodityList)
+                {
+                    TickerText += Convert.ToString((ResourceTypeE)c.ResourceTypeNumber) + "   "
+                        + c.Price.ToString("c2") + "   "
+                        + c.Delta.ToString("c2") + "  |  ";
+                }
+            }
+        }
     }
 }

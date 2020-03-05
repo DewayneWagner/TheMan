@@ -31,6 +31,7 @@ namespace TheManXS.Model.Main
         public double StockPrice { get; set; }
         public double Delta { get; set; }
         public CreditRatingsE CreditRating { get; set; }
+        public double InterestRate { get; set; }
         public bool IsComputer { get; set; }
 
         private SKColor _skColor;
@@ -57,7 +58,8 @@ namespace TheManXS.Model.Main
 
             builder.Ignore(p => p.SKColor);
 
-            builder.Property(p => p.CreditRating).HasConversion(new EnumToStringConverter<CreditRatingsE>());
+            builder.Property(p => p.CreditRating)
+                .HasConversion(new EnumToStringConverter<CreditRatingsE>());
         }
     }    
 }

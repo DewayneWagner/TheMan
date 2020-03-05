@@ -74,12 +74,15 @@
                 </Grid.Effects>
             </Grid>
             
-            <Label Text="{Binding Ticker}" BackgroundColor="Black" TextColor="White"
-                   HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
-                   Margin="0">
-                <Label.BindingContext>
-                    <main:StockTickerBarVM/>
-                </Label.BindingContext>
+            <Label Text="{Binding TickerText}" 
+                   BackgroundColor="Black" 
+                   TextColor="White" 
+                   HorizontalOptions="Start"
+                   VerticalTextAlignment="Center" 
+                   HeightRequest="25"
+                   LineBreakMode="NoWrap" 
+                   Margin="0" 
+                   x:Name="StockTicker">
             </Label>
         </StackLayout>
     </ContentPage.Content>

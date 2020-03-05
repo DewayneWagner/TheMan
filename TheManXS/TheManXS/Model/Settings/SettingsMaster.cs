@@ -28,7 +28,7 @@ namespace TheManXS.Model.Settings
         public enum ResConstantParams { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
         public enum TerrainConstructConstants { RowQ, ColQ, SqSize, StartRowRatio, Total }
         public enum PlayerConstants { PlayerQ, Total }
-        public enum DifficultyLevels { Diff1, Diff2, Diff3, Diff4, Total }
+        public enum DifficultyLevels { Diff1, Diff2, Diff3, Total }
         public enum ResourceTypeE { Oil, Gold, Coal, Iron, Silver, RealEstate, Total, Nada,  } // Nada second last - so total works for arrays
         public enum StatusTypeE { Nada, Unexplored, Explored, Developing, Producing, Suspended, Total }
         public enum TerrainTypeE { Grassland, Forest, Mountain, City, River, Slough, Sand, Total = 4 }

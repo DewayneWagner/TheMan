@@ -47,6 +47,9 @@ namespace TheManXS.Model.Financial
                 financialsLineItemsArray[(int)LineItemType.TheManCut].ValuesArray[i] = this[i].TheManCut.ToString("c0");
                 financialsLineItemsArray[(int)LineItemType.TotalAssets].ValuesArray[i] = this[i].TotalAssets.ToString("c0");
                 financialsLineItemsArray[(int)LineItemType.TotalCapital].ValuesArray[i] = this[i].TotalCapital.ToString("c0");
+                financialsLineItemsArray[(int)LineItemType.CreditRating].ValuesArray[i] = this[i].CreditRating;
+                financialsLineItemsArray[(int)LineItemType.InterestRate].ValuesArray[i] = this[i].InterestRate.ToString("p0");
+                financialsLineItemsArray[(int)LineItemType.StockPrice].ValuesArray[i] = this[i].StockPrice.ToString("c2");
             }
         }
         private void WriteListToDBAfterFullTurnComplete()
