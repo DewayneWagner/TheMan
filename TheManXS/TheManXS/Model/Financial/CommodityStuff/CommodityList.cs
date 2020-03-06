@@ -75,22 +75,13 @@ namespace TheManXS.Model.Financial.CommodityStuff
                 setPriceFluctuation();
                 setNewPrice(oldCommodityPricing[i].Price);
 
-                Commodity c = new Commodity()
+                newCommodityPricing.Add(new Commodity()
                 {
                     Price = newPrice,
                     Delta = fluctuation,
                     ResourceTypeNumber = i,
                     Turn = QC.TurnNumber
-                };
-                newCommodityPricing.Add(c);
-
-                //newCommodityPricing.Add(new Commodity()
-                //{
-                //    Price = newPrice,
-                //    Delta = fluctuation,
-                //    ResourceTypeNumber = i,
-                //    Turn = QC.TurnNumber
-                //});
+                });
             }
 
             setRealEstatePricing();

@@ -13,7 +13,7 @@ namespace TheManXS.Services.EntityFrameWork
         {
             builder.Property(c => c.Delta).IsRequired();
             //builder.Property(c => c.ID).ValueGeneratedOnAddOrUpdate();
-            builder.Property<int>(c => c.ID).ValueGeneratedOnAdd();
+            //builder.Property<int>(c => c.ID).ValueGeneratedOnAdd();
             builder.Property(c => c.Price).IsRequired();
             builder.Property(c => c.ResourceTypeNumber).IsRequired();
             builder.Property(c => c.Turn).IsRequired();
