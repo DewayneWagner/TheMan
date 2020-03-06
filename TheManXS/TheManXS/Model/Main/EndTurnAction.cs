@@ -20,7 +20,8 @@ namespace TheManXS.Model.Main
                 setNextQuarter();
                 _game.CommodityList.AdvancePricing();
                 _game.FinancialValuesList = new FinancialValuesList(_game);
-                _game.GameBoardVM.UpdateTickerText();
+                //_game.GameBoardVM.UpdateTickerText();
+                _game.GameBoardVM.TickerVM.UpdateTicker();
             }
         }
 

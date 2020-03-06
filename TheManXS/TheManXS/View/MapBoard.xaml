@@ -51,7 +51,7 @@
                         WidthRequest="150"/>
             </StackLayout>
 
-            <Grid BindingContext="{Binding GameBoardGrid}"                
+            <Grid
                 CompressedLayout.IsHeadless="True"
                 x:Name="SplitScreenGrid"
                 HorizontalOptions="FillAndExpand" 
@@ -73,8 +73,25 @@
                     <tt:TouchEffect Capture="True" TouchAction="TouchEffect_TouchAction"/>
                 </Grid.Effects>
             </Grid>
-            
-            <Label Text="{Binding TickerText}" 
+
+            <ContentView>
+                <ContentView.BindingContext>
+                    <local:TickerVM/>
+                </ContentView.BindingContext>
+                <StackLayout x:Name="TickerSP" 
+                             HorizontalOptions="FillAndExpand" 
+                             VerticalOptions="End" 
+                             HeightRequest="50"
+                             BindingContext="{Binding Ticker}">
+                </StackLayout>
+            </ContentView>
+
+            <!--<StackLayout x:Name="TickerSP" 
+                         BindingContext="{Binding TickerVM}"
+                         HorizontalOptions="FillAndExpand" 
+                         VerticalOptions="End"/>-->
+
+            <!--<Label Text="{Binding TickerText}" 
                    BackgroundColor="Black" 
                    TextColor="White" 
                    HorizontalOptions="Start"
@@ -83,7 +100,7 @@
                    LineBreakMode="NoWrap" 
                    Margin="0" 
                    x:Name="StockTicker">
-            </Label>
+            </Label>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -64,7 +64,6 @@ namespace TheManXS
 
             //Rotation(0, 90, 180, 270)
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.Rotation))] = mainDisplayInfo.Rotation;
-
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.ScreenWidth))] = mainDisplayInfo.Width;
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.ScreenHeight))] = mainDisplayInfo.Height;
             Properties[(Convert.ToString(ObjectsInPropertyDictionary.Density))] = mainDisplayInfo.Density;

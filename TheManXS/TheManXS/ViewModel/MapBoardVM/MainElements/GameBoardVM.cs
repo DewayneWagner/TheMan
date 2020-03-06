@@ -21,7 +21,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             CompressedLayout.SetIsHeadless(this, true);
             TouchEffectsEnabled = true;
             SidePanelManager = new SidePanelManager(_game);
-            UpdateTickerText();
+            TickerVM = new TickerVM(true);
+            //UpdateTickerText();
         }
 
         public GameBoardVM(bool isForAppDictionary) { }
@@ -98,31 +99,5 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public bool TouchEffectsEnabled { get; set; }
         public SidePanelManager SidePanelManager { get; set; }
 
-        public void UpdateTickerText()
-        {
-            TickerText = null;
-            updateStockPrices();
-            updateCommodityPrices();
-
-            void updateStockPrices()
-            {
-                foreach (Player player in _game.PlayerList)
-                {
-                    TickerText += player.Ticker + "   "
-                        + player.StockPrice.ToString("c2") + "   "
-                        + player.Delta.ToString("c2") + "  |  ";
-
-                }
-            }
-            void updateCommodityPrices()
-            {
-                foreach (Commodity c in _game.CommodityList)
-                {
-                    TickerText += Convert.ToString((ResourceTypeE)c.ResourceTypeNumber) + "   "
-                        + c.Price.ToString("c2") + "   "
-                        + c.Delta.ToString("c2") + "  |  ";
-                }
-            }
-        }
     }
 }
