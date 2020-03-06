@@ -31,12 +31,30 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                     return i;
             }
         }
-        public enum ImagesAvailable { Logo }
+        public enum ImagesAvailable { Logo, UpArrow, DownArrow, NoChangeArrow }
         public static Image GetImage(ImagesAvailable ia)
         {
-            Image i = new Image();
-            i.Source = ImageSource.FromResource("TheManXS.Graphics.Logo.png");
-            return i;
+            string path = getImagePath();
+            Image image = new Image();
+            image.Source = ImageSource.FromResource(path);
+            return image;
+
+            string getImagePath()
+            {
+                switch (ia)
+                {
+                    case ImagesAvailable.Logo:
+                        return "TheManXS.Graphics.Logo.png";
+                    case ImagesAvailable.UpArrow:
+                        return "TheManXS.Graphics.UpArrow.png";
+                    case ImagesAvailable.DownArrow:
+                        return "TheManXS.Graphics.DownArrow.png";
+                    case ImagesAvailable.NoChangeArrow:
+                        return "TheManXS.Graphics.NoChangeArrows.png";
+                    default:
+                        return "TheManXS.Graphics.ForestTile.png";
+                }
+            }
         }
     }
 }

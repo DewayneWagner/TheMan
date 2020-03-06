@@ -81,7 +81,6 @@
                 <StackLayout x:Name="TickerSP" 
                              HorizontalOptions="FillAndExpand" 
                              VerticalOptions="End" 
-                             HeightRequest="50"
                              BindingContext="{Binding Ticker}">
                 </StackLayout>
             </ContentView>

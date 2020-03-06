@@ -57,9 +57,9 @@ namespace TheManXS.Model.Financial
         {
             using (DBContext db = new DBContext())
             {
-                db.FinancialValues.AddRange(this);
+                db.FinancialValues.UpdateRange(this);
                 db.SaveChanges();
-            }
+            }            
         }
     }
 }

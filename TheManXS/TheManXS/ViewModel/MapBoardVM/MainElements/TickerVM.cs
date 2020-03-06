@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.Tiles;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
+using static TheManXS.ViewModel.MapBoardVM.Tiles.AllImages;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
 
@@ -23,7 +25,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             Content = Ticker;
         }
 
-        public void UpdateTicker() { Content = GetTicker(); }
+        public void UpdateTicker() { Ticker = GetTicker(); }
 
         private StackLayout _ticker;
         public StackLayout Ticker   
@@ -73,15 +75,24 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     public class PricingDisplayGrid : Grid
     {
         string _name, _price, _delta;
-        Image _arrow;
+        ImagesAvailable _imageType;
+
         int _qColumns = 4;
 
         public PricingDisplayGrid(string companyName, double price, double delta)
         {
             _name = companyName;
             _price = price.ToString("c2");
+            _imageType = GetArrow(delta);
             _delta = delta.ToString("p1");
             InitGrid();
+        }
+
+        ImagesAvailable GetArrow(double delta)
+        {
+            if (delta < 0) { return ImagesAvailable.DownArrow; }
+            else if(delta == 0){ return ImagesAvailable.NoChangeArrow; }
+            else { return ImagesAvailable.UpArrow; }
         }
 
         void InitGrid()
@@ -89,6 +100,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             initElements();
             initPropertiesOfGrid();
             addLabels();
+            addArrowImage();
 
             void initElements()
             {
@@ -110,9 +122,15 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 this.Children.Add(new TickerLabel(_price), 1, 0);
                 this.Children.Add(new TickerLabel(_delta), 2, 0);
             }
-            void getArrowImage()
+            void addArrowImage()
             {
-                Image arrow = ImageSource.FromResource()
+                Image arrow = AllImages.GetImage(_imageType);
+                //Image arrow = AllImages.GetImage(ImagesAvailable.Logo);
+                arrow.Aspect = Aspect.AspectFit;
+                arrow.HorizontalOptions = LayoutOptions.StartAndExpand;
+                arrow.VerticalOptions = LayoutOptions.StartAndExpand;
+                arrow.WidthRequest = 25;
+                this.Children.Add(arrow, 3, 0);
             }
         }
         class TickerLabel : Label
@@ -121,7 +139,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             {
                 BackgroundColor = Color.Transparent;
                 TextColor = Color.White;
-                //HorizontalOptions = LayoutOptions.FillAndExpand;
                 VerticalTextAlignment = TextAlignment.Center;
                 HorizontalTextAlignment = TextAlignment.Center;
                 LineBreakMode = LineBreakMode.NoWrap;
@@ -129,60 +146,4 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
     }
-
-
-    //public class PricingDisplaySL : StackLayout
-    //{
-    //    string _name;
-    //    string _price;
-    //    string _delta;
-    //    Image _arrow;
-
-    //    public PricingDisplaySL(int resourceType, double price, double delta)
-    //    {
-    //        _name = Convert.ToString((RT)resourceType);
-    //        _price = price.ToString("c2");
-    //        _delta = delta.ToString("p1");
-    //        InitPropertiesOfStackLayout();
-    //        AddLabels();
-    //    }
-
-    //    public PricingDisplaySL(string name, double price, double delta)
-    //    {
-    //        _name = name;
-    //        _price = price.ToString("c2");
-    //        _delta = delta.ToString("p1");
-    //        InitPropertiesOfStackLayout();
-    //        AddLabels();
-    //    }
-
-    //    void InitPropertiesOfStackLayout()
-    //    {
-    //        BackgroundColor = Color.Transparent;
-    //        VerticalOptions = LayoutOptions.FillAndExpand;
-    //        Orientation = StackOrientation.Horizontal;
-    //        HorizontalOptions = LayoutOptions.Start;
-    //    }
-
-    //    void AddLabels()
-    //    {
-    //        this.Children.Add(new TickerLabel(_name));
-    //        this.Children.Add(new TickerLabel(_price));
-    //        this.Children.Add(new TickerLabel(_delta));
-    //    }
-
-    //    class TickerLabel : Label
-    //    {
-    //        public TickerLabel(string text)
-    //        {
-    //            BackgroundColor = Color.Transparent;
-    //            TextColor = Color.White;
-    //            //HorizontalOptions = LayoutOptions.FillAndExpand;
-    //            VerticalTextAlignment = TextAlignment.Center;
-    //            HorizontalTextAlignment = TextAlignment.Center;
-    //            LineBreakMode = LineBreakMode.NoWrap;
-    //            Text = text;
-    //        }
-    //    }
-    //}
 }

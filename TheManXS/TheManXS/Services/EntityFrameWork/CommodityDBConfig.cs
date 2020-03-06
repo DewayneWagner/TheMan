@@ -12,7 +12,8 @@ namespace TheManXS.Services.EntityFrameWork
         public void Configure(EntityTypeBuilder<Commodity> builder)
         {
             builder.Property(c => c.Delta).IsRequired();
-            builder.Property(c => c.ID).ValueGeneratedOnAdd();
+            //builder.Property(c => c.ID).ValueGeneratedOnAddOrUpdate();
+            builder.Property<int>(c => c.ID).ValueGeneratedOnAdd();
             builder.Property(c => c.Price).IsRequired();
             builder.Property(c => c.ResourceTypeNumber).IsRequired();
             builder.Property(c => c.Turn).IsRequired();

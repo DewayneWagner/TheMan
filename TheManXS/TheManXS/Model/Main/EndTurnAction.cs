@@ -17,10 +17,11 @@ namespace TheManXS.Model.Main
 
             if (_isFullTurnAdvance)
             {
+                _game.TurnNumber++;
                 setNextQuarter();
                 _game.CommodityList.AdvancePricing();
                 _game.FinancialValuesList = new FinancialValuesList(_game);
-                //_game.GameBoardVM.UpdateTickerText();
+                _game.GameBoardVM.TickerVM.UpdateTicker();
                 _game.GameBoardVM.TickerVM.UpdateTicker();
             }
         }
@@ -36,7 +37,7 @@ namespace TheManXS.Model.Main
         void setNextPlayer()
         {
             int nextPlayerNumber = _game.ActivePlayer.Number + 1;
-            if (nextPlayerNumber == (QC.PlayerQ - 1)) { nextPlayerNumber = 0; }
+            if (nextPlayerNumber == QC.PlayerQ) { nextPlayerNumber = 0; }
 
             _game.ActivePlayer = _game.PlayerList[nextPlayerNumber];
             _isFullTurnAdvance = nextPlayerNumber == 0 ? true : false;

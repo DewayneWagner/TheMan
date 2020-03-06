@@ -13,14 +13,18 @@
   <ItemGroup>
     <None Remove="Graphics\background.png" />
     <None Remove="Graphics\CityTileBeth.png" />
+    <None Remove="Graphics\DownArrow.png" />
     <None Remove="Graphics\ForestTileBeth.png" />
     <None Remove="Graphics\GrasslandTileBeth.png" />
     <None Remove="Graphics\Logo.png" />
     <None Remove="Graphics\MountainTileBeth.png" />
+    <None Remove="Graphics\NoChangeArrows.png" />
+    <None Remove="Graphics\UpArrow.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Graphics\background.png" />
+    <EmbeddedResource Include="Graphics\DownArrow.png" />
     <EmbeddedResource Include="Graphics\ForestTileBeth.png" />
     <EmbeddedResource Include="Graphics\Logo.png" />
     <EmbeddedResource Include="Graphics\MountainTileBeth.png" />
@@ -32,6 +36,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Graphics\GrasslandTileBeth.png" />
+    <EmbeddedResource Include="Graphics\NoChangeArrows.png" />
+    <EmbeddedResource Include="Graphics\UpArrow.png" />
   </ItemGroup>
 
   <ItemGroup>

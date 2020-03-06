@@ -13,9 +13,9 @@ namespace TheManXS.Model.Financial
         public QuarterCalc(Game game)
         {
             _game = game;
-            GetQuarterNumber();
+            _currentQuarter = GetQuarterNumber();
             _advanceYear = _currentQuarter == 4 ? true : false;
-            GetYearNumber();
+            _currentYear = GetYearNumber();
         }
         public string GetNextQuarter()
         {

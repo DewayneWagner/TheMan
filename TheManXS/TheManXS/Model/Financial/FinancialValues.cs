@@ -27,11 +27,13 @@ namespace TheManXS.Model.Financial
             _lastStockPrice = _player.StockPrice;
             PlayerNumber = _player.Number;
             TurnNumber = _game.TurnNumber;
+            SavedGameSlot = QC.CurrentSavedGameSlot;
 
             CalculateFinancialValues();
         }
 
         public int ID { get; set; }
+        public int SavedGameSlot { get; set; }
         public int PlayerNumber { get; set; }
         public int TurnNumber { get; set; }
         public double Cash { get; set; }

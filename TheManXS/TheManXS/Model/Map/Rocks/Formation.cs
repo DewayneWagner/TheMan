@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Services.EntityFrameWork;
 using static TheManXS.Model.Settings.SettingsMaster;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Rocks
 {
     public class Formation
     {
+        public Formation() { SavedGameSlot = QC.CurrentSavedGameSlot; }
         public int ID { get; set; }
         public string Name { get; set; }
         public bool HasBeenDiscovered { get; set; }
         public ResourceTypeE ResourceType { get; set; }
+        public int SavedGameSlot { get; set; }
 
         public void SetFormationToDiscovered(int formationNum)
         {

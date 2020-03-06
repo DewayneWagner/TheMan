@@ -67,7 +67,7 @@ namespace TheManXS.Model.Financial.CommodityStuff
         public void AdvancePricing()
         {
             CommodityList oldCommodityPricing = _game.CommodityList;
-            CommodityList newCommodityPricing = new CommodityList(_game);
+            CommodityList newCommodityPricing = new CommodityList();
             double fluctuation, newPrice;
 
             for (int i = 0; i < (int)RT.RealEstate; i++)
@@ -75,10 +75,22 @@ namespace TheManXS.Model.Financial.CommodityStuff
                 setPriceFluctuation();
                 setNewPrice(oldCommodityPricing[i].Price);
 
-                newCommodityPricing[i].Price = newPrice;
-                newCommodityPricing[i].Delta = fluctuation;
-                newCommodityPricing[i].ResourceTypeNumber = newCommodityPricing[i].ResourceTypeNumber;
-                newCommodityPricing[i].Turn = QC.TurnNumber;
+                Commodity c = new Commodity()
+                {
+                    Price = newPrice,
+                    Delta = fluctuation,
+                    ResourceTypeNumber = i,
+                    Turn = QC.TurnNumber
+                };
+                newCommodityPricing.Add(c);
+
+                //newCommodityPricing.Add(new Commodity()
+                //{
+                //    Price = newPrice,
+                //    Delta = fluctuation,
+                //    ResourceTypeNumber = i,
+                //    Turn = QC.TurnNumber
+                //});
             }
 
             setRealEstatePricing();
@@ -88,25 +100,24 @@ namespace TheManXS.Model.Financial.CommodityStuff
 
             void setRealEstatePricing()
             {
-                Commodity realEstate = new Commodity()
+                newCommodityPricing.Add(new Commodity()
                 {
                     Delta = 0,
                     Price = _minPrice,
                     Turn = QC.TurnNumber,
                     ResourceTypeNumber = (int)(RT.RealEstate),
-                };
-
-                this[(int)RT.RealEstate] = realEstate;
+                });                
             }
 
             void setPriceFluctuation()
             {
-                fluctuation = (double)(_maxPriceFluctuation - (rnd.NextDouble() * (_maxPriceFluctuation + _minPriceFluctuation)) / 100);
+                fluctuation = (double)((_maxPriceFluctuation - (rnd.NextDouble() * (_maxPriceFluctuation + (-1 * _minPriceFluctuation)))) / 100);
             }
                 
             void setNewPrice(double oldPrice)
             {
-                double tempNewPrice = oldPrice * fluctuation;
+                //double tempNewPrice = oldPrice * fluctuation;
+                double tempNewPrice = (oldPrice + (oldPrice * fluctuation));
                 if (tempNewPrice < _minPrice) 
                 { 
                     newPrice = _minPrice;
@@ -128,22 +139,24 @@ namespace TheManXS.Model.Financial.CommodityStuff
                     for(int i = 0; i < this.Count; i++)
                     {
                         int turnNumber = getTurnNumber();
-                        pastPrices = db.Commodity.Where(c => c.Turn > turnNumber)
+                        pastPrices = db.Commodity
+                            .Where(c => c.Turn >= turnNumber)
                             .Where(c => c.ResourceTypeNumber == i)
+                            .Where(c => c.SavedGameSlot == QC.CurrentSavedGameSlot)
                             .Select(c => c.Price)
                             .ToList();
 
                         this[i].FourTurnMovingAvgPricing = pastPrices.Average();
                     }
                 }
-                int getTurnNumber() => _game.TurnNumber <= 4 ? 0 : (_game.TurnNumber - 4); 
+                int getTurnNumber() => _game.TurnNumber <= 4 ? 1 : (_game.TurnNumber - 4); 
             }
         }
         private void WriteCommodityListToDB()
         {
             using (DBContext db = new DBContext())
             {
-                db.Commodity.UpdateRange(this);
+                db.Commodity.AddRange(this);
                 db.SaveChanges();
             }
         }
