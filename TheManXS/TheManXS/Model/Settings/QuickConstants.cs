@@ -18,7 +18,6 @@ namespace TheManXS.Model.Settings
             SqSize = (int)Setting.GetConstant(AS.MapConstants, (int)SettingsMaster.TerrainConstructConstants.SqSize);
             SqLateralLength = (int)((double)SqSize * Math.Sqrt(2));
             PlayerIndexTheMan = PlayerQ;
-            TurnNumber = 0;
             TheManCut = 0.15;
 
             double resSQRatioPerMap = (double)Setting.GetConstant(AS.ResConstant,(int)SettingsMaster.ResConstantParams.ResSqRatio);
@@ -33,7 +32,6 @@ namespace TheManXS.Model.Settings
         public static int SqQ { get; set; }       
         public static int SqSize { get; set; }
         public static int SqLateralLength { get; set; }
-        public static int TurnNumber { get; set; }
         public static int PlayerIndexTheMan { get; set; }
         public static double TheManCut { get; set; }
 

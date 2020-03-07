@@ -28,9 +28,9 @@ namespace TheManXS.Model.Main
             _gsp = gsp;
 
             if (isNewGame) 
-            { 
-                InitPropertiesForNewGame();
+            {
                 RemoveDataFromCurrentSavedGameSlot();
+                InitPropertiesForNewGame();
             }
 
             else if (!isNewGame)
@@ -99,6 +99,8 @@ namespace TheManXS.Model.Main
                 // formation
                 var formationList = db.Formation.Where(f => f.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
                 if(formationList.Count > 0) { db.RemoveRange(formationList); }
+
+                db.SaveChanges();
             }
         }
     }

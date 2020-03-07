@@ -38,30 +38,16 @@ namespace TheManXS.Model.Financial.CommodityStuff
             _minPriceFluctuation *= (-1);
 
             InitPricingWithStartValues();
+            SetFourTurnMovingAveragePrice();
             WriteCommodityListToDB();
         }
 
         public void InitPricingWithStartValues()
         {
-            for (int i = 0; i < (int)RT.RealEstate; i++)
+            for (int i = 0; i < (int)RT.Total; i++)
             {
-                Add(new Commodity()
-                {
-                    Delta = 0,
-                    Price = _startPrice,
-                    ResourceTypeNumber = (int)((RT)i),
-                    Turn = 1,            
-                    FourTurnMovingAvgPricing = _startPrice,
-                });
-            }
-            
-            Add(new Commodity()
-            {
-                Delta = 0,
-                Price = _startPrice,
-                ResourceTypeNumber = (int)(RT.RealEstate),
-                Turn = 1,
-            });            
+                Add(new Commodity(_startPrice,0,i,_game.TurnNumber)); 
+            }  
         }
 
         public void AdvancePricing()
@@ -75,29 +61,17 @@ namespace TheManXS.Model.Financial.CommodityStuff
                 setPriceFluctuation();
                 setNewPrice(oldCommodityPricing[i].Price);
 
-                newCommodityPricing.Add(new Commodity()
-                {
-                    Price = newPrice,
-                    Delta = fluctuation,
-                    ResourceTypeNumber = i,
-                    Turn = QC.TurnNumber
-                });
+                newCommodityPricing.Add(new Commodity(newPrice, fluctuation, i, _game.TurnNumber));
             }
 
             setRealEstatePricing();
-            _game.CommodityList = newCommodityPricing;            
+            UpdateThisCommodityListObjectWithNewCommPricing(newCommodityPricing);
+            SetFourTurnMovingAveragePrice();            
             WriteCommodityListToDB();
-            setFourTurnMovingAveragePrice();
 
             void setRealEstatePricing()
             {
-                newCommodityPricing.Add(new Commodity()
-                {
-                    Delta = 0,
-                    Price = _minPrice,
-                    Turn = QC.TurnNumber,
-                    ResourceTypeNumber = (int)(RT.RealEstate),
-                });                
+                newCommodityPricing.Add(new Commodity(_minPrice, 0, (int)RT.RealEstate,_game.TurnNumber));
             }
 
             void setPriceFluctuation()
@@ -120,27 +94,44 @@ namespace TheManXS.Model.Financial.CommodityStuff
                     fluctuation = (oldPrice - newPrice) / 100;
                 }
                 else { newPrice = tempNewPrice; }
-            }
+            }            
+        }
+        private void SetFourTurnMovingAveragePrice()
+        {
+            if (_game.TurnNumber == 1) { setForFirstTurn(); }
+            else { setForAllTurnsAfterFirst(); }
 
-            void setFourTurnMovingAveragePrice()
+            void setForFirstTurn()
             {
-                List<double> pastPrices = new List<double>();
+                foreach (Commodity commodity in this)
+                {
+                    commodity.FourTurnMovingAvgPricing = _minPrice;
+                }
+            }
+            void setForAllTurnsAfterFirst()
+            {
                 using (DBContext db = new DBContext())
                 {
-                    for(int i = 0; i < this.Count; i++)
+                    int startTurns = _game.TurnNumber < 4 ? 1 : _game.TurnNumber - 4;
+                    for (int i = 0; i < this.Count; i++)
                     {
-                        int turnNumber = getTurnNumber();
-                        pastPrices = db.Commodity
-                            .Where(c => c.Turn >= turnNumber)
+                        List<double> fourTurnsAverage = db.Commodity
+                            .Where(c => c.Turn >= startTurns)
                             .Where(c => c.ResourceTypeNumber == i)
-                            .Where(c => c.SavedGameSlot == QC.CurrentSavedGameSlot)
                             .Select(c => c.Price)
                             .ToList();
 
-                        this[i].FourTurnMovingAvgPricing = pastPrices.Average();
+                        fourTurnsAverage.Add(this[i].Price);
+                        this[i].FourTurnMovingAvgPricing = fourTurnsAverage.Average();
                     }
                 }
-                int getTurnNumber() => _game.TurnNumber <= 4 ? 1 : (_game.TurnNumber - 4); 
+            }
+        }
+        private void UpdateThisCommodityListObjectWithNewCommPricing(CommodityList newCommodityPricing)
+        {
+            for (int i = 0; i < this.Count; i++)
+            {
+                this[i] = newCommodityPricing[i];
             }
         }
         private void WriteCommodityListToDB()

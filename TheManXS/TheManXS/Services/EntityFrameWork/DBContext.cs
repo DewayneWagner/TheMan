@@ -52,7 +52,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new PlayerDBConfig());
             modelBuilder.ApplyConfiguration(new SQDBConfig());
             modelBuilder.ApplyConfiguration(new FormationDBConfig());
-            //modelBuilder.ApplyConfiguration(new CommodityDBConfig());
+            modelBuilder.ApplyConfiguration(new CommodityDBConfig());
             modelBuilder.ApplyConfiguration(new SQInfrastructureDBConfig());
             modelBuilder.ApplyConfiguration(new FinancialValuesDBConfig());
         }

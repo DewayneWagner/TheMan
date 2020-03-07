@@ -15,6 +15,9 @@ using TheManXS.Model.InfrastructureStuff;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TheManXS.Model.Settings;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TheManXS.Model.Main
 {
@@ -81,5 +84,30 @@ namespace TheManXS.Model.Main
             NextActionCost = n.Cost;
             NextActionType = n.ActionType;
         }        
+    }
+    public class SQDBConfig : IEntityTypeConfiguration<SQ>
+    {
+        public void Configure(EntityTypeBuilder<SQ> builder)
+        {
+            builder.HasKey(s => s.Key);
+
+            builder.Property(s => s.Row).IsRequired();
+            builder.Property(s => s.Col).IsRequired();
+
+            builder.Property(s => s.SavedGameSlot).IsRequired();
+
+            builder.Property(s => s.TerrainType)
+                .HasConversion(new EnumToStringConverter<TerrainTypeE>());
+
+            builder.Property(s => s.ResourceType)
+                .HasConversion(new EnumToStringConverter<ResourceTypeE>());
+
+            builder.Property(s => s.Status)
+                .HasConversion(new EnumToStringConverter<StatusTypeE>());
+
+            builder.Ignore(s => s.City);
+            builder.Ignore(s => s.FullCoordinate);
+            builder.Ignore(s => s.SQInfrastructure);
+        }
     }
 }
