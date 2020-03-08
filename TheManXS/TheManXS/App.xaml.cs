@@ -16,12 +16,14 @@ namespace TheManXS
         public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game }
         public static string DataBaseLocation = string.Empty;
-        public static string BinaryBackupPath = string.Empty;
+        public static string ParameterBoundedPath = string.Empty;
+        public static string ParameterConstantPath = string.Empty;
 
-        public App(string dbLocation, string binaryBackupPath)
+        public App(string dbLocation, string boundedParameterLocation, string constantParameterLocation)
         {
             DataBaseLocation = dbLocation;
-            BinaryBackupPath = binaryBackupPath;
+            ParameterBoundedPath = boundedParameterLocation;
+            ParameterConstantPath = constantParameterLocation;
 
             InitScreenMetrics();
             InitializeComponent();

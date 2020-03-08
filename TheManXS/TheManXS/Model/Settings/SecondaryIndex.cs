@@ -43,7 +43,8 @@ namespace TheManXS.Model.Settings
             b[(int)AS.CityProdCD] = false;
             b[(int)AS.DevTT] = true;
             b[(int)AS.ExpTT] = true;
-            b[(int)AS.IntRateCR] = false;
+            b[(int)AS.PrimeRateAdderBasedOnCreditRating] = false;
+            b[(int)AS.PrimeRateAdderBasedOnTermLength] = false;
             b[(int)AS.MapConstants] = false;
             b[(int)AS.OPEXTT] = true;
             b[(int)AS.PlayerConstants] = false;
@@ -69,7 +70,8 @@ namespace TheManXS.Model.Settings
             s[(int)AS.CityProdCD] = nameof(CityDensity);
             s[(int)AS.DevTT] = nameof(TerrainTypeE);
             s[(int)AS.ExpTT] = nameof(TerrainTypeE);
-            s[(int)AS.IntRateCR] = nameof(CreditRatingsE);
+            s[(int)AS.PrimeRateAdderBasedOnCreditRating] = nameof(CreditRatingsE);
+            s[(int)AS.PrimeRateAdderBasedOnTermLength] = nameof(LoanTerms);
             s[(int)AS.MapConstants] = nameof(TerrainConstructConstants);
             s[(int)AS.OPEXTT] = nameof(TerrainTypeE);
             s[(int)AS.PlayerConstants] = nameof(PlayerConstants);
@@ -99,6 +101,8 @@ namespace TheManXS.Model.Settings
                     return Convert.ToString((CityDensity)index);
                 case nameof(CreditRatingsE):
                     return Convert.ToString((CreditRatingsE)index);
+                case nameof(LoanTerms):
+                    return Convert.ToString((LoanTerms)index);
                 case nameof(TerrainConstructBounded):
                     return Convert.ToString((TerrainConstructBounded)index);
                 case nameof(TerrainConstructConstants):

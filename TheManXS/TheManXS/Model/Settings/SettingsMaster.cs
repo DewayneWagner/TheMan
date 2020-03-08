@@ -14,31 +14,7 @@ namespace TheManXS.Model.Settings
     public class SettingsMaster
     {
         // if any alterations to AllSettings - update SecondaryIndex.cs
-        public enum AS
-        {
-            AbandonTT, AssValST, CityProdCD, DevTT, ExpTT, OPEXTT, ProductionTT, ReactivateSingleP, SusTT,
-            TransTT, TerrainBoundedTCB, PoolParams, CashConstant, IntRateCR, MapConstants, PlayerConstants, ResConstant,
-            MiscellaneousConstants, Total
-        }
-
-        // if there are any enums added to the below - SecondaryIndex.cs needs to be updated.
-        public enum PoolParams { PoolLength, PoolWidth, PlStSq, AxisShift, Multiple, Decline, Total }
-        public enum CashConstantParameters { StartCash, StartDebt, TheManCut, SquarePrice, CommStartPrice, MaxCommPrice, 
-            MinCommPrice, MinCommodityChange, MaxCommodityChange, Total }
-        public enum ResConstantParams { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
-        public enum TerrainConstructConstants { RowQ, ColQ, SqSize, StartRowRatio, Total }
-        public enum PlayerConstants { PlayerQ, Total }
-        public enum DifficultyLevels { Diff1, Diff2, Diff3, Total }
-        public enum ResourceTypeE { Oil, Gold, Coal, Iron, Silver, RealEstate, Total, Nada,  } // Nada second last - so total works for arrays
-        public enum StatusTypeE { Nada, Unexplored, Explored, Developing, Producing, Suspended, Total }
-        public enum TerrainTypeE { Grassland, Forest, Mountain, City, River, Slough, Sand, Total = 4 }
-        public enum CreditRatingsE { AAA, AA, A, B, C, Junk, Total }
-        public enum TerrainConstructBounded { ForestWidthRatio, GrasslandWidthRatio, AxisShift, TerrainOffset, Total }
-        public enum CityDensity { Low, Medium, High, Total }
-        public enum MiscellaneousStuff { SavedGameSlotsQ, Total }
-        public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
-
-        public enum Difficulty { Easy, Medium, Hard }
+        
         
         private List<Setting> _settingsThatAreInDB;
 

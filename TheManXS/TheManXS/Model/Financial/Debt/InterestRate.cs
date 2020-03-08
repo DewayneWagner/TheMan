@@ -7,7 +7,7 @@ using CR = TheManXS.Model.Settings.SettingsMaster.CreditRatingsE;
 
 namespace TheManXS.Model.Financial.Debt
 {
-    public enum Terms { T1 = 5, T2 = 10, T3 = 15, T4 = 20, T5 = 25, Total }
+    
     public class InterestRate
     {
         private bool _listsHaveBeenLoaded;
@@ -16,21 +16,27 @@ namespace TheManXS.Model.Financial.Debt
         public InterestRate()
         {
             InitListOfPrimeAdderBasedOnCreditRating();
-
+            InitListOfPrimAddersBasedOnTerm();
         }
         private void InitListOfPrimeAdderBasedOnCreditRating()
         {
             using (DBContext db = new DBContext())
             {
                 _primeAdderForCreditRating = db.Settings
-                    .Where(s => s.PrimaryIndex == Settings.SettingsMaster.AS.IntRateCR)
+                    .Where(s => s.PrimaryIndex == Settings.SettingsMaster.AS.PrimeRateAdderBasedOnCreditRating)
                     .Select(s => s.LBOrConstant)
                     .ToList();
             }
         }
         private void InitListOfPrimAddersBasedOnTerm()
         {
-
+            using (DBContext db = new DBContext())
+            {
+                _primeAdderForTerm = db.Settings
+                    .Where(s => s.PrimaryIndex == Settings.SettingsMaster.AS.PrimeRateAdderBasedOnTermLength)
+                    .Select(s => s.LBOrConstant)
+                    .ToList();
+            }
         }
     }
 }

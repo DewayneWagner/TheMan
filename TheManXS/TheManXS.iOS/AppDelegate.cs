@@ -29,11 +29,13 @@ namespace TheManXS.iOS
             string folderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"..","Library");
             string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
 
-            string settingsBinaryFileName = "SettingsBackup.bin";
-            string binaryBackupPath = Path.Combine(folderPath, settingsBinaryFileName);
+            string parameterBoundedFileName = "ParameterBounded.bin";
+            string parameterConstantFileName = "ParameterConstant.bin";
 
-            //LoadApplication(new App(fullPath));
-            LoadApplication(new App(sqLiteFullPath,binaryBackupPath));
+            string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
+            string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
+
+            LoadApplication(new App(sqLiteFullPath,boundedParameter,constantParameter));
 
             return base.FinishedLaunching(app, options);
         }

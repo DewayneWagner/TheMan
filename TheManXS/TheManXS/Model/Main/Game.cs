@@ -6,6 +6,7 @@ using TheManXS.Model.Company;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Map;
+using TheManXS.Model.Parameter;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Units;
@@ -14,6 +15,7 @@ using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Model.Parameter;
 
 namespace TheManXS.Model.Main
 {
@@ -43,28 +45,20 @@ namespace TheManXS.Model.Main
         }
         private void InitPropertiesForNewGame()
         {
-            Quarter = "1900-Q1";
-            TurnNumber = 1;
+            LoadAllParameters();
             PlayerList = new PlayerList(_gsp);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
             Map = new GameBoardMap(this,true);
             CommodityList = new CommodityList(this);
             FinancialValuesList = new FinancialValuesList(this);
             PrimeInterestRate = _startingPrimeInterestRate;
+
+            ParameterBoundedList.WriteDataToBinaryFile();
+            ParameterConstantList.WriteDataToBinaryFile();
         }
         private void InitPropertiesForLoadedGame()
         {
             
-        }
-
-        void WriteClassesWithJSON()
-        {
-            // classes to write to JSON
-
-        }
-        void ReadClassesFromJSON()
-        {
-
         }
 
         public GameBoardMap Map { get; set; }
@@ -78,6 +72,14 @@ namespace TheManXS.Model.Main
         public Unit ActiveUnit { get; set; }
         public string Quarter { get; set; }
         public int TurnNumber { get; set; }
-        public double PrimeInterestRate { get; set; }        
+        public double PrimeInterestRate { get; set; }       
+        public Model.Parameter.ParameterBoundedList ParameterBoundedList { get; set; }
+        public Model.Parameter.ParameterConstantList ParameterConstantList { get; set; }
+
+        private void LoadAllParameters()
+        {
+            ParameterBoundedList = new Model.Parameter.ParameterBoundedList();
+            ParameterConstantList = new Model.Parameter.ParameterConstantList();
+        }
     }
 }

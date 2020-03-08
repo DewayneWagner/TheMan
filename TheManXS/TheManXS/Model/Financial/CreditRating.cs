@@ -59,7 +59,7 @@ namespace TheManXS.Model.Financial
                 List<double> interestRatesFullValue;
                 using (DBContext db = new DBContext())
                 {
-                    interestRatesFullValue = db.Settings.Where(s => s.PrimaryIndex == AS.IntRateCR).Select(s => s.LBOrConstant).ToList();
+                    interestRatesFullValue = db.Settings.Where(s => s.PrimaryIndex == AS.PrimeRateAdderBasedOnCreditRating).Select(s => s.LBOrConstant).ToList();
                 }
                 foreach (double i in interestRatesFullValue)
                 {

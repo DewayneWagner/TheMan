@@ -24,13 +24,16 @@ namespace TheManXS.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             string sqLiteDBName = "TheManXS_db.sqlite";
+            string parameterBoundedFileName = "ParameterBounded.bin";
+            string parameterConstantFileName = "ParameterConstant.bin";
+
             string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+
             string sqLitePath = Path.Combine(folderPath, sqLiteDBName);
+            string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
+            string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
 
-            string settingsBinaryFileName = "SettingsBackup.bin";
-            string binaryBackupPath = Path.Combine(folderPath, settingsBinaryFileName);
-
-            LoadApplication(new App(sqLitePath,binaryBackupPath));
+            LoadApplication(new App(sqLitePath,boundedParameter,constantParameter));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

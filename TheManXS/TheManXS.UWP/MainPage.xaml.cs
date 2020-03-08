@@ -26,10 +26,13 @@ namespace TheManXS.UWP
             string folderPath = ApplicationData.Current.LocalFolder.Path;
             string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
 
-            string settingsBinaryFileName = "SettingsBackup.bin";
-            string binaryBackupPath = Path.Combine(folderPath, settingsBinaryFileName);
+            string parameterBoundedFileName = "ParameterBounded.bin";
+            string parameterConstantFileName = "ParameterConstant.bin";
 
-            LoadApplication(new TheManXS.App(sqLiteFullPath,binaryBackupPath));
+            string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
+            string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
+
+            LoadApplication(new TheManXS.App(sqLiteFullPath,boundedParameter,constantParameter));
         }
     }
 }
