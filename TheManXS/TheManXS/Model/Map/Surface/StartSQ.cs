@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.InfrastructureStuff;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -35,8 +36,8 @@ namespace TheManXS.Model.Map.Surface
                 row = rnd.Next(QC.RowQ);
                 col = rnd.Next(QC.ColQ);
 
-                if(_sqMap[row,col].TerrainType == Settings.SettingsMaster.TerrainTypeE.Grassland && 
-                    _sqMap[row,col].ResourceType != Settings.SettingsMaster.ResourceTypeE.Nada &&
+                if(_sqMap[row,col].TerrainType == TerrainTypeE.Grassland && 
+                    _sqMap[row,col].ResourceType != ResourceTypeE.Nada &&
                     _sqMap[row,col].OwnerNumber == 0)
                 {
                     _sqMap[row, col].OwnerNumber = countOfStSQs;

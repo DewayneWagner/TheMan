@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using SA = TheManXS.ViewModel.MapBoardVM.Action.SqAttributes.AllSQAttributes;
 using System.Linq;
 using TheManXS.ViewModel.MapBoardVM.MainElements;

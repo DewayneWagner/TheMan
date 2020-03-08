@@ -10,8 +10,8 @@ using Xamarin.Forms;
 using TheManXS.Model.Company;
 using System.Linq;
 using TheManXS.Model.Map.Surface;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using TheManXS.Model.Financial;
 
 namespace TheManXS.Model.Units
@@ -128,7 +128,7 @@ namespace TheManXS.Model.Units
         }
         private void SetNextActionCostAndText()
         {
-            NextAction n = new NextAction(this[0]);
+            NextAction n = new NextAction(this[0], _game);
             NextActionText = n.Text;            
             NextActionType = n.ActionType;
 

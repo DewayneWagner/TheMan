@@ -14,7 +14,7 @@ using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements

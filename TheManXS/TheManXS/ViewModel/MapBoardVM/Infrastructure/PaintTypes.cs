@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.ViewModel.MapBoardVM;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {

@@ -33,7 +33,7 @@ namespace TheManXS.Model.InfrastructureStuff
         {
             infrastructureMapArray = InitArray();
             new MainRoad(infrastructureMapArray,_map.CityStartSQ);
-            new MainRiver(infrastructureMapArray, _map);
+            new MainRiver(infrastructureMapArray, _map, _game);
             // need to initialize the infrastructure from startSqs to Hubs
 
             //SQInfrastructure.WriteArrayToDB(infrastructureMapArray);

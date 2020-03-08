@@ -10,10 +10,8 @@ using TheManXS.Model.Gameplay;
 using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Rocks;
-using TheManXS.Model.Parameter;
 using TheManXS.Model.Settings;
 using TheManXS.Services.EntityFrameWork;
-using TheManXS.Model.Parameter;
 
 namespace TheManXS.Model.Services.EntityFrameWork
 {

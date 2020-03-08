@@ -45,7 +45,7 @@ namespace TheManXS.Model.Map.Rocks
 
             for (int i = 0; i < poolLength; i++)
             {
-                PoolCrossSection pcs = new PoolCrossSection(this, _map);
+                PoolCrossSection pcs = new PoolCrossSection(this, _map, _game);
 
                 this.StartCoordinate.Row += (X * XX);
                 this.StartCoordinate.Col += (Y * YY);

@@ -13,7 +13,7 @@ using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.View

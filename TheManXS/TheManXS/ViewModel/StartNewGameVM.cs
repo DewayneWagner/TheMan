@@ -11,7 +11,7 @@ using TheManXS.Model.Settings;
 using TheManXS.View;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel
 {

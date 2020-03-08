@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using Xamarin.Forms;
 using TheManXS.Services;
 using TheManXS.Model.Financial;

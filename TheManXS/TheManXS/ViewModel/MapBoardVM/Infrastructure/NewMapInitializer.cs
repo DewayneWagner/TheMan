@@ -8,7 +8,7 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
-using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure

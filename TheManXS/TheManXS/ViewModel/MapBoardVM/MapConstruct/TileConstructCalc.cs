@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct

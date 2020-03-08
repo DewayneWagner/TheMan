@@ -5,7 +5,7 @@ using System.Windows.Input;
 using TheManXS.Model.Main;
 using TheManXS.Model.Settings;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.DetailPages
 {

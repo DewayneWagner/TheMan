@@ -22,7 +22,7 @@ namespace TheManXS.Model.Map.Surface
         private int _tributaryNumber;
         Game _game;
 
-        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, bool forNewConcept, Game game)
+        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, Game game)
         {
             _game = game;
             _startRow = startRow;

@@ -9,8 +9,10 @@ namespace TheManXS.Model.Map
     public class SQMapConstructArray
     {
         private SQ[,] _mapArray;
-        public SQMapConstructArray()
+        Game _game;
+        public SQMapConstructArray(Game game)
         {
+            _game = game;
             _mapArray = new SQ[QC.RowQ, QC.ColQ];
             InitNewMap();
         }
@@ -26,7 +28,7 @@ namespace TheManXS.Model.Map
             {
                 for (int c = 0; c < QC.ColQ; c++)
                 {
-                    _mapArray[r, c] = new SQ(r, c);
+                    _mapArray[r, c] = new SQ(r, c, _game);
                 }
             }
         }

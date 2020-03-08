@@ -40,9 +40,9 @@ namespace TheManXS.Model.Map
         
         private void InitNewMap()
         {
-            SQMap = new SQMapConstructArray();// to create the squares themselves as per dimensions
-            new Terrain(true, SQMap); // build new terrain
-            new ResourcePools(true, SQMap); // build resource pools
+            SQMap = new SQMapConstructArray(_game);// to create the squares themselves as per dimensions
+            new Terrain(true, SQMap,_game); // build new terrain
+            new ResourcePools(true, SQMap,_game); // build resource pools
             new City(SQMap); // build new city
 
             InitSQsForTesting();

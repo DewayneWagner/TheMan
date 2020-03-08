@@ -50,6 +50,13 @@ namespace TheManXS.ViewModel.DetailPages
             //await _pageService.PushAsync(new NavigationPage(new ClusterView()));
             await _pageService.PushAsync(new ClusterView());
         }
-        private void UpdateDataBase(object obj) => new DBUpdate();
+        private void UpdateDataBase(object obj)
+        {
+            using (DBContext db = new DBContext())
+            {
+                db.DeleteDatabase();
+                db.SaveChanges();
+            }
+        }
     }
 }

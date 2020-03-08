@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SkiaSharp;
 using SkiaSharp.Views;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {

@@ -7,7 +7,7 @@ using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {

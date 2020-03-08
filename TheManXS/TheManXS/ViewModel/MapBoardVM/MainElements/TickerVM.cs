@@ -8,7 +8,7 @@ using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using static TheManXS.ViewModel.MapBoardVM.Tiles.AllImages;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {

@@ -26,9 +26,11 @@ namespace TheManXS.Model.Map.Surface
 
         private SQInfrastructure[,] _map;
         private SQ _cityStartSQ;
+        Game _game;
 
-        public MainRiver(SQInfrastructure[,] map, SQMapConstructArray sqMap)
+        public MainRiver(SQInfrastructure[,] map, SQMapConstructArray sqMap, Game game)
         {
+            _game = game;
             _map = map;
             _SQmap = sqMap;
             _cityStartSQ = sqMap.CityStartSQ;
@@ -48,7 +50,8 @@ namespace TheManXS.Model.Map.Surface
                 {
                     if (col == nextTributaryCol)
                     {
-                        new Tributary(_map, _SQmap, row, col, _tributaryCounter);
+                        new Tributary(_SQmap, row, col, _tributaryCounter, _game);
+                        //new Tributary(_map, _SQmap, row, col, _tributaryCounter, _game);
                         _tributaryCounter++;
                         nextTributaryCol = GetNextTributaryCol(col, false);
                     }
@@ -79,7 +82,8 @@ namespace TheManXS.Model.Map.Surface
                     else { _map[row, col].IsMainRiver = true; }
                     if (col == nextTributaryCol)
                     {
-                        new Tributary(_map, _SQmap, row, col, _tributaryCounter);
+                        new Tributary(_SQmap, row, col, _tributaryCounter, _game);
+                        //new Tributary(_map, _SQmap, row, col, _tributaryCounter, _game);
                         _tributaryCounter++;
                         GetNextTributaryCol(col, true);
                     }

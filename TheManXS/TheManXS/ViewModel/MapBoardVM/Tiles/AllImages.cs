@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Xamarin.Forms;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {

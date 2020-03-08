@@ -6,7 +6,7 @@ using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using Xamarin.Forms;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Units;
 

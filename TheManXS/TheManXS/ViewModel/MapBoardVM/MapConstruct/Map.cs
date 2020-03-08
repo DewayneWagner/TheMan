@@ -6,7 +6,7 @@ using SkiaSharp.Views;
 using SkiaSharp;
 using TheManXS.ViewModel.MapBoardVM;
 using static TheManXS.ViewModel.MapBoardVM.MapConstruct.TileConstructCalc;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Main;
 using System.Linq;

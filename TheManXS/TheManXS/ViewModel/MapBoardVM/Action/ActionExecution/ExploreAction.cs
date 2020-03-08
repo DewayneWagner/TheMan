@@ -4,8 +4,8 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.Services;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {    

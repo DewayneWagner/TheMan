@@ -45,7 +45,7 @@ namespace TheManXS.Model.Main
         private void InitPropertiesForNewGame()
         {
             LoadAllParameters();
-            PlayerList = new PlayerList(_gsp);
+            PlayerList = new PlayerList(_gsp,this);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
             Map = new GameBoardMap(this,true);
             CommodityList = new CommodityList(this);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Units;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
