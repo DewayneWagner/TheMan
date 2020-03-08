@@ -8,13 +8,12 @@ using TheManXS.Model.Services.EntityFrameWork;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using TheManXS.Model.Company;
 using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Main
 {
@@ -30,7 +29,7 @@ namespace TheManXS.Model.Main
         public double Debt { get; set; }
         public double StockPrice { get; set; }
         public double Delta { get; set; }
-        public CreditRatingsE CreditRating { get; set; }
+        public CreditRatings CreditRating { get; set; }
         public double InterestRate { get; set; }
         public bool IsComputer { get; set; }
 
@@ -59,7 +58,7 @@ namespace TheManXS.Model.Main
             builder.Ignore(p => p.SKColor);
 
             builder.Property(p => p.CreditRating)
-                .HasConversion(new EnumToStringConverter<CreditRatingsE>());
+                .HasConversion(new EnumToStringConverter<CreditRatings>());
         }
     }    
 }

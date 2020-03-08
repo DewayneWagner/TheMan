@@ -3,28 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using TheManXS.Model.Main;
+using BP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
+using CP = TheManXS.Model.ParametersForGame.AllConstantParameters;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Settings
 {
     public class QuickConstants
     {
+        Game _game;
         public QuickConstants()
         {
-            PlayerQ = (int)Setting.GetConstant(AS.PlayerConstants, (int)SettingsMaster.PlayerConstants.PlayerQ);
-            RowQ = (int)Setting.GetConstant(AS.MapConstants, (int)SettingsMaster.TerrainConstructConstants.RowQ);
-            ColQ = (int)Setting.GetConstant(AS.MapConstants, (int)SettingsMaster.TerrainConstructConstants.ColQ);
-            SqQ = RowQ * ColQ;
-            SqSize = (int)Setting.GetConstant(AS.MapConstants, (int)SettingsMaster.TerrainConstructConstants.SqSize);
-            SqLateralLength = (int)((double)SqSize * Math.Sqrt(2));
-            PlayerIndexTheMan = PlayerQ;
-            TheManCut = 0.15;
+            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
 
-            double resSQRatioPerMap = (double)Setting.GetConstant(AS.ResConstant,(int)SettingsMaster.ResConstantParams.ResSqRatio);
-            MaxResourceSQsOnMap = (int)(SqQ * resSQRatioPerMap);
-            MaxResourceSQsInPool = (int)Setting.GetConstant(AS.ResConstant, (int)SettingsMaster.ResConstantParams.MaxPoolSQ);
-
-            UnitCounter = 0;
+            InitProperties();
         }
         public static int PlayerQ { get; set; }
         public static int RowQ { get; set; }
@@ -61,5 +54,20 @@ namespace TheManXS.Model.Settings
         // set by Gameboard Code-behind
         public static double MapCanvasViewHeight { get; set; }
         public static double MapCanvasViewWidth { get; set; }
+        void InitProperties()
+        {
+            PlayerQ = (int)_game.ParameterConstantList.GetConstant(CP.GameConstants, (int)GameConstantsSecondary.PlayerQ);
+            RowQ = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.RowQ);
+            ColQ = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.ColQ);
+            SqQ = RowQ * ColQ;
+            SqSize = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.SqSize);
+            SqLateralLength = (int)((double)SqSize * Math.Sqrt(2));
+            PlayerIndexTheMan = PlayerQ;
+            TheManCut = _game.ParameterConstantList.GetConstant(CP.CashConstant, (int)CashConstantSecondary.TheManCut);
+            MaxResourceSQsInPool = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.MaxPoolSQ);
+            MaxResourceSQsOnMap = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.ResSqRatio) * SqSize;
+
+            UnitCounter = 0;
+        }
     }
 }

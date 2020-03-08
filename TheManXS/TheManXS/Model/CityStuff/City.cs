@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
 using TheManXS.Model.Map;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Model.CityStuff
 {

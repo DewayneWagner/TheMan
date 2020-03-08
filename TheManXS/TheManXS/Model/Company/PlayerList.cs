@@ -7,8 +7,7 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Company
@@ -17,10 +16,12 @@ namespace TheManXS.Model.Company
     {
         GameSpecificParameters _gsp;
         double _startCash, _startDebt;
+        Game _game;
 
-        public PlayerList(GameSpecificParameters gsp)
+        public PlayerList(GameSpecificParameters gsp, Game game)
         {
             _gsp = gsp;
+            _game = game;
             SetStartCashAndStartDebt();
             InitPlayerList();
             WriteToDB();
@@ -76,16 +77,15 @@ namespace TheManXS.Model.Company
         }
         private void SetStartCashAndStartDebt()
         {
-            using (DBContext db = new DBContext())
-            {
-                _startCash = db.Settings.Where(s => s.PrimaryIndex == AS.CashConstant)
-                    .Where(s => s.SecondaryIndexTypeName == (Convert.ToString(CashConstantParameters.StartCash)))
-                    .FirstOrDefault().LBOrConstant;
+            _startCash = _game.ParameterConstantList.Where(p => p.PrimaryParameter == AllConstantParameters.CashConstant)
+                .Where(p => p.SecondaryParameterIndex == (int)CashConstantSecondary.StartCash)
+                .Select(p => p.Constant)
+                .FirstOrDefault();
 
-                _startDebt = db.Settings.Where(s => s.PrimaryIndex == AS.CashConstant)
-                    .Where(s => s.SecondaryIndexTypeName == (Convert.ToString(CashConstantParameters.StartDebt)))
-                    .FirstOrDefault().LBOrConstant;
-            }
+            _startDebt = _game.ParameterConstantList.Where(p => p.PrimaryParameter == AllConstantParameters.CashConstant)
+                .Where(p => p.SecondaryParameterIndex == (int)CashConstantSecondary.StartDebt)
+                .Select(p => p.Constant)
+                .FirstOrDefault();
         }
 
         public static int GetPlayerKey(int playerNum) => QC.CurrentSavedGameSlot * 10 + playerNum;

@@ -5,7 +5,7 @@ using TheManXS.Model.Main;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using IC = TheManXS.Model.InfrastructureStuff.InfrastructureConstants;
-using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 
 namespace TheManXS.Model.InfrastructureStuff
 {    

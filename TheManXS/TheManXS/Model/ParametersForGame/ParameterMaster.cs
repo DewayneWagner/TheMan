@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TheManXS.Model.Parameter
+namespace TheManXS.Model.ParametersForGame
 {
     public enum ResourceTypeE { Oil, Gold, Coal, Iron, Silver, RealEstate, Total, Nada, } // Nada second last - so total works for arrays
     public enum StatusTypeE { Nada, Unexplored, Explored, Developing, Producing, Suspended, Total }

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static TheManXS.Model.Parameter.ParameterConstant;
 
-namespace TheManXS.Model.Parameter
+namespace TheManXS.Model.ParametersForGame
 {
     public class ParameterConstantList : List<ParameterConstant>
     {
@@ -14,13 +13,21 @@ namespace TheManXS.Model.Parameter
             InitListOfEmptyParameters();
             ReadDataFromBinaryFile();
         }
+        public double GetConstant(AllConstantParameters acp, int secondaryIndex)
+        {
+            return this.Where(p => p.PrimaryParameter == acp)
+                .Where(p => p.SecondaryParameterIndex == secondaryIndex)
+                .Select(p => p.Constant)
+                .FirstOrDefault();
+        }
+
         private void InitListOfEmptyParameters()
         {
             for (int primary = 0; primary < (int)AllConstantParameters.Total; primary++)
             {
                 for (int secondary = 0; secondary < getSecondaryIndexTotal(primary); secondary++)
                 {
-                    this.Add(GetEmptyParameterConstant(primary, secondary));
+                    this.Add(new ParameterConstant(primary, secondary));
                 }
             }
             int getSecondaryIndexTotal(int primaryIndex)
@@ -29,66 +36,31 @@ namespace TheManXS.Model.Parameter
 
                 switch (ap)
                 {
-                    case Model.Parameter.AllConstantParameters.CashConstant:
+                    case AllConstantParameters.CashConstant:
                         return (int)CashConstantSecondary.Total;
 
-                    case Model.Parameter.AllConstantParameters.CommodityConstants:
+                    case AllConstantParameters.CommodityConstants:
                         return (int)CommodityConstantSecondary.Total;
 
-                    case Model.Parameter.AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
+                    case AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
                         return (int)CreditRatings.Total;
 
-                    case Model.Parameter.AllConstantParameters.PrimeRateAdderBasedOnTermLength:
+                    case AllConstantParameters.PrimeRateAdderBasedOnTermLength:
                         return (int)LoanTermLength.Total;
 
-                    case Model.Parameter.AllConstantParameters.MapConstants:
+                    case AllConstantParameters.MapConstants:
                         return (int)MapConstantsSecondary.Total;
 
-                    case Model.Parameter.AllConstantParameters.ResourceConstant:
+                    case AllConstantParameters.ResourceConstant:
                         return (int)ResourceConstantSecondary.Total;
 
-                    case Model.Parameter.AllConstantParameters.GameConstants:
+                    case AllConstantParameters.GameConstants:
                         return (int)GameConstantsSecondary.Total;
 
-                    case Model.Parameter.AllConstantParameters.AssetValuationByStatusType:
+                    case AllConstantParameters.AssetValuationByStatusType:
                         return (int)StatusTypeE.Total;
                 }
                 return 0;
-            }
-            ParameterConstant GetEmptyParameterConstant(int primaryIndex, int secondaryIndex)
-            {
-                ParameterConstant pc = new ParameterConstant();
-                pc.PrimaryParameter = (AllConstantParameters)primaryIndex;
-                pc.SecondaryParameterIndex = secondaryIndex;
-
-                switch (pc.PrimaryParameter)
-                {
-                    case Model.Parameter.AllConstantParameters.CashConstant:
-                        pc.SecondaryParameterTypeOf = nameof(CashConstantSecondary);
-                        break;
-                    case Model.Parameter.AllConstantParameters.CommodityConstants:
-                        pc.SecondaryParameterTypeOf = nameof(CommodityConstantSecondary);
-                        break;
-                    case Model.Parameter.AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
-                        pc.SecondaryParameterTypeOf = nameof(CreditRatings);
-                        break;
-                    case Model.Parameter.AllConstantParameters.PrimeRateAdderBasedOnTermLength:
-                        pc.SecondaryParameterTypeOf = nameof(LoanTermLength);
-                        break;
-                    case Model.Parameter.AllConstantParameters.MapConstants:
-                        pc.SecondaryParameterTypeOf = nameof(MapConstantsSecondary);
-                        break;
-                    case Model.Parameter.AllConstantParameters.ResourceConstant:
-                        pc.SecondaryParameterTypeOf = nameof(ResourceConstantSecondary);
-                        break;
-                    case Model.Parameter.AllConstantParameters.GameConstants:
-                        pc.SecondaryParameterTypeOf = nameof(GameConstantsSecondary);
-                        break;
-                    case Model.Parameter.AllConstantParameters.AssetValuationByStatusType:
-                        pc.SecondaryParameterTypeOf = nameof(StatusTypeE);
-                        break;
-                }
-                return pc;
             }
         }
         private void ReadDataFromBinaryFile()
@@ -109,7 +81,7 @@ namespace TheManXS.Model.Parameter
                             .FirstOrDefault();
                         pc.Constant = br.ReadDouble();
                     }
-                    else { this.Add(new ParameterConstant())}
+                    else { this.Add(new ParameterConstant(primaryIndex, secondaryIndex)); }
                 }
             }
         }

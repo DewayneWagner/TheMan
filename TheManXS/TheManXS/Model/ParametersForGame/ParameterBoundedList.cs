@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace TheManXS.Model.Parameter
+namespace TheManXS.Model.ParametersForGame
 {
     public class ParameterBoundedList : List<ParameterBounded>
     {
+        System.Random rnd = new System.Random();
         public ParameterBoundedList()
         {
             InitListOfEmptyParameters();
@@ -19,43 +20,8 @@ namespace TheManXS.Model.Parameter
             {
                 for (int secondary = 0; secondary < getTotalOfElementsInSecondaryIndex(primary); secondary++)
                 {
-                    this.Add(getEmptyParameter(primary, secondary));
+                    this.Add(new ParameterBounded(primary, secondary));
                 }
-            }
-            ParameterBounded getEmptyParameter(int primaryIndex, int secondaryIndex)
-            {
-                ParameterBounded p = new ParameterBounded();
-                p.PrimaryParameter = (AllBoundedParameters)primaryIndex;
-
-                switch (p.PrimaryParameter)
-                {
-                    case AllBoundedParameters.CityProdutionPerCityDensity:
-                        p.SecondaryParameterIndex = secondaryIndex;
-                        p.SecondaryParameterType = nameof(CityDensity);
-                        break;
-
-                    case AllBoundedParameters.DevelopmentCostPerTerrainType:
-                    case AllBoundedParameters.ExploreCostPerTerrainType:
-                    case AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:
-                        p.SecondaryParameterIndex = secondaryIndex;
-                        p.SecondaryParameterType = nameof(TerrainTypeE);
-                        break;
-
-                    case AllBoundedParameters.TerrainConstruct:
-                        p.SecondaryParameterIndex = secondaryIndex;
-                        p.SecondaryParameterType = nameof(TerrainConstructSecondary);
-                        break;
-
-                    case AllBoundedParameters.PoolConstructParameters:
-                        p.SecondaryParameterIndex = secondaryIndex;
-                        p.SecondaryParameterType = nameof(PoolConstructParametersSecondary);
-                        break;
-
-                    case AllBoundedParameters.Total:
-                    default:
-                        break;
-                }
-                return p;
             }
             int getTotalOfElementsInSecondaryIndex(int primaryIndex)
             {
@@ -63,21 +29,21 @@ namespace TheManXS.Model.Parameter
 
                 switch (a)
                 {
-                    case Model.Parameter.AllBoundedParameters.CityProdutionPerCityDensity:
+                    case AllBoundedParameters.CityProdutionPerCityDensity:
                         return (int)CityDensity.Total;
 
-                    case Model.Parameter.AllBoundedParameters.DevelopmentCostPerTerrainType:
-                    case Model.Parameter.AllBoundedParameters.ExploreCostPerTerrainType:
-                    case Model.Parameter.AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:
+                    case AllBoundedParameters.DevelopmentCostPerTerrainType:
+                    case AllBoundedParameters.ExploreCostPerTerrainType:
+                    case AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:
                         return (int)TerrainTypeE.Total;
 
-                    case Model.Parameter.AllBoundedParameters.TerrainConstruct:
-                        return (int)TerrainConstructSecondary.Total;
+                    case AllBoundedParameters.TerrainConstruct:
+                        return (int)TerrainBoundedConstructSecondary.Total;
 
-                    case Model.Parameter.AllBoundedParameters.PoolConstructParameters:
+                    case AllBoundedParameters.PoolConstructParameters:
                         return (int)PoolConstructParametersSecondary.Total;
 
-                    case Model.Parameter.AllBoundedParameters.Total:
+                    case AllBoundedParameters.Total:
                     default:
                         return 0;
                 }
@@ -107,6 +73,14 @@ namespace TheManXS.Model.Parameter
                     else { this.Add(new ParameterBounded(primaryIndex, secondaryIndex)); }                    
                 }
             }
+        }
+        public double GetRandomValue(AllBoundedParameters ap, int secondaryIndex)
+        {
+            ParameterBounded pb = this.Where(p => p.PrimaryParameter == ap)
+                .Where(p => p.SecondaryParameterIndex == secondaryIndex)
+                .FirstOrDefault();
+
+            return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
         }
         public void WriteDataToBinaryFile()
         {

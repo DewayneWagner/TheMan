@@ -10,8 +10,9 @@ using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
 using TheManXS.Services.EntityFrameWork;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map
 {
@@ -49,7 +50,7 @@ namespace TheManXS.Model.Map
             AddNewListOfSQToDB();
             LoadSQDictionaryForGame();
 
-            new Infrastructure(true,SQMap);
+            new Infrastructure(true,SQMap,_game);
         }
 
         void LoadSQDictionaryForGame()
@@ -80,7 +81,7 @@ namespace TheManXS.Model.Map
             {
                 for (int col = 0; col < 3; col++)
                 {
-                    SQMap[row, col].ResourceType = Settings.SettingsMaster.ResourceTypeE.Oil;
+                    SQMap[row, col].ResourceType = ResourceTypeE.Oil;
                     SQMap[row, col].Production = rnd.Next(5, 20);
                     SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
                     SQMap[row, col].FormationID = 50;

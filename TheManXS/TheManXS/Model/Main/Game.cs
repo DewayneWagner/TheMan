@@ -6,7 +6,6 @@ using TheManXS.Model.Company;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Map;
-using TheManXS.Model.Parameter;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Units;
@@ -15,7 +14,7 @@ using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Parameter;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Main
 {
@@ -73,13 +72,13 @@ namespace TheManXS.Model.Main
         public string Quarter { get; set; }
         public int TurnNumber { get; set; }
         public double PrimeInterestRate { get; set; }       
-        public Model.Parameter.ParameterBoundedList ParameterBoundedList { get; set; }
-        public Model.Parameter.ParameterConstantList ParameterConstantList { get; set; }
+        public ParameterBoundedList ParameterBoundedList { get; set; }
+        public ParameterConstantList ParameterConstantList { get; set; }
 
         private void LoadAllParameters()
         {
-            ParameterBoundedList = new Model.Parameter.ParameterBoundedList();
-            ParameterConstantList = new Model.Parameter.ParameterConstantList();
+            ParameterBoundedList = new ParameterBoundedList();
+            ParameterConstantList = new ParameterConstantList();
         }
     }
 }

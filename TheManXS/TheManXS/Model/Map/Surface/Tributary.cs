@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.InfrastructureStuff;
+using TheManXS.Model.Main;
 using TheManXS.Model.Map;
 using TheManXS.Model.Map.Surface;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -16,16 +18,13 @@ namespace TheManXS.Model.Map.Surface
         private System.Random rnd = new System.Random();
         private int _startRow;
         private int _startCol;
-        private int _lb = -1;
-        private int _ub = 2;
-        private int _LBForestWidthAroundTributary = 2;
-        private int _UBforestUBWidthAroundTributary = 6;
         private bool _isFlowingToNorth;
         private int _tributaryNumber;
+        Game _game;
 
-        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, bool forNewConcept)
+        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, bool forNewConcept, Game game)
         {
-            //_map = map;
+            _game = game;
             _startRow = startRow;
             _startCol = startCol;
             _isFlowingToNorth = GetIsNorth();            
@@ -34,20 +33,6 @@ namespace TheManXS.Model.Map.Surface
             _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
 
             if (_isFlowingToNorth) { InitNewNorthTributary(); }
-            else { InitNewSouthTributary(); }
-        }
-        public Tributary(SQInfrastructure[,] map, SQMapConstructArray mapSQ, int startRow, int startCol, int tributaryNumber)
-        {
-            _map = map;
-            _SQmap = mapSQ;
-            _startRow = startRow;
-            _startCol = startCol;
-            _isFlowingToNorth = GetIsNorth();
-
-            _map[startRow, startCol].IsTributary = true;
-            _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
-
-            if(_isFlowingToNorth) { InitNewNorthTributary(); }
             else { InitNewSouthTributary(); }
         }
         private void InitNewNorthTributary()
@@ -62,7 +47,7 @@ namespace TheManXS.Model.Map.Surface
                     _map[row, col].TributaryNumber = _tributaryNumber;
 
                     if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
-                    col += rnd.Next(_lb,_ub);
+                    col += (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.TributaryOffset);
                 }                
             }
         }
@@ -78,13 +63,14 @@ namespace TheManXS.Model.Map.Surface
                     _map[row, col].TributaryNumber = _tributaryNumber;
 
                     if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
-                    col += rnd.Next(_lb,_ub);
+                    col += (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.TributaryOffset);
                 }                
             }
         }
         private void InitSideForest(int tribRow, int tribCol)
         {
-            int forestWidth = rnd.Next(_LBForestWidthAroundTributary, _UBforestUBWidthAroundTributary);
+            int forestWidth = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.ForestAroundTributaryWidth);
+            
             int col = (tribCol - (forestWidth / 2));
 
             for (int i = 0; i < forestWidth; i++)

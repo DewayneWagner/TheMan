@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Services.EntityFrameWork;
-using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using Xamarin.Forms;
 using System.Linq;
 using TheManXS.Model.Financial;
@@ -18,6 +17,7 @@ using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Main
 {
@@ -26,9 +26,11 @@ namespace TheManXS.Model.Main
     {
         public SQ() { }
         public SQ(bool isForPropertyDictionary) { }
+        Game _game;
         
-        public SQ(int row, int col)
+        public SQ(int row, int col, Game game)
         {
+            _game = game;
             Row = row;
             Col = col;
             SavedGameSlot = QC.CurrentSavedGameSlot;
@@ -79,7 +81,7 @@ namespace TheManXS.Model.Main
 
         private void SetNextActionCostAndText()
         {
-            NextAction n = new NextAction(this);
+            NextAction n = new NextAction(this, _game);
             NextActionText = n.Text;
             NextActionCost = n.Cost;
             NextActionType = n.ActionType;

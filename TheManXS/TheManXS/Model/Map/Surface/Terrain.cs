@@ -5,23 +5,22 @@ using System.Text;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using TB = TheManXS.Model.Settings.SettingsMaster.TerrainConstructBounded;
-using TC = TheManXS.Model.Settings.SettingsMaster.TerrainConstructConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Surface
 {
     public class Terrain
     {
         private SQMapConstructArray _map;
-        private Setting startRowRatio, grasslandWidthRatio, forestRatio, offsetBounds, axisShiftBounds;
+        private double _startRowRatio, _grasslandWidthRatio, _forestWidthRatio, _offsetBounds, _axisShiftBounds;
         System.Random rnd = new System.Random();
-
+        Game _game;
         public Terrain() { }
-        public Terrain(bool isNewGame, SQMapConstructArray map)
+        public Terrain(bool isNewGame, SQMapConstructArray map, Game game)
         {
+            _game = game;
             _map = map;
 
             if (isNewGame)
@@ -36,17 +35,17 @@ namespace TheManXS.Model.Map.Surface
             int axisShift, offset, R, stSqR;
             int northGL, southGL, northFNorth, northFSouth, southFNorth, southFSouth;
 
-            stSqR = GetRowNumber(startRowRatio) - (int)((double)QC.RowQ * forestRatio.LBOrConstant / 2);
+            stSqR = GetRowNumber(_startRowRatio) - (int)((double)QC.RowQ * _forestWidthRatio.LBOrConstant / 2);
             R = stSqR;
 
             for (int c = 0; c < QC.ColQ; c++)
             {
                 northGL = R;
-                southGL = northGL + GetWidth(grasslandWidthRatio);
+                southGL = northGL + GetWidth(_grasslandWidthRatio);
                 northFSouth = northGL - 1;
-                northFNorth = northFSouth - GetWidth(forestRatio);
+                northFNorth = northFSouth - GetWidth(_forestWidthRatio);
                 southFNorth = southGL + 1;
-                southFSouth = southFNorth + GetWidth(forestRatio);
+                southFSouth = southFNorth + GetWidth(_forestWidthRatio);
 
                 for (int r = 0; r < QC.RowQ; r++)
                 {
@@ -61,8 +60,8 @@ namespace TheManXS.Model.Map.Surface
                     else
                         _map[r, c].TerrainType = TT.Mountain;
                 }
-                offset = rnd.Next((int)offsetBounds.LBOrConstant, (int)offsetBounds.UB);
-                axisShift = rnd.Next((int)axisShiftBounds.LBOrConstant, (int)axisShiftBounds.UB);
+                offset = rnd.Next((int)_offsetBounds.LBOrConstant, (int)_offsetBounds.UB);
+                axisShift = rnd.Next((int)_axisShiftBounds.LBOrConstant, (int)_axisShiftBounds.UB);
 
                 stSqR += axisShift;
                 R = stSqR + offset;
@@ -70,38 +69,14 @@ namespace TheManXS.Model.Map.Surface
         }
         private void InitFields()
         {
-            using (DBContext db = new DBContext())
-            {
-                var _startRowRatioQuery = db.Settings.Where(s => s.Key == 
-                    Setting.GetKey(AS.MapConstants, (int)TC.StartRowRatio));
-                    startRowRatio = _startRowRatioQuery.FirstOrDefault();
-
-                var _grassLandWidthRatioQuery = db.Settings.Where(s => s.Key == 
-                    Setting.GetKey(AS.TerrainBoundedTCB, (int)TB.GrasslandWidthRatio));
-                    grasslandWidthRatio = _grassLandWidthRatioQuery.FirstOrDefault();
-
-                var _forestRatioQuery = db.Settings.Where(s => s.Key ==
-                    Setting.GetKey(AS.TerrainBoundedTCB, (int)TB.ForestWidthRatio));
-                    forestRatio = _forestRatioQuery.FirstOrDefault();
-
-                var _offsetBoundsQuery = db.Settings.Where(s => s.Key ==
-                    Setting.GetKey(AS.TerrainBoundedTCB, (int)TB.TerrainOffset));
-                    offsetBounds = _offsetBoundsQuery.FirstOrDefault();
-
-                var _axisShiftBoundsQuery = db.Settings.Where(s => s.Key ==
-                    Setting.GetKey(AS.TerrainBoundedTCB, (int)TB.AxisShift));
-                    axisShiftBounds = _axisShiftBoundsQuery.FirstOrDefault();
-            };
+            _startRowRatio = _game.ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.StartRowRatioFromEdgeOfMap);
+            _forestWidthRatio = _game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.ForestWidthRatio);
+            _grasslandWidthRatio = _game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.GrasslandWidthRatio);
+            _offsetBounds = _game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.TerrainOffset);
+            _axisShiftBounds = _game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.AxisShift);
         }
-        private int GetRowNumber(Setting s)
-        {
-            double lb = s.LBOrConstant * QC.RowQ;
-            double ub = QC.RowQ - lb;
-            double r = rnd.NextDouble();
-
-            return (int)((ub - lb) * r + lb);
-        }
-        private int GetWidth(Setting s)
+        private int GetRowNumber() => (int)_startRowRatio * QC.RowQ;
+        private int GetWidth(double ratio) => 
         {
             int lb = (int)(s.LBOrConstant * QC.RowQ);
             int ub = (int)(s.UB * QC.RowQ);

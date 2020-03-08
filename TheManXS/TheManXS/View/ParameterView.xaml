@@ -28,16 +28,6 @@
                     WidthRequest="250"
                     Command="{Binding SaveChanges}" 
                     HorizontalOptions="CenterAndExpand"/>
-                <Button Text="Update Settings (If settings added / deleted)" 
-                    Style="{StaticResource ButtonStandard}"
-                    WidthRequest="400"
-                    Command="{Binding UpdateSettings}" 
-                    HorizontalOptions="CenterAndExpand"/>
-                <Button Text="Load Settings From Binary" 
-                    Style="{StaticResource ButtonStandard}"
-                    WidthRequest="250"
-                    Command="{Binding LoadSettingsFromBinaryFileIntoDB}" 
-                    HorizontalOptions="CenterAndExpand"/>
             </StackLayout>            
         </StackLayout>
     </ContentPage.Content>

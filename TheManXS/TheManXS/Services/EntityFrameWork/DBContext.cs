@@ -29,8 +29,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
                 Database.EnsureCreated();
             }
         }
-        public DbSet<Model.Parameter.ParameterConstant> ParameterConstant { get; set; }
-        public DbSet<Model.Parameter.ParameterBounded> ParameterBounded { get; set; }
         public DbSet<Cluster> Clusters { get; set; }
         public DbSet<GameSpecificParameters> GameSpecificParameters { get; set; }
         public DbSet<Player> Player { get; set; }
@@ -51,8 +49,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new Model.Parameter.ParmeterConstantDBConfig());
-            modelBuilder.ApplyConfiguration(new Model.Parameter.ParmeterBoundedDBConfig());
             modelBuilder.ApplyConfiguration(new ClusterDBConfig());
             modelBuilder.ApplyConfiguration(new GSPDBConfig());
             modelBuilder.ApplyConfiguration(new PlayerDBConfig());

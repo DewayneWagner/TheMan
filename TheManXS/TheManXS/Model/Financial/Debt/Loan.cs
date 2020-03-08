@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
-using CR = TheManXS.Model.Settings.SettingsMaster.CreditRatingsE;
+using CR = TheManXS.Model.ParametersForGame.CreditRatings;
 
 namespace TheManXS.Model.Financial.Debt
 {

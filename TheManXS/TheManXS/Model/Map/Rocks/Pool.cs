@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Settings;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using PP = TheManXS.Model.Settings.SettingsMaster.PoolParams;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using TheManXS.Model.Map.Surface;
+using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
+using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -16,14 +17,17 @@ namespace TheManXS.Model.Map.Rocks
         ResourcePools rp;
         private SQMapConstructArray _map;
         System.Random rnd = new System.Random();
+        Game _game;
 
-        public Pool(ResourcePools resPools, SQMapConstructArray map)
+        public Pool(ResourcePools resPools, SQMapConstructArray map, Game game)
         {
+            _game = game;
             _map = map;
             rp = resPools;
             IsPlayerStartSQ = rp.FormationCounter < QC.PlayerQ ? true : false;
             RT = rp.FormationCounter < (int)RT.Total ? (RT)rp.FormationCounter : (RT)((rp.FormationCounter % (int)RT.Total));
-            poolLength = (int)Setting.GetRand(AS.PoolParams, (int)PP.PoolLength);
+            poolLength = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.PoolConstructParameters,(int)PP.PoolLength);
+            
 
             StartCoordinate = new Coordinate(true, _map);
             Formation = new Formation { ID = rp.FormationCounter };
@@ -49,7 +53,7 @@ namespace TheManXS.Model.Map.Rocks
 
                 do
                 {
-                    axisShift = (int)Setting.GetRand(AS.PoolParams, (int)PP.AxisShift);
+                    axisShift = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.PoolConstructParameters, (int)PP.AxisShift);
                     this.StartCoordinate.Row += (axisShift * YY);
                     this.StartCoordinate.Col += (axisShift * XX);
 

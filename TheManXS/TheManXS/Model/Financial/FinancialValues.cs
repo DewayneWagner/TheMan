@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static TheManXS.Model.Settings.SettingsMaster;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Financial.StockPrice;
 
 namespace TheManXS.Model.Financial
@@ -124,7 +124,7 @@ namespace TheManXS.Model.Financial
         }
         void SetCreditRatingAndInterestRate()
         {
-            CreditRating cr = new CreditRating(this, _player);
+            CreditRating cr = new CreditRating(this, _player, _game);
             CreditRating = Convert.ToString(cr.Rating);
             _player.CreditRating = cr.Rating;
             InterestRate = cr.InterestRate;

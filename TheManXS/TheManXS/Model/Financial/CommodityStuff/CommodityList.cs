@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using TheManXS.Model.ParametersForGame;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -28,18 +28,21 @@ namespace TheManXS.Model.Financial.CommodityStuff
         public CommodityList(Game game)
         {
             _game = game;
-            _startPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.CommStartPrice);
-            _minPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MinCommPrice);
-            _maxPrice = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MaxCommPrice);
 
-            _minPriceFluctuation = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MinCommodityChange);
-            _maxPriceFluctuation = Setting.GetConstant(AS.CashConstant, (int)SettingsMaster.CashConstantParameters.MaxCommodityChange);
-            _spreadBetweenMinAndMax = _minPriceFluctuation + _maxPriceFluctuation;
-            _minPriceFluctuation *= (-1);
-
+            SetCommodityConstants();
             InitPricingWithStartValues();
             SetFourTurnMovingAveragePrice();
             WriteCommodityListToDB();
+        }
+        private void SetCommodityConstants()
+        {
+            var c = _game.ParameterConstantList;
+            _minPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinPrice);
+            _maxPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MaxPrice);
+            _minPriceFluctuation = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinChange);
+            _maxPriceFluctuation = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MaxChange);
+            _spreadBetweenMinAndMax = _maxPriceFluctuation - _minPriceFluctuation;
+            _minPriceFluctuation *= (-1);
         }
 
         public void InitPricingWithStartValues()

@@ -1,43 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using TheManXS.Model.Services.EntityFrameWork;
 using System.Linq;
-using static TheManXS.Model.Settings.SettingsMaster;
 using TheManXS.Model.Settings;
+using TheManXS.Model.Main;
+using TheManXS.ViewModel.Services;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.DetailPages
 {
-    class SettingsVM : TheManXS.ViewModel.Services.BaseViewModel
+    class SettingsVM : BaseViewModel
     {
         public SettingsVM()
         {
             SettingsVMOC = new ObservableCollection<SettingsVM>();
             LoadSettingsOC();
             SaveChanges = new Command(SaveChangesMethod);
-            UpdateSettings = new Command(UpdateSettingsMethod);
-            LoadSettingsFromBinaryFileIntoDB = new Command(LoadSettingsFromBinaryFileIntoDBMethod);
         }       
 
-        public SettingsVM(Setting s)
+        public SettingsVM(ParameterConstant pc)
         {
-            IsBounded = s.IsBounded;
-            LBOrConstant = s.LBOrConstant;
-            PrimaryIndex = s.PrimaryIndex;
-            UB = s.UB;
-            PrimaryIndexName = Convert.ToString(s.PrimaryIndex);
-            SecondarySubIndexName = s.SecondarySubIndex;
-            Key = s.Key;
+            IsBounded = false;
+            LBOrConstant = pc.Constant;
+            PrimaryIndexName = Convert.ToString(pc.PrimaryParameter);
+            SecondarySubIndexName = pc.SecondaryParameterSubIndex;
+            PrimaryIndexNumber = (int)pc.PrimaryParameter;
+            SecondaryIndexNumber = pc.SecondaryParameterIndex;
+        }
+        public SettingsVM(ParameterBounded pb)
+        {
+            IsBounded = true;
+            LBOrConstant = pb.LowerBounds;
+            UB = pb.UpperBounds;
+            PrimaryIndexName = Convert.ToString(pb.PrimaryParameter);
+            SecondarySubIndexName = pb.SecondaryParameterSubIndex;
+            PrimaryIndexNumber = (int)pb.PrimaryParameter;
         }
 
-        private int Key { get; }
         public ICommand SaveChanges { get; set; }
-        public ICommand UpdateSettings { get; set; }
-        public ICommand LoadSettingsFromBinaryFileIntoDB { get; set; }
         public bool IsBounded { get; set; }
 
         private double lbOrConstant;
@@ -60,9 +64,10 @@ namespace TheManXS.ViewModel.DetailPages
                 SetValue(ref ub, value);
             }
         }
+        public int PrimaryIndexNumber { get; set; }
         public string PrimaryIndexName { get; set; }
-        public AS PrimaryIndex { get; set; }
         public string SecondarySubIndexName { get; set; }
+        public int SecondaryIndexNumber { get; set; }
 
         private ObservableCollection<SettingsVM> _settingsVMOC;
         public ObservableCollection<SettingsVM> SettingsVMOC
@@ -74,53 +79,41 @@ namespace TheManXS.ViewModel.DetailPages
                 SetValue(ref _settingsVMOC, value);
             }
         }
+
         private void LoadSettingsOC()
         {
-            List<Setting> _sList;
-            using (DBContext db = new DBContext())
+            ParameterBoundedList pbl = new ParameterBoundedList();
+
+            foreach (ParameterBounded pb in pbl)
             {
-                _sList = db.Settings.ToList();
+                SettingsVMOC.Add(new SettingsVM(pb));
             }
-            foreach (Setting s in _sList)
+
+            ParameterConstantList pcl = new ParameterConstantList();
+
+            foreach (ParameterConstant pc in pcl)
             {
-                SettingsVMOC.Add(new SettingsVM(s));
+                SettingsVMOC.Add(new SettingsVM(pc));
             }
         }
         private void SaveChangesMethod(object obj)
         {
-            // convert from OC to Settings List
-            List<Setting> sList = new List<Setting>();
+            ParameterConstantList constantList = new ParameterConstantList();
+            ParameterBoundedList boundedList = new ParameterBoundedList();
 
-            foreach (SettingsVM svm in _settingsVMOC)
+            foreach (SettingsVM s in SettingsVMOC)
             {
-                sList.Add(new Setting()
+                if (s.IsBounded)
                 {
-                    IsBounded = svm.IsBounded,
-                    Key = svm.Key,
-                    LBOrConstant = svm.LBOrConstant,
-                    PrimaryIndex = svm.PrimaryIndex,
-                    SecondaryIndexTypeName = svm.SecondarySubIndexName,
-                    SecondarySubIndex = svm.SecondarySubIndexName,
-                    UB = svm.ub
-                });
+                    boundedList.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.UB, s.LBOrConstant));
+                }
+                else
+                {
+                    constantList.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant));
+                }
             }
-            using (DBContext db = new DBContext())
-            {
-                if (db.Settings.Count() == sList.Count) { db.UpdateRange(sList); }
-                else { db.AddRange(sList); }
-                db.SaveChanges();
-            }
-            UpdateSettingsInBinaryFileMethod();
-        }
-        private void UpdateSettingsMethod(object obj) { new SettingsMaster(); }        
-        private void UpdateSettingsInBinaryFileMethod() => BinaryBackup.UpdateBinaryWithSettingsFromDB();
-        private void LoadSettingsFromBinaryFileIntoDBMethod()
-        {
-            List<Setting> sList = BinaryBackup.GetSettingsFromBinary();
-            foreach (Setting s in sList)
-            {
-                SettingsVMOC.Add(new SettingsVM(s));
-            }
+            constantList.WriteDataToBinaryFile();
+            boundedList.WriteDataToBinaryFile();
         }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
-using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
 using TheManXS.Model.Company;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Settings
 {

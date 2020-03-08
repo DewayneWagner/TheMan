@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
-using static TheManXS.Model.Settings.SettingsMaster;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Financial
 {
@@ -13,14 +12,16 @@ namespace TheManXS.Model.Financial
     {
         FinancialValues _finacialValues;
         Player _player;
-        public CreditRating(FinancialValues financialValues, Player player)
+        Game _game;
+        public CreditRating(FinancialValues financialValues, Player player, Game game)
         {
+            _game = game;
             _finacialValues = financialValues;
             _player = player;
             SetRating();
         }
 
-        public CreditRatingsE Rating { get; set; }
+        public CreditRatings Rating { get; set; }
         public double InterestRate { get; set; }
 
         private void SetRating()
@@ -30,7 +31,7 @@ namespace TheManXS.Model.Financial
 
             setInterestRateListFromDB();
 
-            CreditRatingsE calculatedRating;
+            CreditRatings calculatedRating;
             setCreditRatingByCalculation();            
             setFinalCreditRating();
 
@@ -39,34 +40,28 @@ namespace TheManXS.Model.Financial
             void setFinalCreditRating() // limit change to 1 place / turn
             {
                 int currentRatingIndex = (int)_player.CreditRating;
-                if ((int)_player.CreditRating < (int)calculatedRating) { Rating = ((CreditRatingsE)(currentRatingIndex + 1)); }
-                else if ((int)_player.CreditRating > (int)calculatedRating) { Rating = ((CreditRatingsE)(currentRatingIndex - 1)); }
+                if ((int)_player.CreditRating < (int)calculatedRating) { Rating = ((CreditRatings)(currentRatingIndex + 1)); }
+                else if ((int)_player.CreditRating > (int)calculatedRating) { Rating = ((CreditRatings)(currentRatingIndex - 1)); }
                 else Rating = calculatedRating;
             }
 
             void setCreditRatingByCalculation() // calculate what Credit Rating should be
             {
-                if(debtToCashFlowRatio < 0.1) { calculatedRating = CreditRatingsE.AAA; }
-                else if(debtToCashFlowRatio < 0.15) { calculatedRating = CreditRatingsE.AA; }
-                else if(debtToCashFlowRatio < 0.2) { calculatedRating = CreditRatingsE.A; }
-                else if(debtToCashFlowRatio < 0.25) { calculatedRating = CreditRatingsE.B; }
-                else if(debtToCashFlowRatio < 0.3) { calculatedRating = CreditRatingsE.C; }
-                else { calculatedRating = CreditRatingsE.Junk; }
+                if(debtToCashFlowRatio < 0.1) { calculatedRating = CreditRatings.AAA; }
+                else if(debtToCashFlowRatio < 0.15) { calculatedRating = CreditRatings.AA; }
+                else if(debtToCashFlowRatio < 0.2) { calculatedRating = CreditRatings.A; }
+                else if(debtToCashFlowRatio < 0.25) { calculatedRating = CreditRatings.B; }
+                else if(debtToCashFlowRatio < 0.3) { calculatedRating = CreditRatings.C; }
+                else { calculatedRating = CreditRatings.Junk; }
             }
             
             void setInterestRateListFromDB()
             {
-                List<double> interestRatesFullValue;
-                using (DBContext db = new DBContext())
+                for (int i = 0; i < (int)CreditRatings.Total; i++)
                 {
-                    interestRatesFullValue = db.Settings.Where(s => s.PrimaryIndex == AS.PrimeRateAdderBasedOnCreditRating).Select(s => s.LBOrConstant).ToList();
-                }
-                foreach (double i in interestRatesFullValue)
-                {
-                    interestRates.Add(i / 100);
-                }
+                    interestRates.Add(_game.ParameterConstantList.GetConstant(AllConstantParameters.PrimeRateAdderBasedOnCreditRating, i));
+                }                
             }
         }
-
     }
 }

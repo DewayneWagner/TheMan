@@ -4,14 +4,13 @@ using System.Text;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using TB = TheManXS.Model.Settings.SettingsMaster.TerrainConstructBounded;
-using TC = TheManXS.Model.Settings.SettingsMaster.TerrainConstructConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using PP = TheManXS.Model.Settings.SettingsMaster.PoolParams;
+using TB = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -19,15 +18,17 @@ namespace TheManXS.Model.Map.Rocks
     {
         System.Random rnd = new System.Random();
         private SQMapConstructArray _map;
-        public ResourcePools(bool placeholder, SQMapConstructArray map)
+        Game _game;
+        public ResourcePools(bool placeholder, SQMapConstructArray map, Game game)
         {
+            _game = game;
             _map = map;
             FormationCounter = 1;
             TotalResSq = 0;
 
             do
             {
-                Pool p = new Pool(this, _map);
+                Pool p = new Pool(this, _map, _game);
             } while (TotalResSq < QC.MaxResourceSQsOnMap);
 
             AssignStartSQs();
@@ -67,7 +68,7 @@ namespace TheManXS.Model.Map.Rocks
             void assignStartSQ()
             {
                 sq.OwnerNumber = playerNumber;
-                sq.Status = SettingsMaster.StatusTypeE.Producing;
+                sq.Status = StatusTypeE.Producing;
                 sq.Production = QC.StartSQProduction;
                 sq.OPEXPerUnit = QC.StartSQOpex;
                 playerNumber++;

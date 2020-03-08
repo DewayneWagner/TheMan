@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using TheManXS.Model.Main;
 using SkiaSharp;
 using Xamarin.Forms;
+using TheManXS.Model.ParametersForGame;
+using A = TheManXS.Model.ParametersForGame.AllBoundedParameters;
 
 namespace TheManXS.Model.Map.Surface
 {
     public class Coordinate
-    {
+    {        
         System.Random rnd = new System.Random();
         private SQMapConstructArray _map;
         public Coordinate(SKPoint p) 

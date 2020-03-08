@@ -4,14 +4,13 @@ using System.Text;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Services.EntityFrameWork;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using TB = TheManXS.Model.Settings.SettingsMaster.TerrainConstructBounded;
-using TC = TheManXS.Model.Settings.SettingsMaster.TerrainConstructConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
-using PP = TheManXS.Model.Settings.SettingsMaster.PoolParams;
+using TB = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -19,10 +18,12 @@ namespace TheManXS.Model.Map.Rocks
     {
         private SQMapConstructArray _map;
         System.Random rnd = new System.Random();
-        public PoolCrossSection(Pool p, SQMapConstructArray map)
+        Game _game;
+        public PoolCrossSection(Pool p, SQMapConstructArray map, Game game)
         {
             _map = map;
-            PoolWidth = (int)Setting.GetRand(AS.PoolParams, (int)PP.PoolWidth);
+            _game = game;
+            PoolWidth = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.PoolConstructParameters, (int)PP.PoolWidth);
             SQ sq;
 
             int offset = rnd.Next(-1, 2);
@@ -38,8 +39,9 @@ namespace TheManXS.Model.Map.Rocks
                     {
                         sq.ResourceType = p.RT;
                         sq.FormationID = p.Formation.ID;
-                        sq.Production = (int)Setting.GetRand(AS.ProductionTT, (int)sq.TerrainType);
-                        sq.OPEXPerUnit = (int)Setting.GetRand(AS.OPEXTT, (int)sq.TerrainType);
+                        sq.Production = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.ProductionUnitsPerTerrainType, (int)p.RT);
+                        sq.OPEXPerUnit = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.ActionCosts, (int)ActionCostsSecondary.OpexCostPerUnit);
+
                         p.TotalResSq++;
 
                         row += (p.X * p.YY);

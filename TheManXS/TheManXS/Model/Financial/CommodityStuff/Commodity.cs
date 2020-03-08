@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

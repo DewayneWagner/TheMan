@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TheManXS.Model.Services.EntityFrameWork;
-using static TheManXS.Model.Settings.SettingsMaster;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Rocks
 {

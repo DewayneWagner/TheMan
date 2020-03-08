@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
 using Xamarin.Forms;
-using RT = TheManXS.Model.Settings.SettingsMaster.ResourceTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Model.Map.Rocks
 {

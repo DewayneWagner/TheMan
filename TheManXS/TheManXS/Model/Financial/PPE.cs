@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
-using ST = TheManXS.Model.Settings.SettingsMaster.StatusTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Financial
 {
@@ -24,12 +24,9 @@ namespace TheManXS.Model.Financial
         public double Valuation { get; set; }
         void LoadListWithRatios()
         {
-            using (DBContext db = new DBContext())
-            {
-                _ratiosForPPE = db.Settings.Where(s => s.PrimaryIndex == AS.AssValST)
-                    .Select(s => s.LBOrConstant)
-                    .ToList();
-            }
+            _ratiosForPPE = _game.ParameterConstantList.Where(p => p.PrimaryParameter == AllConstantParameters.AssetValuationByStatusType)
+                .Select(p => p.Constant)
+                .ToList();
         }
         void SetPPEValuation()
         {

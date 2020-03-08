@@ -5,12 +5,12 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.Settings.SettingsMaster.TerrainTypeE;
-using AS = TheManXS.Model.Settings.SettingsMaster.AS;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 using System.Linq;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Map;
-using IT = TheManXS.Model.Settings.SettingsMaster.InfrastructureType;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.InfrastructureStuff
 {
@@ -18,12 +18,13 @@ namespace TheManXS.Model.InfrastructureStuff
     public class Infrastructure
     {
         System.Random rnd = new System.Random();
-        
+        Game _game;
         public Infrastructure() { }
 
         private SQMapConstructArray _map;
-        public Infrastructure(bool isNewGame, SQMapConstructArray map)
+        public Infrastructure(bool isNewGame, SQMapConstructArray map, Game game)
         {
+            _game = game;
             _map = map;
             if (isNewGame) { InitNewInfrastructure(); }
         }
@@ -176,9 +177,13 @@ namespace TheManXS.Model.InfrastructureStuff
                         break;
                 }
             }
-            return (grassland * Setting.GetConstant(AS.TransTT, (int)TT.Grassland)) +
-                (forest * Setting.GetConstant(AS.TransTT, (int)TT.Forest)) +
-                (mountain * Setting.GetConstant(AS.TransTT, (int)TT.Mountain));
+            double costs = 0;
+
+            var c = _game.ParameterConstantList;
+            costs += (grassland * c.GetConstant(AllConstantParameters.InfrastructureConstructionRatiosTT, (int)TT.Grassland));
+            costs += (forest * c.GetConstant(AllConstantParameters.InfrastructureConstructionRatiosTT, (int)TT.Forest));
+            costs += (mountain * c.GetConstant(AllConstantParameters.InfrastructureConstructionRatiosTT, (int)TT.Mountain));
+            return costs;        
         }
         public void ExecuteConstructionOfRoute(IT it,List<SQ> sqList)
         {
