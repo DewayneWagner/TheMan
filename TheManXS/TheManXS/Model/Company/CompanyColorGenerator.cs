@@ -31,10 +31,13 @@ namespace TheManXS.Model.Company
         }
         private void InitListOfStringColors()
         {
-            foreach (SKColor color in _listOfSKColors)
-            {
-                _listOfAvailableColors.Add(nameof(color));
-            }
+            _listOfAvailableColors.Add("Alice Blue");
+            _listOfAvailableColors.Add("Blue");
+            _listOfAvailableColors.Add("Cyan");
+            _listOfAvailableColors.Add("Green");
+            _listOfAvailableColors.Add("Lavender");
+            _listOfAvailableColors.Add("Red");
+            _listOfAvailableColors.Add("Violet");
         }
         public void RemoveSelectedColorFromOptions(SKColor skColor) => _listOfSKColors.Remove(skColor);
         public SKColor GetSKColor(string colorName)

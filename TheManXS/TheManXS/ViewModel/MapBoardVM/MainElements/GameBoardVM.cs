@@ -22,7 +22,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             TouchEffectsEnabled = true;
             SidePanelManager = new SidePanelManager(_game);
             TickerVM = new TickerVM(true);
-            //UpdateTickerText();
         }
 
         public GameBoardVM(bool isForAppDictionary) { }
@@ -37,17 +36,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 SetValue(ref _tickerVM, value);
             }
         }
-
-        //private string _tickerText;
-        //public string TickerText
-        //{
-        //    get => _tickerText;
-        //    set
-        //    {
-        //        _tickerText = value;
-        //        SetValue(ref _tickerText, value);
-        //    }
-        //}
 
         private TitleBarVM _titleBar;
         public TitleBarVM TitleBar

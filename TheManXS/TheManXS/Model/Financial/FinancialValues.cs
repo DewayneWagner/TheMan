@@ -29,7 +29,7 @@ namespace TheManXS.Model.Financial
             TurnNumber = _game.TurnNumber;
             SavedGameSlot = QC.CurrentSavedGameSlot;
 
-            CalculateFinancialValues();
+            CalculateFinancialValuesForLastQuarter();
         }
 
         public int ID { get; set; }
@@ -56,24 +56,37 @@ namespace TheManXS.Model.Financial
         public double InterestRate { get; set; }
         public string CreditRating { get; set; }
 
-        private void CalculateFinancialValues()
+        private void CalculateFinancialValuesForLastQuarter()
         {
-            Cash = _player.Cash;
-            Debt = _player.Debt;
-
+            // calculate cashflow
             SetRevenueAndOPEX();
             TheManCut = Revenue * QC.TheManCut;
             SetGrossProfit();
+            SetNetProfit();
 
+            // calculate balance sheet
             SetPPE();
+            if (NetProfitD > 0)
+            {
+                /* if capex isn't added back in - it would be double-dipped due to action buttons subtracting 
+                capex costs for actions live */
+
+                Cash += (NetProfitD + CAPEXThisTurn); 
+                Debt -= DebtPayment;
+            }
+            else
+            {
+                Cash = 0;
+                Debt += NetProfitD;
+                Debt -= DebtPayment;
+            }
+            _game.PlayerList[_game.ActivePlayer.Number].Cash = Cash;
             TotalAssets = (PPE + Cash);
             TotalCapital = (TotalAssets - Debt);
 
             SetCreditRatingAndInterestRate();
             SetInterestExpense();
-            SetNetProfit();
             SetStockPrice();
-            
         }
         void SetRevenueAndOPEX()
         {

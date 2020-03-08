@@ -5,6 +5,7 @@ using System.Text;
 using TheManXS.Model;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
+using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Gameplay;
 using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Main;
@@ -35,6 +36,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<Commodity> Commodity { get; set; }
         public DbSet<SQInfrastructure> SQInfrastructure { get; set; }
         public DbSet<FinancialValues> FinancialValues { get; set; } 
+        public DbSet<Loan> Loans { get; set; }
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 
@@ -55,6 +57,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new CommodityDBConfig());
             modelBuilder.ApplyConfiguration(new SQInfrastructureDBConfig());
             modelBuilder.ApplyConfiguration(new FinancialValuesDBConfig());
+            modelBuilder.ApplyConfiguration(new LoanDBConfig());
         }
     }    
 }

@@ -25,7 +25,11 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             Content = Ticker;
         }
 
-        public void UpdateTicker() { Ticker = GetTicker(); }
+        public void UpdateTicker() 
+        { 
+            Ticker = GetTicker();
+            Content = Ticker;
+        }
 
         private StackLayout _ticker;
         public StackLayout Ticker   
@@ -38,7 +42,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
-        public StackLayout GetTicker()
+        private StackLayout GetTicker()
         {
             StackLayout ticker = new StackLayout();
             initPropertiesOfTicker();

@@ -34,8 +34,11 @@
                        Text=" | Company: "/>
                 <Label Style="{StaticResource GameboardTopTitleLabels}" 
                        Text="{Binding CompanyName}" 
+                       HorizontalOptions="Start"/>
+                <Label Style="{StaticResource GameboardTopTitleLabels}"
+                       Text="{Binding CurrentPlayerCash}"
                        HorizontalOptions="StartAndExpand"/>
-                
+
                 <Button Text="RES"
                         Command="{Binding ShowResources}"
                         Style="{StaticResource ButtonStandard}"
@@ -84,22 +87,6 @@
                              BindingContext="{Binding Ticker}">
                 </StackLayout>
             </ContentView>
-
-            <!--<StackLayout x:Name="TickerSP" 
-                         BindingContext="{Binding TickerVM}"
-                         HorizontalOptions="FillAndExpand" 
-                         VerticalOptions="End"/>-->
-
-            <!--<Label Text="{Binding TickerText}" 
-                   BackgroundColor="Black" 
-                   TextColor="White" 
-                   HorizontalOptions="Start"
-                   VerticalTextAlignment="Center" 
-                   HeightRequest="25"
-                   LineBreakMode="NoWrap" 
-                   Margin="0" 
-                   x:Name="StockTicker">
-            </Label>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

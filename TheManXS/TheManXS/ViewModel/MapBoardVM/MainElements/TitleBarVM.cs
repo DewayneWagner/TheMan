@@ -54,7 +54,19 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 SetValue(ref _companyName, value);
             }
         }
-        
+
+        private string _currentPlayerCash;
+        public string CurrentPlayerCash
+        {
+            get => _currentPlayerCash;
+            set
+            {
+                _currentPlayerCash = value;
+                SetValue(ref _currentPlayerCash, value);
+            }
+        }
+
+
         public ICommand ShowFinancials { get; set; }
         public ICommand EndTurn { get; set; }
         public ICommand ShowResources { get; set; }

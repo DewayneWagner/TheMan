@@ -22,7 +22,6 @@ namespace TheManXS.Model.Main
                 _game.CommodityList.AdvancePricing();
                 _game.FinancialValuesList = new FinancialValuesList(_game);
                 _game.GameBoardVM.TickerVM.UpdateTicker();
-                _game.GameBoardVM.TickerVM.UpdateTicker();
             }
         }
 
@@ -42,6 +41,7 @@ namespace TheManXS.Model.Main
             _game.ActivePlayer = _game.PlayerList[nextPlayerNumber];
             _isFullTurnAdvance = nextPlayerNumber == 0 ? true : false;
             _game.GameBoardVM.TitleBar.CompanyName = _game.ActivePlayer.Name;
+            _game.GameBoardVM.TitleBar.CurrentPlayerCash = _game.PlayerList[_game.ActivePlayer.Number].Cash.ToString("c0");
         }
     }
 }
