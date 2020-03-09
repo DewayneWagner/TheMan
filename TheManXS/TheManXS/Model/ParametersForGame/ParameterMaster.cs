@@ -10,8 +10,5 @@ namespace TheManXS.Model.ParametersForGame
     public enum CityDensity { Low, Medium, High, Total }
     public enum InfrastructureType { MainRiver, Tributary, Road, Pipeline, RailRoad, Hub, Total }
     public enum Difficulty { Easy, Medium, Hard }
-    public class ParameterMaster
-    {        
-        
-    }
+    public class ParameterMaster { }
 }

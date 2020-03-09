@@ -99,7 +99,7 @@ namespace TheManXS.Model.ParametersForGame
                 foreach (ParameterBounded pb in this)
                 {
                     bw.Write(pb.PrimaryIndexNumber);
-                    bw.Write(pb.SecondaryParameterIndex);
+                    bw.Write(pb.SecondaryParameterSubIndex);
                     bw.Write(pb.LowerBounds);
                     bw.Write(pb.UpperBounds);
                 }
