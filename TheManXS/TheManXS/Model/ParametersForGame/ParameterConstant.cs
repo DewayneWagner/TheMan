@@ -11,7 +11,7 @@ namespace TheManXS.Model.ParametersForGame
     {
         CashConstant, CommodityConstants, PrimeRateAdderBasedOnCreditRating, PrimeRateAdderBasedOnTermLength,
         MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType, 
-        InfrastructureConstructionRatiosTT, Total
+        InfrastructureConstructionRatiosTT, NextParameterSet1, NextParameterSet2, NextParameterSet3, Total
     }
     public enum CashConstantSecondary
     {
@@ -41,6 +41,9 @@ namespace TheManXS.Model.ParametersForGame
     {
         MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total
     }
+    public enum NextParameterSet1SecondaryIndex { Next1, Total }
+    public enum NextParameterSet2SecondaryIndex { Next1, Total }
+    public enum NextParameterSet3SecondaryIndex { Next1, Total }
 
     public class ParameterConstant
     {

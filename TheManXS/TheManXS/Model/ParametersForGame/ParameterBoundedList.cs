@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TheManXS.ViewModel.DetailPages;
 
 namespace TheManXS.Model.ParametersForGame
 {
@@ -113,7 +115,6 @@ namespace TheManXS.Model.ParametersForGame
                 {
                     int primaryIndex = br.ReadInt32();
                     string secondaryIndexSubType = br.ReadString();
-                    //int secondaryIndex = br.ReadInt32();
 
                     bool paramExists = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondaryParameterSubIndex == secondaryIndexSubType);
 

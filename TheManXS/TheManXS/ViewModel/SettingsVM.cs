@@ -13,7 +13,7 @@ using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.DetailPages
 {
-    class SettingsVM : BaseViewModel
+    public class SettingsVM : BaseViewModel
     {
         Game _game;
         public SettingsVM()
@@ -103,17 +103,43 @@ namespace TheManXS.ViewModel.DetailPages
         }
         private void SaveChangesMethod(object obj)
         {
-            ParameterBoundedList pbl = new ParameterBoundedList(true);
-            ParameterConstantList pcl = new ParameterConstantList(true);
-
             foreach (SettingsVM s in SettingsVMOC)
             {
-                if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondarySubIndexName,s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
-                else { pcl.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant)); }
+                if (s.IsBounded)
+                {
+                    ParameterBounded pb = _game.ParameterBoundedList.Where(p => p.PrimaryIndexNumber == s.PrimaryIndexNumber)
+                        .Where(p => p.SecondaryParameterIndex == s.SecondaryIndexNumber)
+                        .FirstOrDefault();
+
+                    pb.LowerBounds = s.LBOrConstant;
+                    pb.UpperBounds = s.UB;
+                }
+                else
+                {
+                    ParameterConstant pc = _game.ParameterConstantList.Where(p => p.PrimaryIndexNumber == s.PrimaryIndexNumber)
+                        .Where(p => p.SecondaryParameterIndex == s.SecondaryIndexNumber)
+                        .FirstOrDefault();
+
+                    pc.Constant = s.LBOrConstant;
+                }
             }
 
-            pbl.WriteDataToBinaryFile();
-            pcl.WriteDataToBinaryFile();
+            _game.ParameterBoundedList.WriteDataToBinaryFile();
+            _game.ParameterConstantList.WriteDataToBinaryFile();
+
+
+            //ParameterBoundedList pbl = new ParameterBoundedList(true);
+            //ParameterConstantList pcl = new ParameterConstantList(true);
+
+            //foreach (SettingsVM s in SettingsVMOC)
+            //{
+            //    if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondarySubIndexName,
+            //        s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
+            //    else { pcl.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant)); }
+            //}
+
+            //pbl.WriteDataToBinaryFile();
+            //pcl.WriteDataToBinaryFile();
         }
     }
 }

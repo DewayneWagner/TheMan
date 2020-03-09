@@ -32,6 +32,7 @@ namespace TheManXS.Model.Main
         public Game(GameSpecificParameters gsp, bool isNewGame)
         {
             App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)] = this;
+            LoadAllParameters();
             QC.CurrentSavedGameSlot = gsp.Slot;
             _gsp = gsp;
 

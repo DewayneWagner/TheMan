@@ -37,6 +37,8 @@ namespace TheManXS.Model.ParametersForGame
             SecondaryParameterSubIndex = secondarySubIndexName;
             SecondaryParameterIndex = (secondaryIndexNumber == (-1)) ? GetSecondaryIndex() : secondaryIndexNumber;
             SetSecondaryIndex();
+            UpperBounds = ub;
+            LowerBounds = lb;
         }
 
         public double LowerBounds { get; set; }
