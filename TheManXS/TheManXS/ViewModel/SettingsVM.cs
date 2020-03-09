@@ -108,7 +108,7 @@ namespace TheManXS.ViewModel.DetailPages
 
             foreach (SettingsVM s in SettingsVMOC)
             {
-                if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
+                if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondarySubIndexName,s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
                 else { pcl.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant)); }
             }
 

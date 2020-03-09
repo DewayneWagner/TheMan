@@ -10,7 +10,7 @@ namespace TheManXS.Model.ParametersForGame
     {
         System.Random rnd = new System.Random();
         public ParameterBoundedList(bool isForSettingsVM) { }
-        
+
         public ParameterBoundedList()
         {
             InitListOfEmptyParameters();
@@ -22,9 +22,10 @@ namespace TheManXS.Model.ParametersForGame
             {
                 for (int secondary = 0; secondary < getTotalOfElementsInSecondaryIndex(primary); secondary++)
                 {
-                    this.Add(new ParameterBounded(primary, secondary));
+                    this.Add(new ParameterBounded(primary, GetSecondarySubIndexName(primary,secondary),secondary));
                 }
             }
+            
             int getTotalOfElementsInSecondaryIndex(int primaryIndex)
             {
                 AllBoundedParameters a = (AllBoundedParameters)primaryIndex;
@@ -50,12 +51,60 @@ namespace TheManXS.Model.ParametersForGame
                     case AllBoundedParameters.ProductionUnitsPerTerrainType:
                         return (int)TerrainTypeE.Total;
 
+                    case AllBoundedParameters.NextParameterSet1:
+                        return (int)NextParameterSet1SecondaryIndex.Total;
+
+                    case AllBoundedParameters.NextParameterSet2:
+                        return (int)NextParameterSet2SecondaryIndex.Total;
+
+                    case AllBoundedParameters.NextParameterSet3:
+                        return (int)NextParameterSet3SecondaryIndex.Total;
+
                     case AllBoundedParameters.Total:
                     default:
                         return 0;
                 }
             }
-        }      
+        }
+        string GetSecondarySubIndexName(int primaryIndexNumber, int secondaryIndexNumber)
+        {
+            AllBoundedParameters a = (AllBoundedParameters)primaryIndexNumber;
+            switch (a)
+            {
+                case AllBoundedParameters.CityProdutionPerCityDensity:
+                    return Convert.ToString((CityDensity)secondaryIndexNumber);
+
+                case AllBoundedParameters.DevelopmentCostPerTerrainType:
+                case AllBoundedParameters.ExploreCostPerTerrainType:
+                case AllBoundedParameters.ProductionUnitsPerTerrainType:
+                case AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:
+                    return Convert.ToString((TerrainTypeE)secondaryIndexNumber);
+
+                case AllBoundedParameters.TerrainConstruct:
+                    return Convert.ToString((TerrainBoundedConstructSecondary)secondaryIndexNumber);
+
+                case AllBoundedParameters.PoolConstructParameters:
+                    return Convert.ToString((PoolConstructParametersSecondary)secondaryIndexNumber);
+
+                case AllBoundedParameters.ActionCosts:
+                    return Convert.ToString((ActionCostsSecondary)secondaryIndexNumber);
+
+                case AllBoundedParameters.NextParameterSet1:
+                    return Convert.ToString((NextParameterSet1SecondaryIndex)secondaryIndexNumber);
+
+                case AllBoundedParameters.NextParameterSet2:
+                    return Convert.ToString((NextParameterSet2SecondaryIndex)secondaryIndexNumber);
+
+                case AllBoundedParameters.NextParameterSet3:
+                    return Convert.ToString((NextParameterSet3SecondaryIndex)secondaryIndexNumber);
+
+                case AllBoundedParameters.Total:
+                default:
+                    break;
+            }
+            return null;
+        }
+
         private void ReadDataFromBinaryFile()
         {
             using (BinaryReader br = new BinaryReader(File.Open(App.ParameterBoundedPath, FileMode.OpenOrCreate)))
@@ -63,20 +112,21 @@ namespace TheManXS.Model.ParametersForGame
                 while (br.PeekChar() != (-1))
                 {
                     int primaryIndex = br.ReadInt32();
-                    int secondaryIndex = br.ReadInt32();
+                    string secondaryIndexSubType = br.ReadString();
+                    //int secondaryIndex = br.ReadInt32();
 
-                    bool paramExists = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondaryParameterIndex == secondaryIndex);
+                    bool paramExists = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondaryParameterSubIndex == secondaryIndexSubType);
 
                     if (paramExists)
                     {
                         ParameterBounded pb = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
-                            .Where(p => p.SecondaryParameterIndex == secondaryIndex)
+                            .Where(p => p.SecondaryParameterSubIndex == secondaryIndexSubType)
                             .FirstOrDefault();
 
                         pb.LowerBounds = br.ReadDouble();
                         pb.UpperBounds = br.ReadDouble();
                     }
-                    else { this.Add(new ParameterBounded(primaryIndex, secondaryIndex)); }                    
+                    else { this.Add(new ParameterBounded(primaryIndex, secondaryIndexSubType)); }                    
                 }
                 br.Close();
             }

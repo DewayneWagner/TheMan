@@ -26,6 +26,7 @@ namespace TheManXS.Model.Main
         public Game(bool isForAppDictionary) 
         {
             LoadAllParameters();
+            InitQuickConstants();
         }
 
         public Game(GameSpecificParameters gsp, bool isNewGame)
@@ -49,7 +50,7 @@ namespace TheManXS.Model.Main
         private void InitPropertiesForNewGame()
         {
             //LoadAllParameters();
-            InitQuickConstants();
+            
             PlayerList = new PlayerList(_gsp,this);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
             Map = new GameBoardMap(this,true);
