@@ -11,7 +11,7 @@
             <Setter Property="Spacing" Value="0"/>
         </Style>
         <Style TargetType="Button" x:Key="ButtonStandard">
-            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="TextColor" Value="Black"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="WidthRequest" Value="200"/>
@@ -20,7 +20,7 @@
             <Setter Property="BorderWidth" Value="1"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="FontSize" Value="Small"/>
-            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="BackgroundColor" Value="LightSeaGreen"/>
         </Style>
         <Style TargetType="Label" x:Key="LabelStandard">
             <Setter Property="TextColor" Value="White"/>
@@ -28,7 +28,7 @@
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="FontSize" Value="Small"/>
-            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="BackgroundColor" Value="Orange"/>
         </Style>
         <Style TargetType="Label" x:Key="SubHeading">
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
@@ -40,7 +40,7 @@
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
         </Style>
         <Style TargetType="Label" x:Key="MainHeading">
-            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="BackgroundColor" Value="DarkOrange"/>
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="Large"/>

@@ -103,6 +103,8 @@
                     
                     <ListView ItemsSource="{Binding SavedGameSlotsList}"
                         x:Name="LV_SavedGameSlot"
+                        BackgroundColor="White"
+                        Opacity="0.5"
                         ItemSelected="LV_SavedGameSlot_ItemSelected"
                         SelectedItem="{Binding SelectedGameSaveSlot}"
                         SeparatorColor="Crimson"

@@ -27,8 +27,9 @@ namespace TheManXS.Model.ParametersForGame
     }
     public class ParameterBounded
     {
-        public ParameterBounded(int primaryIndex, int secondaryIndex, double ub = 0, double lb = 0)
+        public ParameterBounded(int primaryIndex, int secondaryIndex, double ub, double lb)
         {
+            PrimaryIndexNumber = primaryIndex;
             PrimaryParameter = (AllBoundedParameters)primaryIndex;
             SecondaryParameterIndex = secondaryIndex;
             SetSecondaryIndex();
@@ -36,8 +37,17 @@ namespace TheManXS.Model.ParametersForGame
             LowerBounds = lb;
         }
 
+        public ParameterBounded(int primaryIndex, int secondaryIndex)
+        {
+            PrimaryIndexNumber = primaryIndex;
+            PrimaryParameter = (AllBoundedParameters)primaryIndex;
+            SecondaryParameterIndex = secondaryIndex;
+            SetSecondaryIndex();
+        }
+
         public double LowerBounds { get; set; }
         public double UpperBounds { get; set; }
+        public int PrimaryIndexNumber { get; set; }
         public AllBoundedParameters PrimaryParameter { get; set; }
         public string SecondaryParameterType { get; set; }
         public int SecondaryParameterIndex { get; set; }
@@ -51,8 +61,9 @@ namespace TheManXS.Model.ParametersForGame
                     SecondaryParameterSubIndex = Convert.ToString((CityDensity)SecondaryParameterIndex);
                     break;
 
-                case AllBoundedParameters.DevelopmentCostPerTerrainType:                    
-                case AllBoundedParameters.ExploreCostPerTerrainType:                    
+                case AllBoundedParameters.DevelopmentCostPerTerrainType:
+                case AllBoundedParameters.ExploreCostPerTerrainType:
+                case AllBoundedParameters.ProductionUnitsPerTerrainType:
                 case AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:
                     SecondaryParameterType = nameof(TerrainTypeE);
                     SecondaryParameterSubIndex = Convert.ToString((TerrainTypeE)SecondaryParameterIndex);
@@ -66,6 +77,15 @@ namespace TheManXS.Model.ParametersForGame
                 case AllBoundedParameters.PoolConstructParameters:
                     SecondaryParameterType = nameof(PoolConstructParametersSecondary);
                     SecondaryParameterSubIndex = Convert.ToString((PoolConstructParametersSecondary)SecondaryParameterIndex);
+                    break;
+
+                case AllBoundedParameters.ActionCosts:
+                    SecondaryParameterType = nameof(ActionCostsSecondary);
+                    SecondaryParameterSubIndex = Convert.ToString((ActionCostsSecondary)SecondaryParameterIndex);
+                    break;
+
+                case AllBoundedParameters.Total:
+                default:
                     break;
             }
         }

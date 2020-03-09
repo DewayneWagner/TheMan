@@ -8,6 +8,7 @@ namespace TheManXS.Model.ParametersForGame
 {
     public class ParameterConstantList : List<ParameterConstant>
     {
+        public ParameterConstantList(bool isForSettingsVM) { }
         public ParameterConstantList()
         {
             InitListOfEmptyParameters();

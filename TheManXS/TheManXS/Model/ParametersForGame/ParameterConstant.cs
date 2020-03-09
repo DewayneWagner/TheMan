@@ -47,6 +47,7 @@ namespace TheManXS.Model.ParametersForGame
         
         public ParameterConstant(int primaryIndex, int secondaryIndex, double constant = 0)
         {
+            PrimaryIndexNumber = primaryIndex;
             PrimaryParameter = (AllConstantParameters)primaryIndex;
             SecondaryParameterIndex = secondaryIndex;
             SetSecondaryParameterTypeOf();
@@ -58,6 +59,7 @@ namespace TheManXS.Model.ParametersForGame
         public string SecondaryParameterTypeOf { get; set; }
         public int SecondaryParameterIndex { get; set; }
         public string SecondaryParameterSubIndex { get; set; }
+        public int PrimaryIndexNumber { get; set; }
 
         private void SetSecondaryParameterTypeOf()
         {

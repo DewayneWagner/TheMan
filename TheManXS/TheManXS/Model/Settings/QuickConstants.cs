@@ -16,9 +16,9 @@ namespace TheManXS.Model.Settings
         public QuickConstants()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-
-            InitProperties();
+            //InitProperties();
         }
+
         public static int PlayerQ { get; set; }
         public static int RowQ { get; set; }
         public static int ColQ { get; set; }
@@ -54,7 +54,7 @@ namespace TheManXS.Model.Settings
         // set by Gameboard Code-behind
         public static double MapCanvasViewHeight { get; set; }
         public static double MapCanvasViewWidth { get; set; }
-        void InitProperties()
+        public void InitProperties()
         {
             PlayerQ = (int)_game.ParameterConstantList.GetConstant(CP.GameConstants, (int)GameConstantsSecondary.PlayerQ);
             RowQ = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.RowQ);
@@ -67,6 +67,20 @@ namespace TheManXS.Model.Settings
             MaxResourceSQsInPool = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.MaxPoolSQ);
             MaxResourceSQsOnMap = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.ResSqRatio) * SqSize;
 
+            UnitCounter = 0;
+        }
+        public static void InitProperties(int playerQ, int rowQ, int colQ, int sqSize, double theManCut, int maxResourceSqsInPool, int maxResourceSQsOnMap)
+        {
+            PlayerQ = playerQ;
+            RowQ = rowQ;
+            ColQ = colQ;
+            SqQ = RowQ * ColQ;
+            SqSize = sqSize;
+            SqLateralLength = (int)((double)SqSize * Math.Sqrt(2));
+            PlayerIndexTheMan = playerQ;
+            TheManCut = theManCut;
+            MaxResourceSQsInPool = maxResourceSqsInPool;
+            MaxResourceSQsOnMap = maxResourceSqsInPool;
             UnitCounter = 0;
         }
     }

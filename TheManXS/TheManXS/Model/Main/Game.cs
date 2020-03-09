@@ -23,7 +23,11 @@ namespace TheManXS.Model.Main
         PageService _pageService = new PageService();
         private GameSpecificParameters _gsp;
         private double _startingPrimeInterestRate = 0.05;
-        public Game(bool isForAppDictionary) { }
+        public Game(bool isForAppDictionary) 
+        {
+            LoadAllParameters();
+        }
+
         public Game(GameSpecificParameters gsp, bool isNewGame)
         {
             App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)] = this;
@@ -44,16 +48,14 @@ namespace TheManXS.Model.Main
         }
         private void InitPropertiesForNewGame()
         {
-            LoadAllParameters();
+            //LoadAllParameters();
+            InitQuickConstants();
             PlayerList = new PlayerList(_gsp,this);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
             Map = new GameBoardMap(this,true);
             CommodityList = new CommodityList(this);
             FinancialValuesList = new FinancialValuesList(this);
             PrimeInterestRate = _startingPrimeInterestRate;
-
-            ParameterBoundedList.WriteDataToBinaryFile();
-            ParameterConstantList.WriteDataToBinaryFile();
         }
         private void InitPropertiesForLoadedGame()
         {
@@ -79,6 +81,18 @@ namespace TheManXS.Model.Main
         {
             ParameterBoundedList = new ParameterBoundedList();
             ParameterConstantList = new ParameterConstantList();
+        }
+        private void InitQuickConstants()
+        {
+            int playerQ = (int)ParameterConstantList.GetConstant(AllConstantParameters.GameConstants, (int)GameConstantsSecondary.PlayerQ);
+            int rowQ = (int)ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.RowQ);
+            int colQ = (int)ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.ColQ);
+            int sqSize = (int)ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.SqSize);
+            double theManCut = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.TheManCut);
+            int maxResourceSqsInPool = (int)ParameterConstantList.GetConstant(AllConstantParameters.ResourceConstant, (int)ResourceConstantSecondary.MaxPoolSQ);
+            int maxResourceSQsOnMap = (int)(ParameterConstantList.GetConstant(AllConstantParameters.ResourceConstant, (int)ResourceConstantSecondary.ResSqRatio) * (rowQ * colQ));
+
+            QC.InitProperties(playerQ, rowQ, colQ, sqSize, theManCut, maxResourceSqsInPool, maxResourceSQsOnMap);
         }
     }
 }

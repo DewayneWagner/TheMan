@@ -15,8 +15,10 @@ namespace TheManXS.ViewModel.DetailPages
 {
     class SettingsVM : BaseViewModel
     {
+        Game _game;
         public SettingsVM()
         {
+            SetGameReference();
             SettingsVMOC = new ObservableCollection<SettingsVM>();
             LoadSettingsOC();
             SaveChanges = new Command(SaveChangesMethod);
@@ -24,6 +26,7 @@ namespace TheManXS.ViewModel.DetailPages
 
         public SettingsVM(ParameterConstant pc)
         {
+            SetGameReference();
             IsBounded = false;
             LBOrConstant = pc.Constant;
             PrimaryIndexName = Convert.ToString(pc.PrimaryParameter);
@@ -33,12 +36,19 @@ namespace TheManXS.ViewModel.DetailPages
         }
         public SettingsVM(ParameterBounded pb)
         {
+            SetGameReference();
             IsBounded = true;
             LBOrConstant = pb.LowerBounds;
-            UB = pb.UpperBounds;
+            UB = pb.UpperBounds;            
             PrimaryIndexName = Convert.ToString(pb.PrimaryParameter);
+            SecondaryIndexNumber = pb.SecondaryParameterIndex;
             SecondarySubIndexName = pb.SecondaryParameterSubIndex;
-            PrimaryIndexNumber = (int)pb.PrimaryParameter;
+            PrimaryIndexNumber = pb.PrimaryIndexNumber;
+        }
+
+        void SetGameReference()
+        {
+            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
         }
 
         public ICommand SaveChanges { get; set; }
@@ -82,38 +92,28 @@ namespace TheManXS.ViewModel.DetailPages
 
         private void LoadSettingsOC()
         {
-            ParameterBoundedList pbl = new ParameterBoundedList();
-
-            foreach (ParameterBounded pb in pbl)
+            foreach (ParameterBounded parameterBounded in _game.ParameterBoundedList)
             {
-                SettingsVMOC.Add(new SettingsVM(pb));
+                SettingsVMOC.Add(new SettingsVM(parameterBounded));
             }
-
-            ParameterConstantList pcl = new ParameterConstantList();
-
-            foreach (ParameterConstant pc in pcl)
+            foreach (ParameterConstant parameterConstant in _game.ParameterConstantList)
             {
-                SettingsVMOC.Add(new SettingsVM(pc));
+                SettingsVMOC.Add(new SettingsVM(parameterConstant));
             }
         }
         private void SaveChangesMethod(object obj)
         {
-            ParameterConstantList constantList = new ParameterConstantList();
-            ParameterBoundedList boundedList = new ParameterBoundedList();
+            ParameterBoundedList pbl = new ParameterBoundedList(true);
+            ParameterConstantList pcl = new ParameterConstantList(true);
 
             foreach (SettingsVM s in SettingsVMOC)
             {
-                if (s.IsBounded)
-                {
-                    boundedList.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.UB, s.LBOrConstant));
-                }
-                else
-                {
-                    constantList.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant));
-                }
+                if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
+                else { pcl.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant)); }
             }
-            constantList.WriteDataToBinaryFile();
-            boundedList.WriteDataToBinaryFile();
+
+            pbl.WriteDataToBinaryFile();
+            pcl.WriteDataToBinaryFile();
         }
     }
 }
