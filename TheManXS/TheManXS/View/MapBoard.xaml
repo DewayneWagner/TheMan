@@ -48,10 +48,12 @@
                         Style="{StaticResource ButtonStandard}" 
                         WidthRequest="150"/>                
                 <Button Text="End Turn" 
-                        Command="{Binding EndTurn}" 
+                        Clicked="Button_Clicked"
                         Style="{StaticResource ButtonStandard}" 
                         VerticalOptions="Center" 
                         WidthRequest="150"/>
+
+                <!--Command="{Binding EndTurn}"-->
             </StackLayout>
 
             <Grid

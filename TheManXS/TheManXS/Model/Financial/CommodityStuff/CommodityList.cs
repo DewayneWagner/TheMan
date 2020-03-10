@@ -22,7 +22,7 @@ namespace TheManXS.Model.Financial.CommodityStuff
         private static double _maxPriceFluctuation;
         private static double _spreadBetweenMinAndMax;
 
-        private System.Random rnd = new System.Random();
+        System.Random rnd = new System.Random();
 
         public CommodityList() { }
         public CommodityList(Game game)
@@ -37,6 +37,7 @@ namespace TheManXS.Model.Financial.CommodityStuff
         private void SetCommodityConstants()
         {
             var c = _game.ParameterConstantList;
+            _startPrice = c.GetConstant(AllConstantParameters.CommodityConstants,(int)CommodityConstantSecondary.StartPrice);
             _minPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinPrice);
             _maxPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MaxPrice);
             _minPriceFluctuation = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinChange);

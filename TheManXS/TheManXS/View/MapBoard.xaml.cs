@@ -131,5 +131,12 @@ namespace TheManXS.View
             base.OnDisappearing();
             Execute = false;
         }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            new EndTurnAction(_game);
+            TickerSP.Children.RemoveAt(0);
+            TickerSP.Children.Add(_game.GameBoardVM.TickerVM.Ticker);
+        }
     }
 }

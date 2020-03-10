@@ -15,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
     public class TickerVM : BaseViewModel
     {
         Game _game;
-        private const double HEIGHTRATIO = 0.06;
+        private const double HEIGHTRATIO = 0.04;
         public TickerVM(bool isForAddingToGameBoardVM) { }
         public TickerVM()
         {
