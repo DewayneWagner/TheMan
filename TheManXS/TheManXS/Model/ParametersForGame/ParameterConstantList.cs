@@ -9,6 +9,7 @@ namespace TheManXS.Model.ParametersForGame
     public class ParameterConstantList : List<ParameterConstant>
     {
         public ParameterConstantList(bool isForSettingsVM) { }
+        private int _elementCount = 0;
 
         public ParameterConstantList()
         {
@@ -33,6 +34,7 @@ namespace TheManXS.Model.ParametersForGame
                 {
                     string secondarySubIndex = GetSecondarySubIndex(primary, secondary);
                     this.Add(new ParameterConstant(primary, secondarySubIndex, secondary));
+                    _elementCount++;
                 }
             }
             int getSecondaryIndexTotal(int primaryIndex)
@@ -108,22 +110,25 @@ namespace TheManXS.Model.ParametersForGame
         {
             using (BinaryReader br = new BinaryReader(File.Open(App.ParameterConstantPath, FileMode.OpenOrCreate)))
             {
-                while (br.PeekChar() != (-1))
+                for (int i = 0; i < _elementCount; i++)
                 {
-                    int primaryIndex = br.ReadInt32();
-                    string secondaryIndex = br.ReadString();
-
-                    bool paramExistsInThis = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondarySubIndex == secondaryIndex);
-                    if (paramExistsInThis)
+                    while (br.PeekChar() != (-1))
                     {
-                        ParameterConstant pc = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
-                            .Where(p => p.SecondarySubIndex == secondaryIndex)
-                            .FirstOrDefault();
+                        int primaryIndex = br.ReadInt32();
+                        string secondaryIndex = br.ReadString();
 
-                        if (br.PeekChar() != (-1)) { pc.Constant = br.ReadDouble(); }
-                        else { pc.Constant = 0; }
+                        bool paramExistsInThis = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondarySubIndex == secondaryIndex);
+                        if (paramExistsInThis)
+                        {
+                            ParameterConstant pc = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
+                                .Where(p => p.SecondarySubIndex == secondaryIndex)
+                                .FirstOrDefault();
+
+                            if (br.PeekChar() != (-1)) { pc.Constant = br.ReadDouble(); }
+                            else { pc.Constant = 0; }
+                        }
                     }
-                }
+                }                
             }
         }
         public void WriteDataToBinaryFile()
@@ -135,8 +140,8 @@ namespace TheManXS.Model.ParametersForGame
             {
                 foreach (ParameterConstant pc in this)
                 {
-                    bw.Write((int)pc.PrimaryParameter);
-                    bw.Write(pc.SecondaryParameterIndex);
+                    bw.Write(pc.PrimaryIndexNumber);
+                    bw.Write(pc.SecondarySubIndex);
                     bw.Write(pc.Constant);
                 }
             }

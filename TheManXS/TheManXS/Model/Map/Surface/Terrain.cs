@@ -8,16 +8,22 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
+using ABP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
+using ACP = TheManXS.Model.ParametersForGame.AllConstantParameters;
 
 namespace TheManXS.Model.Map.Surface
 {
     public class Terrain
     {
         private SQMapConstructArray _map;
-        private double _startRowRatio, _grasslandWidthRatio, _forestWidthRatio, _offsetBounds, _axisShiftBounds;
+        private double _startRowRatio;
         System.Random rnd = new System.Random();
         Game _game;
         enum RandomVariablesForTerrainConstruction { GrasslandRatio, ForestRatio, Offset, Axis }
+
+
+
+
         public Terrain() { }
         public Terrain(bool isNewGame, SQMapConstructArray map, Game game)
         {
@@ -33,6 +39,32 @@ namespace TheManXS.Model.Map.Surface
 
         private void InitNewMap()
         {
+            int northGrassLandStart = GetStartSQ();
+            
+            for (int Col = 0; Col < QC.ColQ; Col++)
+            {
+                TerrainColumnList tc = new TerrainColumnList(new TerrainColumn(northGrassLandStart, _game));
+
+                for (int Row = 0; Row < QC.RowQ; Row++)
+                {
+                    _map[Row, Col].TerrainType = tc[Row];
+                }
+            }
+        }
+
+        private void InitNewMap(bool isOldVersion)
+        {
+            var pb = _game.ParameterBoundedList;
+            var pc = _game.ParameterConstantList;
+            int startSq = GetStartSQ();
+            int northGLBoundary = startSq;
+            int GLWidth = (int)(QC.RowQ * pb.GetRandomValue(ABP.TerrainConstruct, (int)TerrainBoundedConstructSecondary.GrasslandWidthRatio));
+            int southGLBoundary = startSq + GLWidth;
+
+
+
+
+
             int axisShift, offset, R, stSqR;
             int northGL, southGL, northFNorth, northFSouth, southFNorth, southFSouth;
             stSqR = (int)(_startRowRatio * QC.RowQ - (int)(double)QC.RowQ * _forestWidthRatio / 2);
@@ -49,11 +81,11 @@ namespace TheManXS.Model.Map.Surface
                 //southFSouth = southFNorth + GetWidth(_forestWidthRatio);
 
                 northGL = R;
-                southGL = northGL + GetRandom(RandomVariablesForTerrainConstruction.GrasslandRatio);
+                southGL = northGL + (GetRandom(RandomVariablesForTerrainConstruction.GrasslandRatio)*QC.RowQ);
                 northFSouth = northGL - 1;
-                northFNorth = northFSouth - GetRandom(RandomVariablesForTerrainConstruction.ForestRatio);
+                northFNorth = northFSouth - (GetRandom(RandomVariablesForTerrainConstruction.ForestRatio)*QC.RowQ);
                 southFNorth = southGL + 1;
-                southFSouth = southFNorth + GetRandom(RandomVariablesForTerrainConstruction.ForestRatio);
+                southFSouth = southFNorth + (GetRandom(RandomVariablesForTerrainConstruction.ForestRatio)*QC.RowQ);
 
                 for (int r = 0; r < QC.RowQ; r++)
                 {
@@ -76,6 +108,13 @@ namespace TheManXS.Model.Map.Surface
                 stSqR += axisShift;
                 R = stSqR + offset;
             }
+        }
+        private int GetStartSQ()
+        {
+            double startSqRatioFromEdgeOfMap = _game.ParameterConstantList.GetConstant(ACP.MapConstants, (int)MapConstantsSecondary.StartRowRatioFromEdgeOfMap);
+            int min = (int)(QC.RowQ * startSqRatioFromEdgeOfMap);
+            int max = (int)(QC.RowQ - min);
+            return rnd.Next(min, max);
         }
         
         int GetRandom(RandomVariablesForTerrainConstruction rv)
