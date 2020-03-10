@@ -9,11 +9,13 @@ namespace TheManXS.Model.ParametersForGame
     public class ParameterConstantList : List<ParameterConstant>
     {
         public ParameterConstantList(bool isForSettingsVM) { }
+
         public ParameterConstantList()
         {
             InitListOfEmptyParameters();
             ReadDataFromBinaryFile();
         }
+
         public double GetConstant(AllConstantParameters acp, int secondaryIndex)
         {
             return this.Where(p => p.PrimaryParameter == acp)
@@ -26,43 +28,81 @@ namespace TheManXS.Model.ParametersForGame
         {
             for (int primary = 0; primary < (int)AllConstantParameters.Total; primary++)
             {
-                for (int secondary = 0; secondary < getSecondaryIndexTotal(primary); secondary++)
+                int countOfEnum = getSecondaryIndexTotal(primary);
+                for (int secondary = 0; secondary < countOfEnum; secondary++)
                 {
-                    this.Add(new ParameterConstant(primary, secondary));
+                    string secondarySubIndex = GetSecondarySubIndex(primary, secondary);
+                    this.Add(new ParameterConstant(primary, secondarySubIndex, secondary));
                 }
             }
             int getSecondaryIndexTotal(int primaryIndex)
             {
-                AllConstantParameters ap = (AllConstantParameters)primaryIndex;
-
-                switch (ap)
+                switch ((AllConstantParameters)primaryIndex)
                 {
                     case AllConstantParameters.CashConstant:
                         return (int)CashConstantSecondary.Total;
-
                     case AllConstantParameters.CommodityConstants:
                         return (int)CommodityConstantSecondary.Total;
-
                     case AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
                         return (int)CreditRatings.Total;
-
                     case AllConstantParameters.PrimeRateAdderBasedOnTermLength:
                         return (int)LoanTermLength.Total;
-
                     case AllConstantParameters.MapConstants:
                         return (int)MapConstantsSecondary.Total;
-
                     case AllConstantParameters.ResourceConstant:
                         return (int)ResourceConstantSecondary.Total;
-
                     case AllConstantParameters.GameConstants:
                         return (int)GameConstantsSecondary.Total;
-
                     case AllConstantParameters.AssetValuationByStatusType:
                         return (int)StatusTypeE.Total;
+                    case AllConstantParameters.InfrastructureConstructionRatiosTT:
+                        return (int)TerrainTypeE.Total;
+                    case AllConstantParameters.NextParameterSet1:
+                        return (int)NextConstantParameterSet1SecondaryIndex.Total;
+                    case AllConstantParameters.NextParameterSet2:
+                        return (int)NextConstantParameterSet2SecondaryIndex.Total;
+                    case AllConstantParameters.NextParameterSet3:
+                        return (int)NextConstantParameterSet3SecondaryIndex.Total;
+                    case AllConstantParameters.Total:
+                    default:
+                        break;
                 }
                 return 0;
             }
+        }
+        private string GetSecondarySubIndex(int primaryIndex, int secondaryIndex)
+        {
+            switch ((AllConstantParameters)primaryIndex)
+            {
+                case AllConstantParameters.CashConstant:
+                    return Convert.ToString((CashConstantSecondary)secondaryIndex);
+                case AllConstantParameters.CommodityConstants:
+                    return Convert.ToString((CommodityConstantSecondary)secondaryIndex);
+                case AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
+                    return Convert.ToString((CreditRatings)secondaryIndex);
+                case AllConstantParameters.PrimeRateAdderBasedOnTermLength:
+                    return Convert.ToString((LoanTermLength)secondaryIndex);
+                case AllConstantParameters.MapConstants:
+                    return Convert.ToString((MapConstantsSecondary)secondaryIndex);
+                case AllConstantParameters.ResourceConstant:
+                    return Convert.ToString((ResourceConstantSecondary)secondaryIndex);
+                case AllConstantParameters.GameConstants:
+                    return Convert.ToString((GameConstantsSecondary)secondaryIndex);
+                case AllConstantParameters.AssetValuationByStatusType:
+                    return Convert.ToString((StatusTypeE)secondaryIndex);
+                case AllConstantParameters.InfrastructureConstructionRatiosTT:
+                    return Convert.ToString((TerrainTypeE)secondaryIndex);
+                case AllConstantParameters.NextParameterSet1:
+                    return Convert.ToString((NextConstantParameterSet1SecondaryIndex)secondaryIndex);
+                case AllConstantParameters.NextParameterSet2:
+                    return Convert.ToString((NextConstantParameterSet2SecondaryIndex)secondaryIndex);
+                case AllConstantParameters.NextParameterSet3:
+                    return Convert.ToString((NextConstantParameterSet3SecondaryIndex)secondaryIndex);
+                case AllConstantParameters.Total:
+                default:
+                    break;
+            }
+            return null;
         }
         private void ReadDataFromBinaryFile()
         {
@@ -71,18 +111,18 @@ namespace TheManXS.Model.ParametersForGame
                 while (br.PeekChar() != (-1))
                 {
                     int primaryIndex = br.ReadInt32();
-                    AllConstantParameters primary = (AllConstantParameters)primaryIndex;
-                    int secondaryIndex = br.ReadInt32();
+                    string secondaryIndex = br.ReadString();
 
-                    bool paramExistsInThis = this.Exists(p => p.PrimaryParameter == (AllConstantParameters)primaryIndex && p.SecondaryParameterIndex == secondaryIndex);
+                    bool paramExistsInThis = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondarySubIndex == secondaryIndex);
                     if (paramExistsInThis)
                     {
-                        ParameterConstant pc = this.Where(p => p.PrimaryParameter == (AllConstantParameters)primaryIndex)
-                            .Where(p => p.SecondaryParameterIndex == secondaryIndex)
+                        ParameterConstant pc = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
+                            .Where(p => p.SecondarySubIndex == secondaryIndex)
                             .FirstOrDefault();
-                        pc.Constant = br.ReadDouble();
+
+                        if (br.PeekChar() != (-1)) { pc.Constant = br.ReadDouble(); }
+                        else { pc.Constant = 0; }
                     }
-                    else { this.Add(new ParameterConstant(primaryIndex, secondaryIndex)); }
                 }
             }
         }

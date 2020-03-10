@@ -13,47 +13,26 @@ namespace TheManXS.Model.ParametersForGame
         MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType, 
         InfrastructureConstructionRatiosTT, NextParameterSet1, NextParameterSet2, NextParameterSet3, Total
     }
-    public enum CashConstantSecondary
-    {
-        StartCash, StartDebt, TheManCut, SquarePrice, Total
-    }
-    public enum CommodityConstantSecondary
-    {
-        StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total
-    }
-    public enum CreditRatings
-    {
-        AAA, AA, A, B, C, Junk, Total
-    }
-    public enum LoanTermLength
-    {
-        Five, Ten, Fifteen, Twenty, TwentyFive, Total
-    }
-    public enum MapConstantsSecondary
-    {
-        RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, Total
-    }
-    public enum ResourceConstantSecondary
-    {
-        DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total
-    }
-    public enum GameConstantsSecondary
-    {
-        MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total
-    }
-    public enum NextParameterSet1SecondaryIndex { Next1, Total }
-    public enum NextParameterSet2SecondaryIndex { Next1, Total }
-    public enum NextParameterSet3SecondaryIndex { Next1, Total }
+    public enum CashConstantSecondary { StartCash, StartDebt, TheManCut, SquarePrice, Total }
+    public enum CommodityConstantSecondary { StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total }
+    public enum CreditRatings { AAA, AA, A, B, C, Junk, Total }
+    public enum LoanTermLength { Five, Ten, Fifteen, Twenty, TwentyFive, Total }
+    public enum MapConstantsSecondary { RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, Total }
+    public enum ResourceConstantSecondary { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
+    public enum GameConstantsSecondary { MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total }
+    public enum NextConstantParameterSet1SecondaryIndex { Next1, Next2, Next3, Total }
+    public enum NextConstantParameterSet2SecondaryIndex { Next1, Total }
+    public enum NextConstantParameterSet3SecondaryIndex { Next1, Total }
 
     public class ParameterConstant
-    {
-        
-        public ParameterConstant(int primaryIndex, int secondaryIndex, double constant = 0)
+    {        
+        public ParameterConstant(int primaryIndex, string secondarySubIndex, int secondaryIndexNumber = (-1), double constant = 0)
         {
             PrimaryIndexNumber = primaryIndex;
             PrimaryParameter = (AllConstantParameters)primaryIndex;
-            SecondaryParameterIndex = secondaryIndex;
-            SetSecondaryParameterTypeOf();
+            SecondarySubIndex = secondarySubIndex;
+            SecondaryParameterIndex = (secondaryIndexNumber == (-1)) ? GetSecondarySubIndex() : secondaryIndexNumber;
+            SecondaryParameterTypeOf = GetSecondaryParameterTypeOf();
             Constant = constant;
         }
 
@@ -61,46 +40,101 @@ namespace TheManXS.Model.ParametersForGame
         public AllConstantParameters PrimaryParameter { get; set; }
         public string SecondaryParameterTypeOf { get; set; }
         public int SecondaryParameterIndex { get; set; }
-        public string SecondaryParameterSubIndex { get; set; }
+        public string SecondarySubIndex { get; set; }
         public int PrimaryIndexNumber { get; set; }
 
-        private void SetSecondaryParameterTypeOf()
+        public int GetSecondarySubIndex()
+        {            
+            switch (PrimaryParameter)
+            {
+                case AllConstantParameters.CashConstant:
+                    for (int i = 0; i < (int)CashConstantSecondary.Total; i++)
+                    { if(Convert.ToString((CashConstantSecondary)i) == SecondarySubIndex) { return i; }}
+                    return 0;
+                case AllConstantParameters.CommodityConstants:
+                    for (int i = 0; i < (int)CommodityConstantSecondary.Total; i++)
+                    { if (Convert.ToString((CommodityConstantSecondary)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
+                    for (int i = 0; i < (int)CreditRatings.Total; i++)
+                    { if (Convert.ToString((CreditRatings)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.PrimeRateAdderBasedOnTermLength:
+                    for (int i = 0; i < (int)LoanTermLength.Total; i++)
+                    { if (Convert.ToString((LoanTermLength)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.MapConstants:
+                    for (int i = 0; i < (int)MapConstantsSecondary.Total; i++)
+                    { if (Convert.ToString((MapConstantsSecondary)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.ResourceConstant:
+                    for (int i = 0; i < (int)ResourceConstantSecondary.Total; i++)
+                    { if (Convert.ToString((ResourceConstantSecondary)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.GameConstants:
+                    for (int i = 0; i < (int)GameConstantsSecondary.Total; i++)
+                    { if (Convert.ToString((GameConstantsSecondary)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.AssetValuationByStatusType:
+                    for (int i = 0; i < (int)StatusTypeE.Total; i++)
+                    { if (Convert.ToString((StatusTypeE)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.InfrastructureConstructionRatiosTT:
+                    for (int i = 0; i < (int)TerrainTypeE.Total; i++)
+                    { if (Convert.ToString((TerrainTypeE)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.NextParameterSet1:
+                    for (int i = 0; i < (int)NextConstantParameterSet1SecondaryIndex.Total; i++)
+                    { if (Convert.ToString((NextConstantParameterSet1SecondaryIndex)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.NextParameterSet2:
+                    for (int i = 0; i < (int)NextConstantParameterSet2SecondaryIndex.Total; i++)
+                    { if (Convert.ToString((NextConstantParameterSet2SecondaryIndex)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.NextParameterSet3:
+                    for (int i = 0; i < (int)NextConstantParameterSet3SecondaryIndex.Total; i++)
+                    { if (Convert.ToString((NextConstantParameterSet3SecondaryIndex)i) == SecondarySubIndex) { return i; } }
+                    return 0;
+                case AllConstantParameters.Total:
+                default:
+                    break;
+            }
+            return 0;
+        }
+
+        private string GetSecondaryParameterTypeOf()
         {
             switch (PrimaryParameter)
             {
                 case AllConstantParameters.CashConstant:
-                    SecondaryParameterTypeOf = nameof(CashConstantSecondary);
-                    SecondaryParameterSubIndex = Convert.ToString((CashConstantSecondary)SecondaryParameterIndex);
-                    break;
+                    return nameof(CashConstantSecondary);
                 case AllConstantParameters.CommodityConstants:
-                    SecondaryParameterTypeOf = nameof(CommodityConstantSecondary);
-                    SecondaryParameterSubIndex = Convert.ToString((CommodityConstantSecondary)SecondaryParameterIndex);
-                    break;
+                    return nameof(CommodityConstantSecondary);
                 case AllConstantParameters.PrimeRateAdderBasedOnCreditRating:
-                    SecondaryParameterTypeOf = nameof(CreditRatings);
-                    SecondaryParameterSubIndex = Convert.ToString((CreditRatings)SecondaryParameterIndex);
-                    break;
+                    return nameof(CreditRatings);
                 case AllConstantParameters.PrimeRateAdderBasedOnTermLength:
-                    SecondaryParameterTypeOf = nameof(LoanTermLength);
-                    SecondaryParameterSubIndex = Convert.ToString((LoanTermLength)SecondaryParameterIndex);
-                    break;
+                    return nameof(LoanTermLength);
                 case AllConstantParameters.MapConstants:
-                    SecondaryParameterTypeOf = nameof(MapConstantsSecondary);
-                    SecondaryParameterSubIndex = Convert.ToString((MapConstantsSecondary)SecondaryParameterIndex);
-                    break;
+                    return nameof(MapConstantsSecondary);
                 case AllConstantParameters.ResourceConstant:
-                    SecondaryParameterTypeOf = nameof(ResourceConstantSecondary);
-                    SecondaryParameterSubIndex = Convert.ToString((ResourceConstantSecondary)SecondaryParameterIndex);
-                    break;
+                    return nameof(ResourceConstantSecondary);
                 case AllConstantParameters.GameConstants:
-                    SecondaryParameterTypeOf = nameof(GameConstantsSecondary);
-                    SecondaryParameterSubIndex = Convert.ToString((GameConstantsSecondary)SecondaryParameterIndex);
-                    break;
+                    return nameof(GameConstantsSecondary);
                 case AllConstantParameters.AssetValuationByStatusType:
-                    SecondaryParameterTypeOf = nameof(StatusTypeE);
-                    SecondaryParameterSubIndex = Convert.ToString((StatusTypeE)SecondaryParameterIndex);
+                    return nameof(StatusTypeE);
+                case AllConstantParameters.InfrastructureConstructionRatiosTT:
+                    return nameof(TerrainTypeE);
+                case AllConstantParameters.NextParameterSet1:
+                    return nameof(NextConstantParameterSet1SecondaryIndex);
+                case AllConstantParameters.NextParameterSet2:
+                    return nameof(NextConstantParameterSet2SecondaryIndex);
+                case AllConstantParameters.NextParameterSet3:
+                    return nameof(NextConstantParameterSet3SecondaryIndex);
+                case AllConstantParameters.Total:
+                default:
                     break;
             }
+            return null;
         }
     }
 }

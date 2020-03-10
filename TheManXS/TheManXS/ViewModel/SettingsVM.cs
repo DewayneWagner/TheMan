@@ -30,7 +30,7 @@ namespace TheManXS.ViewModel.DetailPages
             IsBounded = false;
             LBOrConstant = pc.Constant;
             PrimaryIndexName = Convert.ToString(pc.PrimaryParameter);
-            SecondarySubIndexName = pc.SecondaryParameterSubIndex;
+            SecondarySubIndexName = pc.SecondarySubIndex;
             PrimaryIndexNumber = (int)pc.PrimaryParameter;
             SecondaryIndexNumber = pc.SecondaryParameterIndex;
         }
@@ -126,20 +126,6 @@ namespace TheManXS.ViewModel.DetailPages
 
             _game.ParameterBoundedList.WriteDataToBinaryFile();
             _game.ParameterConstantList.WriteDataToBinaryFile();
-
-
-            //ParameterBoundedList pbl = new ParameterBoundedList(true);
-            //ParameterConstantList pcl = new ParameterConstantList(true);
-
-            //foreach (SettingsVM s in SettingsVMOC)
-            //{
-            //    if (s.IsBounded) { pbl.Add(new ParameterBounded(s.PrimaryIndexNumber, s.SecondarySubIndexName,
-            //        s.SecondaryIndexNumber, s.UB, s.LBOrConstant)); }
-            //    else { pcl.Add(new ParameterConstant(s.PrimaryIndexNumber, s.SecondaryIndexNumber, s.LBOrConstant)); }
-            //}
-
-            //pbl.WriteDataToBinaryFile();
-            //pcl.WriteDataToBinaryFile();
         }
     }
 }
