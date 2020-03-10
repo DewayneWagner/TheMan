@@ -10,13 +10,54 @@
         <Grid>
             <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
                        Aspect="Fill" Opacity="0.7"/>
-            <StackLayout WidthRequest="250" VerticalOptions="Center">
-                <Button Style="{StaticResource ButtonStandard}" Text="Start New Game" Command="{Binding StartNewGame}"/>
-                <Button Style="{StaticResource ButtonStandard}" Text="Load Game" Command="{Binding LoadGame}"/>
-                <Button Style="{StaticResource ButtonStandard}" Text="Clusters" Command="{Binding Cluster}"/>
-                <Button Style="{StaticResource ButtonStandard}" Text="Settings" Command="{Binding Settings}"/>
-                <Button Style="{StaticResource ButtonStandard}" Text="Database Delete" Command="{Binding DataBaseDelete}"/>
-            </StackLayout>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                       HorizontalOptions="FillAndExpand" 
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="Large"
+                       Text="THE MAN"
+                       FontAttributes="Bold"
+                       HeightRequest="300"/>
+                <Button Grid.Row="2" Grid.Column="1"
+                        FontAttributes="Bold"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Style="{StaticResource ButtonStandard}" 
+                        Text="Start New Game" 
+                        Command="{Binding StartNewGame}"/>
+                <Button Grid.Row="2" Grid.Column="3"
+                        FontAttributes="Bold"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Style="{StaticResource ButtonStandard}" 
+                        Text="Load Game" 
+                        Command="{Binding LoadGame}"/>
+                <Button Grid.Row="3" Grid.Column="3"
+                        Style="{StaticResource ButtonStandard}" 
+                        Text="D" Command="{Binding DeveloperView}"
+                        WidthRequest="50" HeightRequest="50"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="EndAndExpand"/>
+            </Grid>
+
+            <!--<StackLayout WidthRequest="250" VerticalOptions="Center">
+                
+            </StackLayout>-->
         </Grid>        
     </ContentPage.Content>
 </ContentPage>

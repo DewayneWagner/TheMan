@@ -18,45 +18,26 @@ namespace TheManXS.ViewModel.DetailPages
             _pageService = new PageService();
             StartNewGame = new Command(StartNewGameMethod);
             LoadGame = new Command(LoadGameMethod);
-            Cluster = new Command(LoadClusterPage);
-            Settings = new Command(LoadSettingsPage);
-            DataBaseDelete = new Command(UpdateDataBase);
+            DeveloperView = new Command(OnDevelopView);
         }
-
-        public ICommand Settings { get; set; }
-        public ICommand Cluster { get; set; }
+        
         public ICommand StartNewGame { get; set; }
         public ICommand LoadGame { get; set; }
-        public ICommand DataBaseDelete { get; set; }
+        
+        public ICommand DeveloperView { get; set; }
         private PageService _pageService { get; set; }
 
         private async void LoadGameMethod(object obj)
         {
-            //await _pageService.PushAsync(new NavigationPage(new LoadGameView()));
             await _pageService.PushAsync(new LoadGameView());
         }
         private async void StartNewGameMethod(object obj)
         {
-            //await _pageService.PushAsync(new NavigationPage(new StartNewGameView()));
             await _pageService.PushAsync(new StartNewGameView());
         }
-        private async void LoadSettingsPage(object obj)
+        private async void OnDevelopView(object obj)
         {
-            //await _pageService.PushAsync(new NavigationPage(new ParameterView()));
-            await _pageService.PushAsync(new ParameterView());
-        }
-        private async void LoadClusterPage(object obj)
-        {
-            //await _pageService.PushAsync(new NavigationPage(new ClusterView()));
-            await _pageService.PushAsync(new ClusterView());
-        }
-        private void UpdateDataBase(object obj)
-        {
-            using (DBContext db = new DBContext())
-            {
-                db.DeleteDatabase();
-                db.SaveChanges();
-            }
+            await _pageService.PushAsync(new DeveloperView());
         }
     }
 }

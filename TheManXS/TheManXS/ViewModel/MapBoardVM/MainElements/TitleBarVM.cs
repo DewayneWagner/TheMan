@@ -71,7 +71,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public ICommand EndTurn { get; set; }
         public ICommand ShowResources { get; set; }
 
-        private async void ShowResourceMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Resources));
+        private async void ShowResourceMap() => await _pageService.DisplayAlert("Heh dumbass...remember - you have to rebuild this" + "\n" +
+            "because you deleted it permanently by accident.");
+        //private async void ShowResourceMap() => await _pageService.PushAsync(new ZoomedOutMapView(ZoomedOutMapVM.ViewType.Resources));
         private void EndTurnAction(object obj) => new EndTurnAction(_game);
         private async void ShowFinancialsPage(object obj) => await _pageService.PushAsync(new FinancialsView());
     }

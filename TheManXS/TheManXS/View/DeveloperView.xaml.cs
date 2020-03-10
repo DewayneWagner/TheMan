@@ -10,13 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace TheManXS.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ZoomedOutMapView : ContentPage
+    public partial class DeveloperView : ContentPage
     {
-        public ZoomedOutMapView(TheManXS.ViewModel.ZoomedOutMapVM.ViewType vt)
+        public DeveloperView()
         {
-            ZoomedOutMapVM z = new ZoomedOutMapVM(vt);
+            DeveloperVM dvm = new DeveloperVM();
             InitializeComponent();
-            Content = z;
+            BindingContext = dvm;
         }
     }
 }

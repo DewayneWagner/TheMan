@@ -40,16 +40,16 @@ namespace TheManXS.Model.Map
         
         private void InitNewMap()
         {
-            SQMap = new SQMapConstructArray(_game);// to create the squares themselves as per dimensions
-            new Terrain(SQMap,_game); // build new terrain
-            new ResourcePools(true, SQMap,_game); // build resource pools
-            new City(SQMap); // build new city
-
+            SQMap = new SQMapConstructArray(_game);
+            new Terrain(SQMap,_game);
+            new ResourcePools(true, SQMap,_game);
+            new City(SQMap);
+            
             InitSQsForTesting();
+            
             _listOfAllSQs = SQMap.GetListOfSQs();
             AddNewListOfSQToDB();
             LoadSQDictionaryForGame();
-
             new Infrastructure(true,SQMap,_game);
         }
 
