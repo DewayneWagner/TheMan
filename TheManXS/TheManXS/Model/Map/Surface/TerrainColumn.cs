@@ -36,18 +36,17 @@ namespace TheManXS.Model.Map.Surface
             void setNorthForestBoundaries()
             {
                 int northForestWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct, 
-                    (int)TerrainBoundedConstructSecondary.ForestWidthRatio));
+                    (int)TerrainBoundedConstructSecondary.ForestWidthRatio) * QC.RowQ);
                 NorthOfNorthForest = NorthOfGrassland - northForestWidth;
                 SouthOfNorthForest = NorthOfGrassland - 1;
             }
             void setSouthForestBoundaries()
             {
                 int southForestWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct,
-                    (int)TerrainBoundedConstructSecondary.ForestWidthRatio));
+                    (int)TerrainBoundedConstructSecondary.ForestWidthRatio) * QC.RowQ);
                 NorthOfSouthForest = SouthOfGrassland + 1;
                 SouthOfSouthForest = NorthOfSouthForest + southForestWidth;
             }
-
         }
         public int NorthOfNorthForest { get; set; }
         public int SouthOfNorthForest { get; set; }

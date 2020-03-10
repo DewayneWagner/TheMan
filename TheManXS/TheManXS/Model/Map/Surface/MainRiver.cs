@@ -24,14 +24,14 @@ namespace TheManXS.Model.Map.Surface
             InitEastRiver();
         }
 
-        private SQInfrastructure[,] _map;
+        private SQInfrastructure[,] _sqInfrastructureArray;
         private SQ _cityStartSQ;
         Game _game;
 
         public MainRiver(SQInfrastructure[,] map, SQMapConstructArray sqMap, Game game)
         {
             _game = game;
-            _map = map;
+            _sqInfrastructureArray = map;
             _SQmap = sqMap;
             _cityStartSQ = sqMap.CityStartSQ;
             InitWestRiver();
@@ -50,17 +50,17 @@ namespace TheManXS.Model.Map.Surface
                 {
                     if (col == nextTributaryCol)
                     {
-                        new Tributary(_SQmap, row, col, _tributaryCounter, _game);
+                        new Tributary(_SQmap, _sqInfrastructureArray, row, col, _tributaryCounter, _game);
                         //new Tributary(_map, _SQmap, row, col, _tributaryCounter, _game);
                         _tributaryCounter++;
                         nextTributaryCol = GetNextTributaryCol(col, false);
                     }
-                    if (_map[row, col].IsRoadConnected)
+                    if (_sqInfrastructureArray[row, col].IsRoadConnected)
                     {
                         row++;
-                        _map[row, col].IsMainRiver = true; 
+                        _sqInfrastructureArray[row, col].IsMainRiver = true; 
                     }
-                    else { _map[row, col].IsMainRiver = true; }
+                    else { _sqInfrastructureArray[row, col].IsMainRiver = true; }
                 }                
             }
         }
@@ -73,16 +73,16 @@ namespace TheManXS.Model.Map.Surface
             {
                 if (Coordinate.DoesSquareExist(row,col))
                 {
-                    if (col < (_cityStartSQ.Col + 2)) { _map[row, col].IsMainRiver = true; }
-                    else if (_map[row, col].IsRoadConnected)
+                    if (col < (_cityStartSQ.Col + 2)) { _sqInfrastructureArray[row, col].IsMainRiver = true; }
+                    else if (_sqInfrastructureArray[row, col].IsRoadConnected)
                     {
                         row++;
-                        _map[row, col].IsMainRiver = true;
+                        _sqInfrastructureArray[row, col].IsMainRiver = true;
                     }
-                    else { _map[row, col].IsMainRiver = true; }
+                    else { _sqInfrastructureArray[row, col].IsMainRiver = true; }
                     if (col == nextTributaryCol)
                     {
-                        new Tributary(_SQmap, row, col, _tributaryCounter, _game);
+                        new Tributary(_SQmap, _sqInfrastructureArray, row, col, _tributaryCounter, _game);
                         //new Tributary(_map, _SQmap, row, col, _tributaryCounter, _game);
                         _tributaryCounter++;
                         GetNextTributaryCol(col, true);

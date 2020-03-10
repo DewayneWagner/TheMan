@@ -28,28 +28,28 @@ namespace TheManXS.Model.Map.Surface
         }
         void InitNorthForest()
         {
-            for (int i = _terrainColumn.NorthOfNorthForest; i < _terrainColumn.SouthOfNorthForest; i++)
+            for (int i = this.Count; i < _terrainColumn.SouthOfNorthForest; i++)
             {
                 this.Add(TT.Forest);
             }
         }
         void InitGrassLand()
         {
-            for (int i = _terrainColumn.NorthOfGrassland; i < _terrainColumn.SouthOfGrassland; i++)
+            for (int i = this.Count; i < _terrainColumn.SouthOfGrassland; i++)
             {
                 this.Add(TT.Grassland);
             }
         }
         void InitSouthForest()
         {
-            for (int i = _terrainColumn.NorthOfSouthForest; i < _terrainColumn.SouthOfSouthForest; i++)
+            for (int i = this.Count; i < _terrainColumn.SouthOfSouthForest; i++)
             {
                 this.Add(TT.Forest);
             }
         }
         void InitSouthMountains()
         {
-            for (int i = (_terrainColumn.SouthOfSouthForest + 1); i < QC.RowQ; i++)
+            for (int i = this.Count; i < QC.RowQ; i++)
             {
                 this.Add(TT.Mountain);
             }

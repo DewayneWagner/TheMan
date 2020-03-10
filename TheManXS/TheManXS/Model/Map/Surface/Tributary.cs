@@ -22,12 +22,15 @@ namespace TheManXS.Model.Map.Surface
         private int _tributaryNumber;
         Game _game;
 
-        public Tributary(SQMapConstructArray map, int startRow, int startCol, int tributaryNumber, Game game)
+        public Tributary(SQMapConstructArray sqmap, SQInfrastructure[,] map, int startRow, 
+            int startCol, int tributaryNumber, Game game)
         {
             _game = game;
             _startRow = startRow;
             _startCol = startCol;
-            _isFlowingToNorth = GetIsNorth();            
+            _isFlowingToNorth = GetIsNorth();
+            _SQmap = sqmap;
+            _map = map;
 
             _map[startRow, startCol].IsTributary = true;
             _map[startRow, startCol].TributaryNumber = _tributaryNumber = tributaryNumber;
