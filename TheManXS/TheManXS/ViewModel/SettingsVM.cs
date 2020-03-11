@@ -22,6 +22,7 @@ namespace TheManXS.ViewModel.DetailPages
             SettingsVMOC = new ObservableCollection<SettingsVM>();
             LoadSettingsOC();
             SaveChanges = new Command(SaveChangesMethod);
+            CompressedLayout.SetIsHeadless(this, true);
         }       
 
         public SettingsVM(ParameterConstant pc)

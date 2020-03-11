@@ -29,8 +29,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             ShowFinancials = new Command(ShowFinancialsPage);
             EndTurn = new Command(EndTurnAction);
-
             ShowResources = new Command(ShowResourceMap);
+
             Quarter = _game.Quarter;
             CompanyName = _game.ActivePlayer.Name;
         }
@@ -65,7 +65,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
                 SetValue(ref _currentPlayerCash, value);
             }
         }
-
 
         public ICommand ShowFinancials { get; set; }
         public ICommand EndTurn { get; set; }

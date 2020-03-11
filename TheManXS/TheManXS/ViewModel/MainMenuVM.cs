@@ -19,6 +19,7 @@ namespace TheManXS.ViewModel.DetailPages
             StartNewGame = new Command(StartNewGameMethod);
             LoadGame = new Command(LoadGameMethod);
             DeveloperView = new Command(OnDevelopView);
+            CompressedLayout.SetIsHeadless(this, true);
         }
         
         public ICommand StartNewGame { get; set; }

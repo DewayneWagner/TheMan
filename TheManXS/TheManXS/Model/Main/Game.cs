@@ -15,6 +15,7 @@ using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.ViewModel.Style;
 
 namespace TheManXS.Model.Main
 {
@@ -78,6 +79,7 @@ namespace TheManXS.Model.Main
         public double PrimeInterestRate { get; set; }       
         public ParameterBoundedList ParameterBoundedList { get; set; }
         public ParameterConstantList ParameterConstantList { get; set; }
+        public PaletteColorList PaletteColors { get; set; } = new PaletteColorList();
 
         private void LoadAllParameters()
         {

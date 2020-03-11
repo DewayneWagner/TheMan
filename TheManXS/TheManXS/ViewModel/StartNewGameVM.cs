@@ -51,6 +51,7 @@ namespace TheManXS.ViewModel
             HardButtonOpacity = 1;
 
             SelectedGameSaveSlot = new GameSpecificParameters();
+            CompressedLayout.SetIsHeadless(this, true);
         }
         #endregion
 

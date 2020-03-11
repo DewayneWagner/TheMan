@@ -21,6 +21,7 @@ namespace TheManXS.ViewModel
             BackgroundColor = Color.White;
             _sqSize = (QC.ScreenHeight-100) / QC.RowQ;
              InitResourcesMap();
+            CompressedLayout.SetIsHeadless(this, true);
         }
 
         private void InitResourcesMap()

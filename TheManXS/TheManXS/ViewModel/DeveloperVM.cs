@@ -19,10 +19,13 @@ namespace TheManXS.ViewModel
             Cluster = new Command(LoadClusterPage);
             Settings = new Command(LoadSettingsPage);
             DataBaseDelete = new Command(UpdateDataBase);
+            ColorPalette = new Command(OnColorPalette);
+            CompressedLayout.SetIsHeadless(this, true);
         }
         public ICommand Settings { get; set; }
         public ICommand Cluster { get; set; }
         public ICommand DataBaseDelete { get; set; }
+        public ICommand ColorPalette { get; set; }
 
         private async void LoadClusterPage(object obj)
         {
@@ -40,6 +43,10 @@ namespace TheManXS.ViewModel
         private async void LoadSettingsPage(object obj)
         {
             await _pageService.PushAsync(new ParameterView());
+        }
+        private async void OnColorPalette(object obj)
+        {
+            await _pageService.PushAsync(new ColorPalletteView());
         }
     }
 }

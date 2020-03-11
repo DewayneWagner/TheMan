@@ -13,13 +13,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
     {
         private int _row;
         private int _col;
-        private static TerrainColors _terrainColors = new TerrainColors();
         System.Random rnd = new System.Random();
-
+        Game _game;
         public enum sqFormats { LinearGradient, SolidColor, SweepGradient, VerticalSplit, HorizontalSplit, Pixelly }
 
-        public TileConstructCalc(int row, int col)
+        public TileConstructCalc(int row, int col, Game game)
         {
+            _game = game;
             _row = row;
             _col = col;
         }
@@ -32,7 +32,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         public SKColor[] GetGradientColors(int q, TerrainTypeE tt)
         {
             SKColor[] colors = new SKColor[q];
-            for (int i = 0; i < q; i++) { colors[i] = _terrainColors.GetRandomColor(tt); }
+            for (int i = 0; i < q; i++) { colors[i] = _game.PaletteColors.GetRandomColor(tt); }
             return colors;
         }
         public Tuple<SKPoint, SKPoint> GetGradientPoints()

@@ -23,6 +23,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             _game.GameBoardVM.TickerVM = this;
             Ticker = GetTicker();
             Content = Ticker;
+            CompressedLayout.SetIsHeadless(this, true);
         }
 
         public void UpdateTicker() 
@@ -129,7 +130,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             void addArrowImage()
             {
                 Image arrow = AllImages.GetImage(_imageType);
-                //Image arrow = AllImages.GetImage(ImagesAvailable.Logo);
                 arrow.Aspect = Aspect.AspectFit;
                 arrow.HorizontalOptions = LayoutOptions.StartAndExpand;
                 arrow.VerticalOptions = LayoutOptions.StartAndExpand;

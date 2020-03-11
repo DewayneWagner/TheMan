@@ -24,6 +24,7 @@ namespace TheManXS.ViewModel.DetailPages
             SaveItemChanges = new Command(SaveItemChangesMethod);
 
             ItemReadOnlyMode = true;
+            CompressedLayout.SetIsHeadless(this, true);
         }
 
         private bool _itemReadOnlyMode;

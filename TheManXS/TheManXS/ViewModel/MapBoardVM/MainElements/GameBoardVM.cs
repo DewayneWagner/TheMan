@@ -22,6 +22,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             TouchEffectsEnabled = true;
             SidePanelManager = new SidePanelManager(_game);
             TickerVM = new TickerVM(true);
+            CompressedLayout.SetIsHeadless(this, true);
         }
 
         public GameBoardVM(bool isForAppDictionary) { }

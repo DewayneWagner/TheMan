@@ -40,10 +40,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         public Map(Game game) 
         {
             _game = game;
-            TerrainColors = new TerrainColors();
             AddTerrainSQsToMap();
         }
-        public TerrainColors TerrainColors { get; set; }
         public void AddTerrainSQsToMap()
         {
             using (SKCanvas gameboard = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
@@ -68,14 +66,14 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
                 void setTileFormat()
                 {
-                    t = new TileConstructCalc(sq.Row, sq.Col);
+                    t = new TileConstructCalc(sq.Row, sq.Col, _game);
                     switch (t.GetFormat(sq.TerrainType))
                     {
                         case sqFormats.LinearGradient:
                             setLinearGradient();
                             break;
                         case sqFormats.SolidColor:
-                            standardTilePaint.Color = TerrainColors.GetRandomColor(sq.TerrainType);
+                            standardTilePaint.Color = _game.PaletteColors.GetRandomColor(sq.TerrainType);
                             break;
                         case sqFormats.SweepGradient:
                             setSweepGradient();
@@ -152,7 +150,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 {
                     for (int miniCol = 0; miniCol < sqsPerSide; miniCol++)
                     {
-                        miniPaint.Color = TerrainColors.GetRandomColor(TerrainTypeE.Forest);
+                        miniPaint.Color = _game.PaletteColors.GetRandomColor(TerrainTypeE.Forest);
 
                         SKRect miniRect = new SKRect(
                             ((miniCol * miniSqSize) + colPosition),
