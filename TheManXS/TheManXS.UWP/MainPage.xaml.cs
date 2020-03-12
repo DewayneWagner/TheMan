@@ -23,16 +23,21 @@ namespace TheManXS.UWP
             this.InitializeComponent();
 
             string sqLiteDBName = "TheManXS_db.sqlite";
-            string folderPath = ApplicationData.Current.LocalFolder.Path;
-            string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
-
             string parameterBoundedFileName = "ParameterBounded.bin";
             string parameterConstantFileName = "ParameterConstant.bin";
+            string colorPaletteFileName = "ColorPalette.bin";
+            string nextBinaryFileName = "NextBinary.bin";
 
+            string folderPath = ApplicationData.Current.LocalFolder.Path;
+
+            string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
             string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
             string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
+            string colorPalettePath = Path.Combine(folderPath, colorPaletteFileName);
+            string nextBinaryPath = Path.Combine(folderPath, nextBinaryFileName);
 
-            LoadApplication(new TheManXS.App(sqLiteFullPath,boundedParameter,constantParameter));
+            LoadApplication(new TheManXS.App(sqLiteFullPath,boundedParameter,constantParameter,
+                colorPalettePath,nextBinaryPath));
         }
     }
 }

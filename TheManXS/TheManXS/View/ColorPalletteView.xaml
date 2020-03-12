@@ -3,18 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:VM="clr-namespace:TheManXS.ViewModel.Style"
              mc:Ignorable="d"
              x:Class="TheManXS.View.ColorPalletteView">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="WidthRequest" Value="25"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Label Style="{StaticResource MainHeading}" Text="Color Palette"/>
-            <ListView>
+            <ListView x:Name="LV_ColorPalette" ItemsSource="{Binding PaletteColorList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid x:Name="ColorPaletteGrid" 
                                   HorizontalOptions="FillAndExpand" 
-                                  VerticalOptions="FillAndExpand"/>
+                                  VerticalOptions="FillAndExpand">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100"/>
+                                </Grid.RowDefinitions>
+                                
+                                <BoxView BackgroundColor="{Binding Color}" 
+                                         Grid.Column="0"
+                                         HorizontalOptions="FillAndExpand" 
+                                         Margin="5"
+                                         VerticalOptions="FillAndExpand"/>
+                                
+                                <Label Text="{Binding Description}" 
+                                       HorizontalOptions="FillAndExpand" 
+                                       Grid.Column="1"
+                                       VerticalTextAlignment="Center" 
+                                       FontAttributes="Bold"/>
+
+                                <Button Text="C0" Grid.Column="2" Clicked="C0Button_Clicked" CommandParameter="{Binding ID}"/>
+                                <Button Text="C1" Grid.Column="3" Clicked="C1Button_Clicked" CommandParameter="{Binding ID}"/>
+                                <Button Text="C2" Grid.Column="4" Clicked="C2Button_Clicked" CommandParameter="{Binding ID}"/>
+                                <Button Text="C3" Grid.Column="5" Clicked="C3Button_Clicked" CommandParameter="{Binding ID}"/>
+                                <Button Text="C4" Grid.Column="6" Clicked="C4Button_Clicked" CommandParameter="{Binding ID}"/>
+                                
+                            </Grid>                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

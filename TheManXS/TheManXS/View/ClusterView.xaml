@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="TheManXS.View.ClusterView">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddNewItem}" Text="Add New"/>
         <ToolbarItem Command="{Binding SaveItemChanges}" Text="Save Changes"/>

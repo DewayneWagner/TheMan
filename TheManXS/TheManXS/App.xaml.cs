@@ -15,23 +15,29 @@ namespace TheManXS
     {
         public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game }
+
         public static string DataBaseLocation = string.Empty;
         public static string ParameterBoundedPath = string.Empty;
         public static string ParameterConstantPath = string.Empty;
+        public static string ColorPalettes = string.Empty;
+        public static string NextBinaryFile = string.Empty;
 
-        public App(string dbLocation, string boundedParameterLocation, string constantParameterLocation)
+        public App(string dbLocation, string boundedParameterLocation, string constantParameterLocation,
+            string colorPalettes, string nextBinaryFile)
         {
             DataBaseLocation = dbLocation;
             ParameterBoundedPath = boundedParameterLocation;
             ParameterConstantPath = constantParameterLocation;
+            ColorPalettes = colorPalettes;
+            NextBinaryFile = nextBinaryFile;
 
             InitScreenMetrics();
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainMenuView());
-            InitPropertyDictionary();
-            
+            InitPropertyDictionary();            
         }
+
         void InitPropertyDictionary()
         {
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ActiveSQ)] = new TheManXS.Model.Main.SQ(true);

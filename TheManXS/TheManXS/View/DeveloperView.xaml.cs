@@ -17,6 +17,7 @@ namespace TheManXS.View
             DeveloperVM dvm = new DeveloperVM();
             InitializeComponent();
             BindingContext = dvm;
+
         }
     }
 }

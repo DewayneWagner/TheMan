@@ -12,6 +12,7 @@
             <Button Style="{StaticResource ButtonStandard}" Text="Clusters" Command="{Binding Cluster}"/>
             <Button Style="{StaticResource ButtonStandard}" Text="Settings" Command="{Binding Settings}"/>
             <Button Style="{StaticResource ButtonStandard}" Text="Database Delete" Command="{Binding DataBaseDelete}"/>
+            <Button Style="{StaticResource ButtonStandard}" Text="Colors" Command="{Binding ColorPalette}"/>
         </StackLayout>    
     </ContentPage.Content>
 </ContentPage>

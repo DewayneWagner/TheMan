@@ -26,16 +26,20 @@ namespace TheManXS.iOS
             global::Xamarin.Forms.Forms.Init();
 
             string sqLiteDBName = "TheManXS_db.sqlite";
-            string folderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"..","Library");
-            string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
-
             string parameterBoundedFileName = "ParameterBounded.bin";
             string parameterConstantFileName = "ParameterConstant.bin";
+            string colorPaletteFileName = "ColorPalette.bin";
+            string nextBinaryFileName = "NextBinary.bin";
 
+            string folderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"..","Library");
+            
+            string sqLiteFullPath = Path.Combine(folderPath, sqLiteDBName);
             string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
             string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
+            string colorPalettePath = Path.Combine(folderPath, colorPaletteFileName);
+            string nextBinaryPath = Path.Combine(folderPath, nextBinaryFileName);
 
-            LoadApplication(new App(sqLiteFullPath,boundedParameter,constantParameter));
+            LoadApplication(new App(sqLiteFullPath,boundedParameter,constantParameter,colorPalettePath,nextBinaryPath));
 
             return base.FinishedLaunching(app, options);
         }

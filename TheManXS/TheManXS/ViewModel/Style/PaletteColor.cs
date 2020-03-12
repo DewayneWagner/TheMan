@@ -5,6 +5,7 @@ using System.Text;
 using TheManXS.Model.ParametersForGame;
 using Xamarin.Forms;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
+using SkiaSharp.Views.Forms;
 
 namespace TheManXS.ViewModel.Style
 {
@@ -18,13 +19,22 @@ namespace TheManXS.ViewModel.Style
             Color = color;
             Description = description;
             TerrainType = tt;
-            SKColor = new SKColor((byte)color.R, (byte)color.G, (byte)color.B);
+            SKColor = Extensions.ToSKColor(Color);
             AvailablePaletteColors = apc;
+            ID = (int)apc;
         }
+
+        public int ID { get; set; }
         public Color Color { get; set; }
         public SKColor SKColor { get; set; }
         public string Description { get; set; }
         public TerrainTypeE TerrainType { get; set; }
         public AvailablePaletteColors AvailablePaletteColors { get; set; }
+
+        public bool IsC0 { get; set; }
+        public bool IsC1 { get; set; }
+        public bool IsC2 { get; set; }
+        public bool IsC3 { get; set; }
+        public bool IsC4 { get; set; }
     }
 }
