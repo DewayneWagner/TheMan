@@ -57,6 +57,7 @@ namespace TheManXS.ViewModel.Style
             Add(new PaletteColor(Color.FromRgb(15, 35, 24), "Sask Slough 2", TT.Slough, ACP.S2));
             Add(new PaletteColor(Color.FromRgb(23, 48, 29), "Sask Slough 3", TT.Slough, ACP.S3));
             Add(new PaletteColor(Color.FromRgb(194, 178, 128), "Sand 1", TT.Sand, ACP.SAND));
+            Add(new PaletteColor(Color.FromRgb(109, 124, 135), "Bethy Blay", TT.River, ACP.Beth));
         }
         public SKColor GetRandomColor(TT tt)
         {
