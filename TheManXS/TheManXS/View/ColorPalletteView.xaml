@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:VM="clr-namespace:TheManXS.ViewModel.Style"
              mc:Ignorable="d"
+             x:Name="ColorPaletteViewPage"
              x:Class="TheManXS.View.ColorPalletteView">
 
     <ContentPage.Resources>
@@ -13,15 +14,18 @@
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             <Setter Property="VerticalOptions" Value="FillAndExpand"/>
             <Setter Property="Margin" Value="3"/>
+            <Setter Property="BackgroundColor" Value="LightSeaGreen"/>
         </Style>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
+
+    <!--<ContentPage.BindingContext>
         <VM:ColorPaletteVM/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
+    
     <ContentPage.Content>
         <StackLayout>
             <Label Style="{StaticResource MainHeading}" Text="Color Palette"/>
-            <ListView x:Name="LV_ColorPalette" ItemsSource="{Binding ColorListOC}">
+            <ListView x:Name="LV_ColorPalette" ItemsSource="{Binding ColorListOC}">                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -55,28 +59,28 @@
                                        VerticalTextAlignment="Center" 
                                        FontAttributes="Bold"/>
 
-                                <Button Text="C0" Grid.Column="2" 
-                                        Command="{Binding C0}" 
-                                        CommandParameter="{Binding ID}" 
-                                        BackgroundColor="{Binding COButtonColor}"/>
-                                
+                                <Button Text="C0" Grid.Column="2"
+                                        Command="{Binding Path=BindingContext.C0, Source={x:Reference LV_ColorPalette}}"
+                                        CommandParameter="{Binding ID}"
+                                        BackgroundColor="{Binding C0ButtonColor}"/>                                
+
                                 <Button Text="C1" Grid.Column="3" 
-                                        Command="{Binding C1}" 
+                                        Command="{Binding Path=BindingContext.C1, Source={x:Reference LV_ColorPalette}}"
                                         CommandParameter="{Binding ID}" 
                                         BackgroundColor="{Binding C1ButtonColor}"/>
                                 
                                 <Button Text="C2" Grid.Column="4" 
-                                        Command="{Binding C2}" 
+                                        Command="{Binding Path=BindingContext.C2, Source={x:Reference LV_ColorPalette}}"
                                         CommandParameter="{Binding ID}" 
                                         BackgroundColor="{Binding C2ButtonColor}"/>
                                 
                                 <Button Text="C3" Grid.Column="5" 
-                                        Command="{Binding C3}" 
+                                        Command="{Binding Path=BindingContext.C3, Source={x:Reference LV_ColorPalette}}"
                                         CommandParameter="{Binding ID}" 
                                         BackgroundColor="{Binding C3ButtonColor}"/>
                                 
                                 <Button Text="C4" Grid.Column="6" 
-                                        Command="{Binding C4}" 
+                                        Command="{Binding Path=BindingContext.C4, Source={x:Reference LV_ColorPalette}}"
                                         CommandParameter="{Binding ID}" 
                                         BackgroundColor="{Binding C4ButtonColor}"/>
                                 

@@ -9,8 +9,7 @@
     
     <ContentPage.Content>
         <AbsoluteLayout >
-            <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
-                       Aspect="Fill" Opacity="0.7"/>
+            <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" Aspect="Fill" Opacity="0.7"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>

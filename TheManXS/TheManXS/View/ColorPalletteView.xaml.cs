@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheManXS.ViewModel;
 using TheManXS.ViewModel.Style;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,30 +20,26 @@ namespace TheManXS.View
         private Color _notSelected = Color.LightGreen;
 
         Button[] _activeButtonArray = new Button[(int)ColorTypes.Total];
+        ApplicationVM _applicationVM;
 
         public ColorPalletteView()
         {
+            _applicationVM = (ApplicationVM)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ApplicationVM)];
             InitializeComponent();
-            //BindingContext = _colorPaletteVM = new ColorPaletteVM();
+            BindingContext = _colorPaletteVM = new ColorPaletteVM();
             //UpdateActiveButtonArray();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _colorPaletteVM.UpdateSelectedColors();
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            _colorPaletteVM.PaletteColorList.WritePColorsToBinaryFile();
-        }
 
-        private void C0Button_Clicked(object sender, EventArgs e) { }
-        private void C1Button_Clicked(object sender, EventArgs e) { }
-        private void C2Button_Clicked(object sender, EventArgs e) { }
-        private void C3Button_Clicked(object sender, EventArgs e) { }
-        private void C4Button_Clicked(object sender, EventArgs e) { }
-        
-        
-        void UpdateActiveButtonArray()
-        {
-            var items = LV_ColorPalette.ItemsSource;
-            
+            _colorPaletteVM.PaletteColorList.WritePColorsToBinaryFile();
+            _applicationVM.UpdateColors(_colorPaletteVM.PaletteColorList);
         }
     }
 }

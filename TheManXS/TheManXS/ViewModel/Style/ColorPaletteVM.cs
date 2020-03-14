@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using TheManXS.ViewModel.Services;
@@ -14,17 +15,16 @@ namespace TheManXS.ViewModel.Style
     {
         private PaletteColorList _paletteColorList;
 
-        private Color _colorSelectedButton = Color.SeaGreen;
-        private Color _colorNotSelectedButton = Color.LightGray;
+        private Color _colorSelectedButton = Color.Red;
+        private Color _colorNotSelectedButton = Color.LightSeaGreen;
 
         public ColorPaletteVM()
         {
             PaletteColorList = new PaletteColorList();
 
-            InitColorListOC();
-            CompressedLayout.SetIsHeadless(this, true);
-
             InitCommands();
+            InitColorListOC();
+            CompressedLayout.SetIsHeadless(this, true);            
         }
 
         public ColorPaletteVM(PaletteColor pc)
@@ -32,13 +32,24 @@ namespace TheManXS.ViewModel.Style
             BVColor = pc.Color;
             ColorDescription = pc.Description;
             ID = pc.ID;
-
-            C1ButtonColor = _colorNotSelectedButton;
-            C1ButtonColor = Color.Black;
-            C1ButtonColor = _colorNotSelectedButton;
-            C1ButtonColor = _colorNotSelectedButton;
-            C1ButtonColor = _colorNotSelectedButton;
+            if(pc.IsC0 == true) { C0ButtonColor = _colorSelectedButton; }
         }
+
+        public void UpdateSelectedColors()
+        {
+            int indexOfC0 = PaletteColorList.Where(c => c.IsC0).Select(c => c.ID).FirstOrDefault();
+            int indexOfC1 = PaletteColorList.Where(c => c.IsC1).Select(c => c.ID).FirstOrDefault();
+            int indexOfC2 = PaletteColorList.Where(c => c.IsC2).Select(c => c.ID).FirstOrDefault();
+            int indexOfC3 = PaletteColorList.Where(c => c.IsC3).Select(c => c.ID).FirstOrDefault();
+            int indexOfC4 = PaletteColorList.Where(c => c.IsC4).Select(c => c.ID).FirstOrDefault();
+
+            ColorListOC[indexOfC0].C0ButtonColor = _colorSelectedButton;
+            ColorListOC[indexOfC1].C1ButtonColor = _colorSelectedButton;
+            ColorListOC[indexOfC2].C2ButtonColor = _colorSelectedButton;
+            ColorListOC[indexOfC3].C3ButtonColor = _colorSelectedButton;
+            ColorListOC[indexOfC4].C4ButtonColor = _colorSelectedButton;
+        }
+
         public PaletteColorList PaletteColorList { get; set; }
 
         private ObservableCollection<ColorPaletteVM> _colorListOC;
@@ -126,11 +137,11 @@ namespace TheManXS.ViewModel.Style
             C4 = new Command(OnC4);
         }
 
-        private void OnC0(object obj) => ProcessButtonClick(ColorTypes.C0, (Button)obj);
-        private void OnC1(object obj) => ProcessButtonClick(ColorTypes.C1, (Button)obj);
-        private void OnC2(object obj) => ProcessButtonClick(ColorTypes.C2, (Button)obj);
-        private void OnC3(object obj) => ProcessButtonClick(ColorTypes.C3, (Button)obj);
-        private void OnC4(object obj) => ProcessButtonClick(ColorTypes.C4, (Button)obj);
+        private void OnC0(object obj) => ProcessButtonClick(ColorTypes.C0, (int)obj);
+        private void OnC1(object obj) => ProcessButtonClick(ColorTypes.C1, (int)obj);
+        private void OnC2(object obj) => ProcessButtonClick(ColorTypes.C2, (int)obj);
+        private void OnC3(object obj) => ProcessButtonClick(ColorTypes.C3, (int)obj);
+        private void OnC4(object obj) => ProcessButtonClick(ColorTypes.C4, (int)obj);
 
         private void InitColorListOC()
         {
@@ -142,32 +153,39 @@ namespace TheManXS.ViewModel.Style
                 ColorListOC.Add(new ColorPaletteVM(pc));
             }
         }
-        private void ProcessButtonClick(ColorTypes ct, Button button)
+        private void ProcessButtonClick(ColorTypes ct, int id)
         {
-            int id = (int)button.CommandParameter;
-
             switch (ct)
             {
                 case ColorTypes.C0:
                     foreach(ColorPaletteVM cp in ColorListOC) { cp.C0ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C0ButtonColor = _colorSelectedButton;
-                    // need to set "IsC0" property to true, and all others to false
+                    foreach(PaletteColor pc in PaletteColorList) { pc.IsC0 = false; }
+                    PaletteColorList[id].IsC0 = true;
                     break;
                 case ColorTypes.C1:
                     foreach (ColorPaletteVM cp in ColorListOC) { cp.C1ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C1ButtonColor = _colorSelectedButton;
+                    foreach (PaletteColor pc in PaletteColorList) { pc.IsC1 = false; }
+                    PaletteColorList[id].IsC1 = true;
                     break;
                 case ColorTypes.C2:
                     foreach (ColorPaletteVM cp in ColorListOC) { cp.C2ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C2ButtonColor = _colorSelectedButton;
+                    foreach (PaletteColor pc in PaletteColorList) { pc.IsC2 = false; }
+                    PaletteColorList[id].IsC2 = true;
                     break;
                 case ColorTypes.C3:
                     foreach (ColorPaletteVM cp in ColorListOC) { cp.C3ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C3ButtonColor = _colorSelectedButton;
+                    foreach (PaletteColor pc in PaletteColorList) { pc.IsC3 = false; }
+                    PaletteColorList[id].IsC3 = true;
                     break;
                 case ColorTypes.C4:
                     foreach (ColorPaletteVM cp in ColorListOC) { cp.C4ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C4ButtonColor = _colorSelectedButton;
+                    foreach (PaletteColor pc in PaletteColorList) { pc.IsC4 = false; }
+                    PaletteColorList[id].IsC4 = true;
                     break;
                 default:
                     break;

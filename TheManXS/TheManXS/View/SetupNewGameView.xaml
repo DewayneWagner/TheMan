@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TheManXS.View.SetupNewGameView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="Opacity" Value="0.5"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        
+        <Grid RowSpacing="5" ColumnSpacing="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="DifficultySelectionGrid" Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  
+                       Style="{StaticResource MainHeading}" 
+                       Text="Select Difficulty Level"/>
+                
+                <Button Grid.Row="1" Grid.Column="0" 
+                        Text="Rookie" 
+                        FontSize="Title"
+                        FontAttributes="Bold"
+                        Style="{StaticResource ButtonStandard}" 
+                        VerticalOptions="FillAndExpand"/>
+                
+                <Button Grid.Row="2" Grid.Column="0" 
+                        Text="Know-it-all" 
+                        FontSize="Title"
+                        FontAttributes="Bold"
+                        Style="{StaticResource ButtonStandard}" 
+                        VerticalOptions="FillAndExpand"/>
+                
+                <Button Grid.Row="3" Grid.Column="0" Text="Canada" 
+                        Style="{StaticResource ButtonStandard}" 
+                        FontSize="Title"
+                        FontAttributes="Bold"
+                        VerticalOptions="FillAndExpand"/>
+
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+                <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+                <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+                
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+                       Style="{StaticResource MainHeading}"
+                       Text="Set-up your company"/>
+
+                <Label Grid.Row="1" Grid.Column="0"                        
+                       Text="Enter Company Name:"/>
+                
+                <Label Grid.Row="2" Grid.Column="0" 
+                       Text="Enter Ticker:"/>
+                
+                <Label Grid.Row="3" Grid.Column="0" 
+                       Text="Select Company Color:"/>
+
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+                <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+                <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource WTFButton}"/>
+
+                <Entry Grid.Row="1" Grid.Column="2"/>
+                <Entry Grid.Row="2" Grid.Column="2"/>                
+
+                <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        FontSize="Title"
+                        FontAttributes="Bold"                        
+                        Margin="10"
+                        Style="{StaticResource ButtonStandard}" Text="Start Game!"/>
+
+            </Grid>
+            
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

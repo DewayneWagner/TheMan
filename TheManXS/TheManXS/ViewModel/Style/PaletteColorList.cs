@@ -20,12 +20,11 @@ namespace TheManXS.ViewModel.Style
             InitColors();
             ReadPColorsFromBinaryFile();
         }
-
-        public PaletteColor C0 { get; set; }
-        public PaletteColor C1 { get; set; }
-        public PaletteColor C2 { get; set; }
-        public PaletteColor C3 { get; set; }
-        public PaletteColor C4 { get; set; }
+        public Color C0 { get; set; }
+        public Color C1 { get; set; }
+        public Color C2 { get; set; }
+        public Color C3 { get; set; }
+        public Color C4 { get; set; }
 
         void InitColors()
         {
@@ -81,7 +80,7 @@ namespace TheManXS.ViewModel.Style
                 }
                 br.Close();
             }
-            DeleteColorPaletteBinaryFile();
+            //DeleteColorPaletteBinaryFile();
         }
         private void DeleteColorPaletteBinaryFile()
         {
@@ -104,6 +103,12 @@ namespace TheManXS.ViewModel.Style
                 int c2 = (int)this.Where(c => c.IsC2).Select(c => c.AvailablePaletteColors).FirstOrDefault();
                 int c3 = (int)this.Where(c => c.IsC3).Select(c => c.AvailablePaletteColors).FirstOrDefault();
                 int c4 = (int)this.Where(c => c.IsC4).Select(c => c.AvailablePaletteColors).FirstOrDefault();
+
+                C0 = this[c0].Color;
+                C1 = this[c1].Color;
+                C2 = this[c2].Color;
+                C3 = this[c3].Color;
+                C4 = this[c4].Color;
 
                 return new List<int>() { c0, c1, c2, c3, c4 };
             }
