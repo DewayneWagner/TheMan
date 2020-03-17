@@ -32,6 +32,7 @@ namespace TheManXS.ViewModel
         private GameSpecificParameters _gameSaveSlot;
         private PageService _pageService = new PageService();
         CompanyColorGenerator _companyColorGenerator;
+        private double _startingOpacity = 0.9;
 
         #endregion
 
@@ -40,15 +41,8 @@ namespace TheManXS.ViewModel
         {
             SavedGameSlotsList = GameSpecificParameters.GetListOfSavedGameData();
 
-            Easy = new Command(OnEasyButton);
-            Medium = new Command(OnMediumButton);
-            Hard = new Command(OnHardButton);
-            StartNewGame = new Command(StartNewGameMethod);
-            UseTestData = new Command(AddTestData);
-
-            EasyButtonOpacity = 1;
-            MediumButtonOpacity = 1;
-            HardButtonOpacity = 1;
+            InitCommands();
+            InitOpacity();
 
             SelectedGameSaveSlot = new GameSpecificParameters();
             CompressedLayout.SetIsHeadless(this, true);
@@ -156,6 +150,13 @@ namespace TheManXS.ViewModel
                 SetValue(ref _savedGameSlotsList, value);
             }
         }
+        private void InitOpacity()
+        {
+            EasyButtonOpacity = _startingOpacity;
+            MediumButtonOpacity = _startingOpacity;
+            HardButtonOpacity = _startingOpacity;
+        }
+        
 
         #endregion
 
@@ -192,8 +193,7 @@ namespace TheManXS.ViewModel
             MediumButtonOpacity = notSelectedButtonOpacity;
             HardButtonOpacity = selectedButtonOpacity;
             isDifficultySelected = true;
-        }        
-
+        }
         private void StartNewGameMethod(object obj)
         {
             ContentPage c = new ContentPage();
@@ -233,7 +233,7 @@ namespace TheManXS.ViewModel
                 GoToGameBoard();
             }            
         }
-        private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard()); //(new GameBoardView());
+        private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard());
         private void AddTestData()
         {
             CompanyColorIndex = 0;
@@ -248,5 +248,66 @@ namespace TheManXS.ViewModel
             isColorSelected = true;
         }
         #endregion
+        private void InitCommands()
+        {
+            Easy = new Command(OnEasyButton);
+            Medium = new Command(OnMediumButton);
+            Hard = new Command(OnHardButton);
+            StartNewGame = new Command(StartNewGameMethod);
+            UseTestData = new Command(AddTestData);
+            WTF = new Command<string>((wtf) => DisplayHelpMessage(wtf));
+        }
+        enum WTFMessagesEnum { Easy, Medium, Hard, CompanyName, Ticker, CompanyColor, Total }
+        public ICommand WTF { get; set; }
+        
+        private async void DisplayHelpMessage(string wtfType)
+        {
+            int index = 0;
+            setIndex();
+            WTFMessagesEnum wtf = (WTFMessagesEnum)index;
+            string message = null;
+            setMessage();
+
+            await _pageService.DisplayAlert(message);
+                
+            void setIndex()
+            {
+                for (int i = 0; i < (int)WTFMessagesEnum.Total; i++) 
+                { if(wtfType == Convert.ToString((WTFMessagesEnum)i)) { index = i; }}
+            }
+            void setMessage()
+            {
+                switch (wtf)
+                {
+                    case WTFMessagesEnum.Easy:
+                        message += "This is for the fresh-out-of business college types - ready to take over" +
+                            "\n" + "the family company and take it into the future!";
+                        break;
+                    case WTFMessagesEnum.Medium:
+                        message += "You've put in a couple of years - and know it all!" + "\n" +
+                            "This level introduces a few more difficulties - including the declining production" + "\n" +
+                            "over time, and stronger competition.";
+                        break;
+                    case WTFMessagesEnum.Hard:
+                        message += "This one is for only the real hard-cores, and reflects the true realities of " + "\n" +
+                            "trying to operate a business in Canada.  Any development project requires a " + "\n" +
+                            "wait of up to 20 turns to get approval (if it is approved), all your resources " + "\n" +
+                            "are sold for 20-40% less then market, and operating costs rise drastically over time.";
+                        break;
+                    case WTFMessagesEnum.CompanyName:
+                        message += "The name of your company - pick anything.";
+                        break;
+                    case WTFMessagesEnum.Ticker:
+                        message += "The 3 letter symbol that your stock is tracked and reported in.";
+                        break;
+                    case WTFMessagesEnum.CompanyColor:
+                        message += "The company color that will be used to mark your territory and facilities.";
+                        break;
+                    case WTFMessagesEnum.Total:
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
