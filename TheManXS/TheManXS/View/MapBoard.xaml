@@ -56,8 +56,6 @@
                         Style="{StaticResource ButtonStandard}" 
                         VerticalOptions="Center" 
                         WidthRequest="150"/>
-
-                <!--Command="{Binding EndTurn}"-->
             </StackLayout>
 
             <Grid
@@ -90,6 +88,7 @@
                 <StackLayout x:Name="TickerSP" 
                              HorizontalOptions="FillAndExpand" 
                              VerticalOptions="End" 
+                             HeightRequest="25"
                              BindingContext="{Binding Ticker}">
                 </StackLayout>
             </ContentView>

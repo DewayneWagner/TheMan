@@ -36,6 +36,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<SQInfrastructure> SQInfrastructure { get; set; }
         public DbSet<FinancialValues> FinancialValues { get; set; } 
         public DbSet<Loan> Loans { get; set; }
+        public DbSet<ResourceProduction> ResourceProduction { get; set; }
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 
@@ -56,6 +57,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new SQInfrastructureDBConfig());
             modelBuilder.ApplyConfiguration(new FinancialValuesDBConfig());
             modelBuilder.ApplyConfiguration(new LoanDBConfig());
+            modelBuilder.ApplyConfiguration(new ResourceProductionDBConfig());
         }
     }    
 }

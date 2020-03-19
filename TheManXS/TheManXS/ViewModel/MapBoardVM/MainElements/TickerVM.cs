@@ -52,7 +52,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             void initPropertiesOfTicker()
             {
-                ticker.HeightRequest = (QC.ScreenHeight * HEIGHTRATIO);
+                //ticker.HeightRequest = (QC.ScreenHeight * HEIGHTRATIO);
                 ticker.VerticalOptions = LayoutOptions.FillAndExpand;
                 ticker.Orientation = StackOrientation.Horizontal;
                 ticker.HorizontalOptions = LayoutOptions.Start;

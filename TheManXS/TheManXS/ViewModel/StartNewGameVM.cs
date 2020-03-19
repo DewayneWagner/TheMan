@@ -145,9 +145,9 @@ namespace TheManXS.ViewModel
 
         private void InitOpacity()
         {
-            EasyButtonOpacity = _startingOpacity;
-            MediumButtonOpacity = _startingOpacity;
-            HardButtonOpacity = _startingOpacity;
+            EasyButtonOpacity = _startButtonOpacity;
+            MediumButtonOpacity = _startButtonOpacity;
+            HardButtonOpacity = _startButtonOpacity;
         }
 
         public ICommand Easy { get; set; }

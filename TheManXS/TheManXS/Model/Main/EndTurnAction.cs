@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Financial;
+using TheManXS.Model.Map.Rocks;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Main
@@ -22,6 +23,7 @@ namespace TheManXS.Model.Main
                 _game.CommodityList.AdvancePricing();
                 _game.FinancialValuesList = new FinancialValuesList(_game);
                 _game.GameBoardVM.TickerVM.UpdateTicker();
+                new ResourceProductionList(_game); // writes resource production stats to DB
             }
         }
 
