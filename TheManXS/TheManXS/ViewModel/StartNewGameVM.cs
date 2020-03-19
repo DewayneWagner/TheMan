@@ -17,8 +17,7 @@ namespace TheManXS.ViewModel
 {
     public class StartNewGameVM : BaseViewModel
     {
-        #region(Fields)
-        private double selectedButtonOpacity = 1, notSelectedButtonOpacity = 0.5,
+        private double _startButtonOpacity = 0.9, _notSelectedButtonOpacity = 0.5,
             _easyButtonOpacity, _mediumButtonOpacity, _hardButtonOpacity;
 
         private List<GameSpecificParameters> _savedGameSlotsList;
@@ -30,13 +29,9 @@ namespace TheManXS.ViewModel
         private bool isDifficultySelected, isColorSelected;
         public bool IsGameSlotSelected;
         private GameSpecificParameters _gameSaveSlot;
-        private PageService _pageService = new PageService();
+        private PageService _pageService;
         CompanyColorGenerator _companyColorGenerator;
-        private double _startingOpacity = 0.9;
 
-        #endregion
-
-        #region(Constructors)
         public StartNewGameVM()
         {
             SavedGameSlotsList = GameSpecificParameters.GetListOfSavedGameData();
@@ -45,9 +40,9 @@ namespace TheManXS.ViewModel
             InitOpacity();
 
             SelectedGameSaveSlot = new GameSpecificParameters();
+            _pageService = new PageService();
             CompressedLayout.SetIsHeadless(this, true);
         }
-        #endregion
 
         public List<string> CompanyColorList
         {
@@ -57,8 +52,6 @@ namespace TheManXS.ViewModel
                 return _companyColorGenerator.GetListOfAvailableSKColors();
             }
         }
-
-        #region(Properties)
 
         public int CompanyColorIndex
         {
@@ -79,7 +72,6 @@ namespace TheManXS.ViewModel
                 SetValue(ref _difficulty, value);
             }
         }
-        public string DifficultyString => Convert.ToString(_difficulty);
 
         public double EasyButtonOpacity
         {
@@ -150,54 +142,50 @@ namespace TheManXS.ViewModel
                 SetValue(ref _savedGameSlotsList, value);
             }
         }
+
         private void InitOpacity()
         {
             EasyButtonOpacity = _startingOpacity;
             MediumButtonOpacity = _startingOpacity;
             HardButtonOpacity = _startingOpacity;
         }
-        
 
-        #endregion
-
-        #region(Interfaces)
         public ICommand Easy { get; set; }
         public ICommand Medium { get; set; }
         public ICommand Hard { get; set; }
         public ICommand StartNewGame { get; set; }
         public ICommand UseTestData { get; set; }
 
-        #endregion
-
-        #region(Methods)
         private void OnEasyButton()
         {
             Difficulty = Difficulty.Easy;
-            EasyButtonOpacity = selectedButtonOpacity;
-            MediumButtonOpacity = notSelectedButtonOpacity;
-            HardButtonOpacity = notSelectedButtonOpacity;
+            EasyButtonOpacity = _startButtonOpacity;
+            MediumButtonOpacity = _notSelectedButtonOpacity;
+            HardButtonOpacity = _notSelectedButtonOpacity;
             isDifficultySelected = true;
         }
+
         private void OnMediumButton()
         {
             Difficulty = Difficulty.Medium;
-            EasyButtonOpacity = notSelectedButtonOpacity;
-            MediumButtonOpacity = selectedButtonOpacity;
-            HardButtonOpacity = notSelectedButtonOpacity;
+            EasyButtonOpacity = _notSelectedButtonOpacity;
+            MediumButtonOpacity = _startButtonOpacity;
+            HardButtonOpacity = _notSelectedButtonOpacity;
             isDifficultySelected = true;
         }
+
         private void OnHardButton()
         {
             Difficulty = Difficulty.Hard;
-            EasyButtonOpacity = notSelectedButtonOpacity;
-            MediumButtonOpacity = notSelectedButtonOpacity;
-            HardButtonOpacity = selectedButtonOpacity;
+            EasyButtonOpacity = _notSelectedButtonOpacity;
+            MediumButtonOpacity = _notSelectedButtonOpacity;
+            HardButtonOpacity = _startButtonOpacity;
             isDifficultySelected = true;
         }
+
         private void StartNewGameMethod(object obj)
         {
             ContentPage c = new ContentPage();
-
             if (!isDifficultySelected) { c.DisplayAlert("Difficulty", "Difficulty must be selected, dumbass.", "OK"); }                
             else if(!IsGameSlotSelected) { c.DisplayAlert("Game Save Slot", "Saved Game Slot must be selected, dumbass", "OK"); }
             else if(!isColorSelected) { c.DisplayAlert("Company Color", "You have to pick a Company Color, dumbass", "OK"); }
@@ -233,6 +221,7 @@ namespace TheManXS.ViewModel
                 GoToGameBoard();
             }            
         }
+
         private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard());
         private void AddTestData()
         {
@@ -247,7 +236,7 @@ namespace TheManXS.ViewModel
             isDifficultySelected = true;
             isColorSelected = true;
         }
-        #endregion
+
         private void InitCommands()
         {
             Easy = new Command(OnEasyButton);
@@ -257,9 +246,16 @@ namespace TheManXS.ViewModel
             UseTestData = new Command(AddTestData);
             WTF = new Command<string>((wtf) => DisplayHelpMessage(wtf));
         }
+
         enum WTFMessagesEnum { Easy, Medium, Hard, CompanyName, Ticker, CompanyColor, Total }
         public ICommand WTF { get; set; }
-        
+
+        // doesn't work when a new Icommand is set-up without parameter
+        //private async void DisplayHelpMessage(string wtfType) doesn't work
+        //{
+        //    await _pageService.DisplayAlert("blah", "blah", "OK", "Cancel");
+        //}
+
         private async void DisplayHelpMessage(string wtfType)
         {
             int index = 0;
@@ -269,7 +265,12 @@ namespace TheManXS.ViewModel
             setMessage();
 
             await _pageService.DisplayAlert(message);
-                
+
+            //App.Current.MainPage.DisplayAlert("blah", "blah", "blah"); doesn't work either
+            //ContentPage c = new ContentPage();
+            //await c.DisplayAlert("blah", "blah", "blah"); doesn't work
+            //await _pageService.DisplayAlert(message); doesn't work either
+
             void setIndex()
             {
                 for (int i = 0; i < (int)WTFMessagesEnum.Total; i++) 

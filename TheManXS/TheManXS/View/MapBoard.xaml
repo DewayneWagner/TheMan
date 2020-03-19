@@ -34,10 +34,14 @@
                        Text=" | Company: "/>
                 <Label Style="{StaticResource GameboardTopTitleLabels}" 
                        Text="{Binding CompanyName}" 
-                       HorizontalOptions="Start"/>
+                       HorizontalOptions="StartAndExpand"/>
+
+                <Label Style="{StaticResource GameboardTopTitleLabels}"
+                       Text="Cash:"/>
+
                 <Label Style="{StaticResource GameboardTopTitleLabels}"
                        Text="{Binding CurrentPlayerCash}"
-                       HorizontalOptions="StartAndExpand"/>
+                       HorizontalOptions="End"/>
 
                 <Button Text="RES"
                         Command="{Binding ShowResources}"

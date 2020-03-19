@@ -7,12 +7,13 @@
              xmlns:VM="clr-namespace:TheManXS.ViewModel"
              x:Class="TheManXS.App">
 
-    <!--Blay = #6d7c87-->
-    <!--Banff 2 = #3f4343-->
-    <!--Conklin 2 = #1a3931-->
-    <!--Moraine Lake 2 = #3fb3ec-->
-
     <Application.Resources>
+        <Color x:Key="Blay">#6d7c87</Color>
+        <Color x:Key="Conklin2">#1a3931</Color>
+        <Color x:Key="Banff2">#3f4343</Color>
+        <Color x:Key="Morraine2">#3fb3ec</Color>
+        <Color x:Key="Salvador4">#93a088</Color>
+
         <Style TargetType="StackLayout" x:Key="GameBoardStackLayoutBackGround">
             <Setter Property="BackgroundColor" Value="Black"/>
             <Setter Property="Spacing" Value="0"/>
@@ -28,7 +29,7 @@
             <Setter Property="BorderWidth" Value="1"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="FontSize" Value="Small"/>
-            <Setter Property="BackgroundColor" Value="#6d7c87"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Blay}"/>
         </Style>
         <Style TargetType="Label" x:Key="LabelStandard">
             <Setter Property="TextColor" Value="White"/>
@@ -83,12 +84,12 @@
             <Setter Property="Text" Value="WTF?"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
-            <Setter Property="BackgroundColor" Value="#3fb3ec"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Salvador4}"/>
             <Setter Property="TextColor" Value="Black"/>
             <Setter Property="FontSize" Value="Micro"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="BorderColor" Value="Black"/>
-            <Setter Property="BorderWidth" Value="3"/>
+            <Setter Property="BorderWidth" Value="1"/>
             <Setter Property="WidthRequest" Value="45"/>
             <Setter Property="HeightRequest" Value="25"/>
             <Setter Property="Padding" Value="0"/>
