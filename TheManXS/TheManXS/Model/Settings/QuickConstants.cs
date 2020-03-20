@@ -16,7 +16,6 @@ namespace TheManXS.Model.Settings
         public QuickConstants()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-            //InitProperties();
         }
 
         public static int PlayerQ { get; set; }
@@ -54,21 +53,7 @@ namespace TheManXS.Model.Settings
         // set by Gameboard Code-behind
         public static double MapCanvasViewHeight { get; set; }
         public static double MapCanvasViewWidth { get; set; }
-        public void InitProperties()
-        {
-            PlayerQ = (int)_game.ParameterConstantList.GetConstant(CP.GameConstants, (int)GameConstantsSecondary.PlayerQ);
-            RowQ = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.RowQ);
-            ColQ = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.ColQ);
-            SqQ = RowQ * ColQ;
-            SqSize = (int)_game.ParameterConstantList.GetConstant(CP.MapConstants, (int)MapConstantsSecondary.SqSize);
-            SqLateralLength = (int)((double)SqSize * Math.Sqrt(2));
-            PlayerIndexTheMan = PlayerQ;
-            TheManCut = _game.ParameterConstantList.GetConstant(CP.CashConstant, (int)CashConstantSecondary.TheManCut);
-            MaxResourceSQsInPool = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.MaxPoolSQ);
-            MaxResourceSQsOnMap = (int)_game.ParameterConstantList.GetConstant(CP.ResourceConstant, (int)ResourceConstantSecondary.ResSqRatio) * SqSize;
 
-            UnitCounter = 0;
-        }
         public static void InitProperties(int playerQ, int rowQ, int colQ, int sqSize, double theManCut, int maxResourceSqsInPool, int maxResourceSQsOnMap)
         {
             PlayerQ = playerQ;
@@ -80,7 +65,7 @@ namespace TheManXS.Model.Settings
             PlayerIndexTheMan = playerQ;
             TheManCut = theManCut;
             MaxResourceSQsInPool = maxResourceSqsInPool;
-            MaxResourceSQsOnMap = maxResourceSqsInPool;
+            MaxResourceSQsOnMap = maxResourceSQsOnMap;
             UnitCounter = 0;
         }
     }

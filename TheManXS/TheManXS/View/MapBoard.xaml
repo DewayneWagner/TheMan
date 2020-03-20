@@ -8,6 +8,7 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:tt="clr-namespace:TheManXS.ViewModel.MapBoardVM.TouchTracking"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.MapBoard">
     
     <ContentPage.Content>

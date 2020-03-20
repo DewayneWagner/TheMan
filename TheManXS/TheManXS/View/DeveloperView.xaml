@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="TheManXS.ViewModel"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.DeveloperView">
     
     <ContentPage.Content>

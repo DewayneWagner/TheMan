@@ -25,9 +25,8 @@ namespace TheManXS.Model.Map.Rocks
             _map = map;
             rp = resPools;
             IsPlayerStartSQ = rp.FormationCounter < QC.PlayerQ ? true : false;
-            RT = rp.FormationCounter < (int)RT.Total ? (RT)rp.FormationCounter : (RT)((rp.FormationCounter % (int)RT.Total));
-            poolLength = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.PoolConstructParameters,(int)PP.PoolLength);
-            
+            RT = rp.FormationCounter < (int)RT.RealEstate ? (RT)rp.FormationCounter : (RT)((rp.FormationCounter % (int)RT.RealEstate));
+            poolLength = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.PoolConstructParameters, (int)PP.PoolLength);
 
             StartCoordinate = new Coordinate(true, _map);
             Formation = new Formation { ID = rp.FormationCounter };
@@ -93,6 +92,5 @@ namespace TheManXS.Model.Map.Rocks
             } while (mult == 0);
             return mult;
         }
-        
     }
 }

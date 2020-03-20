@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:FinVM="clr-namespace:TheManXS.ViewModel.FinancialVM.Financials"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.FinancialsView">
 
     <Grid>

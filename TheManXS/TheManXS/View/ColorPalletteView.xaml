@@ -6,6 +6,7 @@
              xmlns:VM="clr-namespace:TheManXS.ViewModel.Style"
              mc:Ignorable="d"
              x:Name="ColorPaletteViewPage"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.ColorPalletteView">
 
     <ContentPage.Resources>

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:TheManXS.ViewModel.Services"
              xmlns:vm="clr-namespace:TheManXS.ViewModel"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.SetupNewGameView">
 
     <ContentPage.Resources>
@@ -16,20 +17,26 @@
                 <OnPlatform.iOS>10</OnPlatform.iOS>
                 <OnPlatform.Android>10</OnPlatform.Android>
             </OnPlatform>
-
+            <OnPlatform x:Key="fontSize" x:TypeArguments="x:String" Default="Large">
+                <OnPlatform.iOS>"Large"</OnPlatform.iOS>
+                <OnPlatform.Android>"Medium"</OnPlatform.Android>
+            </OnPlatform>
+            
+            <!--This section doesn't do anything - just put the code here to implement this format later-->
             <OnPlatform x:TypeArguments="FontAttributes" x:Key="fontAttributes">
                 <OnPlatform.iOS>Bold</OnPlatform.iOS>
                 <OnPlatform.Android>Italic</OnPlatform.Android>
             </OnPlatform>
             <OnPlatform x:Key="phone" x:TypeArguments="x:Double" iOS="20" Android="20" WinPhone="30"/>
             <OnPlatform x:Key="tablet" x:TypeArguments="x:Double" iOS="40" Android="40" WinPhone="60"/>
-
+            <!--end-->
+            
             <Style TargetType="Label">
                 <Setter Property="VerticalOptions" Value="FillAndExpand"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="HorizontalTextAlignment" Value="Start"/>
-                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="FontSize" Value="{StaticResource fontSize}"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="Margin" Value="{StaticResource standardMargin}"/>
@@ -183,7 +190,6 @@
                         SelectedIndex="{Binding CompanyColorIndex}"
                         Margin="{StaticResource standardMargin}"
                         VerticalOptions="Center" 
-                        FontSize="Medium"
                         Grid.Row="3"
                         Grid.Column="4"/>
 

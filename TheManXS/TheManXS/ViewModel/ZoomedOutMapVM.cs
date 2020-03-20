@@ -19,7 +19,8 @@ namespace TheManXS.ViewModel
         public ZoomedOutMapVM()
         {
             BackgroundColor = Color.White;
-            _sqSize = (QC.ScreenHeight-100) / QC.RowQ;
+            //_sqSize = GetSQSize();
+            _sqSize = 15;
              InitResourcesMap();
             CompressedLayout.SetIsHeadless(this, true);
         }
@@ -55,13 +56,13 @@ namespace TheManXS.ViewModel
                 case RT.Coal:
                     return Color.DarkSlateGray;
                 case RT.Iron:
-                    return Color.LightGray;
+                    return Color.Red;
                 case RT.Silver:
                     return Color.Silver;
                 case RT.RealEstate:
                     return Color.Blue;
                 default:
-                    return Color.Blue;
+                    return Color.AliceBlue;
             }
         }
     }

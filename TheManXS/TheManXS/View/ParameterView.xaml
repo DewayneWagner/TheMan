@@ -4,7 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="TheManXS.View.ParameterView">
+    
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Settings / Parameters for Game" Style="{StaticResource MainHeading}"/>

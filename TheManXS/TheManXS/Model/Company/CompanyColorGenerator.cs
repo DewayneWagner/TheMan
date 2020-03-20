@@ -11,6 +11,7 @@ namespace TheManXS.Model.Company
         System.Random rnd = new System.Random();
         List<SKColor> _listOfSKColors;
         List<string> _listOfAvailableColors;
+        public static int _maxColorsInList;
         public CompanyColorGenerator()
         {
             _listOfSKColors = new List<SKColor>();
@@ -19,6 +20,7 @@ namespace TheManXS.Model.Company
             InitListOfSKColors();
             InitListOfStringColors();
         }
+        public bool GeneratorNeedsToBeInitialized() => _listOfSKColors.Count == _maxColorsInList ? false : true;
         private void InitListOfSKColors()
         {
             _listOfSKColors.Add(SKColors.AliceBlue); // #FFF0F8FF
@@ -28,6 +30,7 @@ namespace TheManXS.Model.Company
             _listOfSKColors.Add(SKColors.Lavender); // #FFE6E6FA
             _listOfSKColors.Add(SKColors.Red); // #FFFF0000
             _listOfSKColors.Add(SKColors.Violet); // #FFEE82EE
+            _maxColorsInList = _listOfSKColors.Count;
         }
         private void InitListOfStringColors()
         {
