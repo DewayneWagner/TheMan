@@ -42,7 +42,10 @@ namespace TheManXS.Model.Map
         {
             SQMap = new SQMapConstructArray(_game);
             new Terrain(SQMap,_game);
+
+            // this can get hungup
             new ResourcePools(true, SQMap,_game);
+
             new City(SQMap);
             
             InitSQsForTesting();

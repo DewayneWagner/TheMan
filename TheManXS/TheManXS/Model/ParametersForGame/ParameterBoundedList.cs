@@ -134,15 +134,21 @@ namespace TheManXS.Model.ParametersForGame
         }
         public double GetRandomValue(AllBoundedParameters ap, int secondaryIndex)
         {
-            if (this.Exists(p => p.PrimaryParameter == ap && p.SecondaryParameterIndex == secondaryIndex))
-            {
-                ParameterBounded pb = this.Where(p => p.PrimaryParameter == ap)
+            ParameterBounded pb = this.Where(p => p.PrimaryParameter == ap)
                 .Where(p => p.SecondaryParameterIndex == secondaryIndex)
                 .FirstOrDefault();
 
-                return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
-            }
-            else { return 0; }            
+            return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
+
+            //if (this.Exists(p => p.PrimaryParameter == ap && p.SecondaryParameterIndex == secondaryIndex))
+            //{
+            //    ParameterBounded pb = this.Where(p => p.PrimaryParameter == ap)
+            //    .Where(p => p.SecondaryParameterIndex == secondaryIndex)
+            //    .FirstOrDefault();
+
+            //    return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
+            //}
+            //else { return 0; }            
         }
         public void WriteDataToBinaryFile()
         {

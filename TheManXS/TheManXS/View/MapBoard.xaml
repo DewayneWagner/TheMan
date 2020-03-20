@@ -59,6 +59,8 @@
             </StackLayout>
 
             <Grid
+                RowSpacing="1"
+                ColumnSpacing="1"
                 CompressedLayout.IsHeadless="True"
                 x:Name="SplitScreenGrid"
                 HorizontalOptions="FillAndExpand" 
@@ -81,7 +83,17 @@
                 </Grid.Effects>
             </Grid>
 
-            <ContentView>
+            <AbsoluteLayout HeightRequest="25" HorizontalOptions="End">
+                <AbsoluteLayout.BindingContext>
+                    <local:TickerVM/>
+                </AbsoluteLayout.BindingContext>
+                <StackLayout x:Name="TickerSP" 
+                             HorizontalOptions="FillAndExpand" 
+                             HeightRequest="25"
+                             BindingContext="{Binding Ticker}"/>
+            </AbsoluteLayout>
+            
+            <!--<ContentView>
                 <ContentView.BindingContext>
                     <local:TickerVM/>
                 </ContentView.BindingContext>
@@ -91,7 +103,7 @@
                              HeightRequest="25"
                              BindingContext="{Binding Ticker}">
                 </StackLayout>
-            </ContentView>
+            </ContentView>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

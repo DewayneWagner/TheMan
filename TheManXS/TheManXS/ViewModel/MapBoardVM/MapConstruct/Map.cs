@@ -48,6 +48,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             {                    
                 gameboard.Clear();
 
+                // this loop is slot - 5-15 seconds
                 for (int col = 0; col < QC.ColQ; col++)
                 {
                     for (int row = 0; row < QC.RowQ; row++)

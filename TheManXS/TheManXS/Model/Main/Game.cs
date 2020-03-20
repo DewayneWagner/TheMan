@@ -55,7 +55,10 @@ namespace TheManXS.Model.Main
             Quarter = "1900-Q1";
             PlayerList = new PlayerList(_gsp,this);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
+
+            // this is the problem.....
             Map = new GameBoardMap(this,true);
+
             CommodityList = new CommodityList(this);
             FinancialValuesList = new FinancialValuesList(this);
             PrimeInterestRate = _startingPrimeInterestRate;

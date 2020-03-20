@@ -72,11 +72,9 @@ namespace TheManXS.View
 
                 if (t.AllTouchEffectsExited && t.Count != 0)
                 {
-                    _createNewMap = false;
+                    _game.GameBoardVM.TouchEffectsEnabled = false;
                     ExecuteTouch();
-                    
                     t = new MapTouchListOfMapTouchIDLists();
-                    _createNewMap = true;
                 }
                 else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
             }

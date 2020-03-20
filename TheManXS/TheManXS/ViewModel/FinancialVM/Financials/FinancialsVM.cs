@@ -12,8 +12,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 {
     public class FinancialsVM : BaseViewModel
     {
-        public enum LineItemType { CompanyNamesOrTurnNumber, BalanceSheets, Assets, Cash, PPE, TotalAssets, Liabilities, LongTermDebt, 
-            TotalCapital, CashFlowStateMent, Revenue, Expenses, OPEX, TheManCut, GrossProfitD, GrossProfitP, CAPEXCosts,
+        public enum LineItemType { CompanyNamesOrTurnNumber, BalanceSheets, Cash, PPE, TotalAssets, LongTermDebt, 
+            TotalCapital, CashFlowStateMent, Revenue, OPEX, TheManCut, GrossProfitD, GrossProfitP, CAPEXCosts,
             DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
 
         public enum FormatTypes { CompanyNameColHeading, MainHeading, SubHeading, LineItem, Totals }

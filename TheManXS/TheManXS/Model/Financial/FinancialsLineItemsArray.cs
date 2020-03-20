@@ -37,14 +37,6 @@ namespace TheManXS.Model.Financial
                     FormatType = FormatTypes.MainHeading,
                 });
 
-            _lineItemsArray[(int)LineItemType.Assets] =
-                (new FinancialsLineItems()
-                {
-                    LineItemType = LineItemType.Assets,
-                    FinalText = "Assets",
-                    FormatType = FormatTypes.SubHeading,
-                });
-
             _lineItemsArray[(int)LineItemType.Cash] =
                 (new FinancialsLineItems()
                 {
@@ -67,14 +59,6 @@ namespace TheManXS.Model.Financial
                     LineItemType = LineItemType.TotalAssets,
                     FinalText = "Total Assets",
                     FormatType = FormatTypes.Totals,
-                });
-
-            _lineItemsArray[(int)LineItemType.Liabilities] = 
-                (new FinancialsLineItems()
-                {
-                    LineItemType = LineItemType.Liabilities,
-                    FinalText = "Total Liabilities",
-                    FormatType = FormatTypes.SubHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.LongTermDebt] =
@@ -107,14 +91,6 @@ namespace TheManXS.Model.Financial
                     LineItemType = LineItemType.Revenue,
                     FinalText = "Revenue",
                     FormatType = FormatTypes.LineItem,
-                });
-
-            _lineItemsArray[(int)LineItemType.Expenses] =
-                (new FinancialsLineItems()
-                {
-                    LineItemType = LineItemType.Expenses,
-                    FinalText = "Expenses",
-                    FormatType = FormatTypes.SubHeading
                 });
 
             _lineItemsArray[(int)LineItemType.OPEX] = 
