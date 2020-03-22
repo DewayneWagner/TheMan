@@ -28,6 +28,7 @@ namespace TheManXS.Model.Units
             SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);            
             foreach (SQ sq in listOfSquaresInUnit) { AddSQToUnit(sq); }
             SetNextActionCostAndText();
+            SetOPEX();
         }
 
         void SetPropertiesOfUnitFromFirstSQInList(SQ sq)
@@ -49,6 +50,7 @@ namespace TheManXS.Model.Units
             {
                 this.Add(sq);
                 OPEXDiscount += QC.OPEXDiscountPerSQInUnit;
+                Production += sq.Production;
                 DevelopmentDiscount += QC.CAPEXDiscountPerSQInUnit;                
                 new StaggeredBorder(_game.ActivePlayer.SKColor).InitStaggeredBorders(this);
             }
@@ -56,6 +58,7 @@ namespace TheManXS.Model.Units
             {
                 this.Remove(sq);
                 OPEXDiscount -= QC.OPEXDiscountPerSQInUnit;
+                Production -= sq.Production;
                 DevelopmentDiscount -= QC.CAPEXDiscountPerSQInUnit;
                 new StaggeredBorder(_game.ActivePlayer.SKColor).InitStaggeredBorders(this);
             }
@@ -75,13 +78,17 @@ namespace TheManXS.Model.Units
                 SetNextActionCostAndText();
             }
         }
+        public double OPEXTotalBeforeDiscount { get; set; }        
         public double OPEXDiscount { get; set; }
+        public double OPEXTotalAfterDiscount { get; set; }
+        public double OPEXAveragePerUnit { get; set; }
         public double DevelopmentDiscount { get; set; }
         public RT ResourceType { get; set; }
         public int FormationNumber { get; set; }
         public int PlayerNumber { get; set; }
         public string PlayerName { get; set; }
-
+        public int Production { get; set; }
+        
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
         public NextAction.NextActionType NextActionType { get; set; }
@@ -136,6 +143,22 @@ namespace TheManXS.Model.Units
             {
                 sq.Status = Status;
                 NextActionCost += n.Cost;
+            }
+        }
+        private void SetOPEX()
+        {
+            OPEXTotalBeforeDiscount = getOPEX();
+            OPEXTotalAfterDiscount = OPEXTotalBeforeDiscount * (1 - OPEXDiscount);
+            OPEXAveragePerUnit = OPEXTotalAfterDiscount / Production;
+
+            double getOPEX()
+            {
+                double opex = 0;
+                foreach (SQ sq in this)
+                {
+                    opex += (sq.OPEXPerUnit * sq.Production);
+                }
+                return opex;
             }
         }
     }    

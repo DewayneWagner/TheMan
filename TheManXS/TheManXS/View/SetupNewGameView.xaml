@@ -36,7 +36,7 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="HorizontalTextAlignment" Value="Start"/>
-                <Setter Property="FontSize" Value="{StaticResource fontSize}"/>
+                <Setter Property="FontSize" Value="Medium"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="Margin" Value="{StaticResource standardMargin}"/>
@@ -75,10 +75,11 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <AbsoluteLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="5">
+        <AbsoluteLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="5"
+                        CompressedLayout.IsHeadless="True">
             <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" Aspect="Fill" Opacity="0.7"/>
-            
-            <Grid>
+
+            <Grid CompressedLayout.IsHeadless="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -184,6 +185,7 @@
                 
                 <Entry Grid.Row="2" Grid.Column="4" 
                         Placeholder="Enter Ticker Symbol"
+                        Margin="{StaticResource standardMargin}"
                         Text="{Binding Ticker}"/>
 
                 <Picker ItemsSource="{Binding CompanyColorList}" 

@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;

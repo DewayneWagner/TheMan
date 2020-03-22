@@ -47,6 +47,7 @@ namespace TheManXS.Model.Main
             {
                 InitPropertiesForLoadedGame();
                 Map = new GameBoardMap(this,false);
+                // need to update UnitListHere
             }
         }
         private void InitPropertiesForNewGame()
@@ -70,6 +71,7 @@ namespace TheManXS.Model.Main
 
         public GameBoardMap Map { get; set; }
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
+        public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
         public PlayerList PlayerList { get; set; }
         public CommodityList CommodityList { get; set; } 
         public FinancialValuesList FinancialValuesList { get; set; }

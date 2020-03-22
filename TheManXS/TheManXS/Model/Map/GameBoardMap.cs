@@ -101,11 +101,13 @@ namespace TheManXS.Model.Map
                     loopCounter++;
 
                     if (sq.OwnerNumber == QC.PlayerIndexTheMan 
+                        && sq.Production > 0
                         && sq.Status == ST.Nada 
                         && sq.ResourceType != RT.RealEstate
                         && (int)sq.ResourceType < (int)RT.Nada)
                     {
                         sq.OwnerNumber = player.Number;
+                        sq.OwnerName = player.Name;
                         sq.Status = ST.Producing;
                         productingSQsForPlayer++;
                     }

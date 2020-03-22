@@ -113,5 +113,24 @@ namespace TheManXS.ViewModel.Style
                 return new List<int>() { c0, c1, c2, c3, c4 };
             }
         }
+        public Color GetColorFromColorScheme(ColorTypes colorType)
+        {
+            switch (colorType)
+            {
+                case ColorTypes.C0:
+                    return C0;
+                case ColorTypes.C1:
+                    return C1;
+                case ColorTypes.C2:
+                    return C2;
+                case ColorTypes.C3:
+                    return C3;
+                case ColorTypes.C4:
+                    return C4;
+                case ColorTypes.Total:
+                default:
+                    return C0;
+            }
+        }
     }
 }
