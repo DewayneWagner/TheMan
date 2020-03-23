@@ -18,7 +18,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
 
         public enum FormatTypes { CompanyNameColHeading, MainHeading, SubHeading, LineItem, Totals }
-        public enum DataPanelType { AllPlayers, SinglePlayer, ResourceBreakdown, Ratios, PropertyBreakdown, Graphs }
+        public enum DataPanelType { AllPlayers, SinglePlayer, Ratios, PropertyBreakdown, Graphs }
 
         Game _game;
         public const int QDATACOLUMNS = 5;
@@ -59,7 +59,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 
         public ICommand SinglePlayer { get; set; }
         public ICommand AllPlayers { get; set; }
-        public ICommand ResourceBreakdown { get; set; }
         public ICommand Ratios { get; set; }
         public ICommand PropertyBreakdown { get; set; }
         public ICommand Graphs { get; set; }
@@ -73,9 +72,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     FinancialsLineItemsArray flia = new FinancialsLineItemsArray(_game, DataPanel);
                     FinancialsGrid fg = new FinancialsGrid(_game, DataPanel, flia.GetArrayOfFinancialsLineItems());
                     DataPresentationArea.Content = fg;
-                    break;
-                case DataPanelType.ResourceBreakdown:
-                    DataPresentationArea.Content = new ResourceBreakdownGrid(_game);
                     break;
                 case DataPanelType.Ratios:
                     DataPresentationArea.Content = new FinancialRatiosGrid(_game);
@@ -95,14 +91,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         {
             SinglePlayer = new Command(OnSinglePlayer);
             AllPlayers = new Command(OnAllPlayers);
-            ResourceBreakdown = new Command(OnResourceBreakdown);
             Ratios = new Command(OnRatios);
             PropertyBreakdown = new Command(OnPropertyBreakdown);
             Graphs = new Command(OnGraphs);
         }
         void OnSinglePlayer() => DataPanel = DataPanelType.SinglePlayer;
         void OnAllPlayers() => DataPanel = DataPanelType.AllPlayers;
-        void OnResourceBreakdown() => DataPanel = DataPanelType.ResourceBreakdown;
         void OnRatios() => DataPanel = DataPanelType.Ratios;
         void OnPropertyBreakdown() => DataPanel = DataPanelType.PropertyBreakdown;
         void OnGraphs() => DataPanel = DataPanelType.Graphs;

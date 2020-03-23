@@ -31,7 +31,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                     return i;
             }
         }
-        public enum ImagesAvailable { Logo, UpArrow, DownArrow, NoChangeArrow }
+        public enum ImagesAvailable { Logo, UpArrow, DownArrow, NoChangeArrow, AscendingSort, DescendingSort, UnSorted }
         public static Image GetImage(ImagesAvailable ia)
         {
             string path = getImagePath();
@@ -51,6 +51,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                         return "TheManXS.Graphics.DownArrow.png";
                     case ImagesAvailable.NoChangeArrow:
                         return "TheManXS.Graphics.NoChangeArrows.png";
+                    case ImagesAvailable.AscendingSort:
+                        return "TheManXS.Graphics.AscendingSort.PNG";
+                    case ImagesAvailable.DescendingSort:
+                        return "TheManXS.Graphics.DescendingSort.PNG";
+                    case ImagesAvailable.UnSorted:
+                        return "TheManXS.Graphics.UnSorted.PNG";
                     default:
                         return "TheManXS.Graphics.ForestTile.png";
                 }

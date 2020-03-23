@@ -27,27 +27,28 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button Command="{Binding AllPlayers}" Text="All Players" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="0" Grid.Column="0"/>
+            
             <Button Command="{Binding SinglePlayer}" Text="Single Player" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="1" Grid.Column="0"/>
-            <Button Command="{Binding ResourceBreakdown}" Text="Resource Breakdown" Style="{StaticResource FinGridButton}" 
-                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
-                    Grid.Row="2" Grid.Column="0"/>
+            
             <Button Command="{Binding Ratios}" Text="Ratios" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
-                    Grid.Row="3" Grid.Column="0"/>
+                    Grid.Row="2" Grid.Column="0"/>
+            
             <Button Command="{Binding PropertyBreakdown}" Text="Property Breakdown" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
-                    Grid.Row="4" Grid.Column="0"/>
+                    Grid.Row="3" Grid.Column="0"/>
+            
             <Button Command="{Binding Graphs}" Text="Graphs" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
-                    Grid.Row="5" Grid.Column="0"/>
+                    Grid.Row="4" Grid.Column="0"/>
+            
         </Grid>
 
         <ScrollView Grid.Row="0" Grid.Column="1" Orientation="Vertical" x:Name="DataPresentationAreaSV"/>

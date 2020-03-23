@@ -19,15 +19,18 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         {
             _game = game;
             _sq = sq;
+            IsSQNotUnit = true;
             initPropertiesForSQ();
         }
         public PropertyBreakdown(Game game, Unit unit)
         {
             _game = game;
             _unit = unit;
+            IsSQNotUnit = false;
             initPropertiesForUnit();
         }
         public int ID { get; set; }
+        public bool IsSQNotUnit { get; set; }
         public string CompanyName { get; set; }
         public RT Resource { get; set; }
         public ST Status { get; set; }

@@ -15,19 +15,24 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
     public class PropertyBreakdownGrid : Grid
     {
         public enum PropertyBreakdownColumns { Company, ResourceType, Status, Production, PPE, Revenue, OPEX, GrossProfitD, 
-            GrossProfitP, Total }
+            GrossProfitP, ActionButton, Total }
 
         public enum HeaderFilterBoxType { Company, Resource, Status, Total }
+
+        public const string HeaderAutomationID = "Header";
+        public const string DataTableAutomationID = "DataTable";
+
         private AllPropertyBreakdownList _propertyBreakdownListOfAllProducingProperties;
-        private bool _allProducingPropertiesBeingDisplayed = true;
-        private List<PropertyBreakdown> _activeListOnDisplay;
-        private int _qRows;
+        private static bool _isOwnedByActivePlayer;
         private static Color _dataGridBackGroundColor = Color.WhiteSmoke;
+        private static Color _dataGridBackGroundColorForActivePlayerProperties = Color.LightGreen;
         Game _game;
+
         private HeaderFilterBox _companyFilterBox;
         private HeaderFilterBox _resourceFilterBox;
         private HeaderFilterBox _statusFilterBox;
         private int _rowHeight;
+        private int _numberOfRowsInHeader = 2;
 
         public PropertyBreakdownGrid(Game game)
         {
@@ -35,17 +40,15 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             CompressedLayout.SetIsHeadless(this, true);
 
             _propertyBreakdownListOfAllProducingProperties = new AllPropertyBreakdownList(_game);
-            _qRows = getNumberOfRows();
             _rowHeight = (int)(QC.ScreenHeight * 0.05);
             SortList();
             InitGrid();
             SetPropertiesOfGrid();
             AddHeaderFilterBoxes();
             AddHeaderButtons();
-            //AddHeaderLabels();
+            
             AddDataValuesToGrid();
         }
-        int getNumberOfRows() => (_propertyBreakdownListOfAllProducingProperties.Count + 1);
         void InitGrid()
         {
             initColumns();
@@ -59,31 +62,26 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         }
         void initRows()
         {
-            for (int i = 0; i < _qRows; i++) { RowDefinitions.Add(new RowDefinition() 
+            for (int i = 0; i < _propertyBreakdownListOfAllProducingProperties.PropertyBreakdownDisplayList.Count; i++) { RowDefinitions.Add(new RowDefinition() 
                 { Height = new GridLength(_rowHeight,GridUnitType.Absolute)}); }
         }
         void UpdateGrid()
         {
-            deleteAllLabels();
-            while (RowDefinitions.Count > 1) { RowDefinitions.RemoveAt(RowDefinitions.Count - 1); }
-            
-            int rowsRequired = _allProducingPropertiesBeingDisplayed? 
-                _propertyBreakdownListOfAllProducingProperties.Count + 1 : 
-                _activeListOnDisplay.Count + 1;
+            deleteAllDataItems();
 
+            while (RowDefinitions.Count > 1) { RowDefinitions.RemoveAt(RowDefinitions.Count - 1); }
+
+            int rowsRequired = _propertyBreakdownListOfAllProducingProperties.PropertyBreakdownDisplayList.Count + 1;
+                
             for (int i = 0; i < rowsRequired; i++) { RowDefinitions.Add(new RowDefinition()
                 { Height = new GridLength(_rowHeight, GridUnitType.Absolute) }); }
 
             AddDataValuesToGrid();
 
-            void deleteAllLabels()
+            void deleteAllDataItems()
             {
-                var labelList = Children.Where(l => l.BackgroundColor == _dataGridBackGroundColor).ToList();
-
-                foreach (var item in labelList)
-                {
-                    Children.Remove(item);
-                }
+                var dataItemList = Children.Where(d => d.AutomationId == DataTableAutomationID).ToList();
+                foreach(var item in dataItemList) { Children.Remove(item); }
             }
         }
         
@@ -115,15 +113,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             var picker = sender as Picker;
             string companyName = (string)_companyFilterBox.ItemsSource[picker.SelectedIndex];
 
-            if(companyName == "All") { UpdateGrid(); }
-            else
-            {
-                _activeListOnDisplay = _propertyBreakdownListOfAllProducingProperties.Where(p => p.CompanyName == companyName).ToList();
-                _allProducingPropertiesBeingDisplayed = false;
-               
-                UpdateGrid();
-                AddDataValuesToGrid();
-            }  
+            _propertyBreakdownListOfAllProducingProperties.AddFilter(AllPropertyBreakdownList.FilterType.Company, companyName);
+            UpdateGrid();
         }
 
         private void _resourceFilterBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -131,23 +122,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             var picker = sender as Picker;
             string resourceType = (string)_resourceFilterBox.ItemsSource[picker.SelectedIndex];
 
-            if (resourceType == "All") { UpdateGrid(); }
-            else
-            {
-                RT rt = getResourceType();
-                _activeListOnDisplay = _propertyBreakdownListOfAllProducingProperties.Where(s => s.Resource == rt).ToList();
-                _allProducingPropertiesBeingDisplayed = false;
-
-                UpdateGrid();
-            }
-            RT getResourceType()
-            {
-                for (int i = 0; i < (int)RT.Total; i++)
-                {
-                    if (Convert.ToString(resourceType) == Convert.ToString((RT)i)) { return (RT)i; }
-                }
-                return RT.Total;
-            }
+            _propertyBreakdownListOfAllProducingProperties.AddFilter(AllPropertyBreakdownList.FilterType.Resource, resourceType);
+            UpdateGrid();
         }
 
         private void _statusFilterBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -155,23 +131,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             var picker = sender as Picker;
             string statusType = (string)_statusFilterBox.ItemsSource[picker.SelectedIndex];
 
-            if (statusType == "All") { UpdateGrid(); }
-            else
-            {
-                ST st = getStatusType();
-                _activeListOnDisplay = _propertyBreakdownListOfAllProducingProperties.Where(s => s.Status == st).ToList();
-                _allProducingPropertiesBeingDisplayed = false;
-
-                UpdateGrid();
-            }
-            ST getStatusType()
-            {
-                for (int i = 0; i < (int)ST.Total; i++)
-                {
-                    if (Convert.ToString(statusType) == Convert.ToString((ST)i)) { return (ST)i; }
-                }
-                return ST.Total;
-            }
+            _propertyBreakdownListOfAllProducingProperties.AddFilter(AllPropertyBreakdownList.FilterType.Status, statusType);
+            UpdateGrid();
         }
 
         void AddHeaderButtons()
@@ -183,49 +144,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         }
         public void SortByColumn(PropertyBreakdownColumns pbc)
         {
-            switch (pbc)
-            {
-                case PropertyBreakdownColumns.Production:
-                    if (_allProducingPropertiesBeingDisplayed) 
-                    {
-                        _propertyBreakdownListOfAllProducingProperties =
-                            _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.Production).ToList();
-                    }
-                    else { _activeListOnDisplay.OrderBy(p => p.Production); }
-                    break;
-
-                case PropertyBreakdownColumns.PPE:
-                    if (_allProducingPropertiesBeingDisplayed)
-                        { _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.PPE); }
-                    else { _activeListOnDisplay.OrderBy(p => p.PPE); }
-                    break;
-
-                case PropertyBreakdownColumns.Revenue:
-                    if (_allProducingPropertiesBeingDisplayed)
-                        { _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.Revenue); }
-                    else { _activeListOnDisplay.OrderBy(p => p.Revenue); }
-                    break;
-
-                case PropertyBreakdownColumns.OPEX:
-                    if (_allProducingPropertiesBeingDisplayed)
-                        { _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.OPEX); }
-                    else { _activeListOnDisplay.OrderBy(p => p.OPEX); }
-                    break;
-
-                case PropertyBreakdownColumns.GrossProfitD:
-                    if (_allProducingPropertiesBeingDisplayed)
-                        { _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.GrossProfitD); }
-                    else { _activeListOnDisplay.OrderBy(p => p.GrossProfitD); }
-                    break;
-                case PropertyBreakdownColumns.GrossProfitP:
-                    if (_allProducingPropertiesBeingDisplayed)
-                        { _propertyBreakdownListOfAllProducingProperties.OrderBy(p => p.GrossProfitP); }
-                    else { _activeListOnDisplay.OrderBy(p => p.GrossProfitP); }
-                    break;
-
-                default:
-                    break;
-            }
+            _propertyBreakdownListOfAllProducingProperties.SortDataByColumn(pbc);
             UpdateGrid();
         }
         void SortList()
@@ -236,25 +155,16 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         }
         void AddDataValuesToGrid()
         {
-            if (_allProducingPropertiesBeingDisplayed)
+            int row = 1;
+            foreach (PropertyBreakdown pb in _propertyBreakdownListOfAllProducingProperties.PropertyBreakdownDisplayList)
             {
-                for (int row = 1; row < _qRows; row++)
-                {
-                    AddRowToGrid(_propertyBreakdownListOfAllProducingProperties[(row - 1)], row);
-                }
-            }
-            else
-            {
-                int row = 1;
-                foreach (PropertyBreakdown pb in _activeListOnDisplay)
-                {
-                    AddRowToGrid(pb, row);
-                    row++;
-                }
+                AddRowToGrid(pb, row);
+                row++;
             }
         }
         void AddRowToGrid(PropertyBreakdown bd, int row)
         {
+            _isOwnedByActivePlayer = bd.CompanyName == _game.ActivePlayer.Name ? true : false;
             Children.Add(new DataLabel(bd.CompanyName), (int)PropertyBreakdownColumns.Company, row);
             Children.Add(new DataLabel(bd.GrossProfitD.ToString("c0")), (int)PropertyBreakdownColumns.GrossProfitD, row);
             Children.Add(new DataLabel(bd.GrossProfitP.ToString("p1")), (int)PropertyBreakdownColumns.GrossProfitP, row);
@@ -264,7 +174,9 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             Children.Add(new DataLabel(bd.Resource.ToString()), (int)PropertyBreakdownColumns.ResourceType, row);
             Children.Add(new DataLabel(bd.Revenue.ToString("c0")), (int)PropertyBreakdownColumns.Revenue, row);
             Children.Add(new DataLabel(bd.Status.ToString()), (int)PropertyBreakdownColumns.Status, row);
+            Children.Add(new ActionButton(_game, bd), (int)PropertyBreakdownColumns.ActionButton, row);
         }
+        
         class DataLabel : Label
         {
             public DataLabel(string value)
@@ -274,7 +186,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                 HorizontalTextAlignment = TextAlignment.Center;
                 VerticalTextAlignment = TextAlignment.Center;
                 Text = value;
-                BackgroundColor = _dataGridBackGroundColor;
+                BackgroundColor = getBackGroundColor();
+                AutomationId = PropertyBreakdownGrid.DataTableAutomationID;
+            }
+            Color getBackGroundColor()
+            {
+                return _isOwnedByActivePlayer ? _dataGridBackGroundColorForActivePlayerProperties : _dataGridBackGroundColor;
             }
         }
     }

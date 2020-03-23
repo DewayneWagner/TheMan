@@ -29,6 +29,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             FontAttributes = FontAttributes.Bold;
             BackgroundColor = Color.Red;
             TextColor = Color.White;
+            AutomationId = PropertyBreakdownGrid.HeaderAutomationID;
         }
         private void InitValues()
         {

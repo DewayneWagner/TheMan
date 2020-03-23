@@ -11,19 +11,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Graphics\AscendingSort.PNG" />
     <None Remove="Graphics\background.png" />
     <None Remove="Graphics\CityTileBeth.png" />
+    <None Remove="Graphics\DescendingSort.PNG" />
     <None Remove="Graphics\DownArrow.png" />
     <None Remove="Graphics\ForestTileBeth.png" />
     <None Remove="Graphics\GrasslandTileBeth.png" />
     <None Remove="Graphics\Logo.png" />
     <None Remove="Graphics\MountainTileBeth.png" />
     <None Remove="Graphics\NoChangeArrows.png" />
+    <None Remove="Graphics\UnSorted.PNG" />
     <None Remove="Graphics\UpArrow.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Graphics\AscendingSort.PNG" />
     <EmbeddedResource Include="Graphics\background.png" />
+    <EmbeddedResource Include="Graphics\DescendingSort.PNG" />
     <EmbeddedResource Include="Graphics\DownArrow.png" />
     <EmbeddedResource Include="Graphics\ForestTileBeth.png" />
     <EmbeddedResource Include="Graphics\Logo.png" />
@@ -37,6 +42,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Graphics\GrasslandTileBeth.png" />
     <EmbeddedResource Include="Graphics\NoChangeArrows.png" />
+    <EmbeddedResource Include="Graphics\UnSorted.PNG" />
     <EmbeddedResource Include="Graphics\UpArrow.png" />
   </ItemGroup>
 
