@@ -27,7 +27,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
             FontAttributes = FontAttributes.Bold;
-            BackgroundColor = Color.Red;
             TextColor = Color.White;
             AutomationId = PropertyBreakdownGrid.HeaderAutomationID;
         }

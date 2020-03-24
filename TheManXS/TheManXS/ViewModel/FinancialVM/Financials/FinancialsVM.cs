@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.FinancialVM.Financials.Charts;
 using TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -80,7 +81,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     DataPresentationArea.Content = new PropertyBreakdownGrid(_game);
                     break;
                 case DataPanelType.Graphs:
-                    DataPresentationArea.Content = new GraphsGrid(_game);
+                    //DataPresentationArea.Content = new GraphsGrid(_game);
+                    DataPresentationArea.Content = new FinancialChartsVM(_game);
                     break;
                 default:
                     break;

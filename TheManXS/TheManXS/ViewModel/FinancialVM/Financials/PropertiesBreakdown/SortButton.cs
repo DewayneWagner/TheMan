@@ -11,14 +11,13 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
     public class SortButton : ImageButton
     {
         enum SortedState { SortedDescending, SortedAscending, NotSorted }
-        List<Image> _buttomImages;
         private SortedState _currentSortedState;
         private PropertyBreakdownColumns _propertyBreakdownColumn;
-        private AllPropertyBreakdownList _allPropertyBreakdownList;
-        public SortButton(PropertyBreakdownColumns propertyBreakdownColumns, AllPropertyBreakdownList allPropertyBreakdownList)
+        private PropertyBreakdownGrid _propertyBreakdownGrid;
+        public SortButton(PropertyBreakdownColumns propertyBreakdownColumns, PropertyBreakdownGrid propertyBreakdownGrid)
         {
             _propertyBreakdownColumn = propertyBreakdownColumns;
-            _allPropertyBreakdownList = allPropertyBreakdownList;
+            _propertyBreakdownGrid = propertyBreakdownGrid;
             _currentSortedState = SortedState.NotSorted;
             InitPropertiesOfButton();
             Clicked += SortButton_Clicked;
@@ -29,22 +28,25 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             if(_currentSortedState == SortedState.SortedDescending)
             {
                 _currentSortedState = SortedState.SortedAscending;
-                _allPropertyBreakdownList.SortDataByColumnAscending(_propertyBreakdownColumn);
+                _propertyBreakdownGrid.PropertyBreakdownListOfAllProducingProperties.SortDataByColumnAscending(_propertyBreakdownColumn);
             }
             else if(_currentSortedState == SortedState.SortedAscending || _currentSortedState == SortedState.NotSorted)
             {
                 _currentSortedState = SortedState.SortedDescending;
-                _allPropertyBreakdownList.SortDataByColumnDescending(_propertyBreakdownColumn);
+                _propertyBreakdownGrid.PropertyBreakdownListOfAllProducingProperties.SortDataByColumnDescending(_propertyBreakdownColumn);
             }
+            _propertyBreakdownGrid.UpdateGrid();
             Source = GetImage();
         }
 
         void InitPropertiesOfButton()
         {
-            Margin = 2;
+            Margin = 5;
+            Padding = 4;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
             CornerRadius = 2;
+            AutomationId = PropertyBreakdownGrid.HeaderAutomationID;
             Source = GetImage();
         }
         ImageSource GetImage()
