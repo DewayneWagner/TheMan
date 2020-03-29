@@ -15,7 +15,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
 
         public List<string> GetListOfItems(FilterBoxes fb)
         {
-            List<string> items = new List<string>();            
+            List<string> items = new List<string>();
 
             switch (fb)
             {

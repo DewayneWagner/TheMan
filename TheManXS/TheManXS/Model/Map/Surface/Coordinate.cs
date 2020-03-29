@@ -15,9 +15,16 @@ namespace TheManXS.Model.Map.Surface
     public class Coordinate
     {        
         System.Random rnd = new System.Random();
+        private static Game _game;
         private SQMapConstructArray _map;
         public Coordinate(SKPoint p) 
         {
+            if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
+            Row = (int)(_game.GameBoardVM.MapVM.MapCanvasView.X + p.X) / QC.SqSize;
+            Col = (int)(_game.GameBoardVM.MapVM.MapCanvasView.Y + p.Y) / QC.SqSize;
+            SQKey = GetSQKey(Row, Col);
+            SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
+
             Row = (int)(p.Y / QC.SqSize);
             Col = (int)(p.X / QC.SqSize);
             SQKey = GetSQKey(Row, Col);

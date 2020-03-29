@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -17,6 +18,7 @@ namespace TouchTracking.UWP
         FrameworkElement frameworkElement;
         TheManXS.ViewModel.MapBoardVM.TouchTracking.TouchEffect effect;
         Action<Element, TouchActionEventArgs> onTouchAction;
+        Game _game;
 
         protected override void OnAttached()
         {

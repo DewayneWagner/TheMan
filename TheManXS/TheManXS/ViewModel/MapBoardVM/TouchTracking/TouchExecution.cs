@@ -43,10 +43,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         }
         private async void ExecuteOneFingerSelect() 
         {
-            Coordinate activeSQ = new Coordinate(GetOneFingerTouchPoint());
-            await _pageService.DisplayAlert("Touch" + "\n" +
-                "Row: " + Convert.ToString(activeSQ.Row) + "\n" +
-                "Col: " + Convert.ToString(activeSQ.Col)); 
+            //Coordinate activeSQ = new Coordinate();
+            ////Coordinate activeSQ = new Coordinate(GetOneFingerTouchPoint());
+            //await _pageService.DisplayAlert("Touch" + "\n" +
+            //    "Row: " + Convert.ToString(activeSQ.Row) + "\n" +
+            //    "Col: " + Convert.ToString(activeSQ.Col)); 
         }
         private async void ExecuteOneFingerDragSelect() 
         {
@@ -108,13 +109,21 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             SKPoint touchedPointOnScreen = _mapVM.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
             return GetTouchPointOnBitMap(touchedPointOnScreen);
         }
-        private SKPoint GetTouchPointOnBitMap(SKPoint pt)
+        private SKPoint GetTouchPointOnBitMap(SKPoint skp)
         {
-            float bitmapX = ((pt.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
-            float bitmapY = ((pt.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
 
-            return new SKPoint(bitmapX, bitmapY);
+
+            float ptx = (float)(skp.X * (QC.MapCanvasViewWidth / QC.ScreenWidth));
+            float pty = (float)(skp.Y * (QC.MapCanvasViewHeight / QC.ScreenHeight));
+            return new SKPoint(ptx, pty);
+
+            //float bitmapX = ((skp.X - _mapVM.MapMatrix.TransX) / _mapVM.MapMatrix.ScaleX);
+            //float bitmapY = ((skp.Y - _mapVM.MapMatrix.TransY) / _mapVM.MapMatrix.ScaleY);
+            //return new SKPoint(bitmapX, bitmapY);
         }
+        //return new SKPoint(
+        //        (float)(pt.X* (QC.ScreenWidth / QC.MapCanvasViewWidth)),
+        //        (float) (pt.Y* (QC.ScreenHeight / QC.MapCanvasViewWidth)));
         private bool FloatIsValid(float f) => !float.IsNaN(f) && !float.IsInfinity(f);
     }
 }

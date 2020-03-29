@@ -58,9 +58,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
             FilterBox2ItemsList = fbs.GetListOfItems(FilterBoxes.FilterBox2);
             FilterBox3ItemsList = fbs.GetListOfItems(FilterBoxes.FilterBox3);
         }
-        void InitHeaderGrid()
-        {
-            ChartGrid.Children.Add(new HeaderGrid(this));
-        }
+        void InitHeaderGrid() => ChartGrid.Children.Add(new HeaderGrid(this));
+
     }
 }

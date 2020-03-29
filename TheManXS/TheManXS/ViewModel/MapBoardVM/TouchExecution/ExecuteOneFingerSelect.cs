@@ -33,8 +33,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         private void ExecuteOneFingerSelectAction()
         {
             var m = _game.GameBoardVM.MapVM;
-            Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
-            _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];            
+            Coordinate touchPoint = new Coordinate(getTouchPointOnScreen());
+            //Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
+            _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];      
+            
+
 
             SKPoint getTouchPointOnBitMap()
             {

@@ -53,30 +53,44 @@ namespace TheManXS.View
             {
                 QC.ScreenHeight = e.Info.Height;
                 QC.ScreenWidth = e.Info.Width;
-                QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
-                QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
-
+                
                 m = _game.GameBoardVM.MapVM = new MapVM(_game);
                 _createNewMap = false;
                 m.MapCanvasView = mapBoardCanvasView;
                 m.MapCanvasView.IgnorePixelScaling = true;
+
+                double height = _game.GameBoardVM.MapVM.SKBitMapOfMap.Height;
+                double width = _game.GameBoardVM.MapVM.SKBitMapOfMap.Width;
+
+                QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
+                QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
+
             }
         }
 
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
+            var m = _game.GameBoardVM.MapVM;
             if (_game.GameBoardVM.TouchEffectsEnabled)            
             {
-                var t = _game.GameBoardVM.MapVM.MapTouchList;
-                t.AddTouchAction(args);
-
-                if (t.AllTouchEffectsExited && t.Count != 0)
+                if (isTouchOnGameBoardPortionOfScreen())
                 {
-                    _game.GameBoardVM.TouchEffectsEnabled = false;
-                    ExecuteTouch();
-                    t = new MapTouchListOfMapTouchIDLists();
+                    m.MapTouchList.AddTouchAction(args);
+
+                    if (m.MapTouchList.AllTouchEffectsExited && m.MapTouchList.Count != 0)
+                    {
+                        _game.GameBoardVM.TouchEffectsEnabled = false;
+                        ExecuteTouch();
+                        m.MapTouchList = new MapTouchListOfMapTouchIDLists();
+                        _game.GameBoardVM.TouchEffectsEnabled = true;
+                    }
+                    else if (m.MapTouchList.NoExecutionRequired) { m.MapTouchList = new MapTouchListOfMapTouchIDLists(); }
                 }
-                else if (t.NoExecutionRequired) { t = new MapTouchListOfMapTouchIDLists(); }
+            }
+            bool isTouchOnGameBoardPortionOfScreen()
+            {                
+                if(args.Location.X < m.MapCanvasView.Width && args.Location.Y < m.MapCanvasView.Height) { return true; }
+                else { return false; }
             }
             
             // try / catch loop to wrap this section in, once bugs are out to prevent crashing
