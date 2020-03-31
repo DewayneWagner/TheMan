@@ -55,8 +55,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             //        (float) (pt.Y * (QC.ScreenHeight / QC.MapCanvasViewHeight)));
 
             return new SKPoint(
-                (float)(pt.X * (QC.ScreenWidth / QC.MapCanvasViewWidth)),
-                (float)(pt.Y * (QC.ScreenHeight / QC.MapCanvasViewWidth)));
+                (float)(pt.X * (QC.MapCanvasViewWidth / QC.ScreenWidth)),
+                (float)(pt.Y * (QC.MapCanvasViewHeight / QC.ScreenHeight)));
+
+            //return new SKPoint(
+            //    (float)(pt.X * (QC.ScreenWidth / QC.MapCanvasViewWidth)),
+            //    (float)(pt.Y * (QC.ScreenHeight / QC.MapCanvasViewHeight)));
             
             //SKPoint p = new SKPoint();
             //var m = _game.GameBoardVM.MapVM.MapCanvasView;

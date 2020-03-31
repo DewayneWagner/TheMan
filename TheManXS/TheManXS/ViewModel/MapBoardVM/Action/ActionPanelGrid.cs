@@ -9,6 +9,7 @@ using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
+using SkiaSharp;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
@@ -29,10 +30,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private const double _widthRatioColumn1 = 0.4;
 
         private double _buttonAndTitleHeight = 35;
-        private const int _numberOfButtons = 2;
         
         private const int SIDEPANELWIDTH = 300;
         private PanelType _panelType;
+        private SKCanvas _canvasForHighlight;
 
         public ActionPanelGrid(PanelType pt, Game game)
         {
@@ -40,11 +41,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             CompressedLayout.SetIsHeadless(this, true);
             _panelType = pt;
             _mapVM = _game.GameBoardVM.MapVM;
+            
             WidthRequest = SIDEPANELWIDTH;
             SetPropertiesOfGrid();
             InitFields();
             InitAllElements();
 
+            _canvasForHighlight = new SKCanvas(_mapVM.SKBitMapOfMap);
             _game.GameBoardVM.SidePanelManager.SelectedSQHighlight = new SelectedSQHighlight(_game, pt);
         }
 
@@ -54,7 +57,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             Padding = 0;
             VerticalOptions = LayoutOptions.Center;
             BackgroundColor = Color.White;
-            VerticalOptions = LayoutOptions.FillAndExpand;
         }
 
         private void InitFields()
@@ -173,7 +175,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
 
         public void OnBackButton(object sender, EventArgs e) => _game.GameBoardVM.SidePanelManager.RemoveSidePanel(_panelType);
-
+        
         public void InitTitle()
         {
             string text = _panelType == PanelType.SQ ? "SQ Action" : "Unit Action";

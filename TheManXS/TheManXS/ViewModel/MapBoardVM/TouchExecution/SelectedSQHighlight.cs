@@ -16,12 +16,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         Game _game;
         PanelType _panelType;
         List<SQ> _listOfSqsToHighlight;
-
-        SKPaint highlightedSQ = new SKPaint()
-        {
-            Color = SKColors.Yellow,
-            Style = SKPaintStyle.Fill,
-        };
+        private SKCanvas _canvas;
 
         public SelectedSQHighlight(bool isForSidePanelInitialization) { }
 
@@ -29,9 +24,11 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             _game = game;
             _panelType = pt;
+            _canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap);
             InitListOfSQsToHighlight();
             HighlightSQForSelection();
         }
+
         void InitListOfSQsToHighlight()
         {
             _listOfSqsToHighlight = new List<SQ>();
@@ -41,17 +38,41 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
         void HighlightSQForSelection()
         {
+            using (new SKAutoCanvasRestore(_canvas))
+            {
+                foreach (SQ sq in _listOfSqsToHighlight)
+                {
+                    SKPaint highlightedSQ = new SKPaint()
+                    {
+                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x50),
+                        Style = SKPaintStyle.Fill,
+                    };
+                    _canvas.DrawRect(GetSKRect(sq), highlightedSQ);
+                }
+            }            
+            //_canvas.Save();
+        }
+
+        void HighlightSQForSelection(bool isOldVersion)
+        {
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
                 foreach (SQ sq in _listOfSqsToHighlight)
                 {
+                    SKPaint highlightedSQ = new SKPaint()
+                    {
+                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x50),
+                        Style = SKPaintStyle.Fill,
+                    };
                     canvas.DrawRect(GetSKRect(sq), highlightedSQ);
                 }
-                canvas.Save();
+                //canvas.Save();
             }
         }
+
         SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize,
                 (sq.Row + 1) * QC.SqSize);
+
         public void PermanentlyHighlightSQWithCompanyColors()
         {
             if (_panelType == PanelType.SQ)
@@ -66,13 +87,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 }
             }
         }
+
         public void RemoveSelectionHighlight()
         {
-            if (_panelType == PanelType.SQ)
-            {
-
-            }
-        }
-        
+            _canvas.Restore();
+            _canvas.Save();
+            _canvas.Dispose();
+        }        
     }
 }

@@ -21,10 +21,12 @@ namespace TheManXS.Model.Units
         public enum UnitSelectionStatus { Tentative, Complete, }
 
         private Game _game;
+        private List<SQ> _ListOfSQsFromOriginal;
         public Unit() { }
         public Unit(List<SQ> listOfSquaresInUnit, Game game)
         {
             _game = game;
+            _ListOfSQsFromOriginal = listOfSquaresInUnit;
             SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);            
             foreach (SQ sq in listOfSquaresInUnit) { AddSQToUnit(sq); }
             SetNextActionCostAndText();
@@ -135,15 +137,18 @@ namespace TheManXS.Model.Units
         }
         private void SetNextActionCostAndText()
         {
-            NextAction n = new NextAction(this[0], _game);
-            NextActionText = n.Text;            
-            NextActionType = n.ActionType;
-
-            foreach (SQ sq in this)
+            if(this.Count > 0)
             {
-                sq.Status = Status;
-                NextActionCost += n.Cost;
-            }
+                NextAction n = new NextAction(this[0], _game);
+                NextActionText = n.Text;
+                NextActionType = n.ActionType;
+
+                foreach (SQ sq in this)
+                {
+                    sq.Status = Status;
+                    NextActionCost += n.Cost;
+                }
+            }            
         }
         private void SetOPEX()
         {

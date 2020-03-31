@@ -7,6 +7,7 @@ using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
@@ -17,6 +18,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         private string _companyName;
         private PageService _pageService;
         private Game _game;
+        private const double _topToolBarHeightRatio = 0.075;
         
         public TitleBarVM(bool isForInitGameBoardVM) { }
         public TitleBarVM()
@@ -33,6 +35,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             Quarter = _game.Quarter;
             CompanyName = _game.ActivePlayer.Name;
+            SetHeight();
         }
 
         public string Quarter
@@ -66,6 +69,17 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
         }
 
+        private double _topToolBarHeight;
+        public double TopToolBarHeight
+        {
+            get => _topToolBarHeight;
+            set
+            {
+                _topToolBarHeight = value;
+                SetValue(ref _topToolBarHeight, value);
+            }
+        }
+
         public ICommand ShowFinancials { get; set; }
         public ICommand EndTurn { get; set; }
         public ICommand ShowResources { get; set; }
@@ -73,5 +87,9 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         private async void ShowResourceMap() => await _pageService.PushAsync(new PoolBreakdown());
         private void EndTurnAction(object obj) => new EndTurnAction(_game);
         private async void ShowFinancialsPage(object obj) => await _pageService.PushAsync(new FinancialsView());
+        private void SetHeight()
+        {
+            HeightRequest = QC.TopToolBarHeight = TopToolBarHeight = (QC.ScreenHeight * _topToolBarHeightRatio);
+        }
     }
 }

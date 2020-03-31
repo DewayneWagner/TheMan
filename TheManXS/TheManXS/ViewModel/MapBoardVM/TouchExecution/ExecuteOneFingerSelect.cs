@@ -34,19 +34,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             var m = _game.GameBoardVM.MapVM;
             Coordinate touchPoint = new Coordinate(getTouchPointOnScreen());
-            //Coordinate touchPoint = new Coordinate(getTouchPointOnBitMap());
             _game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];      
-            
-
-
-            SKPoint getTouchPointOnBitMap()
-            {
-                SKPoint touchPointOnScreen = getTouchPointOnScreen();
-                float bitmapX = ((touchPointOnScreen.X - m.MapMatrix.TransX) / m.MapMatrix.ScaleX);
-                float bitmapY = ((touchPointOnScreen.Y - m.MapMatrix.TransY) / m.MapMatrix.ScaleY);
-
-                return new SKPoint(bitmapX, bitmapY);
-            }
 
             SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;            
         }

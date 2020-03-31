@@ -18,6 +18,7 @@
             </StackLayout.BindingContext>
 
             <StackLayout Style="{StaticResource GameBoardTopTitleBar}"
+                HeightRequest="{Binding TopToolBarHeight}"
                 Orientation="Horizontal" 
                 CompressedLayout.IsHeadless="True" 
                 Padding="0" 

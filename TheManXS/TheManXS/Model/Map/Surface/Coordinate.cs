@@ -7,51 +7,55 @@ using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using TheManXS.Model.Main;
 using SkiaSharp;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 using TheManXS.Model.ParametersForGame;
 using A = TheManXS.Model.ParametersForGame.AllBoundedParameters;
+using Windows.Graphics.Display;
 
 namespace TheManXS.Model.Map.Surface
 {
     public class Coordinate
-    {        
+    {
         System.Random rnd = new System.Random();
         private static Game _game;
         private SQMapConstructArray _map;
-        public Coordinate(SKPoint p) 
-        {
-            if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
-            Row = (int)(_game.GameBoardVM.MapVM.MapCanvasView.X + p.X) / QC.SqSize;
-            Col = (int)(_game.GameBoardVM.MapVM.MapCanvasView.Y + p.Y) / QC.SqSize;
-            SQKey = GetSQKey(Row, Col);
-            SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
 
-            Row = (int)(p.Y / QC.SqSize);
-            Col = (int)(p.X / QC.SqSize);
+        public Coordinate(SKPoint p) 
+        {            
+            if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
+            Row = (int)((_game.GameBoardVM.MapVM.MapCanvasView.Y + p.Y) / skSqSize);
+            Col = (int)((_game.GameBoardVM.MapVM.MapCanvasView.X + p.X) / skSqSize);
             SQKey = GetSQKey(Row, Col);
             SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
         }
+
         public Coordinate(Point p)
         {
             Row = (int)(p.Y / QC.SqSize);
             Col = (int)(p.X / QC.SqSize);
             SQKey = GetSQKey(Row, Col);
         }
-        public Coordinate(int row, int col)
-        {
-            Row = row;
-            Col = col;
-            SQKey = GetSQKey(row, col);
-            // row 1, col 1, saved game slot 1 - 1011011;
-        }
+
         public Coordinate(bool isStartSQ, SQMapConstructArray map)
         {
             _map = map;
             GetPoolStartCoordinate(isStartSQ);
         }
+
         public int SQKey { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
         public SKRect SKRect { get; set; }
+
+        private int skSqSize
+        {
+            get
+            {
+                var displayInformation = DisplayInformation.GetForCurrentView();
+                var ratio = displayInformation.RawPixelsPerViewPixel;
+                return (int)(QC.SqSize / ratio);
+            }
+        }
 
         public static int GetSQKey(int row, int col) => ((100 + row) * 1000 + (100 + col)) * 10 + QC.CurrentSavedGameSlot;
         public void GetPoolStartCoordinate(bool IsPlayerStartSQ)

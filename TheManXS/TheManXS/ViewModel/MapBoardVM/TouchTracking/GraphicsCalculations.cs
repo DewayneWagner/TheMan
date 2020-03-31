@@ -54,5 +54,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             if (Math.Abs(xDelta) > Math.Abs(yDelta)) { return (xDelta >= 0) ? Direction.East : Direction.West; }
             else { return (yDelta >= 0) ? Direction.South : Direction.North; }
         }
+
+
     }
 }

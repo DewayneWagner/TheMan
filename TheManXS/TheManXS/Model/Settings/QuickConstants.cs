@@ -13,6 +13,7 @@ namespace TheManXS.Model.Settings
     public class QuickConstants
     {
         Game _game;
+        private const double TopToolBarHeightRatio = 0.05;
         public QuickConstants()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
@@ -34,7 +35,8 @@ namespace TheManXS.Model.Settings
         public const string NameOfOwnerOfUnOwnedSquares = "The Man";
         public const double OPEXDiscountPerSQInUnit = 0.03;
         public const double CAPEXDiscountPerSQInUnit = 0.03;
-
+        
+        public static double TopToolBarHeight { get; set; }
         public static int MaxResourceSQsOnMap { get; set; }
         public static int MaxResourceSQsInPool { get; set; }        
         public static int PlayerIndexActual => 0;      

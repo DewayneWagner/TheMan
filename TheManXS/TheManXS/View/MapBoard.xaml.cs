@@ -36,10 +36,10 @@ namespace TheManXS.View
         }
 
         private void mapBoardCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
-        {            
-            if (_createNewMap) { createNewMap(); }
-
+        {
             var m = _game.GameBoardVM.MapVM;
+
+            if (_createNewMap) { createNewMap(); }
 
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -53,7 +53,7 @@ namespace TheManXS.View
             {
                 QC.ScreenHeight = e.Info.Height;
                 QC.ScreenWidth = e.Info.Width;
-                
+
                 m = _game.GameBoardVM.MapVM = new MapVM(_game);
                 _createNewMap = false;
                 m.MapCanvasView = mapBoardCanvasView;
@@ -64,7 +64,6 @@ namespace TheManXS.View
 
                 QC.MapCanvasViewHeight = mapBoardCanvasView.Height;
                 QC.MapCanvasViewWidth = mapBoardCanvasView.Width;
-
             }
         }
 
