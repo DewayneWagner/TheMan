@@ -53,43 +53,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             //_canvas.Save();
         }
 
-        void HighlightSQForSelection(bool isOldVersion)
-        {
-            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {
-                foreach (SQ sq in _listOfSqsToHighlight)
-                {
-                    SKPaint highlightedSQ = new SKPaint()
-                    {
-                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x50),
-                        Style = SKPaintStyle.Fill,
-                    };
-                    canvas.DrawRect(GetSKRect(sq), highlightedSQ);
-                }
-                //canvas.Save();
-            }
-        }
-
         SKRect GetSKRect(SQ sq) => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize,
                 (sq.Row + 1) * QC.SqSize);
 
-        public void PermanentlyHighlightSQWithCompanyColors()
-        {
-            if (_panelType == PanelType.SQ)
-            {
-                using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-                {
-                    SKPaint ownerColor = new SKPaint()
-                    {
-                        Style = SKPaintStyle.Fill,
-                        Color = _game.ActivePlayer.SKColor,
-                    };
-                }
-            }
-        }
-
         public void RemoveSelectionHighlight()
         {
+            // this doesn't work.
             _canvas.Restore();
             _canvas.Save();
             _canvas.Dispose();

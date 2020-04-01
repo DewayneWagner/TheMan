@@ -23,8 +23,11 @@ namespace TheManXS.Model.Map.Surface
         public Coordinate(SKPoint p) 
         {            
             if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
-            Row = (int)((_game.GameBoardVM.MapVM.MapCanvasView.Y + p.Y) / skSqSize);
-            Col = (int)((_game.GameBoardVM.MapVM.MapCanvasView.X + p.X) / skSqSize);
+
+            //testDimensionalInfo();        
+
+            Row = (int)((topLeftCorner.Y + p.Y) / skSqSize);
+            Col = (int)((topLeftCorner.X + p.X) / skSqSize);
             SQKey = GetSQKey(Row, Col);
             SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
         }
@@ -47,15 +50,25 @@ namespace TheManXS.Model.Map.Surface
         public int Col { get; set; }
         public SKRect SKRect { get; set; }
 
-        private int skSqSize
+        private SKPoint topLeftCorner
+        {
+            get
+            {
+                var m = _game.GameBoardVM.MapVM.MapMatrix;
+                return new SKPoint((Math.Abs(m.TransX * m.ScaleX))/ratio, (Math.Abs(m.TransY * m.ScaleY))/ratio);
+            }            
+        }
+
+        private float ratio
         {
             get
             {
                 var displayInformation = DisplayInformation.GetForCurrentView();
-                var ratio = displayInformation.RawPixelsPerViewPixel;
-                return (int)(QC.SqSize / ratio);
+                return (float)displayInformation.RawPixelsPerViewPixel;
             }
         }
+
+        private int skSqSize => (int)(QC.SqSize / ratio);
 
         public static int GetSQKey(int row, int col) => ((100 + row) * 1000 + (100 + col)) * 10 + QC.CurrentSavedGameSlot;
         public void GetPoolStartCoordinate(bool IsPlayerStartSQ)
@@ -116,5 +129,35 @@ namespace TheManXS.Model.Map.Surface
         public static bool DoesSquareExist(int row, int col) => (row >= 0 && row < QC.RowQ &&
             col >= 0 && col < QC.ColQ) ? true : false;        
         private bool SqExists(int r, int c) => (r >= 0 && r < QC.RowQ && c >= 0 && c < QC.ColQ) ? true : false;
+
+        private void testDimensionalInfo()
+        {
+            double x = _game.GameBoardVM.SplitScreenGrid.X; // doesn't work.  only works if grid offscreen
+            double y = _game.GameBoardVM.SplitScreenGrid.Y; // doesn't work
+
+            double x2 = _game.GameBoardVM.MapVM.SKBitMapOfMap.Info.Rect.Left; // just returns 0
+            double y2 = _game.GameBoardVM.MapVM.SKBitMapOfMap.Info.Rect.Top; // returns 0
+
+            double x3 = _game.GameBoardVM.MapVM.X;
+            double y3 = _game.GameBoardVM.MapVM.Y;
+
+            double x4 = _game.GameBoardVM.MapVM.MapCanvasView.AnchorX;
+            double y4 = _game.GameBoardVM.MapVM.MapCanvasView.AnchorY;
+
+            double x5 = _game.GameBoardVM.MapVM.MapCanvasView.Bounds.X;
+            double y5 = _game.GameBoardVM.MapVM.MapCanvasView.Bounds.Y;
+
+            double x6 = _game.GameBoardVM.MapVM.MapCanvasView.TranslationX;
+            double y6 = _game.GameBoardVM.MapVM.MapCanvasView.TranslationY;
+
+            double x7 = _game.GameBoardVM.MapVM.MapMatrix.TransX;
+            double y7 = _game.GameBoardVM.MapVM.MapMatrix.TransY;
+
+            double x8 = _game.GameBoardVM.MapVM.MapMatrix.ScaleX;
+            double y8 = _game.GameBoardVM.MapVM.MapMatrix.ScaleY;
+
+            //double bitmapX = (touchPoint.X - bitmap.Matrix.TransX) / bitmap.Matrix.ScaleX;
+            //double bitmapY = (touchPoint.Y - bitmap.Matrix.TransY) / bitmap.Matrix.ScaleY;
+        }
     }    
 }
