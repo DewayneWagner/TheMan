@@ -7,6 +7,7 @@ using TheManXS.Model.Map;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using AC = TheManXS.Model.ParametersForGame.AllConstantParameters;
 
 namespace TheManXS.Model.CityStuff
 {
@@ -21,6 +22,10 @@ namespace TheManXS.Model.CityStuff
         private int _endCol;
         private SQMapConstructArray _map;
 
+        // Parameter Constant List
+        double _cityStartProduction = 8;
+        double _cityStartOPEX = 20;
+
         public City(SQMapConstructArray map)
         {
             _map = map;
@@ -29,7 +34,7 @@ namespace TheManXS.Model.CityStuff
             _startCol = (int)(QC.ColQ * _cityFromEdgeRatio);
             _endCol = QC.ColQ - _startCol;
 
-            InitNewCity(); 
+            InitNewCity();
         }
         private void InitNewCity()
         {
@@ -78,10 +83,11 @@ namespace TheManXS.Model.CityStuff
         }
         private void InitCitySQ(SQ sq, int playerNum)
         {
+            sq.Production = (int)_cityStartProduction;
+            sq.OPEXPerUnit = _cityStartOPEX;
+
             sq.ResourceType = RT.RealEstate;
-            sq.TerrainType = TT.City;
-            sq.Production = 8;
-            sq.OPEXPerUnit = 20;
+            sq.TerrainType = TT.City;            
             sq.Status = ST.Producing;
             sq.OwnerNumber = playerNum;
         }

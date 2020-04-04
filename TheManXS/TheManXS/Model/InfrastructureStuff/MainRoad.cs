@@ -59,7 +59,7 @@ namespace TheManXS.Model.InfrastructureStuff
                 _map[r, c].IsMainTransportationCorridor = true;
             }
 
-            bool isEdgeOfMap(int col) => col == 0 || col == (QC.ColQ - 1) ? true : false;
+            bool isEdgeOfMap(int col) => col < 0 || col > (QC.ColQ - 1) ? true : false;
 
             int getNextRow(int row)
             {

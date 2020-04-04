@@ -53,7 +53,7 @@ namespace TheManXS.Model.Map.Surface
             double startSqRatioFromEdgeOfMap = _game.ParameterConstantList.GetConstant(ACP.MapConstants, (int)MapConstantsSecondary.StartRowRatioFromEdgeOfMap);
             int min = (int)(QC.RowQ * startSqRatioFromEdgeOfMap);
             int max = (int)(QC.RowQ - min);
-            return rnd.Next(min, max);
+            return (rnd.Next(min, max) - (int)(0.3 * QC.RowQ));
         }
     }
 }

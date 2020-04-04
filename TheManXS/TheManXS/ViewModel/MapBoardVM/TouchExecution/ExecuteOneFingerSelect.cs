@@ -28,6 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             ExecuteOneFingerSelectAction();
             _game.GameBoardVM.SidePanelManager.AddSidePanel(ActionPanelGrid.PanelType.SQ);
         }
+
         public SelectedSQHighlight SelectedSQHighlight { get; set; }
 
         private void ExecuteOneFingerSelectAction()

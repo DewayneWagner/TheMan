@@ -70,7 +70,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             for (int i = 0; i < (int)IT.Total; i++)
             {
-                var sortedList = _allInfrastructure[i].OrderBy(s => s.Col).ToList();
+                var sortedList = _allInfrastructure[i]
+                    .OrderBy(s => s.Col)
+                    .ToList();
+
                 IT it = (IT)i;
 
                 if(it != IT.Hub && it != IT.Tributary)
@@ -79,16 +82,26 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 { CreateSmallPaths((IT)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
             }
         }
+
         private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList)
         {
             SKPath path = new SKPath();
 
-            foreach (SQInfrastructure sq in sortedList)
+            for (int i = 0; i < sortedList.Count; i++)
             {
-                if (_calc.IsMapEdge(sq)) { _calc.ProcessMapEdge(sq, ref path, it); }
-                path.LineTo(_calc.GetInfrastructureSKPoint(sq, it)); 
-                if(!sq.IsHub) { _allInfrastructure[(int)it].Remove(sq); }
+                SQInfrastructure sq = sortedList[i];
+                if (_calc.IsMapEdge(sq))
+                {
+                    SKPoint edgePoint = _calc.GetEdgePoint(sq, it);
+                    path.MoveTo(edgePoint);
+                }
+
+                SKPoint nextPoint = _calc.GetInfrastructureSKPoint(sq, it);
+                path.LineTo(nextPoint);
+
+                if (!sq.IsHub) { _allInfrastructure[(int)it].Remove(sq); }
             }
+
             path.Close();
             _listOfAllSKPaths.Add(path);
         }

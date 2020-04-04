@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using TheManXS.Model.Main;
+using TheManXS.Services.IO;
 using TheManXS.View.DetailView;
 using TheManXS.ViewModel;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
@@ -14,8 +15,11 @@ namespace TheManXS
 {
     public partial class App : Application
     {
+        public enum FileNames { DB, ParameterBounded, ParameterConstant, ColorPalette, MapGame1Type0, MapGame1Type1, MapGame2Type0, MapGame2Type1, MapGame3Type0, MapGame3Type1, Total }
         public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game, ApplicationVM }
+
+        public PathList PathList;
 
         public static string DataBaseLocation = string.Empty;
         public static string ParameterBoundedPath = string.Empty;
@@ -23,6 +27,19 @@ namespace TheManXS
         public static string ColorPalettes = string.Empty;
         public static string NextBinaryFile = string.Empty;
         private ApplicationVM _applicationVM;
+
+        public App(PathList pathList)
+        {
+            PathList = pathList;
+
+            InitScreenMetrics();
+            InitializeComponent();
+
+            BindingContext = _applicationVM = new ApplicationVM();
+
+            MainPage = new NavigationPage(new MainMenuView());
+            InitPropertyDictionary();
+        }
 
         public App(string dbLocation, string boundedParameterLocation, string constantParameterLocation,
             string colorPalettes, string nextBinaryFile)
@@ -39,7 +56,7 @@ namespace TheManXS
             BindingContext = _applicationVM = new ApplicationVM();
 
             MainPage = new NavigationPage(new MainMenuView());
-            InitPropertyDictionary();            
+            InitPropertyDictionary();
         }
 
         void InitPropertyDictionary()
@@ -60,6 +77,8 @@ namespace TheManXS
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            Game thisGame = (Game)Properties[Convert.ToString(ObjectsInPropertyDictionary.Game)];
+            new SavedMap(thisGame).SaveMap();
         }
 
         protected override void OnResume()
@@ -86,5 +105,6 @@ namespace TheManXS
         {
             _applicationVM.InitMainColors();
         }
+        public string GetFolderPath(FileNames fileName) => PathList[(int)fileName];
     }
 }

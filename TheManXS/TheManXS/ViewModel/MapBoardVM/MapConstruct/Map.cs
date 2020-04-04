@@ -74,7 +74,12 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                             setLinearGradient();
                             break;
                         case sqFormats.SolidColor:
-                            standardTilePaint.Color = _game.PaletteColors.GetRandomColor(sq.TerrainType);
+                            if(sq.TerrainType == TerrainTypeE.City) 
+                            {
+                                standardTilePaint.StrokeWidth = 1;
+                                standardTilePaint.Color = SKColors.Yellow; 
+                            }
+                            else { standardTilePaint.Color = _game.PaletteColors.GetRandomColor(sq.TerrainType); }                            
                             break;
                         case sqFormats.SweepGradient:
                             setSweepGradient();

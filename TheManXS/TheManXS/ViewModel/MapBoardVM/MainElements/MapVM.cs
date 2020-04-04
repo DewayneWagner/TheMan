@@ -16,6 +16,7 @@ using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Services.IO;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
@@ -34,12 +35,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             QC.IsNewGame = true;
             CompressedLayout.SetIsHeadless(this, true);
 
-            if (QC.IsNewGame) 
-            {
-                SKBitMapOfMap = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
-                new Map(_game);
-                InfrastructureBuilder = new Infrastructure.Builder(this);
-            }
+            if (QC.IsNewGame) { CreateNewMap(); }
             else { LoadMap(); }
 
             MapTouchList = new MapTouchListOfMapTouchIDLists();
@@ -68,19 +64,14 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         // copied from gameboardsplitscreengrid class - not sure if these will be needed?
         
 
-        private async void SaveMap()
+        private void CreateNewMap()
         {
-            /***********************
-             * using (Stream s = await file.OpenAsync(FileAccess.ReadAndWrite)) {
-    SKData d = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
-    d.SaveTo(s);
-             * ***************************/
-
-
-
+            SKBitMapOfMap = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
+            new Map(_game);
+            InfrastructureBuilder = new Infrastructure.Builder(this);
+            new SavedMap(_game).SaveMap();
         }
 
-        private void LoadMap() { }
+        private void LoadMap() => this.SKBitMapOfMap = new SavedMap(_game).LoadMap();
     }   
-    
 }

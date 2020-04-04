@@ -29,6 +29,49 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.75f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.75f));
 
+        public SKPoint GetEdgePoint(SQInfrastructure sq, IT it)
+        {
+            DirectionsCompass d = getMapEdge();
+            bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
+            return getEdgePoint();
+
+            DirectionsCompass getMapEdge()
+            {
+                if (sq.Row == 0) { return DirectionsCompass.N; }
+                else if (sq.Row == (QC.RowQ - 1)) { return DirectionsCompass.S; }
+                else if (sq.Col == 0) { return DirectionsCompass.W; }
+                else { return DirectionsCompass.E; }
+            }
+
+            SKPoint getEdgePoint()
+            {
+                float x = 0, y = 0;
+
+                switch (d)
+                {
+                    case DirectionsCompass.N:
+                        x = sq.Col * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
+                        y = 0;
+                        break;
+                    case DirectionsCompass.E:
+                        x = (QC.ColQ + 1) * QC.SqSize;
+                        y = sq.Row * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
+                        break;
+                    case DirectionsCompass.S:
+                        x = sq.Col * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
+                        y = (QC.RowQ + 1) * QC.SqSize;
+                        break;
+                    case DirectionsCompass.W:
+                        x = 0;
+                        y = sq.Row * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
+                        break;
+                    default:
+                        break;
+                }
+                return new SKPoint(x, y);
+            }
+        }
+
         public void ProcessMapEdge(SQInfrastructure sq, ref SKPath path, IT it)
         {
             DirectionsCompass d = getMapEdge();
