@@ -23,21 +23,8 @@ namespace TheManXS.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            string sqLiteDBName = "TheManXS_db.sqlite";
-            string parameterBoundedFileName = "ParameterBounded.bin";
-            string parameterConstantFileName = "ParameterConstant.bin";
-            string colorPaletteFileName = "ColorPalette.bin";
-            string nextBinaryFileName = "NextBinary.bin";
-
             string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-
-            string sqLitePath = Path.Combine(folderPath, sqLiteDBName);
-            string boundedParameter = Path.Combine(folderPath, parameterBoundedFileName);
-            string constantParameter = Path.Combine(folderPath, parameterConstantFileName);
-            string colorPalettePath = Path.Combine(folderPath, colorPaletteFileName);
-            string nextBinaryPath = Path.Combine(folderPath, nextBinaryFileName);
-
-            LoadApplication(new App(sqLitePath,boundedParameter,constantParameter,colorPalettePath,nextBinaryPath));
+            LoadApplication(new App(new PathList(folderPath)));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

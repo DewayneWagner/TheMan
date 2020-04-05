@@ -10,6 +10,7 @@ namespace TheManXS
         private string[] _fileNamesArray;
         public PathList(string folderPath)
         {
+            _fileNamesArray = new string[(int)App.FileNames.Total];
             LoadFileNameList();
             CreatePathList(folderPath);
         }
@@ -20,7 +21,7 @@ namespace TheManXS
             _fileNamesArray[(int)App.FileNames.ParameterBounded] = "ParameterBounded.bin";
             _fileNamesArray[(int)App.FileNames.ParameterConstant] = "ParameterConstant.bin";
 
-            for (int i = (int)App.FileNames.MapGame1Type0; i < (int)App.FileNames.MapGame3Type1; i++)
+            for (int i = (int)App.FileNames.MapGame1Type0; i <= (int)App.FileNames.MapGame3Type1; i++)
             {
                 _fileNamesArray[i] = (Convert.ToString((App.FileNames)i) + ".png");
             }
@@ -30,6 +31,7 @@ namespace TheManXS
             for (int i = 0; i < (int)App.FileNames.Total; i++)
             {
                 string filePath = Path.Combine(folderPath, _fileNamesArray[i]);
+                this.Add(filePath);
             }
         }
     }

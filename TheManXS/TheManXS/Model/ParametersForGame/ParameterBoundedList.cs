@@ -109,7 +109,7 @@ namespace TheManXS.Model.ParametersForGame
 
         private void ReadDataFromBinaryFile()
         {
-            using (BinaryReader br = new BinaryReader(File.Open(App.ParameterBoundedPath, FileMode.OpenOrCreate)))
+            using (BinaryReader br = new BinaryReader(File.Open(App.GetFolderPath(App.FileNames.ParameterBounded), FileMode.OpenOrCreate)))
             {
                 while (br.PeekChar() != (-1))
                 {
@@ -127,7 +127,7 @@ namespace TheManXS.Model.ParametersForGame
                         pb.LowerBounds = br.ReadDouble();
                         pb.UpperBounds = br.ReadDouble();
                     }
-                    else { this.Add(new ParameterBounded(primaryIndex, secondaryIndexSubType)); }                    
+                    else { this.Add(new ParameterBounded(primaryIndex, secondaryIndexSubType)); }
                 }
                 br.Close();
             }
@@ -139,20 +139,10 @@ namespace TheManXS.Model.ParametersForGame
                 .FirstOrDefault();
 
             return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
-
-            //if (this.Exists(p => p.PrimaryParameter == ap && p.SecondaryParameterIndex == secondaryIndex))
-            //{
-            //    ParameterBounded pb = this.Where(p => p.PrimaryParameter == ap)
-            //    .Where(p => p.SecondaryParameterIndex == secondaryIndex)
-            //    .FirstOrDefault();
-
-            //    return (rnd.NextDouble() * (pb.UpperBounds - pb.LowerBounds) + pb.LowerBounds);
-            //}
-            //else { return 0; }            
         }
         public void WriteDataToBinaryFile()
         {
-            string boundedParameterFile = App.ParameterBoundedPath;
+            string boundedParameterFile = App.GetFolderPath(App.FileNames.ParameterBounded);
             File.Delete(boundedParameterFile);
 
             using (BinaryWriter bw = new BinaryWriter(File.Open(boundedParameterFile,FileMode.OpenOrCreate)))

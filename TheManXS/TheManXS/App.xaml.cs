@@ -19,36 +19,12 @@ namespace TheManXS
         public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game, ApplicationVM }
 
-        public PathList PathList;
-
-        public static string DataBaseLocation = string.Empty;
-        public static string ParameterBoundedPath = string.Empty;
-        public static string ParameterConstantPath = string.Empty;
-        public static string ColorPalettes = string.Empty;
-        public static string NextBinaryFile = string.Empty;
+        public static PathList PathList;
         private ApplicationVM _applicationVM;
 
         public App(PathList pathList)
         {
             PathList = pathList;
-
-            InitScreenMetrics();
-            InitializeComponent();
-
-            BindingContext = _applicationVM = new ApplicationVM();
-
-            MainPage = new NavigationPage(new MainMenuView());
-            InitPropertyDictionary();
-        }
-
-        public App(string dbLocation, string boundedParameterLocation, string constantParameterLocation,
-            string colorPalettes, string nextBinaryFile)
-        {
-            DataBaseLocation = dbLocation;
-            ParameterBoundedPath = boundedParameterLocation;
-            ParameterConstantPath = constantParameterLocation;
-            ColorPalettes = colorPalettes;
-            NextBinaryFile = nextBinaryFile;
 
             InitScreenMetrics();
             InitializeComponent();
@@ -105,6 +81,6 @@ namespace TheManXS
         {
             _applicationVM.InitMainColors();
         }
-        public string GetFolderPath(FileNames fileName) => PathList[(int)fileName];
+        public static string GetFolderPath(FileNames fileName) => PathList[(int)fileName];
     }
 }

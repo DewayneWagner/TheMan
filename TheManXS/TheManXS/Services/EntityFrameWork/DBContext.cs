@@ -42,7 +42,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string dbPath = App.DataBaseLocation;
+            string dbPath = App.GetFolderPath(App.FileNames.DB);
             optionsBuilder.UseSqlite($"Filename={dbPath}");
         }
 

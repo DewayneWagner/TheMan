@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:TheManXS.ViewModel.Services"
              x:Class="TheManXS.View.DetailView.MainMenuView">
     <ContentPage.Content>
@@ -54,10 +55,6 @@
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="EndAndExpand"/>
             </Grid>
-
-            <!--<StackLayout WidthRequest="250" VerticalOptions="Center">
-                
-            </StackLayout>-->
         </Grid>        
     </ContentPage.Content>
 </ContentPage>

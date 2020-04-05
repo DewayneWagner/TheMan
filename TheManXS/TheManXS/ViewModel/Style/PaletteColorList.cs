@@ -68,7 +68,7 @@ namespace TheManXS.ViewModel.Style
         }
         private void ReadPColorsFromBinaryFile()
         {
-            using (BinaryReader br = new BinaryReader(File.Open(App.ColorPalettes, FileMode.OpenOrCreate)))
+            using (BinaryReader br = new BinaryReader(File.Open(App.GetFolderPath(App.FileNames.ColorPalette), FileMode.OpenOrCreate)))
             {
                 while (br.PeekChar() != (-1))
                 {
@@ -84,13 +84,13 @@ namespace TheManXS.ViewModel.Style
         }
         private void DeleteColorPaletteBinaryFile()
         {
-            string colorPaletteFile = App.ColorPalettes;
+            string colorPaletteFile = App.GetFolderPath(App.FileNames.ColorPalette);
             File.Delete(colorPaletteFile);
         }
         public void WritePColorsToBinaryFile()
         {
             DeleteColorPaletteBinaryFile();
-            using (BinaryWriter bw = new BinaryWriter(File.Open(App.ColorPalettes, FileMode.OpenOrCreate)))
+            using (BinaryWriter bw = new BinaryWriter(File.Open(App.GetFolderPath(App.FileNames.ColorPalette), FileMode.OpenOrCreate)))
             {
                 List<int> pList = getIndexOfPs();
                 foreach (int p in pList) { bw.Write(p); }

@@ -108,7 +108,8 @@ namespace TheManXS.Model.ParametersForGame
         }
         private void ReadDataFromBinaryFile()
         {
-            using (BinaryReader br = new BinaryReader(File.Open(App.ParameterConstantPath, FileMode.OpenOrCreate)))
+            
+            using (BinaryReader br = new BinaryReader(File.Open(App.GetFolderPath(App.FileNames.ParameterConstant), FileMode.OpenOrCreate)))
             {
                 for (int i = 0; i < _elementCount; i++)
                 {
@@ -133,7 +134,7 @@ namespace TheManXS.Model.ParametersForGame
         }
         public void WriteDataToBinaryFile()
         {
-            string constantParameterFile = App.ParameterConstantPath;
+            string constantParameterFile = App.GetFolderPath(App.FileNames.ParameterConstant);
             File.Delete(constantParameterFile);
 
             using (BinaryWriter bw = new BinaryWriter(File.Open(constantParameterFile,FileMode.OpenOrCreate)))

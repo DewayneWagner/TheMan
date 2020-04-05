@@ -21,13 +21,15 @@ namespace TheManXS.Services.IO
         {
             get
             {
-                string fileName = null;
+                string fileName = "MapGame" + Convert.ToString(QC.CurrentSavedGameSlot) + "Type" + Convert.ToString((int)savedMapType);
+                App.FileNames fileNameType = App.FileNames.MapGame1Type0;
 
-                fileName += "Map";
-                fileName += "Game" + Convert.ToString(QC.CurrentSavedGameSlot);
-                fileName += "Type" + Convert.ToString((int)savedMapType);
+                for (int i = 0; i < (int)App.FileNames.Total; i++)
+                {
+                    if(Convert.ToString((App.FileNames)i) == fileName) { fileNameType = (App.FileNames)i; }
+                }
 
-                return Path.Combine(_imagePath, fileName);
+                return App.GetFolderPath(fileNameType);
             }
         }
 
