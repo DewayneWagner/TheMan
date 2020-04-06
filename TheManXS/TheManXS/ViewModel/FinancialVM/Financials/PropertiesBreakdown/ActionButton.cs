@@ -13,6 +13,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         PropertyBreakdown _propertyBreakdown;
         bool _isOwnedByActivePlayer;
         PageService _pageService = new PageService();
+
         public ActionButton(Game game, PropertyBreakdown propertyBreakdown)
         {
             _game = game;

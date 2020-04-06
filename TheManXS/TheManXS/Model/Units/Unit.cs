@@ -23,6 +23,7 @@ namespace TheManXS.Model.Units
         private Game _game;
         private List<SQ> _ListOfSQsFromOriginal;
         public Unit() { }
+
         public Unit(List<SQ> listOfSquaresInUnit, Game game)
         {
             _game = game;
@@ -90,7 +91,6 @@ namespace TheManXS.Model.Units
         public int PlayerNumber { get; set; }
         public string PlayerName { get; set; }
         public int Production { get; set; }
-        
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
         public NextAction.NextActionType NextActionType { get; set; }
@@ -164,6 +164,26 @@ namespace TheManXS.Model.Units
                     opex += (sq.OPEXPerUnit * sq.Production);
                 }
                 return opex;
+            }
+        }
+
+        public static void LoadUnitWithSavedGameData(Game game)
+        {
+            using (DBContext db = new DBContext())
+            {
+                int numberOfUnits = db.SQ.Where(s => s.IsPartOfUnit)
+                    .Max(s => s.UnitNumber);
+
+                List<SQ> listOfSqsInUnits = db.SQ.Where(s => s.IsPartOfUnit)
+                    .OrderBy(s => s.UnitNumber)
+                    .ToList();
+
+                game.ListOfCreatedProductionUnits = new List<Unit>(numberOfUnits);
+
+                foreach (SQ sq in listOfSqsInUnits)
+                {
+                    game.ListOfCreatedProductionUnits[sq.UnitNumber].Add(sq);
+                }
             }
         }
     }    

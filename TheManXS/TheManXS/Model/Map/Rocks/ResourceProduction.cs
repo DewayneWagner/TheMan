@@ -8,6 +8,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -19,6 +20,7 @@ namespace TheManXS.Model.Map.Rocks
         public int PlayerNumber { get; set; }
         public RT ResourceType { get; set; }
         public int Production { get; set; }
+        public int SavedGameSlot => QC.CurrentSavedGameSlot;
     }
     public class ResourceProductionList : List<List<ResourceProduction>>
     {

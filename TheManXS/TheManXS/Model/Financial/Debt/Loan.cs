@@ -7,6 +7,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using CR = TheManXS.Model.ParametersForGame.CreditRatings;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Financial.Debt
 {
@@ -29,6 +30,7 @@ namespace TheManXS.Model.Financial.Debt
             PlayerNumber = _game.ActivePlayer.Number;
             TurnIssued = _game.TurnNumber;
             CalculatePrincipalAndInterestPayments();
+            SavedGameSlot = QC.CurrentSavedGameSlot;
         }
 
         public int PlayerNumber { get; set; }
@@ -39,7 +41,7 @@ namespace TheManXS.Model.Financial.Debt
         public double InterestRate { get; set; }
         public double PrincipalPaymentPerTurn { get; set; }
         public double  InterestPaymentPerTurn { get; set; }
-
+        public int SavedGameSlot { get; set; }
         public int TurnsRemaining => TurnIssued + Term - _game.TurnNumber;
         private void CalculatePrincipalAndInterestPayments()
         {

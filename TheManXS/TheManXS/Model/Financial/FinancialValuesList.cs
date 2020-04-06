@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
@@ -18,6 +19,15 @@ namespace TheManXS.Model.Financial
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             InitList();
             WriteListToDBAfterFullTurnComplete();
+        }
+
+        public FinancialValuesList(bool isForLoadedGame)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var fList = db.FinancialValues.Where(f => f.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                foreach(FinancialValues fv in fList) { this.Add(fv); }
+            }
         }
 
         void InitList()

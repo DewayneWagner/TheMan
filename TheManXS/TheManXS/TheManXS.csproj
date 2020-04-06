@@ -90,6 +90,5 @@
 
   <ItemGroup>
     <Folder Include="Graphics\SavedMaps\" />
-    <Folder Include="Model\Units\" />
   </ItemGroup>
 </Project>

@@ -24,6 +24,8 @@ namespace TheManXS.Model.Main
         PageService _pageService = new PageService();
         private GameSpecificParameters _gsp;
         private double _startingPrimeInterestRate = 0.05;
+        private GameBoardMap _map;
+
         public Game(bool isForAppDictionary) 
         {
             LoadAllParameters();
@@ -46,8 +48,7 @@ namespace TheManXS.Model.Main
             else if (!isNewGame)
             {
                 InitPropertiesForLoadedGame();
-                Map = new GameBoardMap(this,false);
-                // need to update UnitListHere
+                _map = new GameBoardMap(this,false);
             }
         }
         private void InitPropertiesForNewGame()
@@ -58,7 +59,7 @@ namespace TheManXS.Model.Main
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
 
             // this is the problem.....
-            Map = new GameBoardMap(this,true);
+            _map = new GameBoardMap(this,true);
 
             CommodityList = new CommodityList(this);
             FinancialValuesList = new FinancialValuesList(this);
@@ -66,10 +67,29 @@ namespace TheManXS.Model.Main
         }
         private void InitPropertiesForLoadedGame()
         {
-            
-        }
+            using (DBContext db = new DBContext())
+            {
+                GameSpecificParameters gsp = db.GameSpecificParameters.Where(g => g.Slot == QC.CurrentSavedGameSlot).FirstOrDefault();
+                Quarter = gsp.Quarter;
+                TurnNumber = gsp.TurnNumber;
 
-        public GameBoardMap Map { get; set; }
+                PlayerList = new PlayerList(true);
+                ActivePlayer = PlayerList[gsp.ActivePlayerNumber];
+
+                CommodityList = new CommodityList(true);
+                FinancialValuesList = new FinancialValuesList(true);
+
+                ParameterBoundedList = new ParameterBoundedList();
+                ParameterConstantList = new ParameterConstantList();
+
+                SquareDictionary = new Dictionary<int, SQ>();
+                var sqList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                foreach(SQ sq in sqList) { SquareDictionary.Add(sq.Key, sq); }
+
+                Unit.LoadUnitWithSavedGameData(this);
+            }            
+        }
+        
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
         public PlayerList PlayerList { get; set; }

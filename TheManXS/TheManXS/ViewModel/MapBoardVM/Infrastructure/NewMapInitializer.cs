@@ -21,12 +21,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
         List<SQInfrastructure>[] _allInfrastructure = new List<SQInfrastructure>[(int)IT.Total];
         List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);
+        
 
         public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
         {
             _mapVM = mapVM;
             _calc = new PathCalculations();
-            _infrastructureBuilder = infrastructureBuilder;
+            _infrastructureBuilder = infrastructureBuilder;            
 
             InitListOfInfrastructureSQs();
             InitInfrastructure();
@@ -78,14 +79,112 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
                 if(it != IT.Hub && it != IT.Tributary)
                 { CreateMainTransporationCorridorAndMainRiver(it, sortedList); }
-                if (it != IT.Hub && it != IT.MainRiver)
-                { CreateSmallPaths((IT)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
+
+                //if (it != IT.Hub && it != IT.MainRiver)
+                //{ CreateSmallPaths((IT)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
             }
         }
 
         private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList)
         {
             SKPath path = new SKPath();
+            PathSegmentList pathSegmentList = new PathSegmentList(sortedList, it);
+
+            SKPoint startingPointOfArc = new SKPoint();
+            SKPoint centerPointOfArc = new SKPoint();
+            SKPoint endPointOfArc = new SKPoint();
+            SKRect oval;
+
+            for (int i = 0; i < pathSegmentList.Count; i++)
+            {
+                PathSegment p = pathSegmentList[i];
+                switch (p.SegmentType)
+                {
+                    case SegmentType.EdgePointStart:
+                        path.MoveTo(p.SKPoint);
+                        break;
+                    case SegmentType.StartArc:
+                        startingPointOfArc = p.SKPoint;
+                        break;
+                    case SegmentType.MidPointArc:
+                        centerPointOfArc = p.SKPoint;
+                        break;
+                    case SegmentType.EndArc:
+                        endPointOfArc = p.SKPoint;
+
+                        path.QuadTo(centerPointOfArc, p.SKPoint);
+
+                        //oval = getSKRect();
+                        //float startAngle = getStartAngle();
+                        //float sweepAngle = getSweepAngle();
+                        
+                        break;
+
+                    case SegmentType.Straight:
+                    case SegmentType.EndEdgePoint:
+                        path.LineTo(p.SKPoint);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            SKRect getSKRect()
+            {
+                float top = Math.Min(startingPointOfArc.Y, Math.Min(centerPointOfArc.Y, endPointOfArc.Y));
+                float bottom = Math.Max(startingPointOfArc.Y, Math.Max(centerPointOfArc.Y, endPointOfArc.Y));
+                return new SKRect(startingPointOfArc.X, top, endPointOfArc.X, bottom);
+            }
+            float getStartAngle()
+            {
+                float startingAngle = 0;
+
+
+                return startingAngle;
+            }
+            float getSweepAngle()
+            {
+                float sweepAngle = 0;
+
+
+
+                return sweepAngle;
+            }
+            path.Close();
+            _listOfAllSKPaths.Add(path);
+        }
+        
+        
+        //private void oldversion()
+        //{
+        //    SKPath path = new SKPath();
+        //    List<bool> pathSegmentsThatAreCurves = _calc.GetListOfPathSegmentsThatAreCurves(sortedList);
+        //    SQInfrastructure sq = new SQInfrastructure();
+
+        //    for(int i = 0; i < sortedList.Count; i++)
+        //    {
+        //        sq = sortedList[i];
+        //        if (_calc.IsMapEdge(sq))
+        //        {
+        //            SKPoint edgePoint = _calc.GetEdgePoint(sq, it);
+        //            path.MoveTo(edgePoint);
+        //        }
+
+        //        SKPoint nextPoint = _calc.GetInfrastructureSKPoint(sq, it);
+
+        //        if (pathSegmentsThatAreCurves[i]) { path.ArcTo(path[i], nextPoint, _radiusOfCurves); }
+        //        else { path.LineTo(nextPoint); }
+        //    }
+
+        //    path.Close();
+        //    _listOfAllSKPaths.Add(path);
+        //}
+
+
+        private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList, bool isOldMethod)
+        {
+            SKPath path = new SKPath();
+            SQInfrastructure lastSQ = new SQInfrastructure();
+            SKPoint lastPoint = new SKPoint();
 
             for (int i = 0; i < sortedList.Count; i++)
             {
@@ -97,13 +196,37 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 }
 
                 SKPoint nextPoint = _calc.GetInfrastructureSKPoint(sq, it);
+
+                if(IsCurve()) { path.QuadTo(lastPoint, nextPoint); }
+                //if (IsCurve()) { path.ArcTo(lastPoint, nextPoint, getRadius()) ; }
+                else { path.LineTo(nextPoint); }
+
                 path.LineTo(nextPoint);
 
+                lastSQ = sq;
+                lastPoint = nextPoint;
                 if (!sq.IsHub) { _allInfrastructure[(int)it].Remove(sq); }
             }
 
             path.Close();
             _listOfAllSKPaths.Add(path);
+
+            bool IsCurve()
+            {
+                bool isCurve = false;
+
+
+
+                return isCurve;
+            }
+            float getRadius()
+            {
+                float radius = 0;
+
+
+
+                return radius;
+            }
         }
 
         private static int[] R = new int[(int)AdjSqsDirection.Total] { 0, 1, 1, 1 };

@@ -34,6 +34,14 @@ namespace TheManXS.Model.Financial.CommodityStuff
             SetFourTurnMovingAveragePrice();
             WriteCommodityListToDB();
         }
+        public CommodityList(bool isForLoadedGame)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var cList = db.Commodity.Where(c => c.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                foreach(Commodity c in cList) { this.Add(c); }
+            }
+        }
         private void SetCommodityConstants()
         {
             var c = _game.ParameterConstantList;

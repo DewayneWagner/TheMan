@@ -54,7 +54,7 @@ namespace TheManXS
         {
             // Handle when your app sleeps
             Game thisGame = (Game)Properties[Convert.ToString(ObjectsInPropertyDictionary.Game)];
-            new SavedMap(thisGame).SaveMap();
+            new SaveGameAction(thisGame);
         }
 
         protected override void OnResume()
@@ -63,7 +63,6 @@ namespace TheManXS
         }
         private void InitScreenMetrics()
         {
-
             // Get Metrics
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
 

@@ -17,7 +17,7 @@
                 <Label Text="Last Played:" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
             <ListView ItemsSource="{Binding SavedGamesList}"
-                SeparatorVisibility="Default"
+                SeparatorVisibility="Default"                      
                 SelectedItem="{Binding SelectedGameSaveSlot, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -26,6 +26,12 @@
                                 <Label Text="{Binding CompanyName}" WidthRequest="200"/>
                                 <Label Text="{Binding Difficulty}" WidthRequest="75"/>
                                 <Label Text="{Binding LastPlayed}" HorizontalOptions="CenterAndExpand"/>
+                                <Button Text="Delete?" Command="{Binding DeleteSavedGame}" 
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        TextColor="White"
+                                        BackgroundColor="Red"
+                                        Margin="5"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

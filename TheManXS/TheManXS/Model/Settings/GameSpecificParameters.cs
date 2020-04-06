@@ -24,9 +24,12 @@ namespace TheManXS.Model.Settings
         public Difficulty Diff { get; set; }
         public string CompanyName { get; set; }
         public string Ticker { get; set; }
-        public DateTime LastPlayed => DateTime.Now;
+        public DateTime LastPlayed { get; set; }
         public SKColor CompanyColor { get; set; }
         public CompanyColorGenerator CompanyColorGenerator { get; set; }
+        public string Quarter { get; set; }
+        public int TurnNumber { get; set; }
+        public int ActivePlayerNumber { get; set; }
         
         public static List<GameSpecificParameters> GetListOfSavedGameData()
         {
@@ -51,6 +54,7 @@ namespace TheManXS.Model.Settings
                 Diff = Difficulty.Easy,
                 Slot = 1,
                 Ticker = "TLM",
+                LastPlayed = DateTime.Now,
             });
             _gsp.Add(new GameSpecificParameters()
             {
@@ -58,6 +62,7 @@ namespace TheManXS.Model.Settings
                 Diff = Difficulty.Medium,
                 Slot = 2,
                 Ticker = "PWT",
+                LastPlayed = DateTime.Now,
             });
             _gsp.Add(new GameSpecificParameters()
             {
@@ -65,6 +70,7 @@ namespace TheManXS.Model.Settings
                 Diff = Difficulty.Hard,
                 Slot = 3,
                 Ticker = "CPG",
+                LastPlayed = DateTime.Now,
             });
 
             using(DBContext db = new DBContext())

@@ -27,6 +27,15 @@ namespace TheManXS.Model.Company
             WriteToDB();
         }
 
+        public PlayerList(bool isForLoadedGame)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var plist = db.Player.Where(p => p.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
+                foreach (Player player in plist) { this.Add(player); }
+            }
+        }
+
         private void InitPlayerList()
         {
             // init variables

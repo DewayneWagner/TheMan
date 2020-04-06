@@ -16,16 +16,18 @@ namespace TheManXS.ViewModel.DetailPages
             SavedGamesList = GameSpecificParameters.GetListOfSavedGameData();
             LoadGame = new Command(LoadGameMethod);
             SelectedGSP = new GameSpecificParameters();
+            DeleteSavedGame = new Command(OnDeleteGame);
         }
+
         public List<GameSpecificParameters> SavedGamesList { get; set; }
         public string CompanyName { get; set; }
         public Difficulty Difficulty { get; set; }
         public DateTime LastPlayed { get; set; }
         public ICommand LoadGame { get; set; }
         public GameSpecificParameters SelectedGSP { get; set; }
-        private void LoadGameMethod(object obj)
-        {
-            new Game(SelectedGSP, false);
-        }
+        public ICommand DeleteSavedGame { get; set; }
+
+        private void LoadGameMethod(object obj) => new Game(SelectedGSP, false);
+        private void OnDeleteGame(object obj) => new DeleteGameAction(SelectedGSP.Slot);
     }
 }

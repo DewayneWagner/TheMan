@@ -46,6 +46,7 @@ namespace TheManXS.Services.IO
                 }
             }
         }
+
         public SKBitmap LoadMap()
         {
             SKBitmap map;
