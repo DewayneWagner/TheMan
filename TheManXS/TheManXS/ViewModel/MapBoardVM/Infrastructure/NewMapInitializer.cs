@@ -90,11 +90,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             SKPath path = new SKPath();
             PathSegmentList pathSegmentList = new PathSegmentList(sortedList, it);
 
-            SKPoint startingPointOfArc = new SKPoint();
-            SKPoint centerPointOfArc = new SKPoint();
-            SKPoint endPointOfArc = new SKPoint();
-            SKRect oval;
-
             for (int i = 0; i < pathSegmentList.Count; i++)
             {
                 PathSegment p = pathSegmentList[i];
@@ -103,51 +98,19 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     case SegmentType.EdgePointStart:
                         path.MoveTo(p.SKPoint);
                         break;
-                    case SegmentType.StartArc:
-                        startingPointOfArc = p.SKPoint;
-                        break;
-                    case SegmentType.MidPointArc:
-                        centerPointOfArc = p.SKPoint;
-                        break;
-                    case SegmentType.EndArc:
-                        endPointOfArc = p.SKPoint;
 
-                        path.QuadTo(centerPointOfArc, p.SKPoint);
-
-                        //oval = getSKRect();
-                        //float startAngle = getStartAngle();
-                        //float sweepAngle = getSweepAngle();
-                        
+                    case SegmentType.Curve:
+                        //path.QuadTo(path.LastPoint, p.SKPoint);
+                        path.CubicTo(path[path.PointCount - 2], path.LastPoint, p.SKPoint);
                         break;
 
                     case SegmentType.Straight:
-                    case SegmentType.EndEdgePoint:
+                    case SegmentType.EdgePointEnd:
                         path.LineTo(p.SKPoint);
                         break;
                     default:
                         break;
                 }
-            }
-            SKRect getSKRect()
-            {
-                float top = Math.Min(startingPointOfArc.Y, Math.Min(centerPointOfArc.Y, endPointOfArc.Y));
-                float bottom = Math.Max(startingPointOfArc.Y, Math.Max(centerPointOfArc.Y, endPointOfArc.Y));
-                return new SKRect(startingPointOfArc.X, top, endPointOfArc.X, bottom);
-            }
-            float getStartAngle()
-            {
-                float startingAngle = 0;
-
-
-                return startingAngle;
-            }
-            float getSweepAngle()
-            {
-                float sweepAngle = 0;
-
-
-
-                return sweepAngle;
             }
             path.Close();
             _listOfAllSKPaths.Add(path);

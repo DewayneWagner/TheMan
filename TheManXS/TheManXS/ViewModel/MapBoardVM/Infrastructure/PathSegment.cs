@@ -8,7 +8,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
-    public enum SegmentType { EdgePointStart, StartArc, MidPointArc, EndArc, Straight, EndEdgePoint }
+    public enum SegmentType { EdgePointStart, Curve, Straight, EdgePointEnd }
 
     class PathSegment
     {
@@ -40,7 +40,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             _it = it;
             _radiusOfCurves = QC.SqSize * _ratioOfRadiusToSQSize;
             InitList();
-            ModifySegmentTypesForArcs();
             SetStraightIDNumbers();
         }
         private void InitList()
@@ -52,25 +51,39 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             for (int i = 0; i < _sList.Count; i++)
             {
                 isNextToMapEdge = _calc.IsMapEdge(_sList[i]);
-                if(isNextToMapEdge) { isStartingEdge = (i == 0 ? true : false); }
+                if(isNextToMapEdge) 
+                {                    
+                    isStartingEdge = (i == 0 ? true : false);
+                    addMapEdgePoint();
+                }
+
                 PathSegment p = new PathSegment();
-                p.EntryPoint = getEntryOrExitPoint(i, true);
-                p.ExitPoint = getEntryOrExitPoint(i, false);
+                p.EntryPoint = getEntryOrExitPoint(i, isNextToMapEdge);
+                p.ExitPoint = getEntryOrExitPoint(i, isNextToMapEdge);
                 p.SegmentType = getSegmentType(p.EntryPoint, p.ExitPoint);
                 p.SKPoint = _calc.GetInfrastructureSKPoint(_sList[i], _it);
 
                 this.Add(p);
+
+                void addMapEdgePoint()
+                {
+                    DirectionsCompass d = _calc.GetMapEdge(_sList[i]);
+                    PathSegment edgeP = new PathSegment();
+                    edgeP.EntryPoint = getEntryOrExitPoint(i, true);
+                    edgeP.ExitPoint = getEntryOrExitPoint(i)
+                }
             }
+            
             SegmentType getSegmentType(byte entryPoint, byte exitPoint)
             {
                 if (isNextToMapEdge)
                 {
                     if (isStartingEdge) { return SegmentType.EdgePointStart; }
-                    else { return SegmentType.EndEdgePoint; }
+                    else { return SegmentType.EdgePointEnd; }
                 }
 
                 if(isStraightPassThroughSegment()) { return SegmentType.Straight; }
-                else { return SegmentType.MidPointArc; }
+                else { return SegmentType.Curve; }
 
                 bool isStraightPassThroughSegment()
                 {
@@ -80,20 +93,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 }                
             }
         }
-
-        private void ModifySegmentTypesForArcs()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                if(this[i].SegmentType == SegmentType.MidPointArc)
-                {
-                    this[i - 1].SegmentType = SegmentType.StartArc;
-                    this[i + 1].SegmentType = SegmentType.EndArc;
-                    this[i].Radius = _radiusOfCurves;
-                }
-            }
-        }
-
+        
         private void SetStraightIDNumbers()
         {
             int counter = 0;
