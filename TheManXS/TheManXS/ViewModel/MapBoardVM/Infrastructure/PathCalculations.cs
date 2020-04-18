@@ -54,12 +54,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         y = 0;
                         break;
                     case DirectionsCompass.E:
-                        x = (QC.ColQ + 1) * QC.SqSize;
+                        x = QC.ColQ * QC.SqSize;
                         y = sq.Row * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
                         break;
                     case DirectionsCompass.S:
                         x = sq.Col * QC.SqSize + QC.SqSize * _centerPointRatios.GetRatio(it);
-                        y = (QC.RowQ + 1) * QC.SqSize;
+                        y = QC.RowQ * QC.SqSize;
                         break;
                     case DirectionsCompass.W:
                         x = 0;

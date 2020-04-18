@@ -20,8 +20,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         PathCalculations _calc;
 
         List<SQInfrastructure>[] _allInfrastructure = new List<SQInfrastructure>[(int)IT.Total];
-        List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);
-        
+        List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);        
 
         public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
         {
@@ -87,8 +86,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
         private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList)
         {
-            SKPath path = new SKPath();
             PathSegmentList pathSegmentList = new PathSegmentList(sortedList, it);
+            SKPath path = new SKPath();
 
             for (int i = 0; i < pathSegmentList.Count; i++)
             {
@@ -100,8 +99,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         break;
 
                     case SegmentType.Curve:
-                        //path.QuadTo(path.LastPoint, p.SKPoint);
-                        path.CubicTo(path[path.PointCount - 2], path.LastPoint, p.SKPoint);
+                        path.ArcTo(path.LastPoint, p.SKPoint,getRadius(i));
+                        //path.ConicTo(path.LastPoint, p.SKPoint,100); // this does nothing
+                        //path.LineTo(p.SKPoint);
+                        //path.QuadTo(path.LastPoint, p.SKPoint); // this looks the same as LineTo
+                        //path.CubicTo(path[path.PointCount - 2], path.LastPoint, p.SKPoint); // this make wonky curves
                         break;
 
                     case SegmentType.Straight:
@@ -112,83 +114,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         break;
                 }
             }
-            path.Close();
-            _listOfAllSKPaths.Add(path);
-        }
-        
-        
-        //private void oldversion()
-        //{
-        //    SKPath path = new SKPath();
-        //    List<bool> pathSegmentsThatAreCurves = _calc.GetListOfPathSegmentsThatAreCurves(sortedList);
-        //    SQInfrastructure sq = new SQInfrastructure();
-
-        //    for(int i = 0; i < sortedList.Count; i++)
-        //    {
-        //        sq = sortedList[i];
-        //        if (_calc.IsMapEdge(sq))
-        //        {
-        //            SKPoint edgePoint = _calc.GetEdgePoint(sq, it);
-        //            path.MoveTo(edgePoint);
-        //        }
-
-        //        SKPoint nextPoint = _calc.GetInfrastructureSKPoint(sq, it);
-
-        //        if (pathSegmentsThatAreCurves[i]) { path.ArcTo(path[i], nextPoint, _radiusOfCurves); }
-        //        else { path.LineTo(nextPoint); }
-        //    }
-
-        //    path.Close();
-        //    _listOfAllSKPaths.Add(path);
-        //}
-
-
-        private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList, bool isOldMethod)
-        {
-            SKPath path = new SKPath();
-            SQInfrastructure lastSQ = new SQInfrastructure();
-            SKPoint lastPoint = new SKPoint();
-
-            for (int i = 0; i < sortedList.Count; i++)
-            {
-                SQInfrastructure sq = sortedList[i];
-                if (_calc.IsMapEdge(sq))
-                {
-                    SKPoint edgePoint = _calc.GetEdgePoint(sq, it);
-                    path.MoveTo(edgePoint);
-                }
-
-                SKPoint nextPoint = _calc.GetInfrastructureSKPoint(sq, it);
-
-                if(IsCurve()) { path.QuadTo(lastPoint, nextPoint); }
-                //if (IsCurve()) { path.ArcTo(lastPoint, nextPoint, getRadius()) ; }
-                else { path.LineTo(nextPoint); }
-
-                path.LineTo(nextPoint);
-
-                lastSQ = sq;
-                lastPoint = nextPoint;
-                if (!sq.IsHub) { _allInfrastructure[(int)it].Remove(sq); }
-            }
-
-            path.Close();
+            //path.Close(); // for some reason - this makes the end of first path connect to start of next line?
             _listOfAllSKPaths.Add(path);
 
-            bool IsCurve()
+            float getRadius(int index)
             {
-                bool isCurve = false;
-
-
-
-                return isCurve;
-            }
-            float getRadius()
-            {
-                float radius = 0;
-
-
-
-                return radius;
+                return 50;
             }
         }
 
@@ -197,6 +128,32 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private enum AdjSqsDirection { E, SE, S, SW, Total }
 
         private void CreateSmallPaths(IT it, List<SQInfrastructure> doubleSortedList)
+        {
+            PathSegmentList ps = new PathSegmentList(doubleSortedList, it);
+            SKPath path = new SKPath();
+
+            for (int i = 0; i < ps.Count; i++)
+            {
+                PathSegment p = ps[i];
+                switch (p.SegmentType)
+                {
+                    case SegmentType.EdgePointStart:
+                        path.MoveTo(p.SKPoint);
+                        break;
+
+                    case SegmentType.Curve:
+                    case SegmentType.Straight:
+                    case SegmentType.EdgePointEnd:
+                    default:
+                        path.LineTo(p.SKPoint);
+                        break;
+                }
+            }
+            path.Close();
+            _listOfAllSKPaths.Add(path);
+        }
+
+        private void CreateSmallPaths(IT it, List<SQInfrastructure> doubleSortedList, bool isOldVersion)
         {
             SKPath path;
             if(it == IT.Tributary) 
@@ -228,8 +185,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 {
                     SKPaint paint = _infrastructureBuilder.Formats[i];
                     gameBoard.DrawPath(_listOfAllSKPaths[i], paint);
-                    gameBoard.Save();
+                    //_listOfAllSKPaths[i].Close(); //doesn't work
                 }
+                gameBoard.Save();
             }
         }
         private void InitHubs()

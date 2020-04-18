@@ -8,7 +8,7 @@ using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {    
-    public enum DirectionsCompass { N, E, S, W, Total }
+    public enum DirectionsCompass { NW, N, NE, E, SE, S, SW, W, Total }
     public class Builder
     {
         private PathCalculations _calc;
