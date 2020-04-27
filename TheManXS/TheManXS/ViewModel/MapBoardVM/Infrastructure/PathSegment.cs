@@ -15,7 +15,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         public PathSegment() { }
         public SegmentType SegmentType { get; set; }
         public SKPoint SKPoint { get; set; } 
-        public float Radius { get; set; }
         public int StraightSegmentID { get; set; }
 
         /************
@@ -26,6 +25,5 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
         public byte EntryPoint { get; set; }
         public byte ExitPoint { get; set; }
-    }    
-    
+    }
 }

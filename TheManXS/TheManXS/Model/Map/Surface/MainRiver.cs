@@ -19,7 +19,6 @@ namespace TheManXS.Model.Map.Surface
         private int _tributaryCounter = 0;
         public MainRiver(SQMapConstructArray map)
         {
-            //_map = map;
             InitWestRiver();
             InitEastRiver();
         }

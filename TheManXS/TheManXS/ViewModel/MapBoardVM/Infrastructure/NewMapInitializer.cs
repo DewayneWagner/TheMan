@@ -20,7 +20,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         PathCalculations _calc;
 
         List<SQInfrastructure>[] _allInfrastructure = new List<SQInfrastructure>[(int)IT.Total];
-        List<SKPath> _listOfAllSKPaths = new List<SKPath>((int)IT.Total);        
+        List<SKPath> _listOfAllSKPaths = new List<SKPath>();
+        List<int> _infrastructureTypesInSKPaths = new List<int>();
 
         public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
         {
@@ -70,28 +71,53 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             for (int i = 0; i < (int)IT.Total; i++)
             {
-                var sortedList = _allInfrastructure[i]
-                    .OrderBy(s => s.Col)
-                    .ToList();
-
                 IT it = (IT)i;
+                List<SQInfrastructure> sortedList = getSortedList(_allInfrastructure[i]);
 
-                if(it != IT.Hub && it != IT.Tributary)
-                { CreateMainTransporationCorridorAndMainRiver(it, sortedList); }
+                if(it == IT.Tributary) { initTributaries(); }
+                else if(it != IT.Hub) { AddAllInfrastructure(it, sortedList); }
 
-                //if (it != IT.Hub && it != IT.MainRiver)
-                //{ CreateSmallPaths((IT)i, _allInfrastructure[i].OrderBy(s => s.Col).ThenBy(s => s.Row).ToList()); }
+                void initTributaries()
+                {
+                    List<SQInfrastructure> tributaryList = _allInfrastructure[(int)IT.Tributary];
+                    int qTributaries = tributaryList.Max(s => s.TributaryNumber);
+                    for (int t = 1; t <= qTributaries; t++)
+                    {
+                        List<SQInfrastructure> tributary = tributaryList.Where(tr => tr.TributaryNumber == t).ToList();
+                        List<SQInfrastructure> sortedListOfTributaries = getSortedList(tributary);
+                        AddAllInfrastructure(IT.Tributary, sortedListOfTributaries);
+                    }
+                }
+
+                List<SQInfrastructure> getSortedList(List<SQInfrastructure> unsortedList)
+                {
+                    List<SQInfrastructure> sortedListM = new List<SQInfrastructure>();
+                    if (IsPathHorizontallyOriented(unsortedList))
+                    {
+                        sortedListM = unsortedList.OrderBy(s => s.Row)
+                                        .ThenBy(s => s.Col)
+                                        .ToList();
+                    }
+                    else
+                    {
+                        sortedListM = unsortedList.OrderBy(s => s.Col)
+                                        .ThenBy(s => s.Row)
+                                        .ToList();
+                    }
+                    return sortedListM;
+                }
             }
         }
 
-        private void CreateMainTransporationCorridorAndMainRiver(IT it, List<SQInfrastructure> sortedList)
+        private void AddAllInfrastructure(IT it, List<SQInfrastructure> sortedList)
         {
             PathSegmentList pathSegmentList = new PathSegmentList(sortedList, it);
             SKPath path = new SKPath();
 
-            for (int i = 0; i < pathSegmentList.Count; i++)
+            for (int i = 0; i < (pathSegmentList.Count -1); i++)
             {
                 PathSegment p = pathSegmentList[i];
+
                 switch (p.SegmentType)
                 {
                     case SegmentType.EdgePointStart:
@@ -99,14 +125,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         break;
 
                     case SegmentType.Curve:
-                        path.ArcTo(path.LastPoint, p.SKPoint,getRadius(i));
-                        //path.ConicTo(path.LastPoint, p.SKPoint,100); // this does nothing
-                        //path.LineTo(p.SKPoint);
-                        //path.QuadTo(path.LastPoint, p.SKPoint); // this looks the same as LineTo
-                        //path.CubicTo(path[path.PointCount - 2], path.LastPoint, p.SKPoint); // this make wonky curves
+                    case SegmentType.Straight:
+                        path.LineTo(p.SKPoint);
+                        //path.CubicTo(path.LastPoint, pathSegmentList[i].SKPoint, pathSegmentList[i + 1].SKPoint);
+                        //i++;
                         break;
 
-                    case SegmentType.Straight:
                     case SegmentType.EdgePointEnd:
                         path.LineTo(p.SKPoint);
                         break;
@@ -114,44 +138,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         break;
                 }
             }
-            //path.Close(); // for some reason - this makes the end of first path connect to start of next line?
+            AddCompletedPathToList(path, it);
+        }
+        void AddCompletedPathToList(SKPath path, IT it)
+        {
             _listOfAllSKPaths.Add(path);
-
-            float getRadius(int index)
-            {
-                return 50;
-            }
+            _infrastructureTypesInSKPaths.Add((int)it);
         }
 
         private static int[] R = new int[(int)AdjSqsDirection.Total] { 0, 1, 1, 1 };
         private static int[] C = new int[(int)AdjSqsDirection.Total] { 1, 1, 0, -1 };
         private enum AdjSqsDirection { E, SE, S, SW, Total }
-
-        private void CreateSmallPaths(IT it, List<SQInfrastructure> doubleSortedList)
-        {
-            PathSegmentList ps = new PathSegmentList(doubleSortedList, it);
-            SKPath path = new SKPath();
-
-            for (int i = 0; i < ps.Count; i++)
-            {
-                PathSegment p = ps[i];
-                switch (p.SegmentType)
-                {
-                    case SegmentType.EdgePointStart:
-                        path.MoveTo(p.SKPoint);
-                        break;
-
-                    case SegmentType.Curve:
-                    case SegmentType.Straight:
-                    case SegmentType.EdgePointEnd:
-                    default:
-                        path.LineTo(p.SKPoint);
-                        break;
-                }
-            }
-            path.Close();
-            _listOfAllSKPaths.Add(path);
-        }
 
         private void CreateSmallPaths(IT it, List<SQInfrastructure> doubleSortedList, bool isOldVersion)
         {
@@ -175,7 +172,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     if(adjSQ != null) { path.LineTo(_calc.GetInfrastructureSKPoint(adjSQ, it)); }
                 }
             }
-            path.Close();
+            //path.Close();
         }
         private void DrawAllPathsOnCanvas()
         {
@@ -183,9 +180,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 for (int i = 0; i < _listOfAllSKPaths.Count; i++)
                 {
-                    SKPaint paint = _infrastructureBuilder.Formats[i];
+                    SKPaint paint = _infrastructureBuilder.Formats[_infrastructureTypesInSKPaths[i]];
                     gameBoard.DrawPath(_listOfAllSKPaths[i], paint);
-                    //_listOfAllSKPaths[i].Close(); //doesn't work
                 }
                 gameBoard.Save();
             }
@@ -200,6 +196,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 }
                 gameboard.Save();
             }
+        }
+        private bool IsPathHorizontallyOriented(List<SQInfrastructure> infrastructureList)
+        {
+            int rowChange = infrastructureList.Max(s => s.Row) - infrastructureList.Min(s => s.Row);
+            int colChange = infrastructureList.Max(s => s.Col) - infrastructureList.Min(s => s.Col);
+            return (colChange > rowChange ? false : true);
         }
     }
 }

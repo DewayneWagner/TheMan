@@ -17,6 +17,8 @@ using Xamarin.Forms;
 using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Services.IO;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
@@ -61,17 +63,76 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
         public SKMatrix MapMatrix;
 
-        // copied from gameboardsplitscreengrid class - not sure if these will be needed?
-        
-
         private void CreateNewMap()
         {
             SKBitMapOfMap = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
             new Map(_game);
+            InitTrees();
+            InitMountains();
             InfrastructureBuilder = new Infrastructure.Builder(this);
-            new SavedMap(_game).SaveMap();
+            new SavedMap(_game).SaveMap();            
+            InitMineShafts();
+            InitCity();            
         }
 
         private void LoadMap() => this.SKBitMapOfMap = new SavedMap(_game).LoadMap();
+
+        private void InitMineShafts()
+        {
+            var _sqsOwnedByPlayers = _game.SquareDictionary
+                                        .Where(s => s.Value.OwnerNumber != QC.PlayerIndexTheMan)
+                                        .Where(s => s.Value.TerrainType != TerrainTypeE.City)
+                                        .ToList();
+
+            foreach (KeyValuePair<int,SQ> unit in _sqsOwnedByPlayers)
+            {
+                new MineShaft(_game, unit.Value);
+            }
+        }
+        private void InitCity()
+        {
+            var _citySQs = _game.SquareDictionary
+                                .Where(s => s.Value.TerrainType == TerrainTypeE.City)
+                                .ToList();
+
+            foreach (KeyValuePair<int,SQ> keyValuePair in _citySQs)
+            {
+                new LowDensity(_game, keyValuePair.Value);
+            }
+        }
+        private void InitTrees()
+        {
+            var _forestSQs = _game.SquareDictionary
+                .Where(s => s.Value.TerrainType == TerrainTypeE.Forest)
+                .ToList();
+
+            foreach (KeyValuePair<int,SQ> item in _forestSQs)
+            {
+                int halfSQSize = QC.SqSize / 2;
+
+                float left = item.Value.Col * QC.SqSize;
+                float top = item.Value.Row * QC.SqSize;
+                float right = (item.Value.Col + 1) * QC.SqSize;
+                float bottom = (item.Value.Row + 1) * QC.SqSize;
+
+                var s = item.Value;
+
+                new Tree(_game, new SKRect(left, top, (left + halfSQSize), (top + halfSQSize)));
+                new Tree(_game, new SKRect((left + halfSQSize), top, right, (top + halfSQSize)));
+                new Tree(_game, new SKRect(left, (top + halfSQSize), (left + halfSQSize), bottom));
+                new Tree(_game, new SKRect((left + halfSQSize), (top + halfSQSize), right, bottom));
+            }
+        }
+        private void InitMountains()
+        {
+            var _mountainSQs = _game.SquareDictionary
+                .Where(s => s.Value.TerrainType == TerrainTypeE.Mountain)
+                .ToList();
+
+            foreach (KeyValuePair<int,SQ> item in _mountainSQs)
+            {
+                new Mountain(_game, item.Value);
+            }
+        }
     }   
 }

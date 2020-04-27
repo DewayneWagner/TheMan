@@ -78,7 +78,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             else if (sq.Col == 0) { return DirectionsCompass.W; }
             else { return DirectionsCompass.E; }
         }
-
         public void ProcessMapEdge(SQInfrastructure sq, ref SKPath path, IT it)
         {
             DirectionsCompass d = GetMapEdge(sq);
@@ -120,32 +119,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         public bool IsMapEdge(SQInfrastructure sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) 
             || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
 
-        public List<bool> GetListOfPathSegmentsThatAreCurves(List<SQInfrastructure> sortedList)
-        {
-            List<bool> pathSegments = new List<bool>();
-            pathSegments.Add(false);
-
-            for (int i = 1; i < (sortedList.Count -1); i++)
-            {
-                pathSegments.Add(isCurve(sortedList[i - 1], sortedList[i], sortedList[i + 1]));
-            }
-
-            pathSegments.Add(false);
-            return pathSegments;
-
-            bool isCurve(SQInfrastructure startPoint, SQInfrastructure midPoint, SQInfrastructure endPoint)
-            {
-                int rowChangeStartToMid = startPoint.Row - midPoint.Row;
-                int rowChangeMidToEnd = midPoint.Row - endPoint.Row;
-
-                int colChangeStartToMid = startPoint.Col - midPoint.Col;
-                int colChangeMidToEnd = midPoint.Col - endPoint.Col;
-
-                if(rowChangeStartToMid == rowChangeMidToEnd && colChangeStartToMid == colChangeMidToEnd) { return true; }
-                else { return false; }
-            }
-        }
-        
         class CenterPointRatios
         {
             float[] _centerPointRatios = new float[(int)IT.Total];
