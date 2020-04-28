@@ -14,7 +14,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
 
         private SKPaint _topRectanglePaint = new SKPaint()
         {
-            Style = SKPaintStyle.StrokeAndFill,
+            Style = SKPaintStyle.Fill,
             StrokeWidth = (int)(QC.SqSize * 0.05),
         };
 
@@ -30,6 +30,13 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             Color = SKColors.Black,
         };
 
+        SKPaint _topRectangleStroke = new SKPaint()
+        {
+            IsAntialias = true,
+            Color = SKColors.Black,
+            Style = SKPaintStyle.Stroke,
+        };
+
         // ratios to screenSize
         private const float _distanceOfStraightLegFromLeftRatio = 0.3f;
         private const float _topRectangleHeightRatio = 0.25f;
@@ -39,6 +46,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
         private const float _widthOfAngledLegRatio = 0.1f;
         private const float _distanceFromTopRatio = 0.1f;
         private const float _gapBetweenLegsRatio = 0.05f;
+        private const float _strokeWidthRatio = 0.01f;
 
         SKRect _topRect;
         SKRect _straightLegRect;
@@ -73,6 +81,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _topY = _sq.Row * QC.SqSize;
             _bottomY = (_sq.Row + 1) * QC.SqSize;
             _gapBetweenLegs = QC.SqSize * _gapBetweenLegsRatio;
+            _topRectangleStroke.StrokeWidth = _strokeWidthRatio * QC.SqSize;
         }
         private void InitTopRectangle() 
         {
@@ -117,6 +126,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
                 canvas.DrawRect(_straightLegRect, _towerStraightLegsPaint);
                 canvas.DrawPath(_angledLegPath, _towerAngleLegPaint);
                 canvas.DrawRect(_topRect, _topRectanglePaint);
+                canvas.DrawRect(_topRect, _topRectangleStroke);
                 canvas.Save();
             }
         }

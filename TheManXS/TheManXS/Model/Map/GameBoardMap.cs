@@ -89,6 +89,8 @@ namespace TheManXS.Model.Map
                     SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
                     SQMap[row, col].FormationID = 50;
                     SQMap[row, col].Transport = rnd.Next(5, 20);
+                    SQMap[row, col].Status = ST.Producing;
+                    SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
                 }
             }
             foreach (Player player in _game.PlayerList)

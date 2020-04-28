@@ -17,6 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
 
         // ratios
         private float _treeStrokeWidthRatio = 0.03f;
+        private float _strokeWidthRatio = 0.01f;
 
         // calculated fields
         private float _distanceBetweenBranchesVertical;
@@ -33,8 +34,14 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
 
         SKPaint paint = new SKPaint()
         {
-            Style = SKPaintStyle.StrokeAndFill,
+            Style = SKPaintStyle.Fill,
             IsAntialias = true,
+        };
+        SKPaint _treeStroke = new SKPaint()
+        {
+            IsAntialias = true,
+            Color = SKColors.Black,
+            Style = SKPaintStyle.Stroke,
         };
 
         public Tree(Game game, SKRect rectangleWhereTreeIsToBePlaced)
@@ -53,12 +60,13 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
             paint.StrokeWidth = _treeRect.Width * _treeStrokeWidthRatio;
             paint.Color = _game.PaletteColors.GetRandomColor(Model.ParametersForGame.TerrainTypeE.Forest);
             _topPoint = new SKPoint(_treeRect.MidX, _treeRect.Top);
+            _treeStroke.StrokeWidth = _strokeWidthRatio * QC.SqSize;
         }
         private float[,] getPointCalculationArray()
         {
             float[,] p = new float[2, _numberOfPointsOnEachSideOfTruck];
             int yIncrement;
-
+            
             for (int i = 0; i < p.GetLength(1); i++)
             {
                 yIncrement = i / 2;
@@ -113,6 +121,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
                 using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
                 {
                     canvas.DrawPath(_treePath, paint);
+                    canvas.DrawPath(_treePath, _treeStroke);
                     canvas.Save();
                 }
             }            

@@ -21,6 +21,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
         private float _rightPeakFromLeftRatio = 0.66f;
         private float _rightPeakFromTopRatio = 0.3f;
         private float _widthOfLineRatio = 0.02f;
+        private float _strokeWidthRatio = 0.01f;
 
         private float _startingPointFromLeft;
         private float _startingPointFromTop;
@@ -37,6 +38,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
         {
             IsAntialias = true,
             Style = SKPaintStyle.Fill,
+        };
+        SKPaint _mountainStroke = new SKPaint()
+        {
+            IsAntialias = true,
+            Color = SKColors.Black,
+            Style = SKPaintStyle.Stroke,
         };
 
         private SKPath _mountainPath = new SKPath();
@@ -70,6 +77,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
             left = _sq.Col * QC.SqSize;
             top = _sq.Row * QC.SqSize;
             right = (_sq.Col + 1) * QC.SqSize;
+            _mountainPaint.StrokeWidth = _strokeWidthRatio * QC.SqSize;
         }
         void InitPath()
         {
@@ -89,13 +97,13 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
                 canvas.DrawPath(_mountainPath, _mountainPaint);
+                canvas.DrawPath(_mountainPath, _mountainStroke);
                 canvas.Save();
             }
         }
         void SetGradient()
         {
             float halfSQ = QC.SqSize / 2;
-            //SKPoint center = new SKPoint((_sq.Col * QC.SqSize + halfSQ), (_sq.Row * QC.SqSize + halfSQ));
             SKColor[] colors = getSKColorArray();
 
             float x = ((_lastPointOnMountainPath.X - _firstPointOnMountainPath.X) / 2) + _firstPointOnMountainPath.X;
@@ -109,7 +117,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
                 _peakOfMountainPath,
                 colors,
                 colorPosition,
-                SKShaderTileMode.Clamp);
+                SKShaderTileMode.Mirror);
 
             SKColor[] getSKColorArray()
             {
