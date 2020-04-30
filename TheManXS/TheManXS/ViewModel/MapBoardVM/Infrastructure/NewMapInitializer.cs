@@ -174,6 +174,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             }
             //path.Close();
         }
+        
         private void DrawAllPathsOnCanvas()
         {
             using (SKCanvas gameBoard = new SKCanvas(_mapVM.SKBitMapOfMap))
@@ -181,7 +182,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 for (int i = 0; i < _listOfAllSKPaths.Count; i++)
                 {
                     SKPaint paint = _infrastructureBuilder.Formats[_infrastructureTypesInSKPaths[i]];
-                    gameBoard.DrawPath(_listOfAllSKPaths[i], paint);
+                    gameBoard.DrawPath(_listOfAllSKPaths[i], paint);                    
                 }
                 gameBoard.Save();
             }

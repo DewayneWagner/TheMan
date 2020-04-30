@@ -5,29 +5,31 @@ using System.Text;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 {
-    class SpruceTree
+    class SpruceTree : Tree
     {
-        // constants ratios
         private const int NumberOfBranches = 4;
         private const float BottomBranchFromBottomOfRectRatio = 0.2f;
 
-        private SKRect _rectangleWhereTreeWillBePlaced;        
-        private SKColor _treeBranchesColor;
+        private float _distanceOfBottomBranchFromBottom;
+        private float _distanceBetweenBranchesVertical;
+        private float _outsideDistance;
+        private float _insidePointStartFromEdge;
 
-        private static ForestConstants _fc;
-        private static float _distanceOfBottomBranchFromBottom;
-        private static float _distanceBetweenBranchesVertical;
-        private static float _outsideDistance;
-        private static float _insidePointStartFromEdge;
+        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) { }
 
-        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor)
+        public override void InitFields()
         {
-            _rectangleWhereTreeWillBePlaced = rectangleWhereTreeWillBePlaced;
-            if(_fc == null) { InitStaticFields(); }
-            _treeBranchesColor = treeBranchesColor;
+            _distanceOfBottomBranchFromBottom = BottomBranchFromBottomOfRectRatio * RectangleWhereTreeWillBePlaced.Height;
+
+            _distanceBetweenBranchesVertical = (RectangleWhereTreeWillBePlaced.Height - _distanceOfBottomBranchFromBottom)
+                / NumberOfBranches;
+
+            _outsideDistance = RectangleWhereTreeWillBePlaced.Width / 2 / NumberOfBranches;
+
+            _insidePointStartFromEdge = RectangleWhereTreeWillBePlaced.Width / 3;
         }
 
-        public SKPaint FillPaint
+        public override SKPaint FillPaint
         {
             get
             {
@@ -35,26 +37,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 {
                     Style = SKPaintStyle.Fill,
                     IsAntialias = true,
-                    Color = _treeBranchesColor,
+                    Color = TreeBranchesColor,
                 };
             }
         }
 
-        public SKPaint StrokePaint
-        {
-            get
-            {
-                return new SKPaint()
-                {
-                    Style = SKPaintStyle.Stroke,
-                    IsAntialias = true,
-                    Color = SKColors.Black,
-                    StrokeWidth = _fc.TreeStrokeWidth,
-                };
-            }
-        }
-
-        public SKPath TreeBranchesPath
+        public override SKPath TreeBranchesPath
         {
             get
             {
@@ -67,12 +55,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             }
         }
 
-        public SKRect TreeTrunkRect
+        public override SKRect TreeTrunkRect
         {
             get
             {
-                var r = _rectangleWhereTreeWillBePlaced;
-                float trunkWidth = r.Width * ForestConstants.TrunkWidthRatio;
+                var r = RectangleWhereTreeWillBePlaced;
+                float trunkWidth = r.Width * TrunkWidthRatio;
 
                 float left = r.MidX - (trunkWidth / 2);
                 float top = r.Bottom - _distanceOfBottomBranchFromBottom;
@@ -80,11 +68,10 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 float bottom = r.Bottom;
 
                 return new SKRect(left, top, right, bottom);
-
             }
         }
 
-        public SKPaint TreeTrunkFill
+        public override SKPaint TreeTrunkFill
         {
             get
             {
@@ -100,7 +87,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private List<SKPoint> GetOrderedList()
         {
             List<SKPoint> treePoints = new List<SKPoint>();            
-            var r = _rectangleWhereTreeWillBePlaced;
+            var r = RectangleWhereTreeWillBePlaced;
             float bottomY = r.Bottom - _distanceOfBottomBranchFromBottom;
             int pointsOnEachSide = NumberOfBranches * 2 - 1; // subtract 1 for topPoint
 
@@ -158,18 +145,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 return yc;
             }
         }
-        private void InitStaticFields()
-        {
-            _fc = new ForestConstants();
-
-            _distanceOfBottomBranchFromBottom = BottomBranchFromBottomOfRectRatio * _rectangleWhereTreeWillBePlaced.Height;
-
-            _distanceBetweenBranchesVertical = (_rectangleWhereTreeWillBePlaced.Height - _distanceOfBottomBranchFromBottom) 
-                / NumberOfBranches;
-
-            _outsideDistance = _rectangleWhereTreeWillBePlaced.Width / 2 / NumberOfBranches;
-
-            _insidePointStartFromEdge = _rectangleWhereTreeWillBePlaced.Width / 3;
-        }
+        
     }
 }

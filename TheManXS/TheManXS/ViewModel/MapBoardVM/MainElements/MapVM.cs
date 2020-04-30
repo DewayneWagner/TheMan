@@ -108,64 +108,13 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         }
         private void InitTrees()
         {
-            var _forestSQs = _game.SquareDictionary
+            var forestSQs = _game.SquareDictionary
                 .Where(s => s.Value.TerrainType == TerrainTypeE.Forest)
                 .ToList();
 
-            ForestConstants fc = new ForestConstants();
-            List<SpruceTree> listOfTrees = new List<SpruceTree>();
-
-            foreach (KeyValuePair<int,SQ> item in _forestSQs)
-            {
-                float startOfRectFromSides = (ForestConstants.WidthVsHeightRatio / 2 * QC.SqSize);
-
-                float left = item.Value.Col * QC.SqSize + startOfRectFromSides;
-                float top = item.Value.Row * QC.SqSize;
-                float right = (item.Value.Col + 1) * QC.SqSize - startOfRectFromSides;
-                float bottom = (item.Value.Row + 1) * QC.SqSize;
-
-                SKRect rect = new SKRect(left, top, right, bottom);
-                SKColor treeBranchColor = _game.PaletteColors.GetRandomColor(TerrainTypeE.Forest);
-                SKColor trunkColor = SKColors.Brown;
-
-                listOfTrees.Add(new SpruceTree(rect, treeBranchColor));
-            }
-
-            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {
-                foreach (SpruceTree tree in listOfTrees)
-                {
-                    canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
-                    canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
-                    canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
-                    canvas.DrawRect(tree.TreeTrunkRect, tree.StrokePaint);
-                    canvas.Save();
-                }
-            }
+            new TreesList(forestSQs, SKBitMapOfMap, _game.PaletteColors);
         }
-        private void InitTrees(bool oldVersion)
-        {
-            var _forestSQs = _game.SquareDictionary
-                .Where(s => s.Value.TerrainType == TerrainTypeE.Forest)
-                .ToList();
-
-            foreach (KeyValuePair<int,SQ> item in _forestSQs)
-            {
-                int halfSQSize = QC.SqSize / 2;
-
-                float left = item.Value.Col * QC.SqSize;
-                float top = item.Value.Row * QC.SqSize;
-                float right = (item.Value.Col + 1) * QC.SqSize;
-                float bottom = (item.Value.Row + 1) * QC.SqSize;
-
-                var s = item.Value;
-
-                new Tree(_game, new SKRect(left, top, (left + halfSQSize), (top + halfSQSize)));
-                new Tree(_game, new SKRect((left + halfSQSize), top, right, (top + halfSQSize)));
-                new Tree(_game, new SKRect(left, (top + halfSQSize), (left + halfSQSize), bottom));
-                new Tree(_game, new SKRect((left + halfSQSize), (top + halfSQSize), right, bottom));
-            }
-        }
+        
         private void InitMountains()
         {
             var _mountainSQs = _game.SquareDictionary

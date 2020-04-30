@@ -103,14 +103,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature
         }
         void SetGradient()
         {
-            float halfSQ = QC.SqSize / 2;
             SKColor[] colors = getSKColorArray();
 
             float x = ((_lastPointOnMountainPath.X - _firstPointOnMountainPath.X) / 2) + _firstPointOnMountainPath.X;
             float y = ((_lastPointOnMountainPath.Y - _firstPointOnMountainPath.Y) / 2) + _firstPointOnMountainPath.Y;
 
             SKPoint gradientStartPoint = new SKPoint(x, y);
-            float distanceBetweenStartGradientAndPeak = gradientStartPoint.Y - _peakOfMountainPath.Y;
             float[] colorPosition = getColorPositionArray();
 
             _mountainPaint.Shader = SKShader.CreateLinearGradient(gradientStartPoint,

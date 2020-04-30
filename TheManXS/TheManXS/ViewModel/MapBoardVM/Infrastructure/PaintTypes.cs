@@ -81,5 +81,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 StrokeCap = SKStrokeCap.Round,
             };
         }
+        private SKPaint sand = new SKPaint()
+        {
+            IsAntialias = true,
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 2,
+        };
     }
 }
