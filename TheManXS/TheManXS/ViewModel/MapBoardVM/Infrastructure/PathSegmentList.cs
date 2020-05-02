@@ -4,12 +4,13 @@ using System.Text;
 using TheManXS.Model.InfrastructureStuff;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using TheManXS.Model.Main;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     class PathSegmentList : List<PathSegment>
     {
-        List<SQInfrastructure> _sList;
+        List<SQ> _sList;
         IT _it;
         float _radiusOfCurves;
         float _ratioOfRadiusToSQSize = 0.25f;
@@ -21,7 +22,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             { 7, 6, 5 }
         };
 
-        public PathSegmentList(List<SQInfrastructure> sList, IT it)
+        public PathSegmentList(List<SQ> sList, IT it)
         {
             _sList = sList;
             _it = it;

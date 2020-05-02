@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TheManXS.Model;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Gameplay;
-using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Rocks;
 using TheManXS.Model.Settings;
-using TheManXS.Services.EntityFrameWork;
 
 namespace TheManXS.Model.Services.EntityFrameWork
 {
@@ -33,7 +30,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<SQ> SQ { get; set; }
         public DbSet<Formation> Formation { get; set; }
         public DbSet<Commodity> Commodity { get; set; }
-        public DbSet<SQInfrastructure> SQInfrastructure { get; set; }
         public DbSet<FinancialValues> FinancialValues { get; set; } 
         public DbSet<Loan> Loans { get; set; }
         public DbSet<ResourceProduction> ResourceProduction { get; set; }
@@ -54,7 +50,6 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new SQDBConfig());
             modelBuilder.ApplyConfiguration(new FormationDBConfig());
             modelBuilder.ApplyConfiguration(new CommodityDBConfig());
-            modelBuilder.ApplyConfiguration(new SQInfrastructureDBConfig());
             modelBuilder.ApplyConfiguration(new FinancialValuesDBConfig());
             modelBuilder.ApplyConfiguration(new LoanDBConfig());
             modelBuilder.ApplyConfiguration(new ResourceProductionDBConfig());

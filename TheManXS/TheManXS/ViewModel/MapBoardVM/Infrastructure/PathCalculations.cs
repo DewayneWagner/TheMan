@@ -15,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         CenterPointRatios _centerPointRatios;
         public PathCalculations() { _centerPointRatios = new CenterPointRatios(); }
 
-        public SKPoint GetInfrastructureSKPoint(SQInfrastructure sq, IT it)
+        public SKPoint GetInfrastructureSKPoint(SQ sq, IT it)
         {
             float ratio = _centerPointRatios.GetRatio(it);
             float x = (sq.Col * QC.SqSize) + (QC.SqSize / 2);
@@ -23,13 +23,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             return new SKPoint(x, y);
         }
 
-        public SKRect GetHubRect(SQInfrastructure sq) => new SKRect(
+        public SKRect GetHubRect(SQ sq) => new SKRect(
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.25f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.25f),
             (sq.Col * QC.SqSize) + (QC.SqSize * 0.75f),
             (sq.Row * QC.SqSize) + (QC.SqSize * 0.75f));
 
-        public SKPoint GetEdgePoint(SQInfrastructure sq, IT it)
+        public SKPoint GetEdgePoint(SQ sq, IT it)
         {
             DirectionsCompass d = getMapEdge();
             bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
@@ -71,14 +71,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 return new SKPoint(x, y);
             }
         }
-        public DirectionsCompass GetMapEdge(SQInfrastructure sq)
+        public DirectionsCompass GetMapEdge(SQ sq)
         {
             if (sq.Row == 0) { return DirectionsCompass.N; }
             else if (sq.Row == (QC.RowQ - 1)) { return DirectionsCompass.S; }
             else if (sq.Col == 0) { return DirectionsCompass.W; }
             else { return DirectionsCompass.E; }
         }
-        public void ProcessMapEdge(SQInfrastructure sq, ref SKPath path, IT it)
+        public void ProcessMapEdge(SQ sq, ref SKPath path, IT it)
         {
             DirectionsCompass d = GetMapEdge(sq);
             bool isStartOfPath = (sq.Row == 0 || sq.Col == 0) ? true : false;
@@ -116,7 +116,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             }
         }
 
-        public bool IsMapEdge(SQInfrastructure sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) 
+        public bool IsMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) 
             || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
 
         class CenterPointRatios

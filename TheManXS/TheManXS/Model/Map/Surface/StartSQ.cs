@@ -4,6 +4,7 @@ using System.Text;
 using TheManXS.Model.InfrastructureStuff;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Main;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -11,14 +12,14 @@ namespace TheManXS.Model.Map.Surface
     {
         System.Random rnd = new System.Random();
         SQMapConstructArray _sqMap;
-        SQInfrastructure[,] _map;
+        SQ[,] _map;
 
         public StartSQ() { }
         public StartSQ(SQMapConstructArray map)
         {
             //_map = map;
         }
-        public StartSQ(SQInfrastructure[,] map, SQMapConstructArray sqMap)
+        public StartSQ(SQ[,] map, SQMapConstructArray sqMap)
         {
             _map = map;
             _sqMap = sqMap;

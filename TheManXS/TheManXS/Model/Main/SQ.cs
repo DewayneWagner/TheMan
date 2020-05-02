@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using Xamarin.Forms;
-using System.Linq;
 using TheManXS.Model.Financial;
 using TheManXS.Model.CityStuff;
 using TheManXS.Model.Map.Surface;
-using TheManXS.ViewModel.MapBoardVM.Tiles;
-using TheManXS.Model.InfrastructureStuff;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -36,7 +28,6 @@ namespace TheManXS.Model.Main
             Col = col;
             SavedGameSlot = QC.CurrentSavedGameSlot;
             Key = Coordinate.GetSQKey(row, col);
-            SQInfrastructure = new SQInfrastructure(this);
             OwnerNumber = QC.PlayerIndexTheMan;
             ResourceType = ResourceTypeE.Nada;
             OwnerName = QC.NameOfOwnerOfUnOwnedSquares;
@@ -70,15 +61,21 @@ namespace TheManXS.Model.Main
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
         public double Transport { get; set; }
-
+        public bool IsMainTransportationCorridor { get; set; }
+        public bool IsRoadConnected { get; set; }
+        public bool IsTrainConnected { get; set; }
+        public bool IsPipelineConnected { get; set; }
+        public bool IsHub { get; set; }
+        public bool IsMainRiver { get; set; }
+        public bool IsTributary { get; set; }
+        public int TributaryNumber { get; set; }
+        public bool IsTributaryFlowingFromNorth { get; set; }
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
         public NextAction.NextActionType NextActionType { get; set; }
 
         // not included in DB
-        public SQInfrastructure SQInfrastructure { get; set; }
         public City City { get; set; }
-        public Coordinate FullCoordinate { get; set; }
         public SKRect SKRect
         {
             get
@@ -120,8 +117,6 @@ namespace TheManXS.Model.Main
                 .HasConversion(new EnumToStringConverter<StatusTypeE>());
 
             builder.Ignore(s => s.City);
-            builder.Ignore(s => s.FullCoordinate);
-            builder.Ignore(s => s.SQInfrastructure);
             builder.Ignore(s => s.SKRect);
         }
     }

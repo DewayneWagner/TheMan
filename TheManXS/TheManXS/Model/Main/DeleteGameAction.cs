@@ -41,9 +41,6 @@ namespace TheManXS.Model.Main
 
                 var resourceProductionList = db.ResourceProduction.Where(r => r.SavedGameSlot == _savedGameSlot).ToList();
                 db.ResourceProduction.RemoveRange(resourceProductionList);
-
-                var sqInfrastructureList = db.SQInfrastructure.Where(s => s.SavedGameSlot == _savedGameSlot).ToList();
-                db.SQInfrastructure.RemoveRange(sqInfrastructureList);
             }
         }
     }

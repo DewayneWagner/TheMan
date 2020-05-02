@@ -27,10 +27,6 @@ namespace TheManXS.Services.EntityFrameWork
                 var sqList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
                 if (sqList.Count > 0) { db.RemoveRange(sqList); }
 
-                // sq infrastructure
-                var sqInfraList = db.SQInfrastructure.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
-                if (sqInfraList.Count > 0) { db.RemoveRange(sqInfraList); }
-
                 // formation
                 var formationList = db.Formation.Where(f => f.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
                 if (formationList.Count > 0) { db.RemoveRange(formationList); }

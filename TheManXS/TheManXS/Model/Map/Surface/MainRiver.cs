@@ -23,11 +23,11 @@ namespace TheManXS.Model.Map.Surface
             InitEastRiver();
         }
 
-        private SQInfrastructure[,] _sqInfrastructureArray;
+        private SQ[,] _sqInfrastructureArray;
         private SQ _cityStartSQ;
         Game _game;
 
-        public MainRiver(SQInfrastructure[,] map, SQMapConstructArray sqMap, Game game)
+        public MainRiver(SQ[,] map, SQMapConstructArray sqMap, Game game)
         {
             _game = game;
             _sqInfrastructureArray = map;

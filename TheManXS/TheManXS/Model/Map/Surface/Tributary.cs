@@ -14,7 +14,7 @@ namespace TheManXS.Model.Map.Surface
     public class Tributary
     {
         private SQMapConstructArray _SQmap;
-        private SQInfrastructure[,] _map;
+        private SQ[,] _map;
         private System.Random rnd = new System.Random();
         private int _startRow;
         private int _startCol;
@@ -22,7 +22,7 @@ namespace TheManXS.Model.Map.Surface
         private int _tributaryNumber;
         Game _game;
 
-        public Tributary(SQMapConstructArray sqmap, SQInfrastructure[,] map, int startRow, 
+        public Tributary(SQMapConstructArray sqmap, SQ[,] map, int startRow, 
             int startCol, int tributaryNumber, Game game)
         {
             _game = game;
