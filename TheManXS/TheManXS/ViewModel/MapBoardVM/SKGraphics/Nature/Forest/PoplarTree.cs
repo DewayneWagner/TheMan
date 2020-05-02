@@ -101,39 +101,39 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 
             return list;
         }
-        void SetGradient()
-        {
-            SKColor[] colors = getSKColorArray();
-            SKPoint gradienStartPoint = TreeBranchesPath.Points[0];
+        //void SetGradient()
+        //{
+        //    SKColor[] colors = getSKColorArray();
+        //    SKPoint gradienStartPoint = TreeBranchesPath.Points[0];
 
-            float[] colorPosition = new float[4] { 0.2f, 0.4f, 0.6f, 0.8f };
+        //    float[] colorPosition = new float[4] { 0.2f, 0.4f, 0.6f, 0.8f };
 
-            FillPaint.Shader = SKShader.CreateLinearGradient(gradienStartPoint, _topPoint,
-                colors, colorPosition, SKShaderTileMode.Clamp);            
+        //    FillPaint.Shader = SKShader.CreateLinearGradient(gradienStartPoint, _topPoint,
+        //        colors, colorPosition, SKShaderTileMode.Clamp);            
 
-            SKColor[] getSKColorArray()
-            {
-                SKColor[] ca = new SKColor[4];
-                Game g = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+        //    SKColor[] getSKColorArray()
+        //    {
+        //        SKColor[] ca = new SKColor[4];
+        //        Game g = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
 
-                ca[0] = g.PaletteColors.Where(c => c.Description == "Conklin 2")
-                    .Select(c => c.SKColor)
-                    .FirstOrDefault();
+        //        ca[0] = g.PaletteColors.Where(c => c.Description == "Conklin 2")
+        //            .Select(c => c.SKColor)
+        //            .FirstOrDefault();
 
-                ca[1] = g.PaletteColors.Where(c => c.Description == "Conklin 3")
-                    .Select(c => c.SKColor)
-                    .FirstOrDefault();
+        //        ca[1] = g.PaletteColors.Where(c => c.Description == "Conklin 3")
+        //            .Select(c => c.SKColor)
+        //            .FirstOrDefault();
 
-                ca[2] = g.PaletteColors.Where(c => c.Description == "Conklin 1")
-                    .Select(c => c.SKColor)
-                    .FirstOrDefault();
+        //        ca[2] = g.PaletteColors.Where(c => c.Description == "Conklin 1")
+        //            .Select(c => c.SKColor)
+        //            .FirstOrDefault();
 
-                ca[3] = g.PaletteColors.Where(c => c.Description == "Conklin 4")
-                    .Select(c => c.SKColor)
-                    .FirstOrDefault();
+        //        ca[3] = g.PaletteColors.Where(c => c.Description == "Conklin 4")
+        //            .Select(c => c.SKColor)
+        //            .FirstOrDefault();
 
-                return ca;
-            }
-        }
+        //        return ca;
+        //    }
+        //}
     }
 }

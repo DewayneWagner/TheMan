@@ -50,7 +50,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 List<SKPoint> points = GetOrderedList();
                 treeBranchesPath.MoveTo(points[0]);
                 for (int i = 1; i < points.Count; i++) { treeBranchesPath.LineTo(points[i]); }
-                //treeBranchesPath.Close();
+                
                 return treeBranchesPath;
             }
         }

@@ -21,6 +21,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 
         List<SQInfrastructure>[] _allInfrastructure = new List<SQInfrastructure>[(int)IT.Total];
         List<SKPath> _listOfAllSKPaths = new List<SKPath>();
+        List<IT> _infrastructureType = new List<IT>();
         List<int> _infrastructureTypesInSKPaths = new List<int>();
 
         public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
@@ -113,6 +114,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             PathSegmentList pathSegmentList = new PathSegmentList(sortedList, it);
             SKPath path = new SKPath();
+            _infrastructureType.Add(it);
 
             for (int i = 0; i < (pathSegmentList.Count -1); i++)
             {
@@ -176,11 +178,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         
         private void DrawAllPathsOnCanvas()
-        {
+        {            
             using (SKCanvas gameBoard = new SKCanvas(_mapVM.SKBitMapOfMap))
             {
                 for (int i = 0; i < _listOfAllSKPaths.Count; i++)
                 {
+                    if(_infrastructureType[i] == IT.MainRiver || _infrastructureType[i] == IT.Tributary)
+                    {
+                        SKPaint sandPaint = _infrastructureBuilder.Formats.GetSandPaint(_infrastructureType[i]);
+                        gameBoard.DrawPath(_listOfAllSKPaths[i], sandPaint);
+                    }
+
                     SKPaint paint = _infrastructureBuilder.Formats[_infrastructureTypesInSKPaths[i]];
                     gameBoard.DrawPath(_listOfAllSKPaths[i], paint);                    
                 }

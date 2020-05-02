@@ -1,6 +1,7 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
@@ -12,8 +13,10 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
     class TreesList : List<Tree>
     {
         System.Random rnd = new System.Random();
+        private PaletteColorList _paletteColor;
         public TreesList(List<KeyValuePair<int,SQ>> listOfAllForestSQs, SKBitmap gameBoard, PaletteColorList paletteColor)
         {
+            _paletteColor = paletteColor;
             InitListWithAllTrees(paletteColor, listOfAllForestSQs);
             DrawAllTreesOnCanvas(gameBoard);
         }
@@ -65,8 +68,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         {
             using (SKCanvas canvas = new SKCanvas(map))
             {
-                foreach (Tree tree in this)
-                {
+                foreach (Tree tree in this) 
+                { 
                     canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
                     canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
                     canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
@@ -74,6 +77,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 }
                 canvas.Save();
             }
-        }        
+        }
     }
 }

@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheManXS.Model.ParametersForGame;
+using SkiaSharp;
 
 namespace TheManXS.Model.Main
 {
@@ -78,6 +79,17 @@ namespace TheManXS.Model.Main
         public SQInfrastructure SQInfrastructure { get; set; }
         public City City { get; set; }
         public Coordinate FullCoordinate { get; set; }
+        public SKRect SKRect
+        {
+            get
+            {
+                float left = Col * QC.SqSize;
+                float top = Row * QC.SqSize;
+                float right = (Col + 1) * QC.SqSize;
+                float bottom = (Row + 1) * QC.SqSize;
+                return new SKRect(left, top, right, bottom);
+            }
+        }
 
         private void SetNextActionCostAndText()
         {
@@ -110,6 +122,7 @@ namespace TheManXS.Model.Main
             builder.Ignore(s => s.City);
             builder.Ignore(s => s.FullCoordinate);
             builder.Ignore(s => s.SQInfrastructure);
+            builder.Ignore(s => s.SKRect);
         }
     }
 }

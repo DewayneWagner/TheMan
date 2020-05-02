@@ -44,12 +44,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 {
                     SKPaint highlightedSQ = new SKPaint()
                     {
-                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x50),
+                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
                         Style = SKPaintStyle.Fill,
                     };
                     _canvas.DrawRect(GetSKRect(sq), highlightedSQ);
                 }
-            }            
+            }
             //_canvas.Save();
         }
 

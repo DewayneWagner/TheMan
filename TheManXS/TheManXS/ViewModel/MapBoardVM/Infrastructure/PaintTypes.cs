@@ -10,6 +10,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public class PaintTypes : List<SKPaint>
     {
+        private const float RiverWidthRatio = 0.3f;
+        private const float TributaryWidthRatio = 0.15f;
+        private const float SandWidthOverWater = 0.1f;
+        private const float InfrastructureWidthRatio = 0.1f;
+
         public PaintTypes()
         {
             for (int i = 0; i < (int)IT.Total; i++) { this.Add(new SKPaint()); }
@@ -37,7 +42,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.DarkGray,
-                StrokeWidth = QC.SqSize * 0.1f,
+                StrokeWidth = QC.SqSize * InfrastructureWidthRatio,
                 StrokeCap = SKStrokeCap.Round,
             };
         }
@@ -47,7 +52,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.Black,
-                StrokeWidth = QC.SqSize * 0.1f,
+                StrokeWidth = QC.SqSize * InfrastructureWidthRatio,
                 StrokeCap = SKStrokeCap.Round,
             };
         }
@@ -57,7 +62,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.DarkBlue,
-                StrokeWidth = QC.SqSize * 0.1f,
+                StrokeWidth = QC.SqSize * InfrastructureWidthRatio,
                 StrokeCap = SKStrokeCap.Round,
             };
         }
@@ -67,8 +72,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = new SKColor(12, 163, 218),
-                StrokeWidth = QC.SqSize * 0.1f,
-                StrokeCap = SKStrokeCap.Round,
+                StrokeWidth = QC.SqSize * TributaryWidthRatio,
             };
         }
         private SKPaint GetMainRiverSKPaint()
@@ -77,15 +81,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 Style = SKPaintStyle.Stroke,
                 Color = new SKColor(12, 163, 218),
-                StrokeWidth = QC.SqSize * 0.2f,
-                StrokeCap = SKStrokeCap.Round,
+                StrokeWidth = QC.SqSize * RiverWidthRatio,
             };
         }
-        private SKPaint sand = new SKPaint()
+        public SKPaint GetSandPaint(IT it)
         {
-            IsAntialias = true,
-            Style = SKPaintStyle.Stroke,
-            StrokeWidth = 2,
-        };
+            SKPaint sandPaint = new SKPaint()
+            {
+                IsAntialias = true,
+                Style = SKPaintStyle.Stroke,
+                Color = new SKColor(194, 178, 128),
+            };
+            if(it == IT.MainRiver) { sandPaint.StrokeWidth = (QC.SqSize * (RiverWidthRatio + SandWidthOverWater)); }
+            else { sandPaint.StrokeWidth = (QC.SqSize * (TributaryWidthRatio + SandWidthOverWater)); }
+            return sandPaint;
+        }
     }
 }
