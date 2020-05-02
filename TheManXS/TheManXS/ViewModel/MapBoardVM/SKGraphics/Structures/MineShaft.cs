@@ -54,7 +54,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
 
         private float _distanceOfStraghtLegFromLeft, _topRectangleHeight,
             _topRectangleWidth, _distanceOfAngledLegFromLeft, _distanceFromEdgesOfSQ, _widthOfStraightLeg,
-            _widthOfAngledLeg, _gapBetweenLegs, _leftX, _topY, _bottomY;
+            _widthOfAngledLeg, _gapBetweenLegs;
 
         public MineShaft(Game game, SQ sq)
         {
@@ -77,39 +77,36 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _distanceOfAngledLegFromLeft = _distanceOfAngledLegFromLeftRatio * QC.SqSize;
             _widthOfStraightLeg = _widthOfStraightLegRatio * QC.SqSize;
             _widthOfAngledLeg = _widthOfAngledLegRatio * QC.SqSize;
-            _leftX = _sq.Col * QC.SqSize;
-            _topY = _sq.Row * QC.SqSize;
-            _bottomY = (_sq.Row + 1) * QC.SqSize;
             _gapBetweenLegs = QC.SqSize * _gapBetweenLegsRatio;
             _topRectangleStroke.StrokeWidth = _strokeWidthRatio * QC.SqSize;
         }
         private void InitTopRectangle() 
         {
-            float left = (float)(_leftX + ((QC.SqSize - _topRectangleWidth) / 2));
-            float top = (float)(_topY + _distanceFromEdgesOfSQ);
+            float left = (float)(_sq.SKRect.Left + ((QC.SqSize - _topRectangleWidth) / 2));
+            float top = (float)(_sq.SKRect.Top + _distanceFromEdgesOfSQ);
             float right = (float)(left + _topRectangleWidth);
-            float bottom = (float)(_topY + _distanceFromEdgesOfSQ + _topRectangleHeight);
+            float bottom = (float)(_sq.SKRect.Top + _distanceFromEdgesOfSQ + _topRectangleHeight);
 
             _topRectanglePaint.StrokeWidth = 3;
             _topRect = new SKRect(left, top, right, bottom);
         }
         private void InitStraightLeg()
         {
-            float left = (float)(_distanceOfStraghtLegFromLeft + _leftX);
-            float top = (float)(_topY + _distanceFromEdgesOfSQ + _topRectangleHeight);
+            float left = (float)(_distanceOfStraghtLegFromLeft + _sq.SKRect.Left);
+            float top = (float)(_sq.SKRect.Top + _distanceFromEdgesOfSQ + _topRectangleHeight);
             float right = (float)(left + _widthOfStraightLeg);
-            float bottom = (float)(_bottomY - _distanceFromEdgesOfSQ);
+            float bottom = (float)(_sq.SKRect.Bottom - _distanceFromEdgesOfSQ);
 
             _straightLegRect = new SKRect(left, top, right, bottom);
         }
         private void InitAngledLeg()
         {
-            float x = (float)(_leftX + _distanceOfStraghtLegFromLeft + _widthOfStraightLeg + _gapBetweenLegs);
-            float y = (float)(_topY + _distanceFromEdgesOfSQ + _topRectangleHeight);
+            float x = (float)(_sq.SKRect.Left + _distanceOfStraghtLegFromLeft + _widthOfStraightLeg + _gapBetweenLegs);
+            float y = (float)(_sq.SKRect.Top + _distanceFromEdgesOfSQ + _topRectangleHeight);
             SKPoint startPoint = new SKPoint(x, y);
 
-            float x1 = (float)(_leftX + _distanceOfAngledLegFromLeft);
-            float y1 = (float)(_bottomY - _distanceFromEdgesOfSQ);
+            float x1 = (float)(_sq.SKRect.Left + _distanceOfAngledLegFromLeft);
+            float y1 = (float)(_sq.SKRect.Bottom - _distanceFromEdgesOfSQ);
             SKPoint endPoint = new SKPoint(x1, y1);
 
             _angledLegPath = new SKPath();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;

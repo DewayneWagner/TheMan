@@ -12,21 +12,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public class NewMapInitializer
     {
+        public enum DirectionsCompass { NW, N, NE, E, SE, S, SW, W, Total }
+
         MapVM _mapVM;
-        Builder _infrastructureBuilder;
         PathCalculations _calc;
 
         List<SQ>[] _allInfrastructure = new List<SQ>[(int)IT.Total];
         List<SKPath> _listOfAllSKPaths = new List<SKPath>();
         List<IT> _infrastructureType = new List<IT>();
         List<int> _infrastructureTypesInSKPaths = new List<int>();
+        PaintTypes _paintTypes = new PaintTypes();
 
-        public NewMapInitializer(MapVM mapVM, Builder infrastructureBuilder)
+        public NewMapInitializer(MapVM mapVM)
         {
             _mapVM = mapVM;
             _calc = new PathCalculations();
-            _infrastructureBuilder = infrastructureBuilder;            
-
             InitListOfInfrastructureSQs();
             InitInfrastructure();
             DrawAllPathsOnCanvas();
@@ -182,11 +182,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 {
                     if(_infrastructureType[i] == IT.MainRiver || _infrastructureType[i] == IT.Tributary)
                     {
-                        SKPaint sandPaint = _infrastructureBuilder.Formats.GetSandPaint(_infrastructureType[i]);
+                        SKPaint sandPaint = _paintTypes.GetSandPaint(_infrastructureType[i]);
                         gameBoard.DrawPath(_listOfAllSKPaths[i], sandPaint);
                     }
 
-                    SKPaint paint = _infrastructureBuilder.Formats[_infrastructureTypesInSKPaths[i]];
+                    SKPaint paint = _paintTypes[_infrastructureTypesInSKPaths[i]];
                     gameBoard.DrawPath(_listOfAllSKPaths[i], paint);                    
                 }
                 gameBoard.Save();
@@ -198,7 +198,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 foreach (SQ sq in _allInfrastructure[(int)IT.Hub])
                 {
-                    gameboard.DrawRect(_calc.GetHubRect(sq), _infrastructureBuilder.Formats[(int)IT.Hub]);
+                    gameboard.DrawRect(_calc.GetHubRect(sq), _paintTypes[(int)IT.Hub]);
                 }
                 gameboard.Save();
             }

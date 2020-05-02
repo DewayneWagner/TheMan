@@ -7,6 +7,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Linq;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using TheManXS.Model.InfrastructureStuff;
+using static TheManXS.ViewModel.MapBoardVM.Infrastructure.NewMapInitializer;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
