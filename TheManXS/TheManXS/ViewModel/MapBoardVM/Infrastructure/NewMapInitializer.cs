@@ -79,7 +79,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 {
                     List<SQ> tributaryList = _allInfrastructure[(int)IT.Tributary];
                     int qTributaries = tributaryList.Max(s => s.TributaryNumber);
-                    for (int t = 1; t <= qTributaries; t++)
+                    for (int t = 0; t <= qTributaries; t++)
                     {
                         List<SQ> tributary = tributaryList.Where(tr => tr.TributaryNumber == t).ToList();
                         List<SQ> sortedListOfTributaries = getSortedList(tributary);

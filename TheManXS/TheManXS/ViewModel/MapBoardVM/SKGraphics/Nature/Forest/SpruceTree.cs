@@ -10,14 +10,18 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private const int NumberOfBranches = 4;
         private const float BottomBranchFromBottomOfRectRatio = 0.2f;
 
-        private float _distanceOfBottomBranchFromBottom;
-        private float _distanceBetweenBranchesVertical;
-        private float _outsideDistance;
-        private float _insidePointStartFromEdge;
+        private static float _distanceOfBottomBranchFromBottom;
+        private static float _distanceBetweenBranchesVertical;
+        private static float _outsideDistance;
+        private static float _insidePointStartFromEdge;
+        private static bool _fieldsHaveBeenInitialized;
 
-        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) { }
+        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) 
+        {
+            if (!_fieldsHaveBeenInitialized) { InitFields(); }
+        }
 
-        public override void InitFields()
+        private void InitFields()
         {
             _distanceOfBottomBranchFromBottom = BottomBranchFromBottomOfRectRatio * RectangleWhereTreeWillBePlaced.Height;
 
@@ -27,6 +31,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             _outsideDistance = RectangleWhereTreeWillBePlaced.Width / 2 / NumberOfBranches;
 
             _insidePointStartFromEdge = RectangleWhereTreeWillBePlaced.Width / 3;
+
+            _fieldsHaveBeenInitialized = true;
         }
 
         public override SKPaint FillPaint

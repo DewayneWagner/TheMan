@@ -65,18 +65,38 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         {
             SKBitMapOfMap = new SKBitmap((QC.SqSize * QC.ColQ), (QC.SqSize * QC.RowQ));
             new Map(_game);
-            InitTrees();
-            InitMountains();
+            
             new NewMapInitializer(this);
-            new SavedMap(_game).SaveMap();            
-            InitMineShafts();
-            InitCity();
-            InitPumpJacks();
-            new StartingBorders(_game);
+            new SavedMap(_game).SaveMap();
+            
         }
 
         private void LoadMap() => this.SKBitMapOfMap = new SavedMap(_game).LoadMap();
 
+        private SKPaint OwnedSQsPaint = new SKPaint()
+        {
+            IsAntialias = true,
+            Style = SKPaintStyle.Fill,
+        };
+
+        private void InitOwnedSQs()
+        {
+            var ownedSQs = _game.SquareDictionary
+                            .Where(s => s.Value.OwnerNumber != QC.PlayerIndexTheMan)
+                            .ToList();
+
+            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
+            {
+                foreach (KeyValuePair<int, SQ> sq in ownedSQs)
+                {
+                    OwnedSQsPaint.Color = _game.PlayerList[sq.Value.OwnerNumber].SKColor.WithAlpha(0x75);
+                    canvas.DrawRect(sq.Value.SKRect, OwnedSQsPaint);
+                }
+                canvas.Save();
+            }
+
+            
+        }
         private void InitMineShafts()
         {
             var _sqsOwnedByPlayers = _game.SquareDictionary

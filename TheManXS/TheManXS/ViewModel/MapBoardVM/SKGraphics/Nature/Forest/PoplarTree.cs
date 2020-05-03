@@ -14,14 +14,17 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private const float BranchRisesVerticallyAlongEdgeRatio = 0.9f;
 
         private SKColor PoplarTrunk = new SKColor(217, 204, 208);
-        private SKColor PoplarLeaves = new SKColor(119, 180, 50);
 
-        private float _bottomBranchFromBottom;
-        private float _trunkWidth;
+        private static float _bottomBranchFromBottom;
+        private static float _trunkWidth;
+        private static bool _staticFieldsInitialized;
         private SKPoint _topPoint;
 
-
-        public PoplarTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) { }
+        public PoplarTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) 
+        {
+            _topPoint = new SKPoint(RectangleWhereTreeWillBePlaced.MidX, RectangleWhereTreeWillBePlaced.Top);
+            if (!_staticFieldsInitialized) { InitFields(); }
+        }
         public override SKPaint FillPaint
         {
             get
@@ -30,7 +33,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 {
                     IsAntialias = true,
                     Style = SKPaintStyle.Fill,
-                    Color = TreeBranchesColor,                    
+                    Color = TreeBranchesColor,  
+                    Shader = GetGradient(),
                 };
                 return fillPaint;
             }
@@ -77,12 +81,13 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             }
         }
 
-        public override void InitFields()
+        private void InitFields()
         {
             var r = RectangleWhereTreeWillBePlaced;
             _bottomBranchFromBottom = BottomBranchFromBottomRatio * r.Height;
-            _topPoint = new SKPoint(r.MidX, r.Top);
+            
             _trunkWidth = TrunkWidthRatio * r.Width;
+            _staticFieldsInitialized = true;
         }
         private List<SKPoint> GetListOfPointsForBranches()
         {
@@ -100,39 +105,37 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 
             return list;
         }
-        //void SetGradient()
-        //{
-        //    SKColor[] colors = getSKColorArray();
-        //    SKPoint gradienStartPoint = TreeBranchesPath.Points[0];
+        private SKShader GetGradient()
+        {
+            SKColor[] colors = getSKColorArray();
+            SKPoint gradienStartPoint = TreeBranchesPath.Points[0];
 
-        //    float[] colorPosition = new float[4] { 0.2f, 0.4f, 0.6f, 0.8f };
+            float[] colorPosition = new float[4] { 0.2f, 0.4f, 0.6f, 0.8f };
 
-        //    FillPaint.Shader = SKShader.CreateLinearGradient(gradienStartPoint, _topPoint,
-        //        colors, colorPosition, SKShaderTileMode.Clamp);            
+            return SKShader.CreateLinearGradient(gradienStartPoint, _topPoint,
+                colors, colorPosition, SKShaderTileMode.Clamp);
 
-        //    SKColor[] getSKColorArray()
-        //    {
-        //        SKColor[] ca = new SKColor[4];
-        //        Game g = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+            SKColor[] getSKColorArray()
+            {
+                SKColor[] ca = new SKColor[4];
+                Game g = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+                
+                ca[0] = g.PaletteColors.Where(c => c.Description == "Conklin 2")
+                    .Select(c => c.SKColor)
+                    .FirstOrDefault();
 
-        //        ca[0] = g.PaletteColors.Where(c => c.Description == "Conklin 2")
-        //            .Select(c => c.SKColor)
-        //            .FirstOrDefault();
+                ca[1] = g.PaletteColors.Where(c => c.Description == "Conklin 3")
+                    .Select(c => c.SKColor)
+                    .FirstOrDefault();
 
-        //        ca[1] = g.PaletteColors.Where(c => c.Description == "Conklin 3")
-        //            .Select(c => c.SKColor)
-        //            .FirstOrDefault();
+                ca[2] = g.PaletteColors.Where(c => c.Description == "Conklin 1")
+                    .Select(c => c.SKColor)
+                    .FirstOrDefault();
 
-        //        ca[2] = g.PaletteColors.Where(c => c.Description == "Conklin 1")
-        //            .Select(c => c.SKColor)
-        //            .FirstOrDefault();
+                ca[3] = new SKColor(119, 180, 50);
 
-        //        ca[3] = g.PaletteColors.Where(c => c.Description == "Conklin 4")
-        //            .Select(c => c.SKColor)
-        //            .FirstOrDefault();
-
-        //        return ca;
-        //    }
-        //}
+                return ca;
+            }
+        }
     }
 }

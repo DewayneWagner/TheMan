@@ -56,9 +56,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 
                         SKRect rect = new SKRect(left, top, right, bottom);
                         SKColor treeBranchColor = pc.GetRandomColor(TerrainTypeE.Forest);
-                        rand = rnd.Next(0, 3);
+                        rand = rnd.Next(0, 5);
 
-                        if(rand == 0 || rand == 1) { this.Add(new SpruceTree(rect, treeBranchColor)); }
+                        if(rand == 0 || rand < 4) { this.Add(new SpruceTree(rect, treeBranchColor)); }
                         else { this.Add(new PoplarTree(rect, treeBranchColor)); }
                     }
                 }

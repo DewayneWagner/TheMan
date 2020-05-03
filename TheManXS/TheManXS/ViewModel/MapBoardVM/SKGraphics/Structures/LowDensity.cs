@@ -33,7 +33,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _sq = sq;
 
             InitFields();
-            CreateBackgroundSKRectWithOwnerColor();
+            //CreateBackgroundSKRectWithOwnerColor();
             DrawStreets();            
             PaintEverything();
             InitHouses();
@@ -125,7 +125,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
         {
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
-                canvas.DrawRect(_sq.SKRect, _backgroundPaint);
+                //canvas.DrawRect(_sq.SKRect, _backgroundPaint);
                 canvas.DrawPath(_streetspath, _streetsPaint);
                 canvas.Save();
             }
