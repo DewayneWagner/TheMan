@@ -22,7 +22,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         {
             RectangleWhereTreeWillBePlaced = rectangleWhereTreeWillBePlaced;
             TreeBranchesColor = treeBranchesColor;
-            InitFields();
         }
 
         public SKPaint StrokePaint
@@ -60,7 +59,5 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             if (widthOfTreeExtendingIntoAdjacentSQ > (QC.SqSize * MaxOverhangOfTreeIntoAdjacentSQRatio)) { return true; }
             else { return false; }
         }
-
-        public abstract void InitFields();
-    }
+    }   
 }

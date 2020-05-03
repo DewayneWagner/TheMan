@@ -32,7 +32,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                     Style = SKPaintStyle.Fill,
                     Color = TreeBranchesColor,                    
                 };
-                //SetGradient();
                 return fillPaint;
             }
         }

@@ -17,6 +17,7 @@ using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Borders;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest;
 using TheManXS.ViewModel.MapBoardVM.Infrastructure;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
@@ -109,18 +110,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             new TreesList(forestSQs, SKBitMapOfMap, _game.PaletteColors);
         }
-        
-        private void InitMountains()
-        {
-            var _mountainSQs = _game.SquareDictionary
-                .Where(s => s.Value.TerrainType == TerrainTypeE.Mountain)
-                .ToList();
-
-            foreach (KeyValuePair<int,SQ> item in _mountainSQs)
-            {
-                new Mountain(_game, item.Value);
-            }
-        }
+        private void InitMountains() { new MountainRange(_game); }
         private void InitPumpJacks()
         {
             var oilProducingSQs = _game.SquareDictionary
