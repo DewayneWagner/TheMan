@@ -5,7 +5,7 @@ using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
+namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City
 {
     class House
     {

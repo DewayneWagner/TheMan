@@ -44,6 +44,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             MapMatrix = SKMatrix.MakeIdentity();
             SqAttributesList = new SqAttributesList(this);
             new SurfaceFeaturesInit(_game);
+
         }
 
         private SKBitmap _map;

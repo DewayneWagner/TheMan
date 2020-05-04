@@ -10,6 +10,7 @@ using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
 {
@@ -63,20 +64,15 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
                         canvas.DrawPath(m.MountainPath, m.MountainStroke);
                     }
                     void initForest()
-                    {                        
-                        int r = rnd.Next(0, 5);
-                        if (r <= 2) 
-                        { 
-                            PoplarTree tree = new PoplarTree(s.SKRect, SKColors.ForestGreen);
+                    {
+                        TreesList treeList = new TreesList(s.SKRect, _game.PaletteColors);
+                        foreach (Tree tree in treeList)
+                        {
                             canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
                             canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
-                        }
-                        else 
-                        { 
-                            SpruceTree tree = new SpruceTree(s.SKRect, _game.PaletteColors.GetRandomColor(TT.Forest));
-                            canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
-                            canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
-                        }                        
+                            canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
+                            canvas.DrawRect(tree.TreeTrunkRect, tree.StrokePaint);
+                        }                 
                     }
 
                     void initCitySQ() { new LowDensity(_game, s); }

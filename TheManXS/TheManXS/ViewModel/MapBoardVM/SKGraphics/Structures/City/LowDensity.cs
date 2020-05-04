@@ -5,9 +5,9 @@ using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
+namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City
 {
-    class LowDensity
+    class LowDensity 
     {
         private const int NumberOfHousesPerSQ = 4; // must be perfect square, minimum of 4
         private int _numberOfHousesPerSide = (int)Math.Sqrt(NumberOfHousesPerSQ);

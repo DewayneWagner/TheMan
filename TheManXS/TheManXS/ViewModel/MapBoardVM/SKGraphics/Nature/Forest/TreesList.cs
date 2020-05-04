@@ -14,13 +14,16 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
     {
         System.Random rnd = new System.Random();
         private PaletteColorList _paletteColor;
-        public TreesList(List<KeyValuePair<int,SQ>> listOfAllForestSQs, SKBitmap gameBoard, PaletteColorList paletteColor)
+        SKRect _rect;
+
+        public TreesList(SKRect SqWhereForestIsToGo, PaletteColorList pc)
         {
-            _paletteColor = paletteColor;
-            InitListWithAllTrees(paletteColor, listOfAllForestSQs);
-            DrawAllTreesOnCanvas(gameBoard);
+            _paletteColor = pc;
+            _rect = SqWhereForestIsToGo;
+            InitListOfTreesForSQ();
         }
-        void InitListWithAllTrees(PaletteColorList pc, List<KeyValuePair<int, SQ>> listOfAllForestSQ)
+
+        public void InitListOfTreesForSQ()
         {
             float verticalOverlapRatio = 0.5f;
             int rowQ = 4;
@@ -32,51 +35,93 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             float offset = 0;
             int colQ = 0;
 
-            foreach (KeyValuePair<int,SQ> item in listOfAllForestSQ)
+            for (int row = 0; row < rowQ; row++)
             {
-                for (int row = 0; row < rowQ; row++)
+                if (row % 2 == 0)
                 {
-                    if(row % 2 == 0)
-                    {
-                        offset = 0;
-                        colQ = maxColumns;
-                    }
-                    else
-                    {
-                        offset = widthOfTree * 0.5f;
-                        colQ = (maxColumns - 1);
-                    }
+                    offset = 0;
+                    colQ = maxColumns;
+                }
+                else
+                {
+                    offset = widthOfTree * 0.5f;
+                    colQ = (maxColumns - 1);
+                }
 
-                    for (int col = 0; col < colQ; col++)
-                    {                        
-                        left = item.Value.Col * QC.SqSize + col * widthOfTree + offset;
-                        top = item.Value.Row * QC.SqSize + row * ((1 - verticalOverlapRatio) * heightOfTree);
-                        right = left + widthOfTree;
-                        bottom = top + heightOfTree;
+                for (int col = 0; col < colQ; col++)
+                {
+                    left = _rect.Left + col * widthOfTree + offset;
+                    top = _rect.Top + row * ((1 - verticalOverlapRatio) * heightOfTree);
+                    right = left + widthOfTree;
+                    bottom = top + heightOfTree;
 
-                        SKRect rect = new SKRect(left, top, right, bottom);
-                        SKColor treeBranchColor = pc.GetRandomColor(TerrainTypeE.Forest);
-                        rand = rnd.Next(0, 5);
+                    SKRect rect = new SKRect(left, top, right, bottom);
+                    SKColor treeBranchColor = _paletteColor.GetRandomColor(TerrainTypeE.Forest);
+                    rand = rnd.Next(0, 5);
 
-                        if(rand == 0 || rand < 4) { this.Add(new SpruceTree(rect, treeBranchColor)); }
-                        else { this.Add(new PoplarTree(rect, treeBranchColor)); }
-                    }
+                    if (rand == 0 || rand < 4) { this.Add(new SpruceTree(rect, treeBranchColor)); }
+                    else { this.Add(new PoplarTree(rect, treeBranchColor)); }
                 }
             }
         }
-        void DrawAllTreesOnCanvas(SKBitmap map)
-        {
-            using (SKCanvas canvas = new SKCanvas(map))
-            {
-                foreach (Tree tree in this) 
-                { 
-                    canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
-                    canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
-                    canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
-                    canvas.DrawRect(tree.TreeTrunkRect, tree.StrokePaint);
-                }
-                canvas.Save();
-            }
-        }
+
+        //void InitListWithAllTrees(PaletteColorList pc, List<KeyValuePair<int, SQ>> listOfAllForestSQ)
+        //{
+        //    float verticalOverlapRatio = 0.5f;
+        //    int rowQ = 4;
+        //    float heightOfTree = QC.SqSize / (rowQ - (rowQ * verticalOverlapRatio) + verticalOverlapRatio);
+        //    float widthOfTree = heightOfTree * Tree.WidthVsHeightRatio;
+        //    int maxColumns = (int)Math.Floor(QC.SqSize / widthOfTree);
+        //    float left, top, right, bottom;
+        //    int rand = 0;
+        //    float offset = 0;
+        //    int colQ = 0;
+
+        //    foreach (KeyValuePair<int,SQ> item in listOfAllForestSQ)
+        //    {
+        //        for (int row = 0; row < rowQ; row++)
+        //        {
+        //            if(row % 2 == 0)
+        //            {
+        //                offset = 0;
+        //                colQ = maxColumns;
+        //            }
+        //            else
+        //            {
+        //                offset = widthOfTree * 0.5f;
+        //                colQ = (maxColumns - 1);
+        //            }
+
+        //            for (int col = 0; col < colQ; col++)
+        //            {                        
+        //                left = item.Value.Col * QC.SqSize + col * widthOfTree + offset;
+        //                top = item.Value.Row * QC.SqSize + row * ((1 - verticalOverlapRatio) * heightOfTree);
+        //                right = left + widthOfTree;
+        //                bottom = top + heightOfTree;
+
+        //                SKRect rect = new SKRect(left, top, right, bottom);
+        //                SKColor treeBranchColor = pc.GetRandomColor(TerrainTypeE.Forest);
+        //                rand = rnd.Next(0, 5);
+
+        //                if(rand == 0 || rand < 4) { this.Add(new SpruceTree(rect, treeBranchColor)); }
+        //                else { this.Add(new PoplarTree(rect, treeBranchColor)); }
+        //            }
+        //        }
+        //    }
+        //}
+        //void DrawAllTreesOnCanvas(SKBitmap map)
+        //{
+        //    using (SKCanvas canvas = new SKCanvas(map))
+        //    {
+        //        foreach (Tree tree in this) 
+        //        { 
+        //            canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
+        //            canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
+        //            canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
+        //            canvas.DrawRect(tree.TreeTrunkRect, tree.StrokePaint);
+        //        }
+        //        canvas.Save();
+        //    }
+        //}
     }
 }

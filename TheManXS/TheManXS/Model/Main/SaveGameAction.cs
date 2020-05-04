@@ -29,11 +29,15 @@ namespace TheManXS.Model.Main
                 void updateGameSpecificParameters()
                 {
                     var gsp = db.GameSpecificParameters.Where(g => g.Slot == QC.CurrentSavedGameSlot).FirstOrDefault();
-                    gsp.Quarter = _game.Quarter;
-                    gsp.TurnNumber = _game.TurnNumber;
-                    gsp.ActivePlayerNumber = _game.ActivePlayer.Number;
-                    gsp.LastPlayed = DateTime.Now;
-                    db.GameSpecificParameters.Update(gsp);
+
+                    if (gsp != null)
+                    {
+                        gsp.Quarter = _game.Quarter;
+                        gsp.TurnNumber = _game.TurnNumber;
+                        gsp.ActivePlayerNumber = _game.ActivePlayer.Number;
+                        gsp.LastPlayed = DateTime.Now;
+                        db.GameSpecificParameters.Update(gsp);
+                    }                   
                 }
                 void updateSQDictionaryInDB()
                 {
