@@ -61,7 +61,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _game = game;
             _sq = sq;
             InitFields();
-            _topRectanglePaint.Color = _game.PlayerList[_sq.OwnerNumber].SKColor;
+            _topRectanglePaint.Color = _sq.OwnerNumber == QC.PlayerIndexTheMan? SKColors.White : _game.PlayerList[_sq.OwnerNumber].SKColor;
             InitTopRectangle();
             InitStraightLeg();
             InitAngledLeg();

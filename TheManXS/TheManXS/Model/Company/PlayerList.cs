@@ -40,8 +40,6 @@ namespace TheManXS.Model.Company
         {
             // init variables
             CompanyNameGenerator companyNameGenerator = new CompanyNameGenerator();
-            //double cash = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartCash);
-            //double debt = Settings.Setting.GetConstant(AS.CashConstant, (int)Settings.SettingsMaster.CashConstantParameters.StartDebt);
 
             // init playerList with variables that change for each player
             for (int i = 0; i < QC.PlayerQ; i++)

@@ -35,7 +35,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             InitFields();
             //CreateBackgroundSKRectWithOwnerColor();
             DrawStreets();            
-            PaintEverything();
+            //PaintEverything();
             InitHouses();
         }
         private void InitFields()

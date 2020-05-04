@@ -56,18 +56,34 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
                         OwnedSQsPaint.Color = _game.PlayerList[s.OwnerNumber].SKColor.WithAlpha(0x75);
                         canvas.DrawRect(sq.Value.SKRect, OwnedSQsPaint);
                     }
-                    void initMountain() { new TwoPeakMountain(s.SKRect); }
+                    void initMountain() 
+                    { 
+                        TwoPeakMountain m = new TwoPeakMountain(s.SKRect);
+                        canvas.DrawPath(m.MountainPath, m.MountainPaint);
+                        canvas.DrawPath(m.MountainPath, m.MountainStroke);
+                    }
                     void initForest()
-                    {
+                    {                        
                         int r = rnd.Next(0, 5);
-                        if(r <= 2) { new PoplarTree(s.SKRect, SKColors.ForestGreen); }
-                        else { new SpruceTree(s.SKRect, _game.PaletteColors.GetRandomColor(TT.Forest)); }
+                        if (r <= 2) 
+                        { 
+                            PoplarTree tree = new PoplarTree(s.SKRect, SKColors.ForestGreen);
+                            canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
+                            canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
+                        }
+                        else 
+                        { 
+                            SpruceTree tree = new SpruceTree(s.SKRect, _game.PaletteColors.GetRandomColor(TT.Forest));
+                            canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
+                            canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
+                        }                        
                     }
 
                     void initCitySQ() { new LowDensity(_game, s); }
                     void initPumpJack() { new PumpJack(_game, s); }
                     void initMineShaft() { new MineShaft(_game, s); }
-                }            
+                }
+                canvas.Save();
             }
         }
     }
