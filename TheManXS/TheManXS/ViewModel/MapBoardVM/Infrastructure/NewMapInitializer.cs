@@ -83,7 +83,47 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     {
                         List<SQ> tributary = tributaryList.Where(tr => tr.TributaryNumber == t).ToList();
                         List<SQ> sortedListOfTributaries = getSortedList(tributary);
+                        connectTributaryToMainRiver(ref sortedListOfTributaries);
                         AddAllInfrastructure(IT.Tributary, sortedListOfTributaries);
+                    }
+                }
+
+                void connectTributaryToMainRiver(ref List<SQ> tributaryList)
+                {
+                    // the ends of list are either Main River or map edge
+                    int indexOfMainRiverAdjacentSQOnTributary = getIndexOfMainRiverAdjacentSQOnTributary(tributaryList);
+                    SQ mainRiverAdjacentSQOnTributary = tributaryList[indexOfMainRiverAdjacentSQOnTributary];
+                    SQ mainRiverJoinPoint = getMainRiverJoinPoint();
+
+                    if(indexOfMainRiverAdjacentSQOnTributary == 0) { tributaryList.Insert(0, mainRiverJoinPoint); }
+                    else { tributaryList.Add(mainRiverJoinPoint); }
+
+                    SQ getMainRiverJoinPoint()
+                    {
+                        using (DBContext db = new DBContext())
+                        {
+                            for (int rowChange = -1; rowChange < 2; rowChange++)
+                            {
+                                for (int colChange = -1; colChange < 2; colChange++)
+                                {
+                                    SQ adjSQ = db.SQ.Where(s => s.Row == (mainRiverAdjacentSQOnTributary.Row + rowChange))
+                                        .Where(s => s.Col == (mainRiverAdjacentSQOnTributary.Col + colChange))
+                                        .FirstOrDefault();
+                                    if(adjSQ.IsMainRiver) { return adjSQ; }
+                                }
+                            }
+                            return mainRiverAdjacentSQOnTributary;
+                        }                        
+                    }
+                    bool isMapEdge(SQ sq)
+                    {
+                        if (sq.Row == 0 || sq.Row == (QC.RowQ - 1) || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) { return true; }
+                        else { return false; }
+                    }
+                    int getIndexOfMainRiverAdjacentSQOnTributary(List<SQ> list)
+                    {
+                        if(!isMapEdge(list[0])) { return 0; }
+                        else { return (list.Count - 1); }
                     }
                 }
 

@@ -1,7 +1,6 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
@@ -51,10 +50,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
                         else if(s.TerrainType == TT.City) { initCitySQ(); }
                         else { initMineShaft(); }
                     }
-
                     void initOwnedSQs()
                     {
-                        OwnedSQsPaint.Color = _game.PlayerList[s.OwnerNumber].SKColor.WithAlpha(0x75);
+                        OwnedSQsPaint.Color = _game.PlayerList[s.OwnerNumber].SKColor.WithAlpha(0x50);
                         canvas.DrawRect(sq.Value.SKRect, OwnedSQsPaint);
                     }
                     void initMountain() 

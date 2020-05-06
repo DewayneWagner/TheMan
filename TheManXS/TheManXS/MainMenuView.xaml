@@ -6,7 +6,14 @@
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:TheManXS.ViewModel.Services"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="TheManXS.View.DetailView.MainMenuView">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="standardOpacity">0.8</x:Double>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
             <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
@@ -22,19 +29,23 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="5*"/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                       HorizontalOptions="FillAndExpand" 
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       FontSize="Large"
-                       Text="THE MAN"
-                       FontAttributes="Bold"
-                       HeightRequest="300"/>
+                
+                <skia:SKCanvasView
+                    Opacity="{StaticResource standardOpacity}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Grid.ColumnSpan="2"
+                    x:Name="logoCanvasView"
+                    PaintSurface="logoCanvasView_PaintSurface"/>
+                
                 <Button Grid.Row="2" Grid.Column="1"
+                        Opacity="{StaticResource standardOpacity}"
                         FontAttributes="Bold"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
@@ -42,6 +53,7 @@
                         Text="Start New Game" 
                         Command="{Binding StartNewGame}"/>
                 <Button Grid.Row="2" Grid.Column="3"
+                        Opacity="{StaticResource standardOpacity}"
                         FontAttributes="Bold"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
@@ -49,6 +61,7 @@
                         Text="Load Game" 
                         Command="{Binding LoadGame}"/>
                 <Button Grid.Row="3" Grid.Column="3"
+                        Opacity="{StaticResource standardOpacity}"
                         Style="{StaticResource ButtonStandard}" 
                         Text="D" Command="{Binding DeveloperView}"
                         WidthRequest="50" HeightRequest="50"

@@ -7,11 +7,12 @@
              xmlns:vm="clr-namespace:TheManXS.ViewModel"
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="TheManXS.View.SetupNewGameView">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="standardOpacity">0.9</x:Double>
+            <x:Double x:Key="standardOpacity">0.8</x:Double>
             <x:Double x:Key="standardMargin">5</x:Double>
             <OnPlatform x:TypeArguments="x:Double" x:Key="gridMargin" Default="250">
                 <OnPlatform.iOS>10</OnPlatform.iOS>
@@ -94,7 +95,15 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Image Grid.Row="0" 
+                <skia:SKCanvasView
+                    Opacity="{StaticResource standardOpacity}"
+                    Grid.Row="0"
+                    Grid.Column="0"                    
+                    Grid.ColumnSpan="2"
+                    PaintSurface="SKCanvasView_PaintSurface"
+                    x:Name="LogoSKCanvasView"/>
+                
+                <!--<Image Grid.Row="0" 
                        Grid.Column="0" 
                        Grid.ColumnSpan="2"
                        Margin="{StaticResource standardMargin}"
@@ -102,7 +111,7 @@
                        Aspect="AspectFit" 
                        Opacity="{StaticResource standardOpacity}"
                        HorizontalOptions="Center" 
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center"/>-->
 
                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  
                         Style="{StaticResource MainHeading}" 

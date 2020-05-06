@@ -10,9 +10,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public class PaintTypes : List<SKPaint>
     {
-        private const float RiverWidthRatio = 0.3f;
-        private const float TributaryWidthRatio = 0.15f;
-        private const float SandWidthOverWater = 0.1f;
+        private const float RiverWidthRatio = 0.15f;
+        private const float TributaryWidthRatio = 0.05f;
+        private const float SandWidthOverWater = 0.05f;
         private const float InfrastructureWidthRatio = 0.1f;
 
         public PaintTypes()
@@ -31,9 +31,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             return new SKPaint
             {
-                Color = SKColors.White,
-                Style = SKPaintStyle.StrokeAndFill,
-                StrokeWidth = 1,
+                Color = SKColors.Crimson,
+                Style = SKPaintStyle.Stroke,
+                StrokeWidth = 5,
             };
         }
         private SKPaint GetRailroadSKPaint()

@@ -20,6 +20,7 @@ namespace TheManXS
             Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game, ApplicationVM }
 
         public static PathList PathList;
+        public static bool MapHasBeenCreated;
         private ApplicationVM _applicationVM;
 
         public App(PathList pathList)
@@ -53,8 +54,11 @@ namespace TheManXS
         protected override void OnSleep()
         {
             // Handle when your app sleeps
-            Game thisGame = (Game)Properties[Convert.ToString(ObjectsInPropertyDictionary.Game)];
-            new SaveGameAction(thisGame);
+            if (MapHasBeenCreated)
+            {
+                Game thisGame = (Game)Properties[Convert.ToString(ObjectsInPropertyDictionary.Game)];
+                new SaveGameAction(thisGame);
+            }
         }
 
         protected override void OnResume()
