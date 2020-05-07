@@ -10,6 +10,8 @@ using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using SkiaSharp;
+using System.Linq;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
@@ -19,7 +21,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         MapVM _mapVM;
         Game _game;
 
-        public enum ActionRows { LogoAndBackButton, Title, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
+        public enum ActionRows { TitleAndBackButton, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
             GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount }
 
         private int _quantityOfRowsInSQ = (int)ActionRows.Button + 1;
@@ -69,7 +71,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private void InitAllElements()
         {
             InitGrid();
-            AddLogoToTopOfGrid();
             InitDataRows();
             InitBackButton();
             InitTitle();
@@ -87,21 +88,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             {
                 for (int i = 0; i < _quantityOfRowsInUnit; i++)
                 {
-                    if (i == (int)ActionRows.LogoAndBackButton || i == (int)ActionRows.Button) 
+                    if (i == (int)ActionRows.TitleAndBackButton || i == (int)ActionRows.Button) 
                         { RowDefinitions.Add(new RowDefinition()); }
                     else { RowDefinitions.Add(new RowDefinition()); }
                 }
             }
-        }
-
-        public void AddLogoToTopOfGrid()
-        {
-            Image logo = AllImages.GetImage(AllImages.ImagesAvailable.Logo);
-            logo.Aspect = Aspect.AspectFit;
-            Children.Add(logo, 0, (int)ActionRows.LogoAndBackButton);
-            Grid.SetColumnSpan(logo, 2);
-            logo.VerticalOptions = LayoutOptions.StartAndExpand;
-            logo.HorizontalOptions = LayoutOptions.StartAndExpand;
         }
 
         public void InitDataRows()
@@ -170,7 +161,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 TextColor = Color.Black,
             };
 
-            Children.Add(backButton, 1, (int)ActionRows.LogoAndBackButton);
+            Children.Add(backButton, 1, (int)ActionRows.TitleAndBackButton);
             backButton.Clicked += OnBackButton;
         }
 
@@ -186,16 +177,15 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = Color.Crimson,
+                BackgroundColor = _game.PaletteColors.Where(c => c.Description == "Banff 2").Select(c => c.Color).FirstOrDefault(),
                 TextColor = Color.White,
                 HeightRequest = _buttonAndTitleHeight,
                 Margin = (_buttonAndTitleHeight * 0.1),
-                FontSize = (_buttonAndTitleHeight * 0.75),
+                FontSize = (_buttonAndTitleHeight * 0.5),
             };
 
-            if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
-            else if(_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.Title); }
-            Grid.SetColumnSpan(titleLabel, 2);
+            if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
+            else if(_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
         }        
 
         public void InitActionButton()

@@ -18,7 +18,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         private const float _verticalThicknessOfTieKnotRatio = 0.05f;
         private const float _bottomPointOfTieKnotFromEdgeXRatio = 0.46f;
 
-        private const float _gapBetweenTieAndSuitJacketRatio = 0.01f;
+        private const float _gapBetweenTieAndSuitJacketRatio = 0.1f;
         private const float _widthOfTieAtWidestPointFromEdgeXRatio = 0.44f;
         
         private const float _cuffOutsideEdgeFromVerticalEdgeRatio = 0.075f;
@@ -37,6 +37,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         private const float _verticalThicknessOfSideTieRatio = 0.75f;
         private const float _widthOfSideOfTiePastKnotFromEdgeRatio = 0.35f;
         private const float _sideTieHeightVariationRatio = 0.025f;
+        private const float _strokeWidthRatio = 0.01f;
+
         private float _verticalThicknessOfSideTie;
         private float _widthOfSideOfTiePastKnotFromEdge;
         private float _sideTieHeightVariation;
@@ -71,23 +73,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             Color = SKColors.Black,
             Style = SKPaintStyle.Stroke,
             IsAntialias = true,
-            StrokeWidth = 10,
-        };
-
-        SKPaint _backgroundStroke = new SKPaint()
-        {
-            Color = SKColors.Black,
-            IsAntialias = true,
-            Style = SKPaintStyle.Stroke,
-            StrokeWidth = 10,
-        };
-
-        SKPaint _backGroundFill = new SKPaint()
-        {
-            //Color = SKColors.Transparent,
-            Color = new SKColor(109, 124, 135),
-            IsAntialias = true,
-            Style = SKPaintStyle.Fill,
         };
 
         SKPaint _tieFillPaint = new SKPaint()
@@ -101,8 +86,10 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         SKPath _tieKnotPath = new SKPath();
         SKPath _mainTiePath = new SKPath();
         SKPath _sidePartOfTiePath = new SKPath();
+
         NamePlacard _namePlacard;
         Desk _desk;
+        LogoBackground _logoBackground;
 
         public Logo(SKCanvas canvas, SKRect position)
         {
@@ -142,7 +129,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _verticalThicknessOfSideTie = _verticalThicknessOfTieKnotRatio * s * _verticalThicknessOfSideTieRatio;
             _widthOfSideOfTiePastKnotFromEdge = _widthOfSideOfTiePastKnotFromEdgeRatio * s;
             _sideTieHeightVariation = _sideTieHeightVariationRatio * s;
+            _logoStrokePaint.StrokeWidth = _strokeWidthRatio * s;
 
+            _logoBackground = new LogoBackground(_position, _cornerRadiusOfOutsideBorder, _logoStrokePaint.StrokeWidth);
             _bottomPointOfTie = new SKPoint(_position.MidX, (_topButtonFromTopEdge_Y - _gapBetweenTieAndSuitJacket + _position.Top));       
         }
         private void InitPath()
@@ -240,9 +229,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         }
         private void DrawPath()
         {
-            SKRoundRect roundedRect = new SKRoundRect(_position, _cornerRadiusOfOutsideBorder, _cornerRadiusOfOutsideBorder);
-            _canvas.DrawRoundRect(roundedRect, _backGroundFill);
-            _canvas.DrawRoundRect(roundedRect, _backgroundStroke);
+            _canvas.DrawRoundRect(_logoBackground.RoundRect, _logoBackground.Fill);
+            _canvas.DrawRoundRect(_logoBackground.RoundRect, _logoStrokePaint);
+
             _canvas.DrawPath(_suitJacketPath, _suitJacketFillPaint);
             _canvas.DrawPath(_suitJacketPath, _logoStrokePaint);
             _canvas.DrawPath(_tieKnotPath, _tieFillPaint);

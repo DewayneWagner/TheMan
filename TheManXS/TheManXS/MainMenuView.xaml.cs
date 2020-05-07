@@ -39,8 +39,9 @@ namespace TheManXS.View.DetailView
             SKCanvas canvas = e.Surface.Canvas;
             float logoWidthRatio = 0.6f;
             float sqSize = QC.ScreenWidth * logoWidthRatio;
+            float logoFromEdge = (float)(logoCanvasView.X + logoCanvasView.Width / 2);
 
-            float left = (float)logoCanvasView.X;
+            float left = (float)logoCanvasView.X + logoFromEdge;
             float top = (float)logoCanvasView.Y;
             float right = left + sqSize;
             float bottom = top + sqSize;

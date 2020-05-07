@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
@@ -19,10 +20,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         bool _additionalDebtApproved;
         public ActionButton(Game game, ActionPanelGrid.PanelType pt)
         {
+            _game = game;
             _pageServices = new PageService();
             setPropertiesOfButton();
-
-            _game = game;
+            
             _panelType = pt;
 
             Text = GetNextActionText(pt);
@@ -33,7 +34,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             // button size, margin, and height set in ActionPanelGrid class
             HorizontalOptions = LayoutOptions.CenterAndExpand;
             VerticalOptions = LayoutOptions.CenterAndExpand;
-            BackgroundColor = Color.Crimson;            
+            BackgroundColor = _game.PaletteColors.Where(c => c.Description == "Banff 2").Select(c => c.Color).FirstOrDefault();
             TextColor = Color.White;
             WidthRequest = QC.WidthOfActionPanel * 0.8;
             FontAttributes = FontAttributes.Bold;

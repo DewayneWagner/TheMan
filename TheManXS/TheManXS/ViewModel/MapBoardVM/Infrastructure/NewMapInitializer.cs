@@ -102,14 +102,24 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     {
                         using (DBContext db = new DBContext())
                         {
+                            int row;
+                            int col;
+
                             for (int rowChange = -1; rowChange < 2; rowChange++)
                             {
                                 for (int colChange = -1; colChange < 2; colChange++)
                                 {
-                                    SQ adjSQ = db.SQ.Where(s => s.Row == (mainRiverAdjacentSQOnTributary.Row + rowChange))
-                                        .Where(s => s.Col == (mainRiverAdjacentSQOnTributary.Col + colChange))
-                                        .FirstOrDefault();
-                                    if(adjSQ.IsMainRiver) { return adjSQ; }
+                                    row = mainRiverAdjacentSQOnTributary.Row + rowChange;
+                                    col = mainRiverAdjacentSQOnTributary.Col + colChange;
+
+                                    if (TheManXS.Model.Map.Surface.Coordinate.DoesSquareExist(row, col))
+                                    {
+                                        SQ adjSQ = db.SQ.Where(s => s.Row == row)
+                                            .Where(s => s.Col == col)
+                                            .FirstOrDefault();
+                                        if (adjSQ.IsMainRiver) { return adjSQ; }
+                                    }
+                                    
                                 }
                             }
                             return mainRiverAdjacentSQOnTributary;
@@ -169,7 +179,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         //path.CubicTo(path.LastPoint, pathSegmentList[i].SKPoint, pathSegmentList[i + 1].SKPoint);
                         //i++;
                         break;
-
+                         
                     case SegmentType.EdgePointEnd:
                         path.LineTo(p.SKPoint);
                         break;

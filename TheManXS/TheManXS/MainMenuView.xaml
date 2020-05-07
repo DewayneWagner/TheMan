@@ -40,7 +40,7 @@
                     Grid.Column="1"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="4"
                     x:Name="logoCanvasView"
                     PaintSurface="logoCanvasView_PaintSurface"/>
                 
