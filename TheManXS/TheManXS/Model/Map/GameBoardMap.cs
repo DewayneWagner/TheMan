@@ -13,6 +13,7 @@ using TheManXS.Services.EntityFrameWork;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using TheManXS.Model.ParametersForGame;
+using Windows.UI.Xaml.Controls;
 
 namespace TheManXS.Model.Map
 {
@@ -80,19 +81,31 @@ namespace TheManXS.Model.Map
         }
         private void InitSQsForTesting()
         {
-            for (int row = 0; row < 3; row++)
-            {
-                for (int col = 0; col < 3; col++)
-                {
-                    SQMap[row, col].ResourceType = ResourceTypeE.Oil;
-                    SQMap[row, col].Production = rnd.Next(5, 20);
-                    SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
-                    SQMap[row, col].FormationID = 50;
-                    SQMap[row, col].Transport = rnd.Next(5, 20);
-                    SQMap[row, col].Status = ST.Producing;
-                    SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
-                }
-            }
+            int row = 2;
+            int col = 2;
+
+            SQMap[row, col].ResourceType = ResourceTypeE.Oil;
+            SQMap[row, col].Production = rnd.Next(5, 20);
+            SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
+            SQMap[row, col].FormationID = 50;
+            SQMap[row, col].Transport = rnd.Next(5, 20);
+            SQMap[row, col].Status = ST.Producing;
+            SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
+
+            //for (int row = 0; row < 3; row++)
+            //{
+            //    for (int col = 0; col < 3; col++)
+             //    {
+            //        SQMap[row, col].ResourceType = ResourceTypeE.Oil;
+            //        SQMap[row, col].Production = rnd.Next(5, 20);
+            //        SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
+            //        SQMap[row, col].FormationID = 50;
+            //        SQMap[row, col].Transport = rnd.Next(5, 20);
+            //        SQMap[row, col].Status = ST.Producing;
+            //        SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
+            //    }
+            //}
+            
             foreach (Player player in _game.PlayerList)
             {
                 int productingSQsForPlayer = 0;

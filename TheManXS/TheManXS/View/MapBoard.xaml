@@ -28,6 +28,18 @@
                     <main:TitleBarVM/>
                 </StackLayout.BindingContext>
 
+                <skia:SKCanvasView
+                    PaintSurface="LogoSKCanvasHandler"   
+                    x:Name="LogoTopLeftCorner"/>
+
+                <!--<skia:SKCanvasView
+                    Opacity="{StaticResource standardOpacity}"
+                    Grid.Row="0"
+                    Grid.Column="0"                    
+                    Grid.ColumnSpan="2"
+                    PaintSurface="SKCanvasView_PaintSurface"
+                    x:Name="LogoSKCanvasView"/>-->
+
                 <Label Style="{StaticResource GameboardTopTitleLabels}" 
                        Text="Quarter:"/>
                 <Label Style="{StaticResource GameboardTopTitleLabels}" 

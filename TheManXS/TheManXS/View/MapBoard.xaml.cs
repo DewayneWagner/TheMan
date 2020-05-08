@@ -15,6 +15,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos;
+using SkiaSharp.Views.Forms;
 
 namespace TheManXS.View
 {
@@ -148,6 +150,24 @@ namespace TheManXS.View
             new EndTurnAction(_game);
             TickerSP.Children.RemoveAt(0);
             TickerSP.Children.Add(_game.GameBoardVM.TickerVM.Ticker);
+        }
+
+        private void LogoSKCanvasHandler(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
+        {
+            var canvasView = sender as SKCanvasView;
+            SKCanvas canvas = e.Surface.Canvas;
+            double margin = 2;
+            LogoTopLeftCorner.Margin = margin;
+            LogoTopLeftCorner.VerticalOptions = LayoutOptions.CenterAndExpand;
+
+            double sqSize = LogoTopLeftCorner.Width * 2.5 - (margin * 2);
+            float left = (float)(LogoTopLeftCorner.X);
+            float top = (float)(LogoTopLeftCorner.Y);
+            float right = (float)(left + sqSize);
+            float bottom = (float)(top + sqSize);
+
+            SKRect rect = new SKRect(left, top, right, bottom);
+            new Logo(canvas, rect);
         }
     }
 }

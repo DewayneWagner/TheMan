@@ -19,7 +19,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
 
         public enum FormatTypes { CompanyNameColHeading, MainHeading, SubHeading, LineItem, Totals }
-        public enum DataPanelType { AllPlayers, SinglePlayer, Ratios, PropertyBreakdown, Graphs }
+        public enum DataPanelType { AllPlayers, SinglePlayer, Ratios, PropertyBreakdown, Graphs, Loans }
 
         Game _game;
         public const int QDATACOLUMNS = 5;
@@ -63,6 +63,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public ICommand Ratios { get; set; }
         public ICommand PropertyBreakdown { get; set; }
         public ICommand Graphs { get; set; }
+        public ICommand Loans { get; set; }
        
         void CreateNewDataPanel()
         {
@@ -84,6 +85,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     //DataPresentationArea.Content = new GraphsGrid(_game);
                     DataPresentationArea.Content = new FinancialChartsVM(_game);
                     break;
+                case DataPanelType.Loans:
+
+
+                    break;
                 default:
                     break;
             }
@@ -96,11 +101,13 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             Ratios = new Command(OnRatios);
             PropertyBreakdown = new Command(OnPropertyBreakdown);
             Graphs = new Command(OnGraphs);
+            Loans = new Command(OnLoans);
         }
         void OnSinglePlayer() => DataPanel = DataPanelType.SinglePlayer;
         void OnAllPlayers() => DataPanel = DataPanelType.AllPlayers;
         void OnRatios() => DataPanel = DataPanelType.Ratios;
         void OnPropertyBreakdown() => DataPanel = DataPanelType.PropertyBreakdown;
         void OnGraphs() => DataPanel = DataPanelType.Graphs;
+        void OnLoans() => DataPanel = DataPanelType.Loans;
     }
 }

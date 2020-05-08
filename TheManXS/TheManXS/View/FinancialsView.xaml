@@ -27,6 +27,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button Command="{Binding AllPlayers}" Text="All Players" Style="{StaticResource FinGridButton}" 
@@ -48,7 +49,11 @@
             <Button Command="{Binding Graphs}" Text="Graphs" Style="{StaticResource FinGridButton}" 
                     WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
                     Grid.Row="4" Grid.Column="0"/>
-            
+
+            <Button Command="{Binding Loans}" Text="Your Loans" Style="{StaticResource FinGridButton}" 
+                    WidthRequest="{Binding ButtonSize}" HeightRequest="{Binding ButtonSize}"
+                    Grid.Row="5" Grid.Column="0"/>
+
         </Grid>
 
         <ScrollView Grid.Row="0" Grid.Column="1" Orientation="Vertical" x:Name="DataPresentationAreaSV"/>
