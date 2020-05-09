@@ -52,7 +52,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             AddDataValuesToGrid();
         }
         public AllPropertyBreakdownList PropertyBreakdownListOfAllProducingProperties { get; set; }
-        
 
         void InitGrid()
         {

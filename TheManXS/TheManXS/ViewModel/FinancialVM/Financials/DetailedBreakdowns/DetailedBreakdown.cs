@@ -6,6 +6,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 {
     abstract class DetailedBreakdown
     {
-        public abstract DetailedBreakdownGrid DetailedBreakdownGrid { get; set; }
+        public abstract DetailedBreakdownGrid DetailedBreakdownGrid { get; }
+        public abstract List<DataRowList> ListOfDataRowList { get; }
     }
 }

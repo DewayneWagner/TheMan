@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 
 namespace TheManXS.Model.Financial
@@ -15,8 +16,9 @@ namespace TheManXS.Model.Financial
         {
             _game = game;
             _dataPanelType = dataPanelType;
-            _lineItemsArray = new FinancialsLineItems[(int)LineItemType.Total];               
+            _lineItemsArray = new FinancialsLineItems[(int)LineItemType.Total];
             InitListWithHeadings();
+            _game.FinancialValuesList.AssignValuesToFinancialLineItemsArrays(_lineItemsArray);
         }
         public FinancialsLineItems[] GetArrayOfFinancialsLineItems() => _lineItemsArray;
         void InitListWithHeadings()
@@ -26,7 +28,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.CompanyNamesOrTurnNumber,
                     FinalText = GetFinalTextForCompanyOrTurn(),
-                    FormatType = FormatTypes.CompanyNameColHeading,
+                    DataRowType = DataRowType.MainHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.BalanceSheets] = 
@@ -34,7 +36,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.BalanceSheets,
                     FinalText = "Balance Sheet",
-                    FormatType = FormatTypes.MainHeading,
+                    DataRowType = DataRowType.SubHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.Cash] =
@@ -42,7 +44,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.Cash,
                     FinalText = "Cash",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.PPE] =
@@ -50,7 +52,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.PPE,
                     FinalText = "PPE",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.TotalAssets] =
@@ -58,7 +60,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.TotalAssets,
                     FinalText = "Total Assets",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.SubHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.LongTermDebt] =
@@ -66,7 +68,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.LongTermDebt,
                     FinalText = "Long Term Debt",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.TotalCapital] =
@@ -74,7 +76,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.TotalCapital,
                     FinalText = "Total Capital",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.SubHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.CashFlowStateMent] =
@@ -82,7 +84,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.CashFlowStateMent,
                     FinalText = "Cash Flow Statement",
-                    FormatType = FormatTypes.MainHeading,
+                    DataRowType = DataRowType.MainHeading,
                 });
 
             _lineItemsArray[(int)LineItemType.Revenue] =
@@ -90,7 +92,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.Revenue,
                     FinalText = "Revenue",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.OPEX] = 
@@ -98,7 +100,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.OPEX,
                     FinalText = "OPEX Cost",
-                    FormatType = FormatTypes.LineItem
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.TheManCut] =
@@ -106,7 +108,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.TheManCut,
                     FinalText = "The Man Cost",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.DebtPayment] = 
@@ -114,7 +116,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.DebtPayment,
                     FinalText = "Debt Payment",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.GrossProfitD] = 
@@ -122,7 +124,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.GrossProfitD,
                     FinalText = "Gross Profit ($)",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.Subtotal,
                 });
 
             _lineItemsArray[(int)LineItemType.GrossProfitP] =
@@ -130,7 +132,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.GrossProfitP,
                     FinalText = "Gross Profit (%)",
-                    FormatType = FormatTypes.Totals
+                    DataRowType = DataRowType.Subtotal,
                 });
 
             _lineItemsArray[(int)LineItemType.CAPEXCosts] =
@@ -138,7 +140,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.CAPEXCosts,
                     FinalText = "CAPEX Costs",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.NetProfitD] =
@@ -146,7 +148,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.NetProfitD,
                     FinalText = "Net Profit ($)",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.Subtotal,
                 });
 
             _lineItemsArray[(int)LineItemType.NetProfitP] =
@@ -154,7 +156,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.NetProfitP,
                     FinalText = "Net Profit (%)",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.Subtotal,
                 });
 
             _lineItemsArray[(int)LineItemType.InterestExpense] =
@@ -162,7 +164,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.InterestExpense,
                     FinalText = "Interest Expense",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.CreditRating] =
@@ -170,7 +172,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.CreditRating,
                     FinalText = "Credit Rating",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.InterestRate] =
@@ -178,7 +180,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.InterestRate,
                     FinalText = "Interest Rate",
-                    FormatType = FormatTypes.LineItem,
+                    DataRowType = DataRowType.Data,
                 });
 
             _lineItemsArray[(int)LineItemType.StockPrice] =
@@ -186,7 +188,7 @@ namespace TheManXS.Model.Financial
                 {
                     LineItemType = LineItemType.StockPrice,
                     FinalText = "Stock Price",
-                    FormatType = FormatTypes.Totals,
+                    DataRowType = DataRowType.GrandTotal,
                 });
         }
         string GetFinalTextForCompanyOrTurn() => _dataPanelType == DataPanelType.AllPlayers ? "Company Name" : "Quarter";

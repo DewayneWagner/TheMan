@@ -5,6 +5,7 @@ using System.Windows.Input;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.FinancialVM.Financials.Charts;
+using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
 using TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -18,7 +19,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             TotalCapital, CashFlowStateMent, Revenue, OPEX, TheManCut, GrossProfitD, GrossProfitP, CAPEXCosts,
             DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
 
-        public enum FormatTypes { CompanyNameColHeading, MainHeading, SubHeading, LineItem, Totals }
         public enum DataPanelType { AllPlayers, SinglePlayer, Ratios, PropertyBreakdown, Graphs, Loans }
 
         Game _game;
@@ -64,16 +64,20 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public ICommand PropertyBreakdown { get; set; }
         public ICommand Graphs { get; set; }
         public ICommand Loans { get; set; }
-       
+        
         void CreateNewDataPanel()
         {
             switch (DataPanel)
             {
                 case DataPanelType.AllPlayers:
-                case DataPanelType.SinglePlayer:
                     FinancialsLineItemsArray flia = new FinancialsLineItemsArray(_game, DataPanel);
-                    FinancialsGrid fg = new FinancialsGrid(_game, DataPanel, flia.GetArrayOfFinancialsLineItems());
-                    DataPresentationArea.Content = fg;
+                    AllPlayersFinancials apf = new AllPlayersFinancials(_game, flia.GetArrayOfFinancialsLineItems());
+                    DataPresentationArea.Content = apf.DetailedBreakdownGrid;
+                    break;
+                case DataPanelType.SinglePlayer:
+                    FinancialsLineItemsArray flia1 = new FinancialsLineItemsArray(_game, DataPanel);
+                    AllPlayersFinancials apf1 = new AllPlayersFinancials(_game, flia1.GetArrayOfFinancialsLineItems());
+                    DataPresentationArea.Content = apf1.DetailedBreakdownGrid;
                     break;
                 case DataPanelType.Ratios:
                     DataPresentationArea.Content = new FinancialRatiosGrid(_game);
@@ -86,8 +90,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     DataPresentationArea.Content = new FinancialChartsVM(_game);
                     break;
                 case DataPanelType.Loans:
-
-
                     break;
                 default:
                     break;

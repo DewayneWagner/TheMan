@@ -1,25 +1,24 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 {
+    public enum DataRowType { MainHeading, SubHeading, Data, Subtotal, GrandTotal }
     class DataRowList : List<Label>
     {
-        public enum DataRowType { MainHeading, SubHeading, Data, Subtotal, GrandTotal }
-
         Game _game;
         DataRowType _dataRowType;
         List<string> _dataValuesList;
-        string _rowHeading;
 
-        public DataRowList(Game game, DataRowType dataRowType, List<string> dataValues, string rowHeading = null)
+        public DataRowList(Game game, DataRowType dataRowType, List<string> dataValues)
         {
             _game = game;
             _dataRowType = dataRowType;
-            _rowHeading = rowHeading;
             _dataValuesList = dataValues;
             InitList();
         }
@@ -35,6 +34,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
                     VerticalTextAlignment = TextAlignment.Center,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     TextColor = Color.Black,
+                    Margin = 0,
+                    Padding = 0,
                 };
 
                 switch (_dataRowType)
@@ -62,15 +63,21 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 
             void initMainHeadingLabel(Label label)
             {
-                label.BackgroundColor = _game.PaletteColors.C0;
+                label.BackgroundColor = _game.PaletteColors
+                    .Where(c => c.Description == "Conklin 2")
+                    .Select(c => c.Color)
+                    .FirstOrDefault();
                 label.TextColor = Color.White;
                 label.FontAttributes = FontAttributes.Bold;
             }
             void initSubHeadingLabel(Label label)
             {
-                label.BackgroundColor = _game.PaletteColors.C1;
-                label.FontAttributes = FontAttributes.Bold;
+                label.BackgroundColor = _game.PaletteColors
+                    .Where(c => c.Description == "Conklin 4")
+                    .Select(c => c.Color)
+                    .FirstOrDefault();
 
+                label.FontAttributes = FontAttributes.Bold;
             }
             void initDataLabel(Label label)
             {
@@ -83,7 +90,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
             void initGrandTotalLabel(Label label)
             {
                 label.FontAttributes = FontAttributes.Bold;
-                label.BackgroundColor = _game.PaletteColors.C2;
+                label.BackgroundColor = _game.PaletteColors
+                    .Where(c => c.Description == "Conklin 1")
+                    .Select(c => c.Color)
+                    .FirstOrDefault();
             }
         }
     }
