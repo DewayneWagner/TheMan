@@ -19,7 +19,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             TotalCapital, CashFlowStateMent, Revenue, OPEX, TheManCut, GrossProfitD, GrossProfitP, CAPEXCosts,
             DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
 
-        public enum DataPanelType { AllPlayers, SinglePlayer, Ratios, PropertyBreakdown, Graphs, Loans }
+        public enum DataPanelType { AllPlayers, Quarter, Ratios, PropertyBreakdown, Graphs, Loans }
 
         Game _game;
         public const int QDATACOLUMNS = 5;
@@ -30,7 +30,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             CompressedLayout.SetIsHeadless(this, true);
             InitCommands();
             ButtonSize = QC.ScreenHeight / 6;
-            DataPanel = DataPanelType.AllPlayers;            
+            DataPanel = DataPanelType.AllPlayers;
         }
 
         public static double ColumnWidth = QC.ScreenWidth / 6;
@@ -74,10 +74,10 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     AllPlayersFinancials apf = new AllPlayersFinancials(_game, flia.GetArrayOfFinancialsLineItems());
                     DataPresentationArea.Content = apf.DetailedBreakdownGrid;
                     break;
-                case DataPanelType.SinglePlayer:
+                case DataPanelType.Quarter:
                     FinancialsLineItemsArray flia1 = new FinancialsLineItemsArray(_game, DataPanel);
-                    AllPlayersFinancials apf1 = new AllPlayersFinancials(_game, flia1.GetArrayOfFinancialsLineItems());
-                    DataPresentationArea.Content = apf1.DetailedBreakdownGrid;
+                    SinglePlayerFinancials spf = new SinglePlayerFinancials(_game, flia1.GetArrayOfFinancialsLineItems());
+                    DataPresentationArea.Content = spf.DetailedBreakdownGrid;
                     break;
                 case DataPanelType.Ratios:
                     DataPresentationArea.Content = new FinancialRatiosGrid(_game);
@@ -86,7 +86,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     DataPresentationArea.Content = new PropertyBreakdownGrid(_game);
                     break;
                 case DataPanelType.Graphs:
-                    //DataPresentationArea.Content = new GraphsGrid(_game);
                     DataPresentationArea.Content = new FinancialChartsVM(_game);
                     break;
                 case DataPanelType.Loans:
@@ -105,7 +104,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             Graphs = new Command(OnGraphs);
             Loans = new Command(OnLoans);
         }
-        void OnSinglePlayer() => DataPanel = DataPanelType.SinglePlayer;
+        void OnSinglePlayer() => DataPanel = DataPanelType.Quarter;
         void OnAllPlayers() => DataPanel = DataPanelType.AllPlayers;
         void OnRatios() => DataPanel = DataPanelType.Ratios;
         void OnPropertyBreakdown() => DataPanel = DataPanelType.PropertyBreakdown;

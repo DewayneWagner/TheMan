@@ -9,16 +9,19 @@ namespace TheManXS.Model.Financial
 {
     public class FinancialsLineItemsArray
     {
+
         Game _game;
         DataPanelType _dataPanelType;
         FinancialsLineItems[] _lineItemsArray;
+
         public FinancialsLineItemsArray(Game game, DataPanelType dataPanelType)
         {
             _game = game;
             _dataPanelType = dataPanelType;
             _lineItemsArray = new FinancialsLineItems[(int)LineItemType.Total];
             InitListWithHeadings();
-            _game.FinancialValuesList.AssignValuesToFinancialLineItemsArrays(_lineItemsArray);
+            FinancialValuesList fv = new FinancialValuesList(_game, dataPanelType);
+            fv.AssignValuesToFinancialLineItemsArrays(_lineItemsArray, dataPanelType);
         }
         public FinancialsLineItems[] GetArrayOfFinancialsLineItems() => _lineItemsArray;
         void InitListWithHeadings()

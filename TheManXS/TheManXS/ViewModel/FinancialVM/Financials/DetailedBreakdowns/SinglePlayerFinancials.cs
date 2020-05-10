@@ -11,14 +11,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         Game _game;
         private bool _filterRowNeeded;
         private FinancialsLineItems[] _financialsLineItemsArray;
-        private int _numberOfColumns;
-
+        
         public SinglePlayerFinancials(Game game, FinancialsLineItems[] financialsLineItemsArray)
         {
             _game = game;
             _financialsLineItemsArray = financialsLineItemsArray;
             _filterRowNeeded = false;
-            _numberOfColumns = 1;
         }
 
         public override List<DataRowList> ListOfDataRowList

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.FinancialVM.Financials;
+using Windows.UI.Input.Preview.Injection;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -12,13 +14,22 @@ namespace TheManXS.Model.Financial
 {
     public class FinancialValuesList : List<FinancialValues>
     {
-        Game _game;
+        private static Game _game;
+        private int _playerNumber;
 
         public FinancialValuesList(Game game)
         {
-            _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-            InitList();
+            _game = game;
+            InitListWithCurrentFinancialsForAllPlayers();
             WriteListToDBAfterFullTurnComplete();
+        }
+        public FinancialValuesList(Game game, DataPanelType dataPanelType, int playerNum = -1)
+        {
+            _playerNumber = playerNum == -1 ? QC.PlayerIndexActual : playerNum;
+            // this constructor is for creating lists to display
+            _game = game;
+            if(dataPanelType == DataPanelType.AllPlayers) { InitListWithCurrentFinancialsForAllPlayers(); }
+            else { InitListWithQuarterlyFinancialsForSinglePlayer(); }
         }
 
         public FinancialValuesList(bool isForLoadedGame)
@@ -30,18 +41,47 @@ namespace TheManXS.Model.Financial
             }
         }
 
-        void InitList()
+        void InitListWithCurrentFinancialsForAllPlayers()
         {
             for (int i = 0; i < QC.PlayerQ; i++)
             {
                 Add(new FinancialValues(_game, _game.PlayerList[i]));
             }
         }
-
-        public void AssignValuesToFinancialLineItemsArrays(FinancialsLineItems[] financialsLineItemsArray)
+        void InitListWithQuarterlyFinancialsForSinglePlayer()
         {
-            for (int i = 0; i < FinancialsVM.QDATACOLUMNS; i++)
+            int firstQuarter = _game.TurnNumber;
+            int lastQuarter = _game.TurnNumber - getNumberOfQuarters();
+
+            if (firstQuarter == lastQuarter)
             {
+                this.Add(_game.FinancialValuesList[_playerNumber]);
+            }
+            else
+            {
+                using (DBContext db = new DBContext())
+                {
+                    for (int q = firstQuarter; q <= lastQuarter; q--)
+                    {
+                        var f = db.FinancialValues.Where(v => v.TurnNumber == q)
+                                    .Where(v => v.PlayerNumber == _playerNumber)
+                                    .FirstOrDefault();
+                        this.Add(f);
+                    }
+                }
+            }
+            int getNumberOfQuarters()
+            {
+                if(_game.TurnNumber < 5) { return _game.TurnNumber; }
+                else { return 5; }
+            }
+        }
+
+        public void AssignValuesToFinancialLineItemsArrays(FinancialsLineItems[] financialsLineItemsArray, DataPanelType dataPanelType)
+        {
+            for (int i = 0; i < this.Count; i++)
+            {
+                financialsLineItemsArray[(int)LineItemType.CompanyNamesOrTurnNumber].ValuesArray[i] = getCompanyNameOrQuarter(i);
                 financialsLineItemsArray[(int)LineItemType.CAPEXCosts].ValuesArray[i] = this[i].CAPEXThisTurn.ToString("C0");
                 financialsLineItemsArray[(int)LineItemType.Cash].ValuesArray[i] = this[i].Cash.ToString("c0");
                 financialsLineItemsArray[(int)LineItemType.DebtPayment].ValuesArray[i] = this[i].DebtPayment.ToString("c0");
@@ -60,6 +100,13 @@ namespace TheManXS.Model.Financial
                 financialsLineItemsArray[(int)LineItemType.CreditRating].ValuesArray[i] = this[i].CreditRating;
                 financialsLineItemsArray[(int)LineItemType.InterestRate].ValuesArray[i] = this[i].InterestRate.ToString("p0");
                 financialsLineItemsArray[(int)LineItemType.StockPrice].ValuesArray[i] = this[i].StockPrice.ToString("c2");
+            }
+            
+            string getCompanyNameOrQuarter(int i)
+            {
+                if(dataPanelType == DataPanelType.AllPlayers) { return _game.PlayerList[i].Name; }
+                else if(dataPanelType == DataPanelType.Quarter) { return QuarterCalc.GetQuarter(this[i].TurnNumber); }
+                return null;
             }
         }
         
