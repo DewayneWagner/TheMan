@@ -117,9 +117,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                                         SQ adjSQ = db.SQ.Where(s => s.Row == row)
                                             .Where(s => s.Col == col)
                                             .FirstOrDefault();
+
                                         if (adjSQ.IsMainRiver) { return adjSQ; }
                                     }
-                                    
                                 }
                             }
                             return mainRiverAdjacentSQOnTributary;

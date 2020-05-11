@@ -17,7 +17,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         private double _rowHeight;
         private List<DataRowList> _listOfDataRowLists;
 
-        public DetailedBreakdownGrid(bool filterRowNeeded, List<DataRowList> listOfDataRowLists) 
+        public DetailedBreakdownGrid(bool filterRowNeeded, List<DataRowList> listOfDataRowLists)
         {
             InitPropertiesOfGrid();
             _listOfDataRowLists = listOfDataRowLists;

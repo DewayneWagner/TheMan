@@ -60,6 +60,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
 
             new SurfaceFeaturesInit(_game);
             new NewMapInitializer(this);
+            new SideRoadInitializer(_game);
             new SavedMap(_game).SaveMap();            
         }
 

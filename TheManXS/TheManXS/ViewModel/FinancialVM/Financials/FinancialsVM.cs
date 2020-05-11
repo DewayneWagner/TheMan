@@ -70,15 +70,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             switch (DataPanel)
             {
                 case DataPanelType.AllPlayers:
-                    FinancialsLineItemsArray flia = new FinancialsLineItemsArray(_game, DataPanel);
-                    AllPlayersFinancials apf = new AllPlayersFinancials(_game, flia.GetArrayOfFinancialsLineItems());
-                    DataPresentationArea.Content = apf.DetailedBreakdownGrid;
-                    break;
                 case DataPanelType.Quarter:
-                    FinancialsLineItemsArray flia1 = new FinancialsLineItemsArray(_game, DataPanel);
-                    SinglePlayerFinancials spf = new SinglePlayerFinancials(_game, flia1.GetArrayOfFinancialsLineItems());
-                    DataPresentationArea.Content = spf.DetailedBreakdownGrid;
+                    FinancialsLineItemsArray flia = new FinancialsLineItemsArray(_game, DataPanel);
+                    DetailedBreakdown db = new DetailedBreakdown(_game, flia.GetArrayOfFinancialsLineItems(), false, false);
+                    DataPresentationArea.Content = db.DetailedBreakdownGrid;
                     break;
+
                 case DataPanelType.Ratios:
                     DataPresentationArea.Content = new FinancialRatiosGrid(_game);
                     break;
