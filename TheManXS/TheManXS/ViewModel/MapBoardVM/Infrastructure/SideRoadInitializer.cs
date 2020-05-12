@@ -14,40 +14,38 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     {
         Game _game;
         PaintTypes _paintTypes = new PaintTypes();
+        List<SQ> _sqsThatNeedARoad;
+        List<SKPath> _listOfSKPaths;
 
         public SideRoadInitializer(Game game)
         {
             _game = game;
+            _sqsThatNeedARoad = SqsThatNeedARoad();
+            _listOfSKPaths = GetListOfPaths();
             DrawAllPathsOnCanvas();
         }
-        private List <SQ> SqsThatNeedARoad
+        private List <SQ> SqsThatNeedARoad()
         {
-            get
-            {
-                return _game.SquareDictionary.Values
+            return _game.SquareDictionary.Values
                             .Where(s => s.Status == Model.ParametersForGame.StatusTypeE.Producing)
-                            .Where(s => s.ResourceType == Model.ParametersForGame.ResourceTypeE.RealEstate)
+                            .Where(s => s.ResourceType != Model.ParametersForGame.ResourceTypeE.RealEstate)
                             .ToList();
-            }
         }
-        private List<SKPath> ListOfPaths
+        private List<SKPath> GetListOfPaths()
         {
-            get
-            {
-                List<SKPath> _listOfPaths = new List<SKPath>();
-                foreach (SQ sq in SqsThatNeedARoad)
+            List<SKPath> _listOfPaths = new List<SKPath>();
+                foreach (SQ sq in _sqsThatNeedARoad)
                 {
                     _listOfPaths.Add(new SideRoad(_game, sq).SKPath);
                 }
                 return _listOfPaths;
-            }
         }
         void DrawAllPathsOnCanvas()
         {
             SKPaint roadPaint = new PaintTypes()[(int)IT.Road];
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
-                foreach (SKPath path in ListOfPaths)
+                foreach (SKPath path in _listOfSKPaths)
                 {
                     canvas.DrawPath(path, roadPaint);
                 }

@@ -26,7 +26,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         public void InitListOfTreesForSQ()
         {
             float verticalOverlapRatio = 0.5f;
-            int rowQ = 4;
+            int rowQ = 8;
             float heightOfTree = QC.SqSize / (rowQ - (rowQ * verticalOverlapRatio) + verticalOverlapRatio);
             float widthOfTree = heightOfTree * Tree.WidthVsHeightRatio;
             int maxColumns = (int)Math.Floor(QC.SqSize / widthOfTree);
