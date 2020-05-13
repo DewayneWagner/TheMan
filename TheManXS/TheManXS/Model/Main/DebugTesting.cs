@@ -4,6 +4,8 @@ using System.Text;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using TheManXS.Model.Financial.Debt;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Main
 {
@@ -15,10 +17,25 @@ namespace TheManXS.Model.Main
         {
             _game = game;
             InitSQsForTesting();
+            InitExtraLoansForEachPlayer();
         }
-        void InitTestProperties()
+        void InitExtraLoansForEachPlayer()
         {
+            int lb = 500;
+            int ub = 2500;
+            double loanAmount;
+            LoanTermLength term;
 
+            foreach(Player p in _game.PlayerList)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    term = (LoanTermLength)(rnd.Next(0, (int)LoanTermLength.Total));
+                    loanAmount = rnd.Next(lb, ub);
+
+                    _game.LoanList.Add(new Loan(term, loanAmount, _game));
+                }
+            }
         }
         private void InitSQsForTesting()
         {

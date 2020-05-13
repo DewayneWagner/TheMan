@@ -12,6 +12,7 @@ namespace TheManXS.Model.Financial.Debt
 {
     public class LoansList : List<Loan>
     {
+        private enum LoansListDisplayHeadings { ID, Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, TurnsRemaining, Total }
         private Game _game;
         public LoansList(Game game, bool isNewGame) 
         {
@@ -40,6 +41,18 @@ namespace TheManXS.Model.Financial.Debt
             {
                 Loan startingLoan = new Loan(lt, startingBalance, _game);
                 this.Add(startingLoan);
+            }
+        }
+        public List<string> DisplayHeadingsList
+        {
+            get
+            {
+                List<string> displayHeadingsList = new List<string>();
+                for (int i = 0; i < (int)LoansListDisplayHeadings.Total; i++)
+                {
+                    displayHeadingsList.Add(Convert.ToString((LoansListDisplayHeadings)i));
+                }
+                return displayHeadingsList;
             }
         }
     }

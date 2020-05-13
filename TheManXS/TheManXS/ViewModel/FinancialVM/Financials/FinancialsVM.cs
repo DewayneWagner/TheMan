@@ -6,6 +6,7 @@ using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.FinancialVM.Financials.Charts;
 using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
+using TheManXS.ViewModel.FinancialVM.Financials.Loans;
 using TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -23,6 +24,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 
         Game _game;
         public const int QDATACOLUMNS = 5;
+        private PageService _pageServices;
         public FinancialsVM()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
@@ -31,6 +33,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
             InitCommands();
             ButtonSize = QC.ScreenHeight / 6;
             DataPanel = DataPanelType.AllPlayers;
+            _pageServices = new PageService();
         }
 
         public static double ColumnWidth = QC.ScreenWidth / 6;
@@ -86,6 +89,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
                     DataPresentationArea.Content = new FinancialChartsVM(_game);
                     break;
                 case DataPanelType.Loans:
+                    DetailedBreakdown dbl = new DetailedBreakdown(_game, DataPanelType.Loans);
+                    DataPresentationArea.Content = dbl.DetailedBreakdownGrid;
                     break;
                 default:
                     break;
