@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using Windows.UI;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -41,7 +42,8 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 {
                     SKPaint highlightedSQ = new SKPaint()
                     {
-                        Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
+                        //Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
+                        Color = SKColors.Yellow,
                         Style = SKPaintStyle.Fill,
                     };
                     _canvas.DrawRect(sq.SKRect, highlightedSQ);

@@ -13,7 +13,7 @@ namespace TheManXS.Model.ParametersForGame
         MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType, 
         InfrastructureConstructionRatiosTT, NextParameterSet1, NextParameterSet2, NextParameterSet3, Total
     }
-    public enum CashConstantSecondary { StartCash, StartDebt, TheManCut, SquarePrice, Total }
+    public enum CashConstantSecondary { StartCash, StartDebt, TheManCut, SquarePrice, StartPrimeRate, Total }
     public enum CommodityConstantSecondary { StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total }
     public enum CreditRatings { AAA, AA, A, B, C, Junk, Total }
     public enum LoanTermLength { Five, Ten, Fifteen, Twenty, TwentyFive, Total }

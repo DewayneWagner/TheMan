@@ -13,8 +13,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     {
         List<SQ> _sList;
         IT _it;
-        float _radiusOfCurves;
-        float _ratioOfRadiusToSQSize = 0.25f;
 
         static byte[,] EntryAndExitPoints = new byte[3, 3]
         {
@@ -27,7 +25,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         {
             _sList = sList;
             _it = it;
-            _radiusOfCurves = QC.SqSize * _ratioOfRadiusToSQSize;
             InitList();
             SetStraightIDNumbers();
         }
@@ -52,16 +49,16 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     p.ExitPoint = getExitPoint(i);
                     p.SegmentType = getSegmentType(p.EntryPoint, p.ExitPoint);
                     p.SKPoint = _calc.GetInfrastructureSKPoint(_sList[i], _it);
-
                     this.Add(p);
                 }
 
                 if (isNextToMapEdge && !isStartingEdge)
                 { addMapEdgePoint(i); }
             }
+
             void addMapEdgePoint(int i)
             {
-                DirectionsCompass entryPointDirection = _calc.GetMapEdge(_sList[i]);
+                //DirectionsCompass entryPointDirection = _calc.GetMapEdge(_sList[i]);
                 PathSegment edgeP = new PathSegment();
                 edgeP.EntryPoint = isStartingEdge? getMapEdgeEntryAndExitPoints(_calc.GetMapEdge(_sList[i])) : getEntryPoint(i);
                 edgeP.ExitPoint = isStartingEdge ? getExitPoint(i) : getMapEdgeEntryAndExitPoints(_calc.GetMapEdge(_sList[i]));

@@ -84,8 +84,8 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             }
             bool DetermineIfPan()
             {
-                Direction firstFinger = GraphicsCalculations.GetDirection(points[finger1, pressed], points[finger1, released]);
-                Direction secondFinger = GraphicsCalculations.GetDirection(points[finger2, pressed], points[finger2, released]);
+                Direction firstFinger = GetDirection(points[finger1, pressed], points[finger1, released]);
+                Direction secondFinger = GetDirection(points[finger2, pressed], points[finger2, released]);
 
                 if(firstFinger == secondFinger) 
                 {
@@ -100,6 +100,14 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             Coordinate pressed = new Coordinate(this[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).Location);
             Coordinate released = new Coordinate(this[0].FirstOrDefault(r => r.Type == TouchActionType.Released).Location);                       
             return pressed.SQKey == released.SQKey ? true : false;
-        }        
+        }
+        public Direction GetDirection(Point pt1, Point pt2)
+        {
+            double xDelta = pt2.X - pt1.X;
+            double yDelta = pt2.Y - pt1.Y;
+
+            if (Math.Abs(xDelta) > Math.Abs(yDelta)) { return (xDelta >= 0) ? Direction.East : Direction.West; }
+            else { return (yDelta >= 0) ? Direction.South : Direction.North; }
+        }
     }
 }

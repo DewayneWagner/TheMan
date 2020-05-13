@@ -136,7 +136,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         else { return (list.Count - 1); }
                     }
                 }
-
                 List<SQ> getSortedList(List<SQ> unsortedList)
                 {
                     List<SQ> sortedListM = new List<SQ>();
@@ -172,7 +171,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     case SegmentType.EdgePointStart:
                         path.MoveTo(p.SKPoint);
                         break;
-
+                         
                     case SegmentType.Curve:
                     case SegmentType.Straight:
                         path.LineTo(p.SKPoint);
@@ -199,31 +198,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private static int[] C = new int[(int)AdjSqsDirection.Total] { 1, 1, 0, -1 };
         private enum AdjSqsDirection { E, SE, S, SW, Total }
 
-        private void CreateSmallPaths(IT it, List<SQ> doubleSortedList, bool isOldVersion)
-        {
-            SKPath path;
-            if(it == IT.Tributary) 
-            { 
-                path = new SKPath();
-                _listOfAllSKPaths.Add(path);            
-            }
-            else { path = _listOfAllSKPaths[(int)it]; }
-
-            foreach (SQ sq in doubleSortedList)
-            {
-                if (_calc.IsMapEdge(sq)) { _calc.ProcessMapEdge(sq, ref path, it); }
-                path.MoveTo(_calc.GetInfrastructureSKPoint(sq, it));
-                for (int i = 0; i < (int)AdjSqsDirection.Total; i++)
-                {
-                    SQ adjSQ = doubleSortedList.Where(s => s.Row == (sq.Row + R[i]))
-                        .Where(s => s.Col == sq.Col + C[i])
-                        .FirstOrDefault();
-                    if(adjSQ != null) { path.LineTo(_calc.GetInfrastructureSKPoint(adjSQ, it)); }
-                }
-            }
-            //path.Close();
-        }
-        
         private void DrawAllPathsOnCanvas()
         {            
             using (SKCanvas gameBoard = new SKCanvas(_mapVM.SKBitMapOfMap))

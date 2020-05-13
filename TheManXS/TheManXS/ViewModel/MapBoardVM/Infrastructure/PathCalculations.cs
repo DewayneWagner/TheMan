@@ -13,8 +13,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
     public class PathCalculations
     {
-        CenterPointRatios _centerPointRatios;
-        public PathCalculations() { _centerPointRatios = new CenterPointRatios(); }
+        private static CenterPointRatios _centerPointRatios;
+        public PathCalculations() { if (_centerPointRatios == null) { _centerPointRatios = new CenterPointRatios(); } }
 
         public SKPoint GetInfrastructureSKPoint(SQ sq, IT it)
         {

@@ -16,6 +16,7 @@ using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.ParametersForGame;
 using TheManXS.ViewModel.Style;
+using TheManXS.Model.Financial.Debt;
 
 namespace TheManXS.Model.Main
 {
@@ -82,6 +83,7 @@ namespace TheManXS.Model.Main
 
                 ParameterBoundedList = new ParameterBoundedList();
                 ParameterConstantList = new ParameterConstantList();
+                PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
 
                 SquareDictionary = new Dictionary<int, SQ>();
                 var sqList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
@@ -90,9 +92,11 @@ namespace TheManXS.Model.Main
                 Unit.LoadUnitWithSavedGameData(this);
             }            
         }
-        
+
+        public SQList SQList { get; set; } = new SQList();
         public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
         public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
+        //public LoansList LoanList { get; set; } = new LoansList();
         public PlayerList PlayerList { get; set; }
         public CommodityList CommodityList { get; set; } 
         public FinancialValuesList FinancialValuesList { get; set; }

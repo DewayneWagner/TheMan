@@ -1,15 +1,17 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.Model.Map.Surface;
+using Windows.Graphics.Imaging;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 {
-    
     public enum TouchActionType { Entered, Pressed, Moved, Released, Exited, Cancelled }
     public enum MapTouchType { OneFingerSelect, OneFingerDragSelect, TwoFingerPan, Pinch }
     public enum Direction { West, North, East, South, Total }
@@ -20,7 +22,6 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
     {
         public event TouchActionEventHandler TouchAction;
         public TouchEffect() : base("TheMan.TouchEffect") { }
-
         public bool Capture { get; set; }
         public void OnTouchAction(Element element, TouchActionEventArgs args)
         {
@@ -31,7 +32,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
     {
         private static Game _game;
         private bool _touchPointIsOnVisiblePortionOfMap;
-        public TouchActionEventArgs(long id, TouchActionType type, Point location, bool isInContact)
+        public TouchActionEventArgs(long id, TouchActionType type, Xamarin.Forms.Point location, bool isInContact)
         {
             if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
 
@@ -39,41 +40,31 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             Type = type;
             Location = location;
             IsInContact = isInContact;
-            SKPoint = GetSKPointFromXPoint(location);
-            //SKPoint = GraphicsCalculations.GetSKPointFromXPoint(location);
         }
         public long Id { get; set; }
         public TouchActionType Type { get; set; }
-        public Point Location { get; set; }
+        public Xamarin.Forms.Point Location { get; set; }
         public bool IsInContact { get; set; }
-        public SKPoint SKPoint { get; set; }
-
-        private SKPoint GetSKPointFromXPoint(Point pt)
+        public SKPoint SKPoint
         {
-            //public static SKPoint GetSKPointFromXPoint(Point pt) => 
-            //    new SKPoint((float)(pt.X * (QC.ScreenWidth / QC.MapCanvasViewWidth)),
-            //        (float) (pt.Y * (QC.ScreenHeight / QC.MapCanvasViewHeight)));
-
-            return new SKPoint(
-                (float)(pt.X * (QC.MapCanvasViewWidth / QC.ScreenWidth)),
-                (float)(pt.Y * (QC.MapCanvasViewHeight / QC.ScreenHeight)));
-
-            //return new SKPoint(
-            //    (float)(pt.X * (QC.ScreenWidth / QC.MapCanvasViewWidth)),
-            //    (float)(pt.Y * (QC.ScreenHeight / QC.MapCanvasViewHeight)));
-            
-            //SKPoint p = new SKPoint();
-            //var m = _game.GameBoardVM.MapVM.MapCanvasView;
-
-            //double topLeftCornerOfBitMapOnScreenX = m.X;
-            //double topRightCornerOfBitMapOnScreenY = m.Y;
-
-            //double widthOfVisibleMapCanvasView = m.Width;
-            //double heightOfVisibleMapCanvasView = m.Height;
-
-            //double actualTouchPointOnMapCanvasViewX = 
-
-            //return p;
+            get
+            {
+                return new SKPoint(
+                    (float)(Location.X * (QC.MapCanvasViewWidth / QC.ScreenWidth)),
+                    (float)(Location.Y * (QC.MapCanvasViewHeight / QC.ScreenHeight)));
+            }
+        }
+        public int SQKey
+        {
+            get
+            {
+                var m = _game.GameBoardVM.MapVM.MapMatrix;
+                double bitmapX = (Location.X - m.TransX) / m.ScaleX;
+                double bitmapY = (Location.Y - m.TransY) / m.ScaleY;
+                int row = (int)Math.Floor(bitmapY / QC.SqSize);
+                int col = (int)Math.Floor(bitmapX / QC.SqSize);
+                return Coordinate.GetSQKey(row, col);
+            }
         }
     }   
 }
