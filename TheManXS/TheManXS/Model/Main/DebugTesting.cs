@@ -12,28 +12,28 @@ namespace TheManXS.Model.Main
     class DebugTesting
     {
         Game _game;
-        System.Random rnd = new System.Random();
+        static System.Random rnd = new System.Random();
         public DebugTesting(Game game)
         {
             _game = game;
             InitSQsForTesting();
-            InitExtraLoansForEachPlayer();
         }
-        void InitExtraLoansForEachPlayer()
+        public static void InitExtraLoansForEachPlayer(Game game)
         {
             int lb = 500;
             int ub = 2500;
             double loanAmount;
             LoanTermLength term;
 
-            foreach(Player p in _game.PlayerList)
+            foreach(Player p in game.PlayerList)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     term = (LoanTermLength)(rnd.Next(0, (int)LoanTermLength.Total));
                     loanAmount = rnd.Next(lb, ub);
+                    Loan loan = new Loan(term, loanAmount, game);
 
-                    _game.LoanList.Add(new Loan(term, loanAmount, _game));
+                    game.LoanList.Add(loan);
                 }
             }
         }

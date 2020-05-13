@@ -17,26 +17,22 @@ namespace TheManXS.Model.Financial.Debt
     {        
         public enum LoanStatusTypes { Proposed, Approved }
         private Game _game;
-        private int _term;
         public Loan() { }
 
         public Loan(LoanTermLength term, double startingBalance, Game game)
         {
-            _game = game;            
-            _term = (int)Term;
-            Term = term;
+            _game = game;      
+            Term = (int)(term + 1) * 5;
             InterestRate = SetInterestRate();
             StartingBalance = startingBalance;
-            PrincipalPaymentPerTurn = StartingBalance / (int)Term; ;
+            PrincipalPaymentPerTurn = StartingBalance / Term; ;
             PlayerNumber = _game.ActivePlayer.Number;
             SavedGameSlot = QC.CurrentSavedGameSlot;
             LoanStatus = LoanStatusTypes.Proposed;
-            ID = GetID();
         }
 
         // set in constructor
-        public int ID { get; set; }
-        public LoanTermLength Term { get; set; }        
+        public int Term { get; set; }      
         public int TurnIssued { get; set; }
         public double InterestRate { get; set; }
         public double StartingBalance { get; set; }
@@ -45,9 +41,16 @@ namespace TheManXS.Model.Financial.Debt
         public double PrincipalPaymentPerTurn { get; set; }
 
         // Calculated, and not in DB
-        public double RemainingBalance => StartingBalance / _term * (_game.TurnNumber - TurnIssued);
-        public double InterestPaymentPerTurn => RemainingBalance / TurnsRemaining * InterestRate;
+        public double RemainingBalance
+        {
+            get
+            {
+                int turnNumber = _game.TurnNumber == 0 ? 1 : _game.TurnNumber;
+                return StartingBalance / Term * (turnNumber - TurnIssued);
+            }
+        }
         public int TurnsRemaining => TurnIssued + (int)Term - _game.TurnNumber;
+        public double InterestPaymentPerTurn => RemainingBalance / TurnsRemaining * InterestRate;
         
         private LoanStatusTypes _loanStatus;
         public LoanStatusTypes LoanStatus
@@ -61,7 +64,7 @@ namespace TheManXS.Model.Financial.Debt
         }
         private double SetInterestRate()
         {
-            return _game.PrimeInterestRate + _game.ParameterConstantList.GetConstant(AP.PrimeRateAdderBasedOnCreditRating, (int)_game.ActivePlayer.CreditRating);
+            return _game.PrimeInterestRate + (_game.ParameterConstantList.GetConstant(AP.PrimeRateAdderBasedOnCreditRating, (int)_game.ActivePlayer.CreditRating) / 100);
         }
         private void AddLoanToDB()
         {
@@ -71,25 +74,12 @@ namespace TheManXS.Model.Financial.Debt
                 db.SaveChanges();
             }
         }
-        private int GetID()
-        {
-            int qLoansInDB = getQLoansInDB();
-            return (qLoansInDB + (_game.ActivePlayer.Number * 100) + (QC.CurrentSavedGameSlot * 1000));
-                        
-            int getQLoansInDB()
-            {
-                using (DBContext db = new DBContext())
-                {
-                    return db.Loans.Count(l => l.SavedGameSlot == QC.CurrentSavedGameSlot);
-                }
-            }            
-        }
     }
     public class LoanDBConfig : IEntityTypeConfiguration<Loan>
     {
         public void Configure(EntityTypeBuilder<Loan> builder)
         {
-            builder.HasKey(l => l.ID);
+            builder.HasNoKey();
             builder.Ignore(l => l.TurnsRemaining);
             builder.Ignore(l => l.RemainingBalance);
             builder.Ignore(l => l.InterestPaymentPerTurn);

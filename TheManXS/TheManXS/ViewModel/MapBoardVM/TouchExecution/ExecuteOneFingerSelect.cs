@@ -34,16 +34,13 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         private void ExecuteOneFingerSelectAction()
         {
             var m = _game.GameBoardVM.MapVM;
-            // old version
-            //Coordinate touchPoint = new Coordinate(getTouchPointOnScreen());
-            //_game.ActiveSQ = _game.SquareDictionary[touchPoint.SQKey];
+            Coordinate touchPoint = getTouchPointCoordinate();
+            _game.ActiveSQ = _game.SQList[touchPoint.Row, touchPoint.Col];
 
-            // new method
-            int sqKey = getTouchPoint2OnScreen();
-            _game.ActiveSQ = _game.SQList[sqKey];
-            
-            SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
-            int getTouchPoint2OnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SQKey;
+            Coordinate getTouchPointCoordinate() => m.MapTouchList[0]
+                                                        .Where(p => p.Type == TouchActionType.Pressed)
+                                                        .Select(p => p.Coordinate)
+                                                        .FirstOrDefault();
         }
     }
 }

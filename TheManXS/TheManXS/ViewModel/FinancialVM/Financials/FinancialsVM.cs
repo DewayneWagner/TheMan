@@ -6,7 +6,6 @@ using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.FinancialVM.Financials.Charts;
 using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
-using TheManXS.ViewModel.FinancialVM.Financials.Loans;
 using TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;

@@ -27,11 +27,11 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         public DetailedBreakdown(Game game, DataPanelType dataPanelType)
         {
             _game = game;
-            if(dataPanelType == DataPanelType.Loans) { GetDataRowListForLoansList(); }
+            if(dataPanelType == DataPanelType.Loans) { ListOfDataRowList = GetDataRowListForLoansList(); }
         }
 
         public List<DataRowList> ListOfDataRowList { get; set; }
-        public DetailedBreakdownGrid DetailedBreakdownGrid => new DetailedBreakdownGrid(_filterRowNeeded, ListOfDataRowList);
+        
         private List<DataRowList> GetDataRowList(FinancialsLineItems[] financialsLineItemsArray)
         {
             List<DataRowList> dataRowListOfLists = new List<DataRowList>();
@@ -83,16 +83,17 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
             {
                 List<string> dataRow = new List<string>();
 
-                dataRow.Add(Convert.ToString(loan.ID));
                 dataRow.Add(Convert.ToString(loan.Term));
                 dataRow.Add(loan.InterestRate.ToString("p0"));
                 dataRow.Add(loan.StartingBalance.ToString("c0"));
                 dataRow.Add(loan.PrincipalPaymentPerTurn.ToString("c0"));
                 dataRow.Add(loan.InterestPaymentPerTurn.ToString("c0"));
                 dataRow.Add(Convert.ToString(loan.TurnsRemaining));
+                dataRow.Add(loan.RemainingBalance.ToString("c0"));
 
                 return dataRow;
             }
         }
+        public DetailedBreakdownGrid DetailedBreakdownGrid => new DetailedBreakdownGrid(_filterRowNeeded, ListOfDataRowList);
     }
 }

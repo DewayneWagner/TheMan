@@ -66,6 +66,9 @@ namespace TheManXS.Model.Main
             FinancialValuesList = new FinancialValuesList(this);
             PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
             LoanList = new LoansList(this, true);
+#if DEBUG
+            DebugTesting.InitExtraLoansForEachPlayer(this);
+#endif
         }
         private void InitPropertiesForLoadedGame()
         {

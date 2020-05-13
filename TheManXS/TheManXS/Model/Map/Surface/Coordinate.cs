@@ -22,6 +22,15 @@ namespace TheManXS.Model.Map.Surface
         private SKPoint _topLeftCorner;
         private int _skSqSize;
 
+        public Coordinate(int row, int col)
+        {
+            Row = row;
+            Col = col;
+            // don't think these are needed here...
+            //SQKey = GetSQKey(Row, Col);
+            //SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
+        }
+
         public Coordinate(SKPoint p) 
         {            
             if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }

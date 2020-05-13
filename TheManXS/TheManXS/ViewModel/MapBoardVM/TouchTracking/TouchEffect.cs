@@ -54,7 +54,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
                     (float)(Location.Y * (QC.MapCanvasViewHeight / QC.ScreenHeight)));
             }
         }
-        public int SQKey
+        public Coordinate Coordinate
         {
             get
             {
@@ -63,7 +63,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
                 double bitmapY = (Location.Y - m.TransY) / m.ScaleY;
                 int row = (int)Math.Floor(bitmapY / QC.SqSize);
                 int col = (int)Math.Floor(bitmapX / QC.SqSize);
-                return Coordinate.GetSQKey(row, col);
+                return new Coordinate(row, col);
             }
         }
     }   

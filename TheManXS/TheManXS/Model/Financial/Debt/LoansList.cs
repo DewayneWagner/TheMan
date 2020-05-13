@@ -12,14 +12,15 @@ namespace TheManXS.Model.Financial.Debt
 {
     public class LoansList : List<Loan>
     {
-        private enum LoansListDisplayHeadings { ID, Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, TurnsRemaining, Total }
+        private enum LoansListDisplayHeadings { Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, TurnsRemaining, RemainingBalance, Total }
         private Game _game;
         public LoansList(Game game, bool isNewGame) 
         {
+            _game = game;
+
+
             if (isNewGame) { InitLoansWithAtStartOfGame(); }
             else { InitLoansList(); }
-            
-            _game = game;
         }
         private void InitLoansList()
         {
