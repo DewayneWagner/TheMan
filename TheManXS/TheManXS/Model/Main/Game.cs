@@ -24,7 +24,6 @@ namespace TheManXS.Model.Main
     {
         PageService _pageService = new PageService();
         private GameSpecificParameters _gsp;
-        private double _startingPrimeInterestRate = 0.05;
         private GameBoardMap _map;
 
         public Game(bool isForAppDictionary) 
@@ -65,7 +64,8 @@ namespace TheManXS.Model.Main
 
             CommodityList = new CommodityList(this);
             FinancialValuesList = new FinancialValuesList(this);
-            PrimeInterestRate = _startingPrimeInterestRate;
+            PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
+            LoanList = new LoansList(this, true);
         }
         private void InitPropertiesForLoadedGame()
         {
@@ -84,19 +84,15 @@ namespace TheManXS.Model.Main
                 ParameterBoundedList = new ParameterBoundedList();
                 ParameterConstantList = new ParameterConstantList();
                 PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
-
-                SquareDictionary = new Dictionary<int, SQ>();
-                var sqList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
-                foreach(SQ sq in sqList) { SquareDictionary.Add(sq.Key, sq); }
+                LoanList = new LoansList(this, false);
 
                 Unit.LoadUnitWithSavedGameData(this);
             }            
         }
 
         public SQList SQList { get; set; } = new SQList();
-        public Dictionary<int, SQ> SquareDictionary { get; set; } = new Dictionary<int, SQ>();
-        public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
-        //public LoansList LoanList { get; set; } = new LoansList();
+        public List<Unit> ListOfCreatedProductionUnits { get; set; }
+        public LoansList LoanList { get; set; }
         public PlayerList PlayerList { get; set; }
         public CommodityList CommodityList { get; set; } 
         public FinancialValuesList FinancialValuesList { get; set; }

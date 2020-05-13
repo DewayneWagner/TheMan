@@ -57,11 +57,12 @@ namespace TheManXS.Model.Map.Rocks
             }
             int getProduction(int playerNumber, int resourceNumber)
             {
-                List<int> prodList = _game.SquareDictionary
-                                .Where(s => s.Value.ResourceType == (RT)resourceNumber)
-                                .Where(s => s.Value.OwnerNumber == playerNumber)
-                                .Select(s => s.Value.Production)
+                List<int> prodList = _game.SQList
+                                .Where(s => s.ResourceType == (RT)resourceNumber)
+                                .Where(s => s.OwnerNumber == playerNumber)
+                                .Select(s => s.Production)
                                 .ToList();
+
                 return prodList.Sum();
             }
         }

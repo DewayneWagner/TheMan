@@ -5,12 +5,21 @@ using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using LT = TheManXS.Model.ParametersForGame.LoanTermLength;
+using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Financial.Debt
 {
     public class LoansList : List<Loan>
     {
-        public LoansList() { InitLoansList(); }
+        private Game _game;
+        public LoansList(Game game, bool isNewGame) 
+        {
+            if (isNewGame) { InitLoansWithAtStartOfGame(); }
+            else { InitLoansList(); }
+            
+            _game = game;
+        }
         private void InitLoansList()
         {
             using (DBContext db = new DBContext())
@@ -20,6 +29,17 @@ namespace TheManXS.Model.Financial.Debt
                 {
                     this.Add(loan);
                 }
+            }
+        }
+        public void InitLoansWithAtStartOfGame()
+        {
+            LT lt = LT.TwentyFive;
+            double startingBalance = _game.ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartDebt);
+
+            foreach (Player player in _game.PlayerList)
+            {
+                Loan startingLoan = new Loan(lt, startingBalance, _game);
+                this.Add(startingLoan);
             }
         }
     }

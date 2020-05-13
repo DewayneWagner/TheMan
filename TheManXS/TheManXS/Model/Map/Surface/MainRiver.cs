@@ -5,6 +5,8 @@ using TheManXS.Model.InfrastructureStuff;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using AP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
+using TC = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -14,8 +16,6 @@ namespace TheManXS.Model.Map.Surface
         private System.Random rnd = new System.Random();
         private int _lb = -1;
         private int _ub = 2;
-        private int _lbDistanceBetweenTributaries = 8;
-        private int _ubDistanceBetweenTributaries = 16;
         private int _tributaryCounter = 0;
         public MainRiver(SQMapConstructArray map)
         {
@@ -92,7 +92,7 @@ namespace TheManXS.Model.Map.Surface
         }
         private int GetNextTributaryCol(int currentCol, bool isEastRiver)
         {
-            int tributarySpacing = rnd.Next(_lbDistanceBetweenTributaries,_ubDistanceBetweenTributaries);
+            int tributarySpacing = (int)_game.ParameterBoundedList.GetRandomValue(AP.TerrainConstruct, (int)TC.TributaryFrequencySQs);
             if (isEastRiver) { return (tributarySpacing + currentCol); }
             else { return (currentCol - tributarySpacing); }
         }

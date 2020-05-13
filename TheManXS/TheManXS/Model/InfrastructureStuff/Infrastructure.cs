@@ -45,8 +45,8 @@ namespace TheManXS.Model.InfrastructureStuff
                 for (int row = 0; row < QC.RowQ; row++)
                 {
                     for (int col = 0; col < QC.ColQ; col++)
-                    {
-                        a[row, col] = _game.SquareDictionary[Coordinate.GetSQKey(row, col)];
+                    {                        
+                        a[row, col] = _game.SQList[row, col];
                     }
                 }
                 return a;

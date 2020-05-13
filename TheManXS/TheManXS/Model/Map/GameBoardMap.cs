@@ -22,7 +22,6 @@ namespace TheManXS.Model.Map
         private System.Random rnd = new System.Random();
         public SQMapConstructArray SQMap { get; set; }
         Game _game;
-        List<SQ> _listOfAllSQs;
 
         public GameBoardMap() { }
         public GameBoardMap(Game game, bool isNewGame)
@@ -49,24 +48,14 @@ namespace TheManXS.Model.Map
 
             new City(SQMap);
             
-            InitSQsForTesting();
-            
-            _listOfAllSQs = SQMap.GetListOfSQs();
+            _game.SQList = SQMap.GetListOfSQs();
             AddNewListOfSQToDB();
-            LoadSQDictionaryForGame();
+
+#if DEBUG
+            new DebugTesting(_game);
+#endif
             new Infrastructure(true,SQMap,_game);
         }
-
-        void LoadSQDictionaryForGame()
-        {
-            _game.SquareDictionary = new Dictionary<int, SQ>();
-
-            foreach (SQ sq in _listOfAllSQs)
-            {
-                _game.SquareDictionary.Add(sq.Key, sq);
-            }
-        }
-
         private void AddNewListOfSQToDB()
         {
             using (DBContext db = new DBContext())
@@ -75,59 +64,8 @@ namespace TheManXS.Model.Map
                 db.SQ.RemoveRange(oldList);
                 db.SaveChanges();
 
-                db.SQ.AddRange(_listOfAllSQs);
+                db.SQ.AddRange(_game.SQList);
                 db.SaveChanges();
-            }
-        }
-        private void InitSQsForTesting()
-        {
-            int row = 2;
-            int col = 2;
-
-            SQMap[row, col].ResourceType = ResourceTypeE.Oil;
-            SQMap[row, col].Production = rnd.Next(5, 20);
-            SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
-            SQMap[row, col].FormationID = 50;
-            SQMap[row, col].Transport = rnd.Next(5, 20);
-            SQMap[row, col].Status = ST.Producing;
-            SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
-
-            //for (int row = 0; row < 3; row++)
-            //{
-            //    for (int col = 0; col < 3; col++)
-             //    {
-            //        SQMap[row, col].ResourceType = ResourceTypeE.Oil;
-            //        SQMap[row, col].Production = rnd.Next(5, 20);
-            //        SQMap[row, col].OPEXPerUnit = rnd.Next(15, 35);
-            //        SQMap[row, col].FormationID = 50;
-            //        SQMap[row, col].Transport = rnd.Next(5, 20);
-            //        SQMap[row, col].Status = ST.Producing;
-            //        SQMap[row, col].OwnerNumber = QC.PlayerIndexActual;
-            //    }
-            //}
-            
-            foreach (Player player in _game.PlayerList)
-            {
-                int productingSQsForPlayer = 0;
-                int loopCounter = 0;
-                do
-                {
-                    SQ sq = SQMap[rnd.Next(0, QC.RowQ), rnd.Next(0, QC.ColQ)];
-                    loopCounter++;
-
-                    if (sq.OwnerNumber == QC.PlayerIndexTheMan 
-                        && sq.Production > 0
-                        && sq.Status == ST.Nada 
-                        && sq.ResourceType != RT.RealEstate
-                        && (int)sq.ResourceType < (int)RT.Nada)
-                    {
-                        sq.OwnerNumber = player.Number;
-                        sq.OwnerName = player.Name;
-                        sq.Status = ST.Producing;
-                        productingSQsForPlayer++;
-                    }
-
-                } while (loopCounter < 50 && productingSQsForPlayer < 3);
             }
         }
     }

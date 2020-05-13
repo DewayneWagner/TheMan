@@ -33,10 +33,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
         {
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
-                foreach (KeyValuePair<int,SQ> sq in _game.SquareDictionary)
-                {
-                    var s = sq.Value;
-                    
+                foreach (SQ s in _game.SQList)
+                {   
                     // terrain
                     if(s.TerrainType == TT.Mountain) { initMountain(); }
                     else if(s.TerrainType == TT.Forest) { initForest(); }
@@ -53,7 +51,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
                     void initOwnedSQs()
                     {
                         OwnedSQsPaint.Color = _game.PlayerList[s.OwnerNumber].SKColor.WithAlpha(0x50);
-                        canvas.DrawRect(sq.Value.SKRect, OwnedSQsPaint);
+                        canvas.DrawRect(s.SKRect, OwnedSQsPaint);
                     }
                     void initMountain() 
                     { 

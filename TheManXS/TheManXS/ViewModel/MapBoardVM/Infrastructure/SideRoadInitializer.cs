@@ -7,6 +7,8 @@ using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -26,10 +28,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         }
         private List <SQ> SqsThatNeedARoad()
         {
-            return _game.SquareDictionary.Values
-                            .Where(s => s.Status == Model.ParametersForGame.StatusTypeE.Producing)
-                            .Where(s => s.ResourceType != Model.ParametersForGame.ResourceTypeE.RealEstate)
-                            .ToList();
+            return _game.SQList
+                .Where(s => s.Status == ST.Producing)
+                .Where(s => s.ResourceType != RT.RealEstate)
+                .ToList();
         }
         private List<SKPath> GetListOfPaths()
         {

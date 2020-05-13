@@ -40,10 +40,8 @@ namespace TheManXS.Model.Main
                     }                   
                 }
                 void updateSQDictionaryInDB()
-                {
-                    List<SQ> sqList = new List<SQ>();
-                    foreach(KeyValuePair<int,SQ> item in _game.SquareDictionary) { sqList.Add(item.Value); }
-                    db.SQ.UpdateRange(sqList);
+                {                    
+                    db.SQ.UpdateRange(_game.SQList);
                 }
             }
         }

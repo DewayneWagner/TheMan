@@ -28,7 +28,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 
         private void LoadListWithAllOwnedSQs()
         {
-            List<SQ> sqList = _game.SquareDictionary.Values.Where(p => p.OwnerNumber != QC.PlayerIndexTheMan)
+            List<SQ> sqList = _game.SQList
+                .Where(p => p.OwnerNumber != QC.PlayerIndexTheMan)
                 .Where(p => !p.IsPartOfUnit)
                 .ToList();
 

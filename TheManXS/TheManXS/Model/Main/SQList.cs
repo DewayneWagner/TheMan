@@ -28,6 +28,7 @@ namespace TheManXS.Model.Main
             get => this.Where(s => s.Row == row)
                         .Where(s => s.Col == col)
                         .FirstOrDefault();
+            set => this[row, col] = value;
         }
     }
 }

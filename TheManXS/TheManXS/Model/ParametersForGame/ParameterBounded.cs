@@ -19,7 +19,7 @@ namespace TheManXS.Model.ParametersForGame
     }
     public enum TerrainBoundedConstructSecondary
     {
-        ForestWidthRatio, GrasslandWidthRatio, AxisShift, TerrainOffset, ForestAroundTributaryWidth, TributaryOffset, Total
+        ForestWidthRatio, GrasslandWidthRatio, AxisShift, TerrainOffset, ForestAroundTributaryWidth, TributaryOffset, TributaryFrequencySQs, Total
     }
     public enum ActionCostsSecondary
     {

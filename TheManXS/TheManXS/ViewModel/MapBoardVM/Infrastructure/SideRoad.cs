@@ -39,8 +39,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         tCol = _fromSQ.Col + xxx;
 
                         if (Coordinate.DoesSquareExist(tRow, tCol))
-                        {
-                            adjacentSQ = _game.SquareDictionary[Coordinate.GetSQKey(tRow, tCol)];
+                        {                            
+                            adjacentSQ = _game.SQList[tRow, tCol];
                             if (adjacentSQ.IsHub || adjacentSQ.IsRoadConnected) { return adjacentSQ; }
                         }
                     }
@@ -74,8 +74,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 //}
 
                 if (Coordinate.DoesSquareExist(tRow, tCol))
-                {
-                    sq = _game.SquareDictionary[Coordinate.GetSQKey(tRow, tCol)];
+                {                    
+                    sq = _game.SQList[tRow, tCol];
                     sqRoute.Add(sq);
                 }
             } while (tRow != _toSQ.Row || tCol != _toSQ.Col);

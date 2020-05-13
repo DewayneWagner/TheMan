@@ -93,14 +93,15 @@ namespace TheManXS.Model.Financial
             double rev = 0;
             double opex = 0;
 
-            foreach (KeyValuePair<int, SQ> sq in _game.SquareDictionary)
+            foreach (SQ sq in _game.SQList)
             {
-                if (sq.Value.OwnerNumber == _player.Number && sq.Value.Status == ST.Producing)
+                if(sq.OwnerNumber == _player.Number && sq.Status == ST.Producing)
                 {
-                    rev += (sq.Value.Production * _game.CommodityList[(int)sq.Value.ResourceType].Price);
-                    opex += sq.Value.OPEXPerUnit * sq.Value.Production;
+                    rev += (sq.Production * _game.CommodityList[(int)sq.ResourceType].Price);
+                    opex += sq.OPEXPerUnit * sq.Production;
                 }
             }
+
             Revenue = rev;
             TotalOPEX = opex;
         }

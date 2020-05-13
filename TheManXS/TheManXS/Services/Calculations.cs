@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Units;
+using Xamarin.Forms.Xaml;
 
 namespace TheManXS.Services
 {
@@ -40,18 +41,18 @@ namespace TheManXS.Services
 
             if(rt == RT.Nada)
             {
-                foreach (KeyValuePair<int,SQ> s in _game.SquareDictionary)
+                foreach (SQ sq in _game.SQList)
                 {
-                    if(s.Value.OwnerNumber == player.Number) { sqList.Add(s.Value); }
+                    if(sq.OwnerNumber == player.Number) { sqList.Add(sq); }
                 }
             }
             else
             {
-                foreach (KeyValuePair<int,SQ> s in _game.SquareDictionary)
+                foreach (SQ sq in _game.SQList)
                 {
-                    if(s.Value.OwnerNumber == player.Number && s.Value.ResourceType == rt)
+                    if(sq.OwnerNumber == player.Number && sq.ResourceType == rt)
                     {
-                        sqList.Add(s.Value);
+                        sqList.Add(sq);
                     }
                 }
             }

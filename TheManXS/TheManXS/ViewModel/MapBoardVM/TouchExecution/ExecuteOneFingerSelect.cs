@@ -40,7 +40,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
             // new method
             int sqKey = getTouchPoint2OnScreen();
-            _game.ActiveSQ = _game.SquareDictionary[sqKey];
+            _game.ActiveSQ = _game.SQList[sqKey];
             
             SKPoint getTouchPointOnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SKPoint;
             int getTouchPoint2OnScreen() => m.MapTouchList[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).SQKey;

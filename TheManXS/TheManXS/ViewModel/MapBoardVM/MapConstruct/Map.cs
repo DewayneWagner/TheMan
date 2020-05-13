@@ -53,7 +53,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 {
                     for (int row = 0; row < QC.RowQ; row++)
                     {
-                        sq = getSQ(row, col);
+                        sq = _game.SQList[row, col];
                         rect = getSKRect();
                         setTileFormat();
 
@@ -97,7 +97,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 }
             }
 
-            SQ getSQ(int row, int col) => _game.SquareDictionary[Coordinate.GetSQKey(row, col)];
             SKRect getSKRect() => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, (sq.Row + 1) * QC.SqSize);
             int getQ(TerrainTypeE tt) => tt == TerrainTypeE.Mountain ? rnd.Next(25, 50) : rnd.Next(5, 10);
                 

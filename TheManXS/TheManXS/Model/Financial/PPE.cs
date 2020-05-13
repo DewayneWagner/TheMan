@@ -31,15 +31,16 @@ namespace TheManXS.Model.Financial
         void SetPPEValuation()
         {
             double valuation = 0;
-            foreach (KeyValuePair<int,SQ> sq in _game.SquareDictionary)
+
+            foreach (SQ sq in _game.SQList)
             {
-                if (sq.Value.OwnerNumber == _player.Number)
+                if(sq.OwnerNumber == _player.Number)
                 {
-                    valuation += sq.Value.Production 
-                        * _game.CommodityList[(int)sq.Value.ResourceType].FourTurnMovingAvgPricing
-                        * _ratiosForPPE[(int)sq.Value.Status];
+                    valuation += sq.Production * _game.CommodityList[(int)sq.ResourceType].FourTurnMovingAvgPricing
+                        * _ratiosForPPE[(int)sq.Status];
                 }
             }
+
             Valuation = valuation;
         }
     }

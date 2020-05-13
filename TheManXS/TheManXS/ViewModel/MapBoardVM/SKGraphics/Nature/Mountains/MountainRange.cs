@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
 {
@@ -17,9 +18,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
         }
         void InitAllMountains()
         {
-            var sList = _game.SquareDictionary
-                .Where(s => s.Value.TerrainType == Model.ParametersForGame.TerrainTypeE.Mountain)
-                .Select(s => s.Value.SKRect)
+            var sList = _game.SQList
+                .Where(s => s.TerrainType == TT.Mountain)
+                .Select(s => s.SKRect)
                 .ToList();
 
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))

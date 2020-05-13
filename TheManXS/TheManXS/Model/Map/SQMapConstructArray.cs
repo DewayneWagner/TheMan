@@ -32,9 +32,9 @@ namespace TheManXS.Model.Map
                 }
             }
         }
-        public List<SQ> GetListOfSQs()
+        public SQList GetListOfSQs()
         {
-            List<SQ> _sqList = new List<SQ>();
+            SQList _sqList = new SQList();
             for (int r = 0; r < _mapArray.GetLength(0); r++)
             {
                 for (int c = 0; c < _mapArray.GetLength(1); c++)
