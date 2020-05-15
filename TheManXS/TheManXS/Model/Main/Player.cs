@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Financial.Debt;
 
 namespace TheManXS.Model.Main
 {
@@ -46,6 +47,23 @@ namespace TheManXS.Model.Main
 
         public string ColorString { get; set; }
         public int SavedGameSlot { get; set; }
+
+        public LoansList ListOfLoans
+        {
+            get
+            {
+                LoansList loansList = new LoansList();
+                using (DBContext db = new DBContext())
+                {
+                    var list = db.Loans.Where(l => l.PlayerNumber == Number).ToList();
+                    foreach (Loan loan in list)
+                    {
+                        loansList.Add(loan);
+                    }
+                }
+                return loansList;
+            }
+        } 
     }
     public class PlayerDBConfig : IEntityTypeConfiguration<Player>
     {
@@ -56,6 +74,8 @@ namespace TheManXS.Model.Main
             builder.Property(p => p.Ticker).HasMaxLength(3);
 
             builder.Ignore(p => p.SKColor);
+
+            builder.Ignore(p => p.ListOfLoans);
 
             builder.Property(p => p.CreditRating)
                 .HasConversion(new EnumToStringConverter<CreditRatings>());

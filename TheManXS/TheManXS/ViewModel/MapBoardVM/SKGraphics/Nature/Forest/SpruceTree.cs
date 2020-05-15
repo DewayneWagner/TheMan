@@ -24,14 +24,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private void InitFields()
         {
             _distanceOfBottomBranchFromBottom = BottomBranchFromBottomOfRectRatio * RectangleWhereTreeWillBePlaced.Height;
-
-            _distanceBetweenBranchesVertical = (RectangleWhereTreeWillBePlaced.Height - _distanceOfBottomBranchFromBottom)
-                / NumberOfBranches;
-
+            _distanceBetweenBranchesVertical = (RectangleWhereTreeWillBePlaced.Height - _distanceOfBottomBranchFromBottom) / NumberOfBranches;
             _outsideDistance = RectangleWhereTreeWillBePlaced.Width / 2 / NumberOfBranches;
-
             _insidePointStartFromEdge = RectangleWhereTreeWillBePlaced.Width / 3;
-
             _fieldsHaveBeenInitialized = true;
         }
 
@@ -150,7 +145,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 }
                 return yc;
             }
-        }
-        
+        }        
     }
 }

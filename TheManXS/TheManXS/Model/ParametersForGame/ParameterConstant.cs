@@ -17,7 +17,8 @@ namespace TheManXS.Model.ParametersForGame
     public enum CommodityConstantSecondary { StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total }
     public enum CreditRatings { AAA, AA, A, B, C, Junk, Total }
     public enum LoanTermLength { Five, Ten, Fifteen, Twenty, TwentyFive, Total }
-    public enum MapConstantsSecondary { RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, Total }
+    public enum MapConstantsSecondary { RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, NumberOfTreesPerSideOfSQ, 
+        TreeVerticalOverlapRatio, Total }
     public enum ResourceConstantSecondary { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
     public enum GameConstantsSecondary { MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total }
     public enum NextConstantParameterSet1SecondaryIndex { Next1, Next2, Next3, Total }

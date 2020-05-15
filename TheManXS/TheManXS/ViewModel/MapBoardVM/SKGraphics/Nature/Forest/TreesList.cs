@@ -15,27 +15,35 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         System.Random rnd = new System.Random();
         private PaletteColorList _paletteColor;
         SKRect _rect;
+        private static int _rowQ;
+        private static float _verticalOverlapRatio;
 
         public TreesList(SKRect SqWhereForestIsToGo, PaletteColorList pc)
         {
             _paletteColor = pc;
             _rect = SqWhereForestIsToGo;
+            if(_rowQ == 0) { SetRowQ(); }
             InitListOfTreesForSQ();
+        }
+        private void SetRowQ()
+        {
+            Game game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
+            _rowQ = (int)game.ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.NumberOfTreesPerSideOfSQ);
+            _verticalOverlapRatio = (float)game.ParameterConstantList.GetConstant(AllConstantParameters.MapConstants, (int)MapConstantsSecondary.TreeVerticalOverlapRatio);
         }
 
         public void InitListOfTreesForSQ()
         {
-            float verticalOverlapRatio = 0.5f;
-            int rowQ = 8;
-            float heightOfTree = QC.SqSize / (rowQ - (rowQ * verticalOverlapRatio) + verticalOverlapRatio);
+            float heightOfTree = QC.SqSize / (_rowQ - (_rowQ * _verticalOverlapRatio) + _verticalOverlapRatio);
             float widthOfTree = heightOfTree * Tree.WidthVsHeightRatio;
             int maxColumns = (int)Math.Floor(QC.SqSize / widthOfTree);
             float left, top, right, bottom;
+
             int rand = 0;
             float offset = 0;
             int colQ = 0;
 
-            for (int row = 0; row < rowQ; row++)
+            for (int row = 0; row < _rowQ; row++)
             {
                 if (row % 2 == 0)
                 {
@@ -51,7 +59,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 for (int col = 0; col < colQ; col++)
                 {
                     left = _rect.Left + col * widthOfTree + offset;
-                    top = _rect.Top + row * ((1 - verticalOverlapRatio) * heightOfTree);
+                    top = _rect.Top + row * ((1 - _verticalOverlapRatio) * heightOfTree);
                     right = left + widthOfTree;
                     bottom = top + heightOfTree;
 
@@ -64,64 +72,5 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 }
             }
         }
-
-        //void InitListWithAllTrees(PaletteColorList pc, List<KeyValuePair<int, SQ>> listOfAllForestSQ)
-        //{
-        //    float verticalOverlapRatio = 0.5f;
-        //    int rowQ = 4;
-        //    float heightOfTree = QC.SqSize / (rowQ - (rowQ * verticalOverlapRatio) + verticalOverlapRatio);
-        //    float widthOfTree = heightOfTree * Tree.WidthVsHeightRatio;
-        //    int maxColumns = (int)Math.Floor(QC.SqSize / widthOfTree);
-        //    float left, top, right, bottom;
-        //    int rand = 0;
-        //    float offset = 0;
-        //    int colQ = 0;
-
-        //    foreach (KeyValuePair<int,SQ> item in listOfAllForestSQ)
-        //    {
-        //        for (int row = 0; row < rowQ; row++)
-        //        {
-        //            if(row % 2 == 0)
-        //            {
-        //                offset = 0;
-        //                colQ = maxColumns;
-        //            }
-        //            else
-        //            {
-        //                offset = widthOfTree * 0.5f;
-        //                colQ = (maxColumns - 1);
-        //            }
-
-        //            for (int col = 0; col < colQ; col++)
-        //            {                        
-        //                left = item.Value.Col * QC.SqSize + col * widthOfTree + offset;
-        //                top = item.Value.Row * QC.SqSize + row * ((1 - verticalOverlapRatio) * heightOfTree);
-        //                right = left + widthOfTree;
-        //                bottom = top + heightOfTree;
-
-        //                SKRect rect = new SKRect(left, top, right, bottom);
-        //                SKColor treeBranchColor = pc.GetRandomColor(TerrainTypeE.Forest);
-        //                rand = rnd.Next(0, 5);
-
-        //                if(rand == 0 || rand < 4) { this.Add(new SpruceTree(rect, treeBranchColor)); }
-        //                else { this.Add(new PoplarTree(rect, treeBranchColor)); }
-        //            }
-        //        }
-        //    }
-        //}
-        //void DrawAllTreesOnCanvas(SKBitmap map)
-        //{
-        //    using (SKCanvas canvas = new SKCanvas(map))
-        //    {
-        //        foreach (Tree tree in this) 
-        //        { 
-        //            canvas.DrawPath(tree.TreeBranchesPath, tree.FillPaint);
-        //            canvas.DrawPath(tree.TreeBranchesPath, tree.StrokePaint);
-        //            canvas.DrawRect(tree.TreeTrunkRect, tree.TreeTrunkFill);
-        //            canvas.DrawRect(tree.TreeTrunkRect, tree.StrokePaint);
-        //        }
-        //        canvas.Save();
-        //    }
-        //}
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using TheManXS.Model.Main;
 using Xamarin.Forms;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 {
@@ -15,6 +16,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         Game _game;
         DataRowType _dataRowType;
         List<string> _dataValuesList;
+        private double _heightRatio = 0.075;
+        private static double LabelHeight;
 
         private static bool _colorsHaveBeenInitialized;
         private static Color _mainHeadingColor;
@@ -25,6 +28,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         {
             _game = game;
             _dataRowType = dataRowType;
+            if (LabelHeight == 0) { LabelHeight = QC.ScreenHeight * _heightRatio; }
             _dataValuesList = dataValues;
             if (!_colorsHaveBeenInitialized) { InitColors(); }
             InitList();
@@ -39,7 +43,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
                     HorizontalOptions = LayoutOptions.Fill,
                     HorizontalTextAlignment = TextAlignment.Center,
                     VerticalTextAlignment = TextAlignment.Center,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    VerticalOptions = LayoutOptions.Start,
+                    HeightRequest = LabelHeight,
                     TextColor = Color.Black,
                     Margin = 0,
                     Padding = 0,

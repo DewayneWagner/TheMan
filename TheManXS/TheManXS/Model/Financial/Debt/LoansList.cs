@@ -14,11 +14,11 @@ namespace TheManXS.Model.Financial.Debt
     {
         private enum LoansListDisplayHeadings { Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, TurnsRemaining, RemainingBalance, Total }
         private Game _game;
+        public LoansList() { }
+
         public LoansList(Game game, bool isNewGame) 
         {
             _game = game;
-
-
             if (isNewGame) { InitLoansWithAtStartOfGame(); }
             else { InitLoansList(); }
         }
@@ -41,6 +41,7 @@ namespace TheManXS.Model.Financial.Debt
             foreach (Player player in _game.PlayerList)
             {
                 Loan startingLoan = new Loan(lt, startingBalance, _game);
+                startingLoan.PlayerNumber = player.Number;
                 this.Add(startingLoan);
             }
         }
@@ -53,7 +54,20 @@ namespace TheManXS.Model.Financial.Debt
                 {
                     displayHeadingsList.Add(Convert.ToString((LoansListDisplayHeadings)i));
                 }
+                SplitWordsInHeading(ref displayHeadingsList);
                 return displayHeadingsList;
+            }
+        }
+        void SplitWordsInHeading(ref List<string> headingsList)
+        {
+            for (int i = 0; i < headingsList.Count; i++)
+            {
+                string s = SplitCamelCase(headingsList[i]);
+                headingsList[i] = s;
+            }
+            string SplitCamelCase(string s)
+            {
+                return System.Text.RegularExpressions.Regex.Replace(s, "([A-Z])", " $1", System.Text.RegularExpressions.RegexOptions.Compiled).Trim();
             }
         }
     }

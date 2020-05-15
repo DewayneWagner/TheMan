@@ -32,7 +32,7 @@ namespace TheManXS.Model.Main
                     term = (LoanTermLength)(rnd.Next(0, (int)LoanTermLength.Total));
                     loanAmount = rnd.Next(lb, ub);
                     Loan loan = new Loan(term, loanAmount, game);
-
+                    loan.PlayerNumber = p.Number;
                     game.LoanList.Add(loan);
                 }
             }

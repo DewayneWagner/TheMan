@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Financial.StockPrice;
+using TheManXS.Model.Financial.Debt;
 
 namespace TheManXS.Model.Financial
 {
@@ -63,6 +64,7 @@ namespace TheManXS.Model.Financial
             TheManCut = Revenue * QC.TheManCut;
             SetGrossProfit();
             SetNetProfit();
+            SetAllDebtProperties();
 
             // calculate balance sheet
             SetPPE();
@@ -84,10 +86,10 @@ namespace TheManXS.Model.Financial
             TotalAssets = (PPE + Cash);
             TotalCapital = (TotalAssets - Debt);
 
-            SetCreditRatingAndInterestRate();
-            SetInterestExpense();
+            SetCreditRating();
             SetStockPrice();
         }
+
         void SetRevenueAndOPEX()
         {
             double rev = 0;
@@ -123,23 +125,19 @@ namespace TheManXS.Model.Financial
             _player.StockPrice = s.Price;
             _player.Delta = s.Delta;
         }
-        void SetCreditRatingAndInterestRate()
+        void SetCreditRating()
         {
             CreditRating cr = new CreditRating(this, _player, _game);
             CreditRating = Convert.ToString(cr.Rating);
             _player.CreditRating = cr.Rating;
-            InterestRate = cr.InterestRate;
-            _player.InterestRate = cr.InterestRate;
         }
-        void SetInterestExpense()
+        void SetAllDebtProperties()
         {
-            // need to build a class that sets debt payment amount and interest when debt is incurred, and 
-            // increased / decreased when debt is added / paid-down.
-            // temporary calculation below - that will change every turn.
-
-            int amortizationPeriod = 25;
-            DebtPayment = Debt / amortizationPeriod;
-            InterestExpense = DebtPayment * InterestRate;
+            PlayerDebt pd = new PlayerDebt(_game, _player);
+            Debt = pd.LongTermDebt;
+            InterestExpense = pd.InterestExpense;
+            InterestRate = pd.WeightedAverageInterestRate;
+            DebtPayment = pd.DebtPayment;
         }
         void SetPPE()
         {

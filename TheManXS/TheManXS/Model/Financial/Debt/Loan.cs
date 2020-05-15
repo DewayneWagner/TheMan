@@ -40,17 +40,18 @@ namespace TheManXS.Model.Financial.Debt
         public int SavedGameSlot { get; set; }
         public double PrincipalPaymentPerTurn { get; set; }
 
-        // Calculated, and not in DB
+        // Calculated, and not in DB        
+        public int TurnsRemaining => TurnIssued + Term - _game.TurnNumber;
         public double RemainingBalance
         {
             get
             {
                 int turnNumber = _game.TurnNumber == 0 ? 1 : _game.TurnNumber;
-                return StartingBalance / Term * (turnNumber - TurnIssued);
+                return TurnsRemaining * PrincipalPaymentPerTurn;
             }
-        }
-        public int TurnsRemaining => TurnIssued + (int)Term - _game.TurnNumber;
-        public double InterestPaymentPerTurn => RemainingBalance / TurnsRemaining * InterestRate;
+        }        
+        public double TotalInterestRemaining => RemainingBalance * InterestRate * TurnsRemaining;
+        public double InterestPaymentPerTurn => TotalInterestRemaining / TurnsRemaining;
         
         private LoanStatusTypes _loanStatus;
         public LoanStatusTypes LoanStatus
@@ -84,6 +85,7 @@ namespace TheManXS.Model.Financial.Debt
             builder.Ignore(l => l.RemainingBalance);
             builder.Ignore(l => l.InterestPaymentPerTurn);
             builder.Ignore(l => l.TurnsRemaining);
+            builder.Ignore(l => l.TotalInterestRemaining);
         }
     }
 }

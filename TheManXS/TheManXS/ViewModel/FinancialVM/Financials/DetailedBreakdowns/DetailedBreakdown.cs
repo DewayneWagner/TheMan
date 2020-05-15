@@ -93,6 +93,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 
                 return dataRow;
             }
+            
         }
         public DetailedBreakdownGrid DetailedBreakdownGrid => new DetailedBreakdownGrid(_filterRowNeeded, ListOfDataRowList);
     }

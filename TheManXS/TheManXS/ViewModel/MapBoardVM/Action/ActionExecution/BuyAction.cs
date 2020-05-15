@@ -24,9 +24,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
             if(_panelType == ActionPanelGrid.PanelType.SQ)
             {
                 var sq = _game.ActiveSQ;
-                sq.OwnerName = _game.ActivePlayer.Name;
-                sq.OwnerNumber = _game.ActivePlayer.Number;
-                sq.Status = ST.Unexplored;
+                var p = _game.ActivePlayer;
+
+                if(sq.NextActionCost > p.Cash)
+                {
+                    sq.OwnerName = _game.ActivePlayer.Name;
+                    sq.OwnerNumber = _game.ActivePlayer.Number;
+                    sq.Status = ST.Unexplored;
+
+                    _game.FinancialValuesList[p.Number].CAPEXThisTurn += sq.NextActionCost;
+                }
+                else
+                {
+                    // do nothing for now - potentially create new loan?
+
+                }
             }
             else
             {

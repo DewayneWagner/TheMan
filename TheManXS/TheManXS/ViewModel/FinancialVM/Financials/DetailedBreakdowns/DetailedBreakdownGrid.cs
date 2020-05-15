@@ -22,7 +22,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
             InitPropertiesOfGrid();
             _listOfDataRowLists = listOfDataRowLists;
             _rowQ = listOfDataRowLists.Count;
-            _colQ = listOfDataRowLists[5].Count;
+            _colQ = listOfDataRowLists[0].Count;
             _rowHeight = QC.ScreenHeight / (_rowQ * 2.25);
             InitGrid();
             AddLabelsToGrid();
@@ -31,7 +31,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         void InitPropertiesOfGrid()
         {
             HorizontalOptions = LayoutOptions.FillAndExpand;
-            VerticalOptions = LayoutOptions.FillAndExpand;
+            VerticalOptions = LayoutOptions.Start;
             CompressedLayout.SetIsHeadless(this, true);
             ColumnSpacing = 0;
             RowSpacing = 0;
@@ -39,6 +39,8 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         }
 
         protected bool FilterRowNeeded { get; set; }
+        public int LoansListDisplayHeadings { get; }
+
         private void InitGrid()
         {
             for (int col = 0; col < _colQ; col++) { ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star }); }

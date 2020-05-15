@@ -61,14 +61,13 @@ namespace TheManXS.Model.Main
 
             // this is the problem.....
             _map = new GameBoardMap(this,true);
-
             CommodityList = new CommodityList(this);
-            FinancialValuesList = new FinancialValuesList(this);
             PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
             LoanList = new LoansList(this, true);
 #if DEBUG
-            DebugTesting.InitExtraLoansForEachPlayer(this);
+            //DebugTesting.InitExtraLoansForEachPlayer(this);
 #endif
+            FinancialValuesList = new FinancialValuesList(this);
         }
         private void InitPropertiesForLoadedGame()
         {
@@ -94,7 +93,7 @@ namespace TheManXS.Model.Main
         }
 
         public SQList SQList { get; set; } = new SQList();
-        public List<Unit> ListOfCreatedProductionUnits { get; set; }
+        public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
         public LoansList LoanList { get; set; }
         public PlayerList PlayerList { get; set; }
         public CommodityList CommodityList { get; set; } 

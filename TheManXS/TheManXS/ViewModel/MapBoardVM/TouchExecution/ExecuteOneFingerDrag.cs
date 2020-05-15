@@ -51,7 +51,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             {
                 SKPoint touchPointOnMap = GetTouchPointOnBitMap(args.SKPoint);
                 Coordinate touchCoord = new Coordinate(touchPointOnMap);
-                SQ sq = _game.SQList[touchCoord.SQKey];
+                SQ sq = _game.SQList[touchCoord.Row, touchCoord.Col];
                 if (!listOfTouchedSQs.Contains(sq)) { listOfTouchedSQs.Add(sq); }
             }
             return listOfTouchedSQs;
