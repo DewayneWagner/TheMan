@@ -23,6 +23,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         {
             _game = game;
             _cash = new Calculations().GetCash(_game.ActiveSQ);
+            StatusType = _game.ActiveSQ.Status;
         }
 
         public ST StatusType { get; set; }

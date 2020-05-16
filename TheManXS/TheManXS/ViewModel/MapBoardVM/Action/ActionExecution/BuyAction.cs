@@ -7,45 +7,41 @@ using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
-    class BuyAction
+    class BuyAction : SQAction
     {
-        Game _game;
-        ActionPanelGrid.PanelType _panelType;
-
-        public BuyAction(Game game, ActionPanelGrid.PanelType pt)
+        public BuyAction(Game game, ActionPanelGrid.PanelType pt) : base(game,pt)
         {
-            _game = game;
-            _panelType = pt;
             TransferOwnershipAndUpdateStatus();
         }        
 
         void TransferOwnershipAndUpdateStatus()
         {
-            if(_panelType == ActionPanelGrid.PanelType.SQ)
+            if(PanelType == ActionPanelGrid.PanelType.SQ)
             {
-                var sq = _game.ActiveSQ;
-                var p = _game.ActivePlayer;
+                var sq = Game.ActiveSQ;
+                var p = Game.ActivePlayer;
 
-                if(sq.NextActionCost > p.Cash)
+                if(PlayerHasEnoughDough(sq.NextActionCost))
                 {
-                    sq.OwnerName = _game.ActivePlayer.Name;
-                    sq.OwnerNumber = _game.ActivePlayer.Number;
+                    sq.OwnerName = Game.ActivePlayer.Name;
+                    sq.OwnerNumber = Game.ActivePlayer.Number;
                     sq.Status = ST.Unexplored;
 
-                    _game.FinancialValuesList[p.Number].CAPEXThisTurn += sq.NextActionCost;
-                }
-                else
-                {
-                    // do nothing for now - potentially create new loan?
-
+                    Game.FinancialValuesList[p.Number].CAPEXThisTurn += sq.NextActionCost;
                 }
             }
             else
-            {
-                var u = _game.ActiveUnit;
-                u.PlayerName = _game.ActivePlayer.Name;
-                u.PlayerNumber = _game.ActivePlayer.Number;
-                u.Status = ST.Unexplored;
+            {                
+                var u = Game.ActiveUnit;
+                if (PlayerHasEnoughDough(u.NextActionCost))
+                {
+                    u.PlayerName = Game.ActivePlayer.Name;
+                    u.PlayerNumber = Game.ActivePlayer.Number;
+                    u.Status = ST.Unexplored;
+
+                    Game.ActivePlayer.Cash += u.NextActionCost;
+                }
+               
             }
         }
     }

@@ -59,8 +59,8 @@ namespace TheManXS.Model.ParametersForGame
                         return (int)StatusTypeE.Total;
                     case AllConstantParameters.InfrastructureConstructionRatiosTT:
                         return (int)TerrainTypeE.Total;
-                    case AllConstantParameters.NextParameterSet1:
-                        return (int)NextConstantParameterSet1SecondaryIndex.Total;
+                    case AllConstantParameters.ConstructionConstants:
+                        return (int)ConstructionConstantsSecondary.Total;
                     case AllConstantParameters.NextParameterSet2:
                         return (int)NextConstantParameterSet2SecondaryIndex.Total;
                     case AllConstantParameters.NextParameterSet3:
@@ -94,40 +94,47 @@ namespace TheManXS.Model.ParametersForGame
                     return Convert.ToString((StatusTypeE)secondaryIndex);
                 case AllConstantParameters.InfrastructureConstructionRatiosTT:
                     return Convert.ToString((TerrainTypeE)secondaryIndex);
-                case AllConstantParameters.NextParameterSet1:
-                    return Convert.ToString((NextConstantParameterSet1SecondaryIndex)secondaryIndex);
+                case AllConstantParameters.ConstructionConstants:
+                    return Convert.ToString((ConstructionConstantsSecondary)secondaryIndex);
                 case AllConstantParameters.NextParameterSet2:
                     return Convert.ToString((NextConstantParameterSet2SecondaryIndex)secondaryIndex);
                 case AllConstantParameters.NextParameterSet3:
                     return Convert.ToString((NextConstantParameterSet3SecondaryIndex)secondaryIndex);
                 case AllConstantParameters.Total:
                 default:
-                    break;
+                    break; 
             }
             return null;
         }
         private void ReadDataFromBinaryFile()
         {
-            
             using (BinaryReader br = new BinaryReader(File.Open(App.GetFolderPath(App.FileNames.ParameterConstant), FileMode.OpenOrCreate)))
             {
                 for (int i = 0; i < _elementCount; i++)
                 {
                     while (br.PeekChar() != (-1))
                     {
-                        int primaryIndex = br.ReadInt32();
-                        string secondaryIndex = br.ReadString();
-
-                        bool paramExistsInThis = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondarySubIndex == secondaryIndex);
-                        if (paramExistsInThis)
+                        try
                         {
-                            ParameterConstant pc = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
-                                .Where(p => p.SecondarySubIndex == secondaryIndex)
-                                .FirstOrDefault();
+                            int primaryIndex = br.ReadInt32();
+                            string secondaryIndex = br.ReadString();
 
-                            if (br.PeekChar() != (-1)) { pc.Constant = br.ReadDouble(); }
-                            else { pc.Constant = 0; }
+                            bool paramExistsInThis = this.Exists(p => p.PrimaryIndexNumber == primaryIndex && p.SecondarySubIndex == secondaryIndex);
+                            if (paramExistsInThis)
+                            {
+                                ParameterConstant pc = this.Where(p => p.PrimaryIndexNumber == primaryIndex)
+                                    .Where(p => p.SecondarySubIndex == secondaryIndex)
+                                    .FirstOrDefault();
+
+                                if (br.PeekChar() != (-1)) { pc.Constant = br.ReadDouble(); }
+                                else { pc.Constant = 0; }
+                            }
                         }
+                        catch //(Exception)
+                        {
+
+                            //throw;
+                        }                        
                     }
                 }                
             }

@@ -94,6 +94,14 @@ namespace TheManXS.Model.Units
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
         public NextAction.NextActionType NextActionType { get; set; }
+        public SQ StructureSQ { get; set; }
+
+        private void setStructureSQ()
+        {
+            // need to figure-out the "Main" SQ for Unit, where structure goes.
+
+            
+        }
 
         public void CreateUnit()
         {

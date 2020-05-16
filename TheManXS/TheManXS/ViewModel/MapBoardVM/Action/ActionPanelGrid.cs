@@ -17,7 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class ActionPanelGrid : Grid
     {
-        public enum PanelType { SQ, Unit }
+        public enum PanelType { SQ, Unit, LoanOptions }
         MapVM _mapVM;
         Game _game;
 
@@ -105,7 +105,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 {
                     Label rowHeading = new Label() 
                     { 
-                        Text = Convert.ToString((ActionRows)i),
+                        Text = SplitCamelCase(Convert.ToString(((ActionRows)i))),
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                     };
@@ -114,6 +114,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                     Label rowValue = new Label()
                     {
                         Text = sqAttributes.GetValue((SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner)),
+                        VerticalOptions = LayoutOptions.Center,
                         HorizontalTextAlignment = TextAlignment.Center,
                     };
                     this.Children.Add(rowValue, 1, i);
@@ -131,12 +132,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
-                    Label rowHeading = new Label() { Text = Convert.ToString((ActionRows)i) };
+                    Label rowHeading = new Label() { Text = SplitCamelCase(Convert.ToString((ActionRows)i)) };
                     this.Children.Add(rowHeading, 0, i);
 
                     Label rowValue = new Label()
                     {
                         Text = unitAttributes.GetValue((UnitAttributes.AllUnitAttributes)(i - (int)ActionRows.Owner)),
+                        VerticalOptions = LayoutOptions.Center,
                         HorizontalTextAlignment = TextAlignment.Center,
                     };
                     this.Children.Add(rowValue, 1, i);
@@ -195,10 +197,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 HeightRequest = _buttonAndTitleHeight,
                 Margin = (_buttonAndTitleHeight * 0.1),
                 FontSize = (_buttonAndTitleHeight * 0.5),
-                
             };
             Children.Add(actionButton, 0, (int)ActionRows.Button); 
             Grid.SetColumnSpan(actionButton, 2);            
+        }
+        public string SplitCamelCase(string s)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(s, "([A-Z])", " $1", System.Text.RegularExpressions.RegexOptions.Compiled).Trim();
         }
     }
 }

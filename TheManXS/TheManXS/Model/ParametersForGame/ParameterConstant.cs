@@ -11,7 +11,7 @@ namespace TheManXS.Model.ParametersForGame
     {
         CashConstant, CommodityConstants, PrimeRateAdderBasedOnCreditRating, PrimeRateAdderBasedOnTermLength,
         MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType, 
-        InfrastructureConstructionRatiosTT, NextParameterSet1, NextParameterSet2, NextParameterSet3, Total
+        InfrastructureConstructionRatiosTT, ConstructionConstants, NextParameterSet2, NextParameterSet3, Total
     }
     public enum CashConstantSecondary { StartCash, StartDebt, TheManCut, SquarePrice, StartPrimeRate, Total }
     public enum CommodityConstantSecondary { StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total }
@@ -21,7 +21,7 @@ namespace TheManXS.Model.ParametersForGame
         TreeVerticalOverlapRatio, Total }
     public enum ResourceConstantSecondary { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
     public enum GameConstantsSecondary { MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total }
-    public enum NextConstantParameterSet1SecondaryIndex { Next1, Next2, Next3, Total }
+    public enum ConstructionConstantsSecondary { TurnsToBuildOnGrassLand, TurnsToBuildOnForestTile, TurnsToBuildOnMountainTile, Total }
     public enum NextConstantParameterSet2SecondaryIndex { Next1, Total }
     public enum NextConstantParameterSet3SecondaryIndex { Next1, Total }
 
@@ -84,9 +84,9 @@ namespace TheManXS.Model.ParametersForGame
                     for (int i = 0; i < (int)TerrainTypeE.Total; i++)
                     { if (Convert.ToString((TerrainTypeE)i) == SecondarySubIndex) { return i; } }
                     return 0;
-                case AllConstantParameters.NextParameterSet1:
-                    for (int i = 0; i < (int)NextConstantParameterSet1SecondaryIndex.Total; i++)
-                    { if (Convert.ToString((NextConstantParameterSet1SecondaryIndex)i) == SecondarySubIndex) { return i; } }
+                case AllConstantParameters.ConstructionConstants:
+                    for (int i = 0; i < (int)ConstructionConstantsSecondary.Total; i++)
+                    { if (Convert.ToString((ConstructionConstantsSecondary)i) == SecondarySubIndex) { return i; } }
                     return 0;
                 case AllConstantParameters.NextParameterSet2:
                     for (int i = 0; i < (int)NextConstantParameterSet2SecondaryIndex.Total; i++)
@@ -125,8 +125,8 @@ namespace TheManXS.Model.ParametersForGame
                     return nameof(StatusTypeE);
                 case AllConstantParameters.InfrastructureConstructionRatiosTT:
                     return nameof(TerrainTypeE);
-                case AllConstantParameters.NextParameterSet1:
-                    return nameof(NextConstantParameterSet1SecondaryIndex);
+                case AllConstantParameters.ConstructionConstants:
+                    return nameof(ConstructionConstantsSecondary);
                 case AllConstantParameters.NextParameterSet2:
                     return nameof(NextConstantParameterSet2SecondaryIndex);
                 case AllConstantParameters.NextParameterSet3:

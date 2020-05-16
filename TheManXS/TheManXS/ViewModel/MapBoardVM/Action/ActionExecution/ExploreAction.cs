@@ -2,39 +2,49 @@
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures;
 using TheManXS.ViewModel.Services;
+using Xamarin.Forms;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using System.Windows;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {    
-    class ExploreAction
+    class ExploreAction : SQAction
     {
-        Game _game;
-        PageService _pageServices;
-        SQ _activeSQ;
         // can only explore SQ - not Unit
-        public ExploreAction(Game game)
+        public ExploreAction(Game game) : base(game)
         {
-            _game = game;
-            _activeSQ = _game.ActiveSQ;
-            ExecuteAction();
+            DisplayTestAlert();
+            //Application.Current.MainPage.DisplayAlert("test", "test", "test");
+            //ExecuteAction();            
         }
-        async void ExecuteAction()
+        private void ExecuteAction()
         {
-            string message = null;
-            if (_activeSQ.ResourceType != RT.Nada || _activeSQ.ResourceType != RT.RealEstate)
+            var s = Game.ActiveSQ;
+            var p = Game.ActivePlayer;
+
+            if(s.OwnerNumber == p.Number)
             {
-                message += "You have discovered " + Convert.ToString(_activeSQ.ResourceType);
-                _activeSQ.Status = ST.Explored;
+                s.Status = ST.Explored;
+                p.Cash -= s.NextActionCost;
+
+                if (s.ResourceType != RT.Nada || s.ResourceType != RT.RealEstate)
+                {
+                    DisplayAlertAboutSuccessfulExploration(Convert.ToString(s.ResourceType));
+                }
+                else
+                {                    
+                    new DudSymbol(Game, s);
+                }
             }
-            else 
-            {
-                message += "Nothing here!";
-                _activeSQ.Status = ST.Explored;
-            }
-            await _pageServices.DisplayAlert("Exploration Results", message);
+            else { DisplayAlertAboutNonOwner(); }
         }
+        private async void DisplayAlertAboutNonOwner() => await PageServices.DisplayAlert("Heh Dumbass - you can only explore Squares you own.");
+        private async void DisplayAlertAboutSuccessfulExploration(string resourceType) => await PageServices.DisplayAlert("Congrats!  You found " + resourceType + "!!!");
+        //private async void DisplayTestAlert() => await PageServices.DisplayAlert("Test");
+        private async void DisplayTestAlert() => await App.Current.MainPage.DisplayAlert("test", "test", "test");
     }
 }
