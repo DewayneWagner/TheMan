@@ -34,7 +34,7 @@ namespace TheManXS.Model.Financial
 
             foreach (SQ sq in _game.SQList)
             {
-                if(sq.OwnerNumber == _player.Number)
+                if(sq.OwnerNumber == _player.Number && sq.ResourceType != ResourceTypeE.Nada)
                 {
                     valuation += sq.Production * _game.CommodityList[(int)sq.ResourceType].FourTurnMovingAvgPricing
                         * _ratiosForPPE[(int)sq.Status];

@@ -72,27 +72,35 @@ namespace TheManXS.View
         private void TouchEffect_TouchAction(object sender, ViewModel.MapBoardVM.TouchTracking.TouchActionEventArgs args)
         {
             var m = _game.GameBoardVM.MapVM;
-            if (_game.GameBoardVM.TouchEffectsEnabled)            
+            try
             {
-                if (isTouchOnGameBoardPortionOfScreen())
+                if (_game.GameBoardVM.TouchEffectsEnabled)
                 {
-                    m.MapTouchList.AddTouchAction(args);
-
-                    if (m.MapTouchList.AllTouchEffectsExited && m.MapTouchList.Count != 0)
+                    if (isTouchOnGameBoardPortionOfScreen())
                     {
-                        _game.GameBoardVM.TouchEffectsEnabled = false;
-                        ExecuteTouch();
-                        m.MapTouchList = new MapTouchListOfMapTouchIDLists();
-                        _game.GameBoardVM.TouchEffectsEnabled = true;
+                        m.MapTouchList.AddTouchAction(args);
+
+                        if (m.MapTouchList.AllTouchEffectsExited && m.MapTouchList.Count != 0)
+                        {
+                            _game.GameBoardVM.TouchEffectsEnabled = false;
+                            ExecuteTouch();
+                            m.MapTouchList = new MapTouchListOfMapTouchIDLists();
+                            _game.GameBoardVM.TouchEffectsEnabled = true;
+                        }
+                        else if (m.MapTouchList.NoExecutionRequired) { m.MapTouchList = new MapTouchListOfMapTouchIDLists(); }
                     }
-                    else if (m.MapTouchList.NoExecutionRequired) { m.MapTouchList = new MapTouchListOfMapTouchIDLists(); }
+                }
+                bool isTouchOnGameBoardPortionOfScreen()
+                {
+                    if (args.Location.X < m.MapCanvasView.Width && args.Location.Y < m.MapCanvasView.Height) { return true; }
+                    else { return false; }
                 }
             }
-            bool isTouchOnGameBoardPortionOfScreen()
-            {                
-                if(args.Location.X < m.MapCanvasView.Width && args.Location.Y < m.MapCanvasView.Height) { return true; }
-                else { return false; }
+            catch (Exception)
+            {
+                m.MapTouchList = new MapTouchListOfMapTouchIDLists();
             }
+            
             
             // try / catch loop to wrap this section in, once bugs are out to prevent crashing
             //try {}
@@ -105,11 +113,9 @@ namespace TheManXS.View
             switch (m.MapTouchList.MapTouchType)
             {
                 case MapTouchType.OneFingerSelect:
-                    _game.GameBoardVM.TouchEffectsEnabled = false;
                     new ExecuteOneFingerSelect(_game);
                     break;
                 case MapTouchType.OneFingerDragSelect:
-                    _game.GameBoardVM.TouchEffectsEnabled = false;
                     new ExecuteOneFingerDrag(_game);
                     break;
                 case MapTouchType.TwoFingerPan:

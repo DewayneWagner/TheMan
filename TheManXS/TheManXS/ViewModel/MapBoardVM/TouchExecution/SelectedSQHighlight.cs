@@ -6,6 +6,7 @@ using TheManXS.Model.Main;
 using Windows.UI;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
@@ -36,21 +37,38 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
         void HighlightSQForSelection()
         {
-            using (new SKAutoCanvasRestore(_canvas))
-            {
-                foreach (SQ sq in _listOfSqsToHighlight)
-                {
-                    SKPaint highlightedSQ = new SKPaint()
-                    {
-                        //Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
-                        Color = SKColors.Yellow,
-                        Style = SKPaintStyle.Fill,
-                    };
-                    _canvas.DrawRect(sq.SKRect, highlightedSQ);
-                }
-            }
+            
+            //using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
+            //{
+            //    foreach (SQ sq in _listOfSqsToHighlight)
+            //    {
+
+            //        SKPaint highlightedSQ = new SKPaint()
+            //        {
+            //            Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
+            //            //Color = SKColors.Yellow,
+            //            Style = SKPaintStyle.Fill,
+            //        };
+            //        canvas.DrawRect(sq.SKRect, highlightedSQ);
+            //    }
+            //    canvas.Save();
+            //}
+            //using (new SKAutoCanvasRestore(_canvas))
+            //{
+            //    foreach (SQ sq in _listOfSqsToHighlight)
+            //    {
+            //        SKPaint highlightedSQ = new SKPaint()
+            //        {
+            //            Color = _game.ActivePlayer.SKColor.WithAlpha(0x75),
+            //            //Color = SKColors.Yellow,
+            //            Style = SKPaintStyle.Fill,
+            //        };
+            //        _canvas.DrawRect(sq.SKRect, highlightedSQ);
+            //    }
+            //}
             //_canvas.Save();
         }
+
 
         public void RemoveSelectionHighlight()
         {

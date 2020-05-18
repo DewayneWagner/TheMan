@@ -35,7 +35,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         
         private const int SIDEPANELWIDTH = 300;
         private PanelType _panelType;
-        private SKCanvas _canvasForHighlight;
 
         public ActionPanelGrid(PanelType pt, Game game)
         {
@@ -49,7 +48,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             InitFields();
             InitAllElements();
 
-            _canvasForHighlight = new SKCanvas(_mapVM.SKBitMapOfMap);
             _game.GameBoardVM.SidePanelManager.SelectedSQHighlight = new SelectedSQHighlight(_game, pt);
         }
 

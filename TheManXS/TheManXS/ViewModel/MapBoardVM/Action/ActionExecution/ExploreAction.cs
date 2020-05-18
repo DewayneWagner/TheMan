@@ -17,9 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         // can only explore SQ - not Unit
         public ExploreAction(Game game) : base(game)
         {
-            DisplayTestAlert();
-            //Application.Current.MainPage.DisplayAlert("test", "test", "test");
-            //ExecuteAction();            
+            ExecuteAction();            
         }
         private void ExecuteAction()
         {
@@ -31,20 +29,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
                 s.Status = ST.Explored;
                 p.Cash -= s.NextActionCost;
 
-                if (s.ResourceType != RT.Nada || s.ResourceType != RT.RealEstate)
+                if(s.ResourceType != RT.RealEstate)
                 {
-                    DisplayAlertAboutSuccessfulExploration(Convert.ToString(s.ResourceType));
-                }
-                else
-                {                    
-                    new DudSymbol(Game, s);
+                    if (s.ResourceType == RT.Nada)
+                    {
+                        new DudSymbol(Game, s);
+                    }
+                    else
+                    {
+                        DisplayAlertAboutSuccessfulExploration(Convert.ToString(s.ResourceType));
+                    }
                 }
             }
             else { DisplayAlertAboutNonOwner(); }
-        }
+        } 
         private async void DisplayAlertAboutNonOwner() => await PageServices.DisplayAlert("Heh Dumbass - you can only explore Squares you own.");
         private async void DisplayAlertAboutSuccessfulExploration(string resourceType) => await PageServices.DisplayAlert("Congrats!  You found " + resourceType + "!!!");
-        //private async void DisplayTestAlert() => await PageServices.DisplayAlert("Test");
-        private async void DisplayTestAlert() => await App.Current.MainPage.DisplayAlert("test", "test", "test");
     }
 }

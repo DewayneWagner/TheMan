@@ -69,6 +69,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             using (SKCanvas canvas = new SKCanvas(game.GameBoardVM.MapVM.SKBitMapOfMap))
             {
                 canvas.DrawRect(_border, _strokePaint);
+                _strokePaint.StrokeWidth *= 2;
                 canvas.DrawPath(_xPath, _strokePaint);
                 canvas.Save();
             }

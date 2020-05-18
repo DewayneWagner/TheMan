@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TheManXS.Model.Main;
@@ -12,6 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         public BuyAction(Game game, ActionPanelGrid.PanelType pt) : base(game,pt)
         {
             TransferOwnershipAndUpdateStatus();
+            UpdateColor();
         }        
 
         void TransferOwnershipAndUpdateStatus()
@@ -42,6 +44,20 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
                     Game.ActivePlayer.Cash += u.NextActionCost;
                 }
                
+            }
+        }
+        void UpdateColor()
+        {
+            SKPaint sqPaint = new SKPaint()
+            {
+                IsAntialias = true,
+                Style = SKPaintStyle.Fill,
+                Color = Game.ActivePlayer.SKColor.WithAlpha(0x75),
+            };
+            using (SKCanvas canvas = new SKCanvas(Game.GameBoardVM.MapVM.SKBitMapOfMap))
+            {
+                canvas.DrawRect(Game.ActiveSQ.SKRect, sqPaint);
+                canvas.Save();
             }
         }
     }

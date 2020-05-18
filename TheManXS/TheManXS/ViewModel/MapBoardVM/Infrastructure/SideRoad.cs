@@ -115,5 +115,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 return path;
             }
         }
+        public void DrawSideRoad()
+        {
+            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
+            {
+                SKPaint roadPaint = new PaintTypes()[(int)IT.Road];
+                canvas.DrawPath(SKPath, roadPaint);
+                canvas.Save();
+            }
+        }
     }
 }

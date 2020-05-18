@@ -9,6 +9,7 @@ using ACP = TheManXS.Model.ParametersForGame.AllConstantParameters;
 using CC = TheManXS.Model.ParametersForGame.ConstructionConstantsSecondary;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
+using TheManXS.ViewModel.MapBoardVM.Infrastructure;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
@@ -18,6 +19,9 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         // will need to incorporate budget fluctuations into here later
         public DevelopAction(Game game, PanelType pt) : base(game, pt)
         {
+            game.ActiveSQ.IsRoadConnected = true;
+            new SideRoad(game, game.ActiveSQ).DrawSideRoad();
+
             if (PanelType == PanelType.SQ) { ExecuteDevelopmentActionSQ(); }
             else { ExecuteDevelopmentActionUnit(); }
         }
