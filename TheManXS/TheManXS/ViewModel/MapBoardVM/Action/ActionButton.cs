@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.Action.ActionExecution;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -23,7 +20,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             _game = game;
             _pageServices = new PageService();
             setPropertiesOfButton();
-            
+
             _panelType = pt;
 
             Text = GetNextActionText(pt);
@@ -42,8 +39,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         string GetNextActionText(ActionPanelGrid.PanelType pt)
         {
-            if (pt == ActionPanelGrid.PanelType.SQ) 
-                { return _game.ActiveSQ.NextActionText; }
+            if (pt == ActionPanelGrid.PanelType.SQ)
+            { return _game.ActiveSQ.NextActionText; }
             else { return _game.ActiveUnit[0].NextActionText; }
         }
 
@@ -73,7 +70,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 default:
                     break;
             }
-            
+
         }
 
         void BuyAction(object sender, EventArgs e)
@@ -86,7 +83,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         void ExploreAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
-            if(_additionalDebtApproved) { new ExploreAction(_game); }
+            if (_additionalDebtApproved) { new ExploreAction(_game); }
             _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 
@@ -107,7 +104,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         void ReactivateAction(object sender, EventArgs e)
         {
             ProcessCashTransaction();
-            if(_additionalDebtApproved) { new ReActivateAction(_game, _panelType); }
+            if (_additionalDebtApproved) { new ReActivateAction(_game, _panelType); }
             _game.GameBoardVM.SidePanelManager.ResetSidePanel(_panelType);
         }
 

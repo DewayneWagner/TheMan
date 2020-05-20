@@ -1,7 +1,5 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -17,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Borders
         SKPaint _borderPaint = new SKPaint()
         {
             IsAntialias = true,
-            Style = SKPaintStyle.Stroke, 
+            Style = SKPaintStyle.Stroke,
             Color = SKColors.Black,
         };
 
@@ -56,7 +54,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Borders
                 borderPath.LineTo(endPoint);
 
                 _listOfAllBorderPaths.Add(borderPath);
-            }            
+            }
         }
         void CreateColBorders()
         {

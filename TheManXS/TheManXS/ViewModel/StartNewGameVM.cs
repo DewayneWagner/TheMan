@@ -2,16 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Company;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using TheManXS.View;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel
 {
@@ -186,16 +185,16 @@ namespace TheManXS.ViewModel
         private void StartNewGameMethod(object obj)
         {
             ContentPage c = new ContentPage();
-            if (!isDifficultySelected) { c.DisplayAlert("Difficulty", "Difficulty must be selected, dumbass.", "OK"); }                
-            else if(!IsGameSlotSelected) { c.DisplayAlert("Game Save Slot", "Saved Game Slot must be selected, dumbass", "OK"); }
-            else if(!isColorSelected) { c.DisplayAlert("Company Color", "You have to pick a Company Color, dumbass", "OK"); }
-            else if(CompanyName == null) { c.DisplayAlert("Company Name", "You have to enter a Company Name, dumbass", "OK"); }
-            else if(Ticker.Length != 3) { c.DisplayAlert("Company Ticker", "Company Ticker has to be 3 letters, dumbass", "OK"); }
+            if (!isDifficultySelected) { c.DisplayAlert("Difficulty", "Difficulty must be selected, dumbass.", "OK"); }
+            else if (!IsGameSlotSelected) { c.DisplayAlert("Game Save Slot", "Saved Game Slot must be selected, dumbass", "OK"); }
+            else if (!isColorSelected) { c.DisplayAlert("Company Color", "You have to pick a Company Color, dumbass", "OK"); }
+            else if (CompanyName == null) { c.DisplayAlert("Company Name", "You have to enter a Company Name, dumbass", "OK"); }
+            else if (Ticker.Length != 3) { c.DisplayAlert("Company Ticker", "Company Ticker has to be 3 letters, dumbass", "OK"); }
 
             else
             {
                 SKColor companyColor = _companyColorGenerator.GetSKColor(CompanyColorIndex);
-                _companyColorGenerator.RemoveSelectedColorFromOptions(companyColor);                
+                _companyColorGenerator.RemoveSelectedColorFromOptions(companyColor);
 
                 GameSpecificParameters gsp = new GameSpecificParameters()
                 {
@@ -213,13 +212,13 @@ namespace TheManXS.ViewModel
                     var oldGame = db.GameSpecificParameters.Where(o => o.Slot == gsp.Slot);
                     var g = oldGame.FirstOrDefault<GameSpecificParameters>();
 
-                    if (g != null) { db.Remove(g); }                                        
+                    if (g != null) { db.Remove(g); }
                     db.Add(gsp);
                     db.SaveChanges();
                 }
                 new Game(gsp, true);
                 GoToGameBoard();
-            }            
+            }
         }
 
         private async void GoToGameBoard() => await _pageService.PushAsync(new MapBoard());
@@ -273,8 +272,8 @@ namespace TheManXS.ViewModel
 
             void setIndex()
             {
-                for (int i = 0; i < (int)WTFMessagesEnum.Total; i++) 
-                { if(wtfType == Convert.ToString((WTFMessagesEnum)i)) { index = i; }}
+                for (int i = 0; i < (int)WTFMessagesEnum.Total; i++)
+                { if (wtfType == Convert.ToString((WTFMessagesEnum)i)) { index = i; } }
             }
             void setMessage()
             {

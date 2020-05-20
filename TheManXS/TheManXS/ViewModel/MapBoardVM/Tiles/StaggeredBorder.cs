@@ -1,12 +1,9 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
 using System.Linq;
-using Xamarin.Forms;
-using TheManXS.Model.Company;
+using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
-using SkiaSharp;
 
 namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {
@@ -17,7 +14,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
         private List<SQ> _sqList;
 
         public StaggeredBorder(SKColor c) { BorderColor = c; }
-        
+
         public void InitStaggeredBorders(List<SQ> sqList)
         {
             _sqList = sqList;
@@ -35,7 +32,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             {
                 for (int col = -1; col <= 1; col++)
                 {
-                    if (row == 0 && col == 0) {;}
+                    if (row == 0 && col == 0) {; }
                     else if (!IsSqPresent((_sq.Row + row), (_sq.Col + col))) { InitBoxView(row, col); }
                     else if (Math.Abs(row) == 1 && Math.Abs(col) == 1)
                     {
@@ -45,7 +42,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                 }
             }
 
-            bool IsSqPresent(int row, int col) => (Coordinate.DoesSquareExist(row, col)) ? 
+            bool IsSqPresent(int row, int col) => (Coordinate.DoesSquareExist(row, col)) ?
                 _sqList.Any(s => s.Key == Coordinate.GetSQKey(row, col)) : false;
 
             void InitBoxView(int r, int c)
@@ -62,5 +59,5 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
                 //_sq.Tile.OverlayGrid.Children.Add(bv, c, r);
             }
         }
-    }   
+    }
 }

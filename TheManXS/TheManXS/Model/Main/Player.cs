@@ -1,27 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-using System.Text;
-using TheManXS.Model.Services.EntityFrameWork;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using System.Linq;
-using TheManXS.Model.Company;
-using TheManXS.Model.Settings;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
-using TheManXS.Model.ParametersForGame;
+using System.Linq;
 using TheManXS.Model.Financial.Debt;
+using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Services.EntityFrameWork;
 
 namespace TheManXS.Model.Main
 {
     public class Player
     {
         public Player() { }
-        
+
         public int Key { get; set; }
         public int Number { get; set; }
         public string Name { get; set; }
@@ -63,7 +54,7 @@ namespace TheManXS.Model.Main
                 }
                 return loansList;
             }
-        } 
+        }
     }
     public class PlayerDBConfig : IEntityTypeConfiguration<Player>
     {
@@ -80,5 +71,5 @@ namespace TheManXS.Model.Main
             builder.Property(p => p.CreditRating)
                 .HasConversion(new EnumToStringConverter<CreditRatings>());
         }
-    }    
+    }
 }

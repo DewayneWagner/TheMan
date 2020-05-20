@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Main;
-using TheManXS.View;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
 {
     public class GameBoardVM : BaseViewModel
     {
         Game _game;
-        public GameBoardVM() 
+        public GameBoardVM()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
             _game.GameBoardVM = this;

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using TheManXS.Model.Main;
-using TheManXS.Model.Map;
-using TheManXS.Model.Map.Surface;
+﻿using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -22,7 +16,7 @@ namespace TheManXS.Model.Map.Surface
         private int _tributaryNumber;
         Game _game;
 
-        public Tributary(SQMapConstructArray sqmap, SQ[,] map, int startRow, 
+        public Tributary(SQMapConstructArray sqmap, SQ[,] map, int startRow,
             int startCol, int tributaryNumber, Game game)
         {
             _game = game;
@@ -51,7 +45,7 @@ namespace TheManXS.Model.Map.Surface
 
                     if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.TributaryOffset);
-                }                
+                }
             }
         }
         private void InitNewSouthTributary()
@@ -67,13 +61,13 @@ namespace TheManXS.Model.Map.Surface
 
                     if (_SQmap[row, col].TerrainType == TT.Mountain) { InitSideForest(row, col); }
                     col += (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.TributaryOffset);
-                }                
+                }
             }
         }
         private void InitSideForest(int tribRow, int tribCol)
         {
             int forestWidth = (int)_game.ParameterBoundedList.GetRandomValue(AllBoundedParameters.TerrainConstruct, (int)TerrainBoundedConstructSecondary.ForestAroundTributaryWidth);
-            
+
             int col = (tribCol - (forestWidth / 2));
 
             for (int i = 0; i < forestWidth; i++)

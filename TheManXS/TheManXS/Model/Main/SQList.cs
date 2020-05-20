@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -20,7 +16,7 @@ namespace TheManXS.Model.Main
             using (DBContext db = new DBContext())
             {
                 var sqList = db.SQ.Where(s => s.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
-                foreach(SQ sq in sqList) { this.Add(sq); }
+                foreach (SQ sq in sqList) { this.Add(sq); }
             }
         }
         public SQ this[int row, int col]

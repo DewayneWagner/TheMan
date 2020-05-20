@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using SkiaSharp;
 using TheManXS.Model.Map.Surface;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 {
     public class MapTouchID : List<TouchActionEventArgs>
     {
         public long ID { get; set; }
-        public bool TouchEventHasExited { get; set; }    
+        public bool TouchEventHasExited { get; set; }
     }
     public class MapTouchListOfMapTouchIDLists : List<MapTouchID>
     {
-        public MapTouchListOfMapTouchIDLists() {}
+        public MapTouchListOfMapTouchIDLists() { }
         public MapTouchType MapTouchType { get; set; }
         public bool AllTouchEffectsExited { get; set; }
-        public bool NoExecutionRequired { get; set; }        
+        public bool NoExecutionRequired { get; set; }
         public void AddTouchAction(TouchActionEventArgs args)
         {
             bool listExistsForThisID = this.Any(l => l.ID == args.Id);
             int index = listExistsForThisID ? this.IndexOf(this.FirstOrDefault(l => l.ID == args.Id)) : 0;
 
-            if(args.Type != TouchActionType.Entered)
+            if (args.Type != TouchActionType.Entered)
             {
                 if (!listExistsForThisID && args.IsInContact)
                 {
@@ -39,14 +36,14 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
                     else { if (CheckIfAllTouchIDsExited()) { SetTouchType(); } }
                 }
                 else if (args.Type == TouchActionType.Released || args.IsInContact) { this[index].Add(args); }
-            }    
+            }
         }
         private void SetTouchType()
         {
             this.AllTouchEffectsExited = true;
             if (IsSingleFinger())
             {
-                if(IsTap()) { MapTouchType = MapTouchType.OneFingerSelect; }
+                if (IsTap()) { MapTouchType = MapTouchType.OneFingerSelect; }
                 else { MapTouchType = MapTouchType.OneFingerDragSelect; }
             }
             else { SetTwoFingerTouchType(); }
@@ -54,12 +51,12 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         private bool IsSingleFinger() => Count == 1 ? true : false;
         private bool CheckIfAllTouchIDsExited()
         {
-            foreach (MapTouchID m in this) { if(!m.TouchEventHasExited) { return false; }}
+            foreach (MapTouchID m in this) { if (!m.TouchEventHasExited) { return false; } }
             return true;
         }
         private bool CheckIfThisIDIsMouseMovementOnly(int index)
         {
-            foreach (TouchActionEventArgs mt in this[index]) { if(mt.IsInContact) { return false; }}
+            foreach (TouchActionEventArgs mt in this[index]) { if (mt.IsInContact) { return false; } }
             return true;
         }
         private void SetTwoFingerTouchType()
@@ -69,16 +66,16 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             int finger1 = 0;
             int finger2 = 1;
 
-            Point[,] points = getPointArray();  
-            if(!DetermineIfPan()) { MapTouchType = MapTouchType.Pinch; }
+            Point[,] points = getPointArray();
+            if (!DetermineIfPan()) { MapTouchType = MapTouchType.Pinch; }
 
             Point[,] getPointArray()
             {
                 Point[,] pointArray = new Point[2, 2];
                 for (int i = 0; i < 2; i++)
                 {
-                    pointArray[i,pressed] = this[i].FirstOrDefault(l => l.Type == TouchActionType.Pressed).Location;
-                    pointArray[i,released] = this[i].FirstOrDefault(l => l.Type == TouchActionType.Released).Location;
+                    pointArray[i, pressed] = this[i].FirstOrDefault(l => l.Type == TouchActionType.Pressed).Location;
+                    pointArray[i, released] = this[i].FirstOrDefault(l => l.Type == TouchActionType.Released).Location;
                 }
                 return pointArray;
             }
@@ -87,10 +84,10 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
                 Direction firstFinger = GetDirection(points[finger1, pressed], points[finger1, released]);
                 Direction secondFinger = GetDirection(points[finger2, pressed], points[finger2, released]);
 
-                if(firstFinger == secondFinger) 
+                if (firstFinger == secondFinger)
                 {
                     MapTouchType = MapTouchType.TwoFingerPan;
-                    return true; 
+                    return true;
                 }
                 else { return false; }
             }
@@ -98,7 +95,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         private bool IsTap()
         {
             Coordinate pressed = new Coordinate(this[0].FirstOrDefault(p => p.Type == TouchActionType.Pressed).Location);
-            Coordinate released = new Coordinate(this[0].FirstOrDefault(r => r.Type == TouchActionType.Released).Location);                       
+            Coordinate released = new Coordinate(this[0].FirstOrDefault(r => r.Type == TouchActionType.Released).Location);
             return pressed.SQKey == released.SQKey ? true : false;
         }
         public Direction GetDirection(Point pt1, Point pt2)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.Services;
@@ -106,6 +105,6 @@ namespace TheManXS.Services.EntityFrameWork
             }
             await _pageService.DisplayAlert("Timing", message);
         }
-        private void EndTimer() => methodTimer.Add(DateTime.Now - _startTime); 
+        private void EndTimer() => methodTimer.Add(DateTime.Now - _startTime);
     }
 }

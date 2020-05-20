@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TheManXS.ViewModel.DetailPages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TheManXS.ViewModel.DetailPages;
 
 namespace TheManXS.View
 {
@@ -29,7 +25,7 @@ namespace TheManXS.View
         private void OnEdit_Clicked(object sender, EventArgs e)
         {
             var c = (ClusterVM)sender;
-            
+
 
         }
         private void OnDelete_Clicked(object sender, EventArgs e)

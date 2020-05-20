@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.Model.Services.EntityFrameWork;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using LT = TheManXS.Model.ParametersForGame.LoanTermLength;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Services.EntityFrameWork;
+using LT = TheManXS.Model.ParametersForGame.LoanTermLength;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Financial.Debt
 {
@@ -16,7 +15,7 @@ namespace TheManXS.Model.Financial.Debt
         private Game _game;
         public LoansList() { }
 
-        public LoansList(Game game, bool isNewGame) 
+        public LoansList(Game game, bool isNewGame)
         {
             _game = game;
             if (isNewGame) { InitLoansWithAtStartOfGame(); }

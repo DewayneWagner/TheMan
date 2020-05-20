@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using Xamarin.Forms;
-using TheManXS.Services;
 using TheManXS.Model.Financial;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.Model.Main;
+using TheManXS.Services;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class SqAttributes
     {
         Game _game;
-        public enum AllSQAttributes { Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
-            GrossProfitD, GrossProfitP, ActionCost, Total }
+        public enum AllSQAttributes
+        {
+            Owner, Status, Resource, Production, Revenue, OPEX, TransportCost,
+            GrossProfitD, GrossProfitP, ActionCost, Total
+        }
 
         private Cash _cash;
 
         public SqAttributes() { }
-        public SqAttributes(Game game) 
+        public SqAttributes(Game game)
         {
             _game = game;
             _cash = new Calculations().GetCash(_game.ActiveSQ);

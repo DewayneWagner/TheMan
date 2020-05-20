@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using SA = TheManXS.ViewModel.MapBoardVM.Action.SqAttributes.AllSQAttributes;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
+using SA = TheManXS.ViewModel.MapBoardVM.Action.SqAttributes.AllSQAttributes;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {

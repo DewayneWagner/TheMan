@@ -1,21 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
+using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.MapBoardVM.Tiles;
 using Xamarin.Forms;
-using TheManXS.Model.Company;
-using System.Linq;
-using TheManXS.Model.Map.Surface;
+using QC = TheManXS.Model.Settings.QuickConstants;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using TheManXS.Model.Financial;
 
 namespace TheManXS.Model.Units
-{    
+{
     public class Unit : List<SQ>
     {
         public enum UnitSelectionStatus { Tentative, Complete, }
@@ -28,7 +25,7 @@ namespace TheManXS.Model.Units
         {
             _game = game;
             _ListOfSQsFromOriginal = listOfSquaresInUnit;
-            SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);            
+            SetPropertiesOfUnitFromFirstSQInList(listOfSquaresInUnit[0]);
             foreach (SQ sq in listOfSquaresInUnit) { AddSQToUnit(sq); }
             SetNextActionCostAndText();
             SetOPEX();
@@ -43,7 +40,7 @@ namespace TheManXS.Model.Units
             PlayerName = sq.OwnerName;
             FormationNumber = sq.FormationID;
         }
-        
+
         public void AddSQToUnit(SQ sq)
         {
             Player p = (Player)Application.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.ActivePlayer)];
@@ -54,7 +51,7 @@ namespace TheManXS.Model.Units
                 this.Add(sq);
                 OPEXDiscount += QC.OPEXDiscountPerSQInUnit;
                 Production += sq.Production;
-                DevelopmentDiscount += QC.CAPEXDiscountPerSQInUnit;                
+                DevelopmentDiscount += QC.CAPEXDiscountPerSQInUnit;
                 new StaggeredBorder(_game.ActivePlayer.SKColor).InitStaggeredBorders(this);
             }
             else
@@ -81,7 +78,7 @@ namespace TheManXS.Model.Units
                 SetNextActionCostAndText();
             }
         }
-        public double OPEXTotalBeforeDiscount { get; set; }        
+        public double OPEXTotalBeforeDiscount { get; set; }
         public double OPEXDiscount { get; set; }
         public double OPEXTotalAfterDiscount { get; set; }
         public double OPEXAveragePerUnit { get; set; }
@@ -100,7 +97,7 @@ namespace TheManXS.Model.Units
         {
             // need to figure-out the "Main" SQ for Unit, where structure goes.
 
-            
+
         }
 
         public void CreateUnit()
@@ -126,11 +123,11 @@ namespace TheManXS.Model.Units
         }
         public bool IsSQAdjacentToSQsAlreadyInUnit(SQ sq)
         {
-            if(this.Any(s => s.Key == Coordinate.GetSQKey(sq.Row,(sq.Col-1))) || 
-                (this.Any(q => q.Key == Coordinate.GetSQKey((sq.Row-1),sq.Col)) ||
+            if (this.Any(s => s.Key == Coordinate.GetSQKey(sq.Row, (sq.Col - 1))) ||
+                (this.Any(q => q.Key == Coordinate.GetSQKey((sq.Row - 1), sq.Col)) ||
                 (this.Any(u => u.Key == Coordinate.GetSQKey(sq.Row, (sq.Col + 1))) ||
-                (this.Any(a => a.Key == Coordinate.GetSQKey((sq.Row+1),sq.Col))))))
-                { return true; }
+                (this.Any(a => a.Key == Coordinate.GetSQKey((sq.Row + 1), sq.Col))))))
+            { return true; }
             return false;
         }
         // will not activate until later
@@ -145,7 +142,7 @@ namespace TheManXS.Model.Units
         }
         private void SetNextActionCostAndText()
         {
-            if(this.Count > 0)
+            if (this.Count > 0)
             {
                 NextAction n = new NextAction(this[0], _game);
                 NextActionText = n.Text;
@@ -156,7 +153,7 @@ namespace TheManXS.Model.Units
                     sq.Status = Status;
                     NextActionCost += n.Cost;
                 }
-            }            
+            }
         }
         private void SetOPEX()
         {
@@ -194,5 +191,5 @@ namespace TheManXS.Model.Units
                 }
             }
         }
-    }    
+    }
 }

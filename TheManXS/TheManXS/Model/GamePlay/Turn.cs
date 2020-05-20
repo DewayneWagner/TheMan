@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TheManXS.Model.GamePlay
+﻿namespace TheManXS.Model.GamePlay
 {
     public class Turn
     {

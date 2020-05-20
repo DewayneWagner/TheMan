@@ -1,8 +1,6 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
 using TheManXS.ViewModel.Style;
@@ -22,7 +20,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         {
             _paletteColor = pc;
             _rect = SqWhereForestIsToGo;
-            if(_rowQ == 0) { SetRowQ(); }
+            if (_rowQ == 0) { SetRowQ(); }
             InitListOfTreesForSQ();
         }
         private void SetRowQ()

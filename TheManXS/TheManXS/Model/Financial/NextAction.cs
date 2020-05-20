@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Services.EntityFrameWork;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
-using TheManXS.Model.Settings;
-using System.Linq;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.Model.Financial
 {
@@ -15,16 +8,16 @@ namespace TheManXS.Model.Financial
     {
         public enum NextActionType { Purchase, Explore, Develop, Suspend, Reactivate, NotEnabled }
         Game _game;
-        public NextAction(SQ sq, Game game) 
+        public NextAction(SQ sq, Game game)
         {
             _game = game;
-            UpdateNextAction(sq); 
+            UpdateNextAction(sq);
         }
-        
+
         public NextActionType ActionType { get; set; }
         public string Text { get; set; }
         public double Cost { get; set; }
-        
+
         private void UpdateNextAction(SQ sq)
         {
             switch (sq.Status)
@@ -65,6 +58,6 @@ namespace TheManXS.Model.Financial
                     ActionType = NextActionType.NotEnabled;
                     break;
             }
-        }     
+        }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using Xamarin.Forms;
@@ -24,7 +21,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             var g = _game.GameBoardVM;
             g.ActionPanelGrid = new ActionPanelGrid(panelType, _game);
             g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
-                { Width = new GridLength(1, GridUnitType.Auto) });
+            { Width = new GridLength(1, GridUnitType.Auto) });
             g.SplitScreenGrid.Children.Add(_game.GameBoardVM.ActionPanelGrid, 1, 0);
             g.SideSQActionPanelExists = true;
         }

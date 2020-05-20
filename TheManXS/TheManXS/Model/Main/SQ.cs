@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using TheManXS.Model.Financial;
-using TheManXS.Model.CityStuff;
-using TheManXS.Model.Map.Surface;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TheManXS.Model.ParametersForGame;
 using SkiaSharp;
+using TheManXS.Model.CityStuff;
+using TheManXS.Model.Financial;
+using TheManXS.Model.Map.Surface;
+using TheManXS.Model.ParametersForGame;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.Model.Main
 {
@@ -20,7 +17,7 @@ namespace TheManXS.Model.Main
         public SQ() { }
         public SQ(bool isForPropertyDictionary) { }
         Game _game;
-        
+
         public SQ(int row, int col, Game game)
         {
             _game = game;
@@ -94,7 +91,7 @@ namespace TheManXS.Model.Main
             NextActionText = n.Text;
             NextActionCost = n.Cost;
             NextActionType = n.ActionType;
-        }        
+        }
     }
     public class SQDBConfig : IEntityTypeConfiguration<SQ>
     {

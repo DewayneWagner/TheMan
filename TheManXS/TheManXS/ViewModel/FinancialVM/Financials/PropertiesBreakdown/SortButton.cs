@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TheManXS.ViewModel.MapBoardVM.Tiles;
 using Xamarin.Forms;
 using static TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown.PropertyBreakdownGrid;
 
@@ -25,12 +21,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 
         private void SortButton_Clicked(object sender, EventArgs e)
         {
-            if(_currentSortedState == SortedState.SortedDescending)
+            if (_currentSortedState == SortedState.SortedDescending)
             {
                 _currentSortedState = SortedState.SortedAscending;
                 _propertyBreakdownGrid.PropertyBreakdownListOfAllProducingProperties.SortDataByColumnAscending(_propertyBreakdownColumn);
             }
-            else if(_currentSortedState == SortedState.SortedAscending || _currentSortedState == SortedState.NotSorted)
+            else if (_currentSortedState == SortedState.SortedAscending || _currentSortedState == SortedState.NotSorted)
             {
                 _currentSortedState = SortedState.SortedDescending;
                 _propertyBreakdownGrid.PropertyBreakdownListOfAllProducingProperties.SortDataByColumnDescending(_propertyBreakdownColumn);

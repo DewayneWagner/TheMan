@@ -1,11 +1,5 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using TheManXS.Model.Company;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using Xamarin.Forms;
@@ -31,11 +25,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             InitInteriorSquare();
 
             InitGrid();
-            if (sq.OwnerNumber != QC.PlayerIndexTheMan) 
-            { 
+            if (sq.OwnerNumber != QC.PlayerIndexTheMan)
+            {
                 SetOutsideColor();
                 SetColorsOfAllSides(OutsideColor);
-            }            
+            }
         }
 
         public BoxView InteriorSquare { get; set; }
@@ -68,17 +62,17 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             {
                 Player player = db.Player.Where(p => p.Number == _activeSQ.OwnerNumber).FirstOrDefault();
                 //CompanyColors cc = new CompanyColors(player.Color);
-               // OutsideColor = cc.ColorXamarin;
+                // OutsideColor = cc.ColorXamarin;
             }
         }
         public object this[int row, int col]
         {
             get => this[row, col];
-            set => this[row, col] = value;          
-        }          
+            set => this[row, col] = value;
+        }
         public void SetColorOfAllSides(SKColor color)
         {
-            
+
         }
         public void SetColorsOfAllSides(Color color)
         {
@@ -86,7 +80,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Tiles
             {
                 for (int col = 0; col < 3; col++)
                 {
-                    if(row == 1 && col == 1) {;}
+                    if (row == 1 && col == 1) {; }
                     else
                     {
                         BoxView b = new BoxView()

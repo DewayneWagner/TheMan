@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.Services
@@ -39,7 +38,7 @@ namespace TheManXS.ViewModel.Services
 
         protected void SetCollectionValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
         {
-            if(EqualityComparer<T>.Default.Equals(backingField, value))
+            if (EqualityComparer<T>.Default.Equals(backingField, value))
             {
                 backingField = value;
                 OnCollectionChanged(propertyName);

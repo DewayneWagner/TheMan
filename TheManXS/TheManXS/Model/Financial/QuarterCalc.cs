@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.GamePlay;
 using TheManXS.Model.Main;
 
 namespace TheManXS.Model.Financial
@@ -27,7 +25,7 @@ namespace TheManXS.Model.Financial
         public string GetPreviousQuarter(string previousQuarter)
         {
             int previousYear = GetYearNumber(previousQuarter);
-            int previousQuarterNumber = GetQuarterNumber(previousQuarter);            
+            int previousQuarterNumber = GetQuarterNumber(previousQuarter);
 
             int newYear = previousQuarterNumber == 1 ? (previousYear - 1) : previousYear;
             int newQuarterNumber = previousQuarterNumber == 1 ? 4 : (previousQuarterNumber - 1);
@@ -53,7 +51,7 @@ namespace TheManXS.Model.Financial
 
             return quarters;
         }
-        private string CompileQuarterString(int year, int quarter) => Convert.ToString(year) + "-Q" + Convert.ToString(quarter);        
+        private string CompileQuarterString(int year, int quarter) => Convert.ToString(year) + "-Q" + Convert.ToString(quarter);
         private int GetQuarterNumber() => Convert.ToInt32(_game.Quarter.Substring(6));
         private int GetYearNumber() => Convert.ToInt32(_game.Quarter.Substring(0, 4));
         private int GetQuarterNumber(string quarter) => Convert.ToInt32(quarter.Substring(6));

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -17,12 +15,12 @@ namespace TheManXS.Model.InfrastructureStuff
         public static Color RailColor = Color.Violet;
         public static Color PipeLineColor = Color.DarkSlateBlue;
 
-        public static double LengthStraight = ((QC.SqSize / 2)*1.1);
+        public static double LengthStraight = ((QC.SqSize / 2) * 1.1);
         public static double LengthDiagonal = Math.Sqrt(((LengthStraight) * (LengthStraight))
             + ((LengthStraight) * (LengthStraight)));
         public static double Width = QC.SqSize * 0.05;
         public static double CornerRadius = QC.SqSize * 0.025;
 
-        
+
     }
 }

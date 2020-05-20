@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.ViewModel.Services;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
 
@@ -9,7 +6,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
     abstract class SQAction
     {
-        
+
         public SQAction(Game game, PanelType panelType)
         {
             Game = game;
@@ -24,13 +21,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
         protected PageService PageServices { get; set; } = new PageService();
         protected bool PlayerHasEnoughDough(double actionCost)
         {
-            if(Game.ActivePlayer.Cash >= actionCost) { return true; }
+            if (Game.ActivePlayer.Cash >= actionCost) { return true; }
             else { return false; }
         }
         private void DisplayLoanView()
         {
 
         }
-        
+
     }
 }

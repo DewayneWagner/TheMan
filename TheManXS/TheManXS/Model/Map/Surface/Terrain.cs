@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TheManXS.Model.Settings;
-using TheManXS.Model.Services.EntityFrameWork;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
 using ABP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
 using ACP = TheManXS.Model.ParametersForGame.AllConstantParameters;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -29,7 +22,7 @@ namespace TheManXS.Model.Map.Surface
         private void InitNewMap()
         {
             int northGrassLandStart = GetStartSQ();
-            
+
             for (int Col = 0; Col < QC.ColQ; Col++)
             {
                 TerrainColumnList tc = new TerrainColumnList(new TerrainColumn(northGrassLandStart, _game));

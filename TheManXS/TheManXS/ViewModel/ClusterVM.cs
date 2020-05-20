@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Gameplay;
 using TheManXS.Model.Services.EntityFrameWork;
@@ -17,7 +15,7 @@ namespace TheManXS.ViewModel.DetailPages
         {
             //InitClusterDBWithSampleValues();
 
-            ListOfAllClusters = new List<Cluster>();            
+            ListOfAllClusters = new List<Cluster>();
             LoadListFromDB();
 
             AddNewItem = new Command(AddNewItemMethod);
@@ -100,12 +98,12 @@ namespace TheManXS.ViewModel.DetailPages
         {
             Cluster c = new Cluster();
 
-            using(DBContext db = new DBContext())
+            using (DBContext db = new DBContext())
             {
                 db.Add(c);
                 db.SaveChanges();
             }
-            ItemReadOnlyMode = false;            
+            ItemReadOnlyMode = false;
         }
 
         // this is the context for deleting items - visible in ViewMode
@@ -123,7 +121,7 @@ namespace TheManXS.ViewModel.DetailPages
                     db.Remove(c);
                     db.SaveChanges();
                 }
-            }            
+            }
         }
 
         // this is the context button to edit items - visible in ViewMode
@@ -136,7 +134,7 @@ namespace TheManXS.ViewModel.DetailPages
         private void SaveItemChangesMethod(object obj)
         {
             var c = obj as Cluster;
-            using(DBContext db = new DBContext())
+            using (DBContext db = new DBContext())
             {
                 db.Update(c);
             }

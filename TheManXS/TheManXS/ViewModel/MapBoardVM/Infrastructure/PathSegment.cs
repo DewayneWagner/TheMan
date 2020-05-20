@@ -1,10 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
-using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -14,7 +8,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
     {
         public PathSegment() { }
         public SegmentType SegmentType { get; set; }
-        public SKPoint SKPoint { get; set; } 
+        public SKPoint SKPoint { get; set; }
         public int StraightSegmentID { get; set; }
 
         /************

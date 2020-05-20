@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using TheManXS.Model.Main;
-using TheManXS.Services.IO;
 using TheManXS.View.DetailView;
 using TheManXS.ViewModel;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using M = TheManXS.ViewModel.MapBoardVM;
 
 namespace TheManXS
 {
     public partial class App : Application
     {
         public enum FileNames { DB, ParameterBounded, ParameterConstant, ColorPalette, MapGame1Type0, MapGame1Type1, MapGame2Type0, MapGame2Type1, MapGame3Type0, MapGame3Type1, Total }
-        public enum ObjectsInPropertyDictionary { MapVM, ScreenWidth, ScreenHeight, Orientation,
-            Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game, ApplicationVM }
+        public enum ObjectsInPropertyDictionary
+        {
+            MapVM, ScreenWidth, ScreenHeight, Orientation,
+            Rotation, Density, ActiveSQ, ActivePlayer, ActiveUnit, Game, ApplicationVM
+        }
 
         public static PathList PathList;
         public static bool MapHasBeenCreated;
@@ -44,13 +41,13 @@ namespace TheManXS
             Properties[Convert.ToString(ObjectsInPropertyDictionary.Game)] = new Game(true);
             Properties[Convert.ToString(ObjectsInPropertyDictionary.ApplicationVM)] = _applicationVM;
         }
-        
+
         protected override void OnStart()
         {
             // Handle when your app starts
             _applicationVM.InitMainColors();
         }
-        
+
         protected override void OnSleep()
         {
             // Handle when your app sleeps

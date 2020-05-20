@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.ParametersForGame;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.Model.Map.Surface

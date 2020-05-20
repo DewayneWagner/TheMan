@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using static TheManXS.ViewModel.FinancialVM.Financials.Charts.FinancialChartsVM;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.Charts

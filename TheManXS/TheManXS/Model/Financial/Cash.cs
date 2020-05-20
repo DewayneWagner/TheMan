@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TheManXS.Model.Financial
+﻿namespace TheManXS.Model.Financial
 {
     public class Cash
     {

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using SkiaSharp.Views;
-using SkiaSharp;
-using TheManXS.ViewModel.MapBoardVM;
-using static TheManXS.ViewModel.MapBoardVM.MapConstruct.TileConstructCalc;
-using TheManXS.Model.ParametersForGame;
-using TheManXS.Model.Services.EntityFrameWork;
+﻿using SkiaSharp;
+using System;
 using TheManXS.Model.Main;
-using System.Linq;
-using TheManXS.Model.Map.Surface;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.Model.ParametersForGame;
+using static TheManXS.ViewModel.MapBoardVM.MapConstruct.TileConstructCalc;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 {
@@ -37,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
             IsAntialias = true,
         };
 
-        public Map(Game game) 
+        public Map(Game game)
         {
             _game = game;
             AddTerrainSQsToMap();
@@ -45,7 +37,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
         public void AddTerrainSQsToMap()
         {
             using (SKCanvas gameboard = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {                    
+            {
                 gameboard.Clear();
 
                 // this loop is slot - 5-15 seconds
@@ -59,7 +51,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
                         if (sq.TerrainType == TerrainTypeE.Grassland) { standardTilePaint.BlendMode = SKBlendMode.Hue; }
                         else if (sq.TerrainType == TerrainTypeE.Mountain) { standardTilePaint.BlendMode = SKBlendMode.Screen; }
-                            
+
                         if (sq.TerrainType != TerrainTypeE.Forest) { gameboard.DrawRect(rect, standardTilePaint); }
                     }
                 }
@@ -74,12 +66,12 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                             setLinearGradient();
                             break;
                         case sqFormats.SolidColor:
-                            if(sq.TerrainType == TerrainTypeE.City) 
+                            if (sq.TerrainType == TerrainTypeE.City)
                             {
                                 standardTilePaint.StrokeWidth = 1;
-                                standardTilePaint.Color = SKColors.Yellow; 
+                                standardTilePaint.Color = SKColors.Yellow;
                             }
-                            else { standardTilePaint.Color = _game.PaletteColors.GetRandomColor(sq.TerrainType); }                            
+                            else { standardTilePaint.Color = _game.PaletteColors.GetRandomColor(sq.TerrainType); }
                             break;
                         case sqFormats.SweepGradient:
                             setSweepGradient();
@@ -99,7 +91,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
 
             SKRect getSKRect() => new SKRect(sq.Col * QC.SqSize, sq.Row * QC.SqSize, (sq.Col + 1) * QC.SqSize, (sq.Row + 1) * QC.SqSize);
             int getQ(TerrainTypeE tt) => tt == TerrainTypeE.Mountain ? rnd.Next(25, 50) : rnd.Next(5, 10);
-                
+
             void setLinearGradient()
             {
                 int q = getQ(sq.TerrainType);
@@ -127,7 +119,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                 standardTilePaint.Shader = SKShader.CreateLinearGradient(
                     new SKPoint(x, (sq.Row * QC.SqSize)),
                     new SKPoint(x, ((sq.Row + 1) * QC.SqSize)),
-                    t.GetGradientColors(q,sq.TerrainType),
+                    t.GetGradientColors(q, sq.TerrainType),
                     t.GetColorPosition(q),
                     SKShaderTileMode.Clamp);
             }
@@ -166,7 +158,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     }
                 }
             }
-            
+
         }
     }
 }

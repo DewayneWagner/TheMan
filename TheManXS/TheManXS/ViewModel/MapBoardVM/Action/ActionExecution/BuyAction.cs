@@ -1,29 +1,25 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.Model.Units;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
     class BuyAction : SQAction
     {
-        public BuyAction(Game game, ActionPanelGrid.PanelType pt) : base(game,pt)
+        public BuyAction(Game game, ActionPanelGrid.PanelType pt) : base(game, pt)
         {
             TransferOwnershipAndUpdateStatus();
             UpdateColor();
-        }        
+        }
 
         void TransferOwnershipAndUpdateStatus()
         {
-            if(PanelType == ActionPanelGrid.PanelType.SQ)
+            if (PanelType == ActionPanelGrid.PanelType.SQ)
             {
                 var sq = Game.ActiveSQ;
                 var p = Game.ActivePlayer;
 
-                if(PlayerHasEnoughDough(sq.NextActionCost))
+                if (PlayerHasEnoughDough(sq.NextActionCost))
                 {
                     sq.OwnerName = Game.ActivePlayer.Name;
                     sq.OwnerNumber = Game.ActivePlayer.Number;
@@ -33,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
                 }
             }
             else
-            {                
+            {
                 var u = Game.ActiveUnit;
                 if (PlayerHasEnoughDough(u.NextActionCost))
                 {
@@ -43,7 +39,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 
                     Game.ActivePlayer.Cash += u.NextActionCost;
                 }
-               
+
             }
         }
         void UpdateColor()

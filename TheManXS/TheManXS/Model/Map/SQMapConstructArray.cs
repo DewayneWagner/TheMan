@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map

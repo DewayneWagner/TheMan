@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using QC = TheManXS.Model.Settings.QuickConstants;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
-using TheManXS.Model.Main;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -37,9 +33,9 @@ namespace TheManXS.Model.Map.Surface
                 row = rnd.Next(QC.RowQ);
                 col = rnd.Next(QC.ColQ);
 
-                if(_sqMap[row,col].TerrainType == TerrainTypeE.Grassland && 
-                    _sqMap[row,col].ResourceType != ResourceTypeE.Nada &&
-                    _sqMap[row,col].OwnerNumber == 0)
+                if (_sqMap[row, col].TerrainType == TerrainTypeE.Grassland &&
+                    _sqMap[row, col].ResourceType != ResourceTypeE.Nada &&
+                    _sqMap[row, col].OwnerNumber == 0)
                 {
                     _sqMap[row, col].OwnerNumber = countOfStSQs;
                     _sqMap[row, col].IsStartSquare = true;

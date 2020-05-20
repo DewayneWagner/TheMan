@@ -1,11 +1,9 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -39,7 +37,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                         tCol = _fromSQ.Col + xxx;
 
                         if (Coordinate.DoesSquareExist(tRow, tCol))
-                        {                            
+                        {
                             adjacentSQ = _game.SQList[tRow, tCol];
                             if (adjacentSQ.IsHub || adjacentSQ.IsRoadConnected) { return adjacentSQ; }
                         }
@@ -74,7 +72,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 //}
 
                 if (Coordinate.DoesSquareExist(tRow, tCol))
-                {                    
+                {
                     sq = _game.SQList[tRow, tCol];
                     sqRoute.Add(sq);
                 }

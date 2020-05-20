@@ -1,7 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
@@ -26,7 +23,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
         private static float _rightPeakFromLeft;
         private static float _rightPeakFromTop;
         private static int _sqSize;
-        
+
         SKPoint _firstPointOnMountainPath;
         SKPoint _lastPointOnMountainPath;
 

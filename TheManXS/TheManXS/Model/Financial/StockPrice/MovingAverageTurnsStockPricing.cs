@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 
 namespace TheManXS.Model.Financial.StockPrice
 {

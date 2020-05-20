@@ -1,7 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures

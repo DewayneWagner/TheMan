@@ -1,12 +1,7 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
-using Windows.UI;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
@@ -31,13 +26,13 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         void InitListOfSQsToHighlight()
         {
             _listOfSqsToHighlight = new List<SQ>();
-            if(_panelType == PanelType.SQ) { _listOfSqsToHighlight.Add(_game.ActiveSQ); }
-            else { foreach(SQ sq in _game.ActiveUnit) { _listOfSqsToHighlight.Add(sq); } }
+            if (_panelType == PanelType.SQ) { _listOfSqsToHighlight.Add(_game.ActiveSQ); }
+            else { foreach (SQ sq in _game.ActiveUnit) { _listOfSqsToHighlight.Add(sq); } }
         }
 
         void HighlightSQForSelection()
         {
-            
+
             //using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             //{
             //    foreach (SQ sq in _listOfSqsToHighlight)
@@ -76,6 +71,6 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             _canvas.Restore();
             _canvas.Save();
             _canvas.Dispose();
-        }        
+        }
     }
 }

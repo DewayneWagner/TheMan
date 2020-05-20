@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using IC = TheManXS.Model.InfrastructureStuff.InfrastructureConstants;
-using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+﻿using Xamarin.Forms;
 
 namespace TheManXS.Model.InfrastructureStuff
-{    
+{
     public class InfrastructureSegment : BoxView
     {
         //public enum InfrastructureOrientation { Straight, Diagonal }

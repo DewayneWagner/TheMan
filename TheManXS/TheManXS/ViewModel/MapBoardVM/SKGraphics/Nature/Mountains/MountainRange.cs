@@ -1,8 +1,5 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 

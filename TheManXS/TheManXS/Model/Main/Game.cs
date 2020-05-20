@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Company;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
+using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Map;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
 using TheManXS.Model.Units;
 using TheManXS.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.Services;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.ParametersForGame;
 using TheManXS.ViewModel.Style;
-using TheManXS.Model.Financial.Debt;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Main
 {
@@ -26,7 +24,7 @@ namespace TheManXS.Model.Main
         private GameSpecificParameters _gsp;
         private GameBoardMap _map;
 
-        public Game(bool isForAppDictionary) 
+        public Game(bool isForAppDictionary)
         {
             LoadAllParameters();
             InitQuickConstants();
@@ -40,7 +38,7 @@ namespace TheManXS.Model.Main
             QC.CurrentSavedGameSlot = gsp.Slot;
             _gsp = gsp;
 
-            if (isNewGame) 
+            if (isNewGame)
             {
                 new DBPurgeForNewGame();
                 InitPropertiesForNewGame();
@@ -49,18 +47,18 @@ namespace TheManXS.Model.Main
             else if (!isNewGame)
             {
                 InitPropertiesForLoadedGame();
-                _map = new GameBoardMap(this,false);
+                _map = new GameBoardMap(this, false);
             }
         }
         private void InitPropertiesForNewGame()
         {
             //LoadAllParameters();
             Quarter = "1900-Q1";
-            PlayerList = new PlayerList(_gsp,this);
+            PlayerList = new PlayerList(_gsp, this);
             ActivePlayer = PlayerList[QC.PlayerIndexActual];
 
             // this is the problem.....
-            _map = new GameBoardMap(this,true);
+            _map = new GameBoardMap(this, true);
             CommodityList = new CommodityList(this);
             PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
             LoanList = new LoansList(this, true);
@@ -89,14 +87,14 @@ namespace TheManXS.Model.Main
                 LoanList = new LoansList(this, false);
 
                 Unit.LoadUnitWithSavedGameData(this);
-            }            
+            }
         }
 
         public SQList SQList { get; set; } = new SQList();
         public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
         public LoansList LoanList { get; set; }
         public PlayerList PlayerList { get; set; }
-        public CommodityList CommodityList { get; set; } 
+        public CommodityList CommodityList { get; set; }
         public FinancialValuesList FinancialValuesList { get; set; }
         public GameBoardVM GameBoardVM { get; set; }
         public Player ActivePlayer { get; set; }
@@ -104,7 +102,7 @@ namespace TheManXS.Model.Main
         public Unit ActiveUnit { get; set; }
         public string Quarter { get; set; }
         public int TurnNumber { get; set; }
-        public double PrimeInterestRate { get; set; }       
+        public double PrimeInterestRate { get; set; }
         public ParameterBoundedList ParameterBoundedList { get; set; }
         public ParameterConstantList ParameterConstantList { get; set; }
         public PaletteColorList PaletteColors { get; set; } = new PaletteColorList();

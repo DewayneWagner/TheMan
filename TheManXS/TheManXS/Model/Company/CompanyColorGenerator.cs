@@ -1,11 +1,8 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace TheManXS.Model.Company
-{   
+{
     public class CompanyColorGenerator
     {
         System.Random rnd = new System.Random();
@@ -33,8 +30,8 @@ namespace TheManXS.Model.Company
         private void InitListOfStringColors()
         {
             _listOfAvailableColors.Add("Slate Gray");
-            _listOfAvailableColors.Add("Orange");            
-            _listOfAvailableColors.Add("Blue");            
+            _listOfAvailableColors.Add("Orange");
+            _listOfAvailableColors.Add("Blue");
             _listOfAvailableColors.Add("Green");
             _listOfAvailableColors.Add("Lavender");
             _listOfAvailableColors.Add("Red");
@@ -43,7 +40,7 @@ namespace TheManXS.Model.Company
         public SKColor GetSKColor(int index) => _listOfSKColors[index];
         public SKColor GetRandomSKColor()
         {
-            if(_listOfSKColors.Count == 0) { InitListOfSKColors(); }
+            if (_listOfSKColors.Count == 0) { InitListOfSKColors(); }
             SKColor c = _listOfSKColors[rnd.Next(0, _listOfSKColors.Count)];
             _listOfSKColors.Remove(c);
             return c;

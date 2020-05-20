@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Main;
@@ -15,7 +14,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         bool _actionRowNeeded;
         private Game _game;
 
-        public DetailedBreakdown(Game game, FinancialsLineItems[] financialsLineItemsArray, 
+        public DetailedBreakdown(Game game, FinancialsLineItems[] financialsLineItemsArray,
             bool filterRowNeeded, bool actionButtonsNeeded)
         {
             _game = game;
@@ -27,11 +26,11 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
         public DetailedBreakdown(Game game, DataPanelType dataPanelType)
         {
             _game = game;
-            if(dataPanelType == DataPanelType.Loans) { ListOfDataRowList = GetDataRowListForLoansList(); }
+            if (dataPanelType == DataPanelType.Loans) { ListOfDataRowList = GetDataRowListForLoansList(); }
         }
 
         public List<DataRowList> ListOfDataRowList { get; set; }
-        
+
         private List<DataRowList> GetDataRowList(FinancialsLineItems[] financialsLineItemsArray)
         {
             List<DataRowList> dataRowListOfLists = new List<DataRowList>();
@@ -93,7 +92,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
 
                 return dataRow;
             }
-            
+
         }
         public DetailedBreakdownGrid DetailedBreakdownGrid => new DetailedBreakdownGrid(_filterRowNeeded, ListOfDataRowList);
     }

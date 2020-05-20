@@ -1,16 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace TheManXS.Model.ParametersForGame
 {
     public enum AllBoundedParameters
     {
         CityProdutionPerCityDensity, DevelopmentCostPerTerrainType, ExploreCostPerTerrainType, ProductionUnitsPerTerrainType,
-        TransportationCostPerTerrainTypePerUnit, TerrainConstruct, PoolConstructParameters, 
+        TransportationCostPerTerrainTypePerUnit, TerrainConstruct, PoolConstructParameters,
         ActionCosts, NextParameterSet1, NextParameterSet2, NextParameterSet3, Total
     }
     public enum PoolConstructParametersSecondary
@@ -30,7 +25,7 @@ namespace TheManXS.Model.ParametersForGame
     public enum NextParameterSet3SecondaryIndex { Next1, Total }
     public class ParameterBounded
     {
-        public ParameterBounded(int primaryIndex, string secondarySubIndexName, int secondaryIndexNumber = (-1),double ub = 0, double lb = 0)
+        public ParameterBounded(int primaryIndex, string secondarySubIndexName, int secondaryIndexNumber = (-1), double ub = 0, double lb = 0)
         {
             PrimaryIndexNumber = primaryIndex;
             PrimaryParameter = (AllBoundedParameters)primaryIndex;
@@ -53,7 +48,7 @@ namespace TheManXS.Model.ParametersForGame
         {
             switch (PrimaryParameter)
             {
-                case AllBoundedParameters.CityProdutionPerCityDensity:                    
+                case AllBoundedParameters.CityProdutionPerCityDensity:
                     SecondaryParameterType = nameof(CityDensity);
                     break;
 
@@ -98,11 +93,11 @@ namespace TheManXS.Model.ParametersForGame
             switch (PrimaryParameter)
             {
                 case AllBoundedParameters.CityProdutionPerCityDensity:
-                    for (int i = 0; i < (int)CityDensity.Total; i++) 
+                    for (int i = 0; i < (int)CityDensity.Total; i++)
                     { if (Convert.ToString((CityDensity)i) == SecondaryParameterSubIndex) { return i; } }
                     return 0;
 
-                case AllBoundedParameters.DevelopmentCostPerTerrainType:                    
+                case AllBoundedParameters.DevelopmentCostPerTerrainType:
                 case AllBoundedParameters.ExploreCostPerTerrainType:
                 case AllBoundedParameters.ProductionUnitsPerTerrainType:
                 case AllBoundedParameters.TransportationCostPerTerrainTypePerUnit:

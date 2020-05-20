@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TheManXS.ViewModel.Services
+﻿namespace TheManXS.ViewModel.Services
 {
     class WTFButtonHandler
     {
@@ -11,5 +7,5 @@ namespace TheManXS.ViewModel.Services
         {
 
         }
-    } 
+    }
 }

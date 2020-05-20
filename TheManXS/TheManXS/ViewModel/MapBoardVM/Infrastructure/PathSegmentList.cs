@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using TheManXS.Model.Main;
 using static TheManXS.ViewModel.MapBoardVM.Infrastructure.NewMapInitializer;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -60,7 +57,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             {
                 //DirectionsCompass entryPointDirection = _calc.GetMapEdge(_sList[i]);
                 PathSegment edgeP = new PathSegment();
-                edgeP.EntryPoint = isStartingEdge? getMapEdgeEntryAndExitPoints(_calc.GetMapEdge(_sList[i])) : getEntryPoint(i);
+                edgeP.EntryPoint = isStartingEdge ? getMapEdgeEntryAndExitPoints(_calc.GetMapEdge(_sList[i])) : getEntryPoint(i);
                 edgeP.ExitPoint = isStartingEdge ? getExitPoint(i) : getMapEdgeEntryAndExitPoints(_calc.GetMapEdge(_sList[i]));
                 edgeP.SegmentType = isStartingEdge ? SegmentType.EdgePointStart : SegmentType.EdgePointEnd;
                 edgeP.SKPoint = _calc.GetEdgePoint(_sList[i], _it);
@@ -114,15 +111,15 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             int index = i >= (_sList.Count - 2) ? (_sList.Count - 2) : i;
             return EntryAndExitPoints[scrubIndex(_sList[index + 1].Row - _sList[index].Row + 1),
                 scrubIndex(_sList[index + 1].Col - _sList[index].Col + 1)];
-        }          
+        }
 
         private int scrubIndex(int index)
         {
             if (index < 0) { return 0; }
-            else if(index >= 2) { return 2; }
+            else if (index >= 2) { return 2; }
             else { return index; }
         }
-        
+
         byte getMapEdgeEntryAndExitPoints(DirectionsCompass mapEdgeDirection)
         {
             switch (mapEdgeDirection)

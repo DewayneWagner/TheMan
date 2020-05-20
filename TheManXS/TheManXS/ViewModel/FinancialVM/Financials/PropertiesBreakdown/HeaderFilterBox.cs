@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
-using static TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown.PropertyBreakdownGrid;
 using Xamarin.Forms;
+using static TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown.PropertyBreakdownGrid;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 {
     class HeaderFilterBox : Picker
-    {         
+    {
         Game _game;
         HeaderFilterBoxType _type;
         public HeaderFilterBox(Game game, HeaderFilterBoxType type)
@@ -53,13 +51,13 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                     default:
                         break;
                 }
-            }            
+            }
             void initCompanyList()
             {
                 foreach (Player player in _game.PlayerList)
                 {
                     valuesList.Add(player.Name);
-                }                
+                }
             }
             void initResourceList()
             {

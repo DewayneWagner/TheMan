@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.Map;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using QC = TheManXS.Model.Settings.QuickConstants;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using AC = TheManXS.Model.ParametersForGame.AllConstantParameters;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.Model.CityStuff
 {
@@ -47,7 +43,7 @@ namespace TheManXS.Model.CityStuff
 
             for (int i = 1; i < QC.PlayerQ; i++)
             {
-                if(i < 3)
+                if (i < 3)
                 {
                     citySQ = _map[startRow, (startCol + i)];
                     InitCitySQ(citySQ, i);
@@ -56,7 +52,7 @@ namespace TheManXS.Model.CityStuff
                 {
                     citySQ = _map[(startRow + 1), (startCol + (i - 2))];
                     InitCitySQ(citySQ, i);
-                }                
+                }
             }
         }
         private SQ GetCityStartSQ()
@@ -69,14 +65,14 @@ namespace TheManXS.Model.CityStuff
                 int row = rnd.Next(_startRow, _endRow);
                 int col = rnd.Next(_startCol, _endCol);
                 sq = _map[row, col];
-                if(IsSuitableForCity(sq)) { return sq; }
+                if (IsSuitableForCity(sq)) { return sq; }
             }
             return sq;
         }
         private bool IsSuitableForCity(SQ sq)
         {
             if (sq.TerrainType == TT.Grassland &&
-                sq.ResourceType == RT.Nada && 
+                sq.ResourceType == RT.Nada &&
                 sq.OwnerNumber == QC.PlayerIndexTheMan)
             { return true; }
             { return false; }
@@ -87,7 +83,7 @@ namespace TheManXS.Model.CityStuff
             sq.OPEXPerUnit = _cityStartOPEX;
 
             sq.ResourceType = RT.RealEstate;
-            sq.TerrainType = TT.City;            
+            sq.TerrainType = TT.City;
             sq.Status = ST.Producing;
             sq.OwnerNumber = playerNum;
         }

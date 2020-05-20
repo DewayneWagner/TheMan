@@ -1,10 +1,5 @@
 ﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheManXS.ViewModel.DetailPages;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos;
 using Xamarin.Forms;

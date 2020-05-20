@@ -1,12 +1,7 @@
 ﻿using SkiaSharp;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
-using Windows.Graphics.Imaging;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -17,7 +12,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
     public enum Direction { West, North, East, South, Total }
 
     public delegate void TouchActionEventHandler(object sender, TouchActionEventArgs args);
-    
+
     public class TouchEffect : RoutingEffect
     {
         public event TouchActionEventHandler TouchAction;
@@ -34,7 +29,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         private bool _touchPointIsOnVisiblePortionOfMap;
         public TouchActionEventArgs(long id, TouchActionType type, Xamarin.Forms.Point location, bool isInContact)
         {
-            if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
+            if (_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
 
             Id = id;
             Type = type;
@@ -66,5 +61,5 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
                 return new Coordinate(row, col);
             }
         }
-    }   
+    }
 }

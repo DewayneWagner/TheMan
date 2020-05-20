@@ -1,7 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -95,7 +92,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _horseHeadHeight = _horseHeadHeightRatio * QC.SqSize;
             _horseHeadPaintStroke.StrokeWidth = _strokeWidthRatio * QC.SqSize;
 
-            _horseHeadPaintFill.Color = _sq.OwnerNumber == QC.PlayerIndexTheMan ? 
+            _horseHeadPaintFill.Color = _sq.OwnerNumber == QC.PlayerIndexTheMan ?
                 SKColors.White : _game.PlayerList[_sq.OwnerNumber].SKColor;
         }
         void InitHorseHead()

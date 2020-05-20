@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SkiaSharp.Views;
-using SkiaSharp;
+﻿using SkiaSharp;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Main;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 {
@@ -16,7 +11,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         public const float TrunkWidthRatio = 0.2f;
         private const float MaxOverhangOfTreeIntoAdjacentSQRatio = 0.25f;
 
-        public Tree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) 
+        public Tree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor)
         {
             RectangleWhereTreeWillBePlaced = rectangleWhereTreeWillBePlaced;
             TreeBranchesColor = treeBranchesColor;
@@ -43,5 +38,5 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         public SKRect RectangleWhereTreeWillBePlaced { get; set; }
         protected SKColor TreeBranchesColor { get; set; }
 
-    }   
+    }
 }

@@ -1,24 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.ParametersForGame;
+﻿using System;
 
 namespace TheManXS.Model.ParametersForGame
-{    public enum AllConstantParameters
+{
+    public enum AllConstantParameters
     {
         CashConstant, CommodityConstants, PrimeRateAdderBasedOnCreditRating, PrimeRateAdderBasedOnTermLength,
-        MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType, 
+        MapConstants, ResourceConstant, GameConstants, AssetValuationByStatusType,
         InfrastructureConstructionRatiosTT, ConstructionConstants, NextParameterSet2, NextParameterSet3, Total
     }
     public enum CashConstantSecondary { StartCash, StartDebt, TheManCut, SquarePrice, StartPrimeRate, Total }
     public enum CommodityConstantSecondary { StartPrice, MaxPrice, MinPrice, MinChange, MaxChange, Total }
     public enum CreditRatings { AAA, AA, A, B, C, Junk, Total }
     public enum LoanTermLength { Five, Ten, Fifteen, Twenty, TwentyFive, Total }
-    public enum MapConstantsSecondary { RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, NumberOfTreesPerSideOfSQ, 
-        TreeVerticalOverlapRatio, Total }
+    public enum MapConstantsSecondary
+    {
+        RowQ, ColQ, SqSize, StartRowRatioFromEdgeOfMap, NumberOfTreesPerSideOfSQ,
+        TreeVerticalOverlapRatio, Total
+    }
     public enum ResourceConstantSecondary { DeclineTurnsFactor, ResSqRatio, MaxPoolSQ, Total }
     public enum GameConstantsSecondary { MaxSavedGameSlots, NumberOfResourceStartSQsPerPlayer, PlayerQ, Total }
     public enum ConstructionConstantsSecondary { TurnsToBuildOnGrassLand, TurnsToBuildOnForestTile, TurnsToBuildOnMountainTile, Total }
@@ -26,7 +24,7 @@ namespace TheManXS.Model.ParametersForGame
     public enum NextConstantParameterSet3SecondaryIndex { Next1, Total }
 
     public class ParameterConstant
-    {        
+    {
         public ParameterConstant(int primaryIndex, string secondarySubIndex, int secondaryIndexNumber = (-1), double constant = 0)
         {
             PrimaryIndexNumber = primaryIndex;
@@ -45,12 +43,12 @@ namespace TheManXS.Model.ParametersForGame
         public int PrimaryIndexNumber { get; set; }
 
         public int GetSecondarySubIndex()
-        {            
+        {
             switch (PrimaryParameter)
             {
                 case AllConstantParameters.CashConstant:
                     for (int i = 0; i < (int)CashConstantSecondary.Total; i++)
-                    { if(Convert.ToString((CashConstantSecondary)i) == SecondarySubIndex) { return i; }}
+                    { if (Convert.ToString((CashConstantSecondary)i) == SecondarySubIndex) { return i; } }
                     return 0;
                 case AllConstantParameters.CommodityConstants:
                     for (int i = 0; i < (int)CommodityConstantSecondary.Total; i++)

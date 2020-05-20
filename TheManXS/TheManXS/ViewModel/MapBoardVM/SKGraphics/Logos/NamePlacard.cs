@@ -1,7 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
 {
@@ -33,7 +30,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
                 {
                     IsAntialias = true,
                     Color = SKColors.Gold,
-                    Style = SKPaintStyle.Fill,                    
+                    Style = SKPaintStyle.Fill,
                 };
             }
         }

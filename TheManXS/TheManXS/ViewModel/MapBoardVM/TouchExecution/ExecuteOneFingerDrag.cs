@@ -1,17 +1,13 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Map.Surface;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
-using TheManXS.ViewModel.MapBoardVM.TouchTracking;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Main;
+using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.Action;
-using Xamarin.Forms;
+using TheManXS.ViewModel.MapBoardVM.TouchTracking;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
@@ -40,7 +36,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
         {
             _listOfTouchedSQs = GetListOfTouchedSQs();
             CreateFilteredListOfSqsToBeIncluded();
-            _game.ActiveUnit = new Unit(_filteredList,_game);
+            _game.ActiveUnit = new Unit(_filteredList, _game);
             _game.GameBoardVM.SidePanelManager.AddSidePanel(ActionPanelGrid.PanelType.Unit);
         }
 
@@ -64,7 +60,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
             if (isNotOwnedAndStatusNada()) { filterOutSqsThatAreOwned(); }
             else if (isReadyToFormAProductionUnit()) { createFilteredListOfSQsThatAreReadyForProductionUnit(); }
-            
+
             bool isNotOwnedAndStatusNada() => firstTouchedSQ.Status == ST.Nada
                 && firstTouchedSQ.OwnerNumber == QC.PlayerIndexTheMan ? true : false;
 
@@ -87,9 +83,9 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
             void filterOutSqsThatAreOwned()
             {
-                foreach (SQ sq in _listOfTouchedSQs) 
-                { 
-                    if (sq.OwnerNumber == QC.PlayerIndexTheMan) { _filteredList.Add(sq); } 
+                foreach (SQ sq in _listOfTouchedSQs)
+                {
+                    if (sq.OwnerNumber == QC.PlayerIndexTheMan) { _filteredList.Add(sq); }
                 }
             }
         }

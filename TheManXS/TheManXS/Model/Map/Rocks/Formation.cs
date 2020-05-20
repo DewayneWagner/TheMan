@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Map.Rocks
 {

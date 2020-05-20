@@ -1,10 +1,7 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using TheManXS.ViewModel.MapBoardVM;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -92,7 +89,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 Style = SKPaintStyle.Stroke,
                 Color = new SKColor(194, 178, 128),
             };
-            if(it == IT.MainRiver) { sandPaint.StrokeWidth = (QC.SqSize * (RiverWidthRatio + SandWidthOverWater)); }
+            if (it == IT.MainRiver) { sandPaint.StrokeWidth = (QC.SqSize * (RiverWidthRatio + SandWidthOverWater)); }
             else { sandPaint.StrokeWidth = (QC.SqSize * (TributaryWidthRatio + SandWidthOverWater)); }
             return sandPaint;
         }

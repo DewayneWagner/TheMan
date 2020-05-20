@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.MapBoardVM.Tiles;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using static TheManXS.ViewModel.MapBoardVM.Tiles.AllImages;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.MainElements
@@ -26,14 +23,14 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             CompressedLayout.SetIsHeadless(this, true);
         }
 
-        public void UpdateTicker() 
-        { 
+        public void UpdateTicker()
+        {
             Ticker = GetTicker();
             Content = Ticker;
         }
 
         private StackLayout _ticker;
-        public StackLayout Ticker   
+        public StackLayout Ticker
         {
             get => _ticker;
             set
@@ -96,7 +93,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         ImagesAvailable GetArrow(double delta)
         {
             if (delta < 0) { return ImagesAvailable.DownArrow; }
-            else if(delta == 0){ return ImagesAvailable.NoChangeArrow; }
+            else if (delta == 0) { return ImagesAvailable.NoChangeArrow; }
             else { return ImagesAvailable.UpArrow; }
         }
 
@@ -123,7 +120,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             }
             void addLabels()
             {
-                this.Children.Add(new TickerLabel(_name),0,0);
+                this.Children.Add(new TickerLabel(_name), 0, 0);
                 this.Children.Add(new TickerLabel(_price), 1, 0);
                 this.Children.Add(new TickerLabel(_delta), 2, 0);
             }

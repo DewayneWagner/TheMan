@@ -1,7 +1,6 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 {
@@ -16,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private static float _insidePointStartFromEdge;
         private static bool _fieldsHaveBeenInitialized;
 
-        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) 
+        public SpruceTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor)
         {
             if (!_fieldsHaveBeenInitialized) { InitFields(); }
         }
@@ -51,7 +50,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 List<SKPoint> points = GetOrderedList();
                 treeBranchesPath.MoveTo(points[0]);
                 for (int i = 1; i < points.Count; i++) { treeBranchesPath.LineTo(points[i]); }
-                
+
                 return treeBranchesPath;
             }
         }
@@ -87,14 +86,14 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
 
         private List<SKPoint> GetOrderedList()
         {
-            List<SKPoint> treePoints = new List<SKPoint>();            
+            List<SKPoint> treePoints = new List<SKPoint>();
             var r = RectangleWhereTreeWillBePlaced;
             float bottomY = r.Bottom - _distanceOfBottomBranchFromBottom;
             int pointsOnEachSide = NumberOfBranches * 2 - 1; // subtract 1 for topPoint
 
             List<float> yCoords = getYCoords();
 
-            SKPoint topPoint = new SKPoint(r.MidX, r.Top);            
+            SKPoint topPoint = new SKPoint(r.MidX, r.Top);
 
             int L = 1;
             int R = 0;
@@ -145,6 +144,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 }
                 return yc;
             }
-        }        
+        }
     }
 }

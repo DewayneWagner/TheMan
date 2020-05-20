@@ -1,5 +1,4 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheManXS.Model.Main;
@@ -72,8 +71,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 IT it = (IT)i;
                 List<SQ> sortedList = getSortedList(_allInfrastructure[i]);
 
-                if(it == IT.Tributary) { initTributaries(); }
-                else if(it != IT.Hub) { AddAllInfrastructure(it, sortedList); }
+                if (it == IT.Tributary) { initTributaries(); }
+                else if (it != IT.Hub) { AddAllInfrastructure(it, sortedList); }
 
                 void initTributaries()
                 {
@@ -95,7 +94,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     SQ mainRiverAdjacentSQOnTributary = tributaryList[indexOfMainRiverAdjacentSQOnTributary];
                     SQ mainRiverJoinPoint = getMainRiverJoinPoint();
 
-                    if(indexOfMainRiverAdjacentSQOnTributary == 0) { tributaryList.Insert(0, mainRiverJoinPoint); }
+                    if (indexOfMainRiverAdjacentSQOnTributary == 0) { tributaryList.Insert(0, mainRiverJoinPoint); }
                     else { tributaryList.Add(mainRiverJoinPoint); }
 
                     SQ getMainRiverJoinPoint()
@@ -123,7 +122,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                                 }
                             }
                             return mainRiverAdjacentSQOnTributary;
-                        }                        
+                        }
                     }
                     bool isMapEdge(SQ sq)
                     {
@@ -132,26 +131,29 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     }
                     int getIndexOfMainRiverAdjacentSQOnTributary(List<SQ> list)
                     {
-                        if(!isMapEdge(list[0])) { return 0; }
+                        if (!isMapEdge(list[0])) { return 0; }
                         else { return (list.Count - 1); }
                     }
                 }
                 List<SQ> getSortedList(List<SQ> unsortedList)
                 {
-                    List<SQ> sortedListM = new List<SQ>();
-                    if (IsPathHorizontallyOriented(unsortedList))
-                    {
-                        sortedListM = unsortedList.OrderBy(s => s.Row)
-                                        .ThenBy(s => s.Col)
-                                        .ToList();
-                    }
-                    else
-                    {
-                        sortedListM = unsortedList.OrderBy(s => s.Col)
-                                        .ThenBy(s => s.Row)
-                                        .ToList();
-                    }
-                    return sortedListM;
+                    var sq = unsortedList[0];
+                    if (sq.IsTributary && !sq.IsTributaryFlowingFromNorth) { return unsortedList.OrderByDescending(s => s.Row).ToList(); }
+                    else if(sq.IsTributary) { return unsortedList.OrderBy(s => s.Row).ToList(); }
+                    else { return unsortedList.OrderBy(s => s.Col).ToList(); }
+
+                    //if (!unsortedList[0].IsTributaryFlowingFromNorth) { sortedListM = unsortedList.OrderBy(s => s.Row).ToList(); }
+                    //else if(unsortedList[0].IsTributary) { sortedListM = unsortedList.OrderByDescending(s => s.Row).ToList(); }
+                    //else if(!isVertical()) { sortedListM = unsortedList.OrderBy(s => s.Row).ThenBy(s => s.Col).ToList(); }
+                    //else { sortedListM = unsortedList.OrderBy(s => s.Col).ThenBy(s => s.Row).ToList(); }
+                    
+                    //return sortedListM;
+
+                    //bool isVertical()
+                    //{
+                    //    if(unsortedList.Any(s => s.Col == 0 || s.Col == QC.ColQ)) { return true; }
+                    //    else { return false; }
+                    //}
                 }
             }
         }
@@ -162,7 +164,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             SKPath path = new SKPath();
             _infrastructureType.Add(it);
 
-            for (int i = 0; i < (pathSegmentList.Count -1); i++)
+            for (int i = 0; i < (pathSegmentList.Count - 1); i++)
             {
                 PathSegment p = pathSegmentList[i];
 
@@ -171,14 +173,14 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     case SegmentType.EdgePointStart:
                         path.MoveTo(p.SKPoint);
                         break;
-                         
+
                     case SegmentType.Curve:
                     case SegmentType.Straight:
                         path.LineTo(p.SKPoint);
                         //path.CubicTo(path.LastPoint, pathSegmentList[i].SKPoint, pathSegmentList[i + 1].SKPoint);
                         //i++;
                         break;
-                         
+
                     case SegmentType.EdgePointEnd:
                         path.LineTo(p.SKPoint);
                         break;
@@ -199,19 +201,19 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private enum AdjSqsDirection { E, SE, S, SW, Total }
 
         private void DrawAllPathsOnCanvas()
-        {            
+        {
             using (SKCanvas gameBoard = new SKCanvas(_mapVM.SKBitMapOfMap))
             {
                 for (int i = 0; i < _listOfAllSKPaths.Count; i++)
                 {
-                    if(_infrastructureType[i] == IT.MainRiver || _infrastructureType[i] == IT.Tributary)
+                    if (_infrastructureType[i] == IT.MainRiver || _infrastructureType[i] == IT.Tributary)
                     {
                         SKPaint sandPaint = _paintTypes.GetSandPaint(_infrastructureType[i]);
                         gameBoard.DrawPath(_listOfAllSKPaths[i], sandPaint);
                     }
 
                     SKPaint paint = _paintTypes[_infrastructureTypesInSKPaths[i]];
-                    gameBoard.DrawPath(_listOfAllSKPaths[i], paint);                    
+                    gameBoard.DrawPath(_listOfAllSKPaths[i], paint);
                 }
                 gameBoard.Save();
             }

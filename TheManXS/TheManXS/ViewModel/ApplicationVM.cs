@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using TheManXS.ViewModel.Services;
-using Xamarin.Forms;
-using System.Linq;
 using TheManXS.ViewModel.Style;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel
 {

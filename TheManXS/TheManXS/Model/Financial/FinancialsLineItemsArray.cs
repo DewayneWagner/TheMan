@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 
@@ -34,7 +31,7 @@ namespace TheManXS.Model.Financial
                     DataRowType = DataRowType.MainHeading,
                 });
 
-            _lineItemsArray[(int)LineItemType.BalanceSheets] = 
+            _lineItemsArray[(int)LineItemType.BalanceSheets] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.BalanceSheets,
@@ -98,7 +95,7 @@ namespace TheManXS.Model.Financial
                     DataRowType = DataRowType.Data,
                 });
 
-            _lineItemsArray[(int)LineItemType.OPEX] = 
+            _lineItemsArray[(int)LineItemType.OPEX] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.OPEX,
@@ -114,7 +111,7 @@ namespace TheManXS.Model.Financial
                     DataRowType = DataRowType.Data,
                 });
 
-            _lineItemsArray[(int)LineItemType.DebtPayment] = 
+            _lineItemsArray[(int)LineItemType.DebtPayment] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.DebtPayment,
@@ -122,7 +119,7 @@ namespace TheManXS.Model.Financial
                     DataRowType = DataRowType.Data,
                 });
 
-            _lineItemsArray[(int)LineItemType.GrossProfitD] = 
+            _lineItemsArray[(int)LineItemType.GrossProfitD] =
                 (new FinancialsLineItems()
                 {
                     LineItemType = LineItemType.GrossProfitD,

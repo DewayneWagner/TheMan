@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Financial;
+﻿using TheManXS.Model.Financial;
 using TheManXS.Model.Map.Rocks;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -34,7 +31,7 @@ namespace TheManXS.Model.Main
             _game.GameBoardVM.TitleBar.Quarter = newQuarter;
             _isFullTurnAdvance = false;
         }
-        
+
         void setNextPlayer()
         {
             int nextPlayerNumber = _game.ActivePlayer.Number + 1;

@@ -1,10 +1,7 @@
 ﻿using SkiaSharp;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
@@ -48,7 +45,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
                 float yDiffPress = Math.Abs(finger1TouchPoint.Y - finger2TouchPoint.Y);
                 float yDiffRelease = Math.Abs(finger1ReleasePoint.Y - finger2ReleasePoint.Y);
 
-                if(yDiffPress < yDiffRelease) { return _pinchScale; }
+                if (yDiffPress < yDiffRelease) { return _pinchScale; }
                 else { return _spreadScale; }
             }
         }
@@ -64,7 +61,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 
             float scaleX = newVector.X / oldVector.X;
             float scaleY = newVector.Y / oldVector.Y;
-            
+
             float pinchScale = (scaleX > scaleY) ? scaleX : scaleY;
 
             if (FloatIsValid(pinchScale))

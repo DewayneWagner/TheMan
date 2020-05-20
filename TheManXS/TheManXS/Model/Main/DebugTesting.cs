@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Financial.Debt;
+﻿using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.ParametersForGame;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.Model.Main
 {
@@ -25,7 +22,7 @@ namespace TheManXS.Model.Main
             double loanAmount;
             LoanTermLength term;
 
-            foreach(Player p in game.PlayerList)
+            foreach (Player p in game.PlayerList)
             {
                 for (int i = 0; i < 3; i++)
                 {

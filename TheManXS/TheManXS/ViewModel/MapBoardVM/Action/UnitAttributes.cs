@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Units;
 using TheManXS.Services;
@@ -10,8 +8,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 {
     public class UnitAttributes
     {
-        public enum AllUnitAttributes { Owner, Status, Resource, Production, Revenue, OPEX, OPEXDisCount,
-            TransportCost, GrossProfitD, GrossProfitP, ActionCost, ActionCostDiscount }
+        public enum AllUnitAttributes
+        {
+            Owner, Status, Resource, Production, Revenue, OPEX, OPEXDisCount,
+            TransportCost, GrossProfitD, GrossProfitP, ActionCost, ActionCostDiscount
+        }
 
         private Unit _unit;
         private Cash _unitCash;

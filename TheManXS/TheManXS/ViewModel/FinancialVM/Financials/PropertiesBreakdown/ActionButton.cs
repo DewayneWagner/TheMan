@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -34,7 +32,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                     "Current Market Value would be approximately " + "\n" +
                     askingPrice.ToString("c0");
                 bool execute = await _pageService.DisplayAlert("Sell this property?", message, "Go For It!", "Nope!");
-                if(execute) { ExecuteSale(); }
+                if (execute) { ExecuteSale(); }
             }
             else
             {

@@ -1,11 +1,7 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.ViewModel.Style;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
 {
@@ -19,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
         public Mountain(SKRect rectangleWhereMountainWillBePlaced)
         {
             SKRectSQ = rectangleWhereMountainWillBePlaced;
-            pc = pc?? new PaletteColorList();
+            pc = pc ?? new PaletteColorList();
         }
 
         protected SKRect SKRectSQ { get; set; }
@@ -44,7 +40,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
         {
             get
             {
-                return _mountainStroke = _mountainStroke?? new SKPaint()
+                return _mountainStroke = _mountainStroke ?? new SKPaint()
                 {
                     IsAntialias = true,
                     Color = SKColors.Black,

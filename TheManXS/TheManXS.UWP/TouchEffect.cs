@@ -97,7 +97,7 @@ namespace TouchTracking.UWP
         void CommonHandler(object sender, TouchActionType touchActionType, PointerRoutedEventArgs args)
         {
             PointerPoint pointerPoint = args.GetCurrentPoint(sender as UIElement);
-            Windows.Foundation.Point windowsPoint = pointerPoint.Position;  
+            Windows.Foundation.Point windowsPoint = pointerPoint.Position;
 
             onTouchAction(Element, new TouchActionEventArgs(args.Pointer.PointerId,
                                                             touchActionType,

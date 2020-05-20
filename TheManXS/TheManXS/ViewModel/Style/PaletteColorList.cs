@@ -1,13 +1,10 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TheManXS.Model.ParametersForGame;
-using Xamarin.Forms;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using ACP = TheManXS.ViewModel.Style.AvailablePaletteColors;
 using System.IO;
+using System.Linq;
+using Xamarin.Forms;
+using ACP = TheManXS.ViewModel.Style.AvailablePaletteColors;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.ViewModel.Style
 {
@@ -76,7 +73,7 @@ namespace TheManXS.ViewModel.Style
                     this[br.ReadInt32()].IsC1 = true;
                     this[br.ReadInt32()].IsC2 = true;
                     this[br.ReadInt32()].IsC3 = true;
-                    this[br.ReadInt32()].IsC4 = true;                    
+                    this[br.ReadInt32()].IsC4 = true;
                 }
                 br.Close();
             }

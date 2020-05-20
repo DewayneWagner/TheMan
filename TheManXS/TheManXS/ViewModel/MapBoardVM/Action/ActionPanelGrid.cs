@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using TheManXS.Model.Main;
-using TheManXS.ViewModel.MapBoardVM.Tiles;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.ViewModel.MapBoardVM.Action;
-using TheManXS.Model.Units;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
-using SkiaSharp;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Internal;
+using Xamarin.Forms;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
 {
@@ -21,8 +14,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         MapVM _mapVM;
         Game _game;
 
-        public enum ActionRows { TitleAndBackButton, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost, 
-            GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount }
+        public enum ActionRows
+        {
+            TitleAndBackButton, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost,
+            GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount
+        }
 
         private int _quantityOfRowsInSQ = (int)ActionRows.Button + 1;
         private int _quantityOfRowsInUnit = (int)ActionRows.UnitActionCostDiscount + 1;
@@ -32,7 +28,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private const double _widthRatioColumn1 = 0.4;
 
         private double _buttonAndTitleHeight = 35;
-        
+
         private const int SIDEPANELWIDTH = 300;
         private PanelType _panelType;
 
@@ -42,7 +38,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             CompressedLayout.SetIsHeadless(this, true);
             _panelType = pt;
             _mapVM = _game.GameBoardVM.MapVM;
-            
+
             WidthRequest = SIDEPANELWIDTH;
             SetPropertiesOfGrid();
             InitFields();
@@ -73,21 +69,21 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             InitBackButton();
             InitTitle();
             InitActionButton();
-        }        
+        }
 
         public void InitGrid()
         {
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column1Width });
             ColumnDefinitions.Add(new ColumnDefinition() { Width = _column2Width });
 
-            if (_panelType == PanelType.SQ) {for (int i = 0; i < _quantityOfRowsInSQ; i++) { RowDefinitions.Add(new RowDefinition()); }}
-            
-            else if(_panelType == PanelType.Unit)
+            if (_panelType == PanelType.SQ) { for (int i = 0; i < _quantityOfRowsInSQ; i++) { RowDefinitions.Add(new RowDefinition()); } }
+
+            else if (_panelType == PanelType.Unit)
             {
                 for (int i = 0; i < _quantityOfRowsInUnit; i++)
                 {
-                    if (i == (int)ActionRows.TitleAndBackButton || i == (int)ActionRows.Button) 
-                        { RowDefinitions.Add(new RowDefinition()); }
+                    if (i == (int)ActionRows.TitleAndBackButton || i == (int)ActionRows.Button)
+                    { RowDefinitions.Add(new RowDefinition()); }
                     else { RowDefinitions.Add(new RowDefinition()); }
                 }
             }
@@ -101,8 +97,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
-                    Label rowHeading = new Label() 
-                    { 
+                    Label rowHeading = new Label()
+                    {
                         Text = SplitCamelCase(Convert.ToString(((ActionRows)i))),
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -124,7 +120,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                     }
                 }
             }
-            else if(_panelType == PanelType.Unit)
+            else if (_panelType == PanelType.Unit)
             {
                 UnitAttributes unitAttributes = new UnitAttributes(_game.ActiveUnit);
 
@@ -166,7 +162,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         }
 
         public void OnBackButton(object sender, EventArgs e) => _game.GameBoardVM.SidePanelManager.RemoveSidePanel(_panelType);
-        
+
         public void InitTitle()
         {
             string text = _panelType == PanelType.SQ ? "SQ Action" : "Unit Action";
@@ -185,8 +181,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
             };
 
             if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
-            else if(_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
-        }        
+            else if (_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
+        }
 
         public void InitActionButton()
         {
@@ -196,8 +192,8 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
                 Margin = (_buttonAndTitleHeight * 0.1),
                 FontSize = (_buttonAndTitleHeight * 0.5),
             };
-            Children.Add(actionButton, 0, (int)ActionRows.Button); 
-            Grid.SetColumnSpan(actionButton, 2);            
+            Children.Add(actionButton, 0, (int)ActionRows.Button);
+            Grid.SetColumnSpan(actionButton, 2);
         }
         public string SplitCamelCase(string s)
         {

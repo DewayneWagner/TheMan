@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+﻿using SkiaSharp;
+using System;
 using TheManXS.Model.Main;
-using SkiaSharp;
-using Xamarin.Forms;
-using Xamarin.Essentials;
-using TheManXS.Model.ParametersForGame;
-using A = TheManXS.Model.ParametersForGame.AllBoundedParameters;
 using Windows.Graphics.Display;
+using Xamarin.Forms;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.Model.Map.Surface
 {
@@ -31,11 +26,11 @@ namespace TheManXS.Model.Map.Surface
             //SKRect = new SKRect(Col * QC.SqSize, Row * QC.SqSize, (Col + 1) * QC.SqSize, (Row + 1) * QC.SqSize);
         }
 
-        public Coordinate(SKPoint p) 
-        {            
-            if(_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
+        public Coordinate(SKPoint p)
+        {
+            if (_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
             setValuesForFields();
-            
+
             Row = (int)((_topLeftCorner.Y + p.Y) / _skSqSize);
             Col = (int)((_topLeftCorner.X + p.X) / _skSqSize);
             SQKey = GetSQKey(Row, Col);
@@ -115,7 +110,7 @@ namespace TheManXS.Model.Map.Surface
                     } while (!SqExists(row, col));
 
                     sq = _map[row, col];
-                    
+
                     outerLoopCounter++;
                     if (outerLoopCounter == 5)
                         break;
@@ -124,9 +119,9 @@ namespace TheManXS.Model.Map.Surface
             Row = row;
             Col = col;
             SQKey = GetSQKey(row, col);
-        }        
+        }
         public static bool DoesSquareExist(int row, int col) => (row >= 0 && row < QC.RowQ &&
-            col >= 0 && col < QC.ColQ) ? true : false;        
+            col >= 0 && col < QC.ColQ) ? true : false;
         private bool SqExists(int r, int c) => (r >= 0 && r < QC.RowQ && c >= 0 && c < QC.ColQ) ? true : false;
-    }    
+    }
 }

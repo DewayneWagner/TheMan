@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Units;
 using static TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown.PropertyBreakdownGrid;
@@ -40,7 +39,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                 PropertyBreakdown pb = new PropertyBreakdown(_game, sq);
                 Add(pb);
                 PropertyBreakdownDisplayList.Add(pb);
-            }            
+            }
         }
         private void LoadListWithAllOwnedUnits()
         {
@@ -61,7 +60,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 
             PropertyBreakdownDisplayList = new List<PropertyBreakdown>();
             setFilter();
-                        
+
             void resetFilterTypeToAll()
             {
                 switch (ft)
@@ -107,7 +106,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             }
             void setResourceType()
             {
-                for (int i = 0; i < (int)RT.Total; i++) { if (Convert.ToString((RT)i) == filterBy) { ResourceTypeDisplay = (RT)i; } }                    
+                for (int i = 0; i < (int)RT.Total; i++) { if (Convert.ToString((RT)i) == filterBy) { ResourceTypeDisplay = (RT)i; } }
             }
             void setStatusType()
             {
@@ -151,12 +150,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                     PropertyBreakdownDisplayList = this.ToList();
                 }
             }
-        }        
+        }
         public void SortDataByColumnDescending(PropertyBreakdownColumns pbc)
         {
             List<PropertyBreakdown> tempList = new List<PropertyBreakdown>();
             switch (pbc)
-            {                
+            {
                 case PropertyBreakdownColumns.Production:
                     tempList = PropertyBreakdownDisplayList.OrderByDescending(p => p.Production).ToList();
                     break;
@@ -218,5 +217,5 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             }
             PropertyBreakdownDisplayList = tempList;
         }
-    }    
+    }
 }

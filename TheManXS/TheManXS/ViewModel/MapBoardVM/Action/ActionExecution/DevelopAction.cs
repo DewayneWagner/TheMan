@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System.Linq;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.Infrastructure;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using ACP = TheManXS.Model.ParametersForGame.AllConstantParameters;
 using CC = TheManXS.Model.ParametersForGame.ConstructionConstantsSecondary;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Internal;
-using TheManXS.ViewModel.MapBoardVM.Infrastructure;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
 {
@@ -59,10 +56,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
             }
         }
         private async void DisplayMessageThatRoadIsRequired() => await PageServices.DisplayAlert("Heh DumbAss - you need a road before you can develop.");
-        
+
         void AddSurfaceStructure(SQ sq)
         {
-            if(sq.ResourceType == Model.ParametersForGame.ResourceTypeE.Oil)
+            if (sq.ResourceType == Model.ParametersForGame.ResourceTypeE.Oil)
             {
                 new PumpJack(Game, Game.ActiveSQ);
             }
@@ -78,7 +75,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action.ActionExecution
             {
                 case Model.ParametersForGame.TerrainTypeE.Grassland:
                     return (int)c.GetConstant(ACP.ConstructionConstants, (int)CC.TurnsToBuildOnGrassLand);
-                    
+
                 case Model.ParametersForGame.TerrainTypeE.Forest:
                     return (int)c.GetConstant(ACP.ConstructionConstants, (int)CC.TurnsToBuildOnForestTile);
 

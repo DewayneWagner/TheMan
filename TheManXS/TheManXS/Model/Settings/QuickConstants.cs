@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Settings;
-using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Main;
-using BP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
-using CP = TheManXS.Model.ParametersForGame.AllConstantParameters;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Settings
 {
@@ -22,7 +15,7 @@ namespace TheManXS.Model.Settings
         public static int PlayerQ { get; set; }
         public static int RowQ { get; set; }
         public static int ColQ { get; set; }
-        public static int SqQ { get; set; }       
+        public static int SqQ { get; set; }
         public static int SqSize { get; set; }
         public static int SqLateralLength { get; set; }
         public static int PlayerIndexTheMan { get; set; }
@@ -35,11 +28,11 @@ namespace TheManXS.Model.Settings
         public const string NameOfOwnerOfUnOwnedSquares = "The Man";
         public const double OPEXDiscountPerSQInUnit = 0.03;
         public const double CAPEXDiscountPerSQInUnit = 0.03;
-        
+
         public static double TopToolBarHeight { get; set; }
         public static int MaxResourceSQsOnMap { get; set; }
-        public static int MaxResourceSQsInPool { get; set; }        
-        public static int PlayerIndexActual => 0;      
+        public static int MaxResourceSQsInPool { get; set; }
+        public static int PlayerIndexActual => 0;
         public static int UnitCounter { get; set; }
         public static bool IsNewGame { get; set; }
         public static float PinchMaxScale => 10f;

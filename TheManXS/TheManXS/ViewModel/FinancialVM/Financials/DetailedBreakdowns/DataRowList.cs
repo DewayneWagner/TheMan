@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using SkiaSharp;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;

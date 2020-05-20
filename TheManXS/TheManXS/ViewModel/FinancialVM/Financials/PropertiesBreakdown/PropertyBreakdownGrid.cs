@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using TheManXS.Model.Main;
 using Xamarin.Forms;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Units;
-using System.Linq;
-using TheManXS.Model.Services.EntityFrameWork;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 {
     public class PropertyBreakdownGrid : Grid
     {
-        public enum PropertyBreakdownColumns { Company, ResourceType, Status, Production, PPE, Revenue, OPEX, GrossProfitD, 
-            GrossProfitP, ActionButton, Total }
+        public enum PropertyBreakdownColumns
+        {
+            Company, ResourceType, Status, Production, PPE, Revenue, OPEX, GrossProfitD,
+            GrossProfitP, ActionButton, Total
+        }
 
         public enum HeaderFilterBoxType { Company, Resource, Status, Total }
 
@@ -48,7 +45,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
             AddHeaderLabels();
             AddHeaderFilterBoxes();
             AddHeaderButtons();
-            
+
             AddDataValuesToGrid();
         }
         public AllPropertyBreakdownList PropertyBreakdownListOfAllProducingProperties { get; set; }
@@ -57,7 +54,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
         {
             initColumns();
             initRows();
-            
+
             void initColumns()
             {
                 for (int i = 0; i < (int)PropertyBreakdownColumns.Total; i++)
@@ -75,7 +72,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                 for (int i = 0; i < (int)HeaderRows.Total; i++)
                 {
                     RowDefinitions.Add(new RowDefinition()
-                        { Height = new GridLength(_headerRowHeight, GridUnitType.Absolute)});
+                    { Height = new GridLength(_headerRowHeight, GridUnitType.Absolute) });
                 }
             }
             void initDataRows()
@@ -85,7 +82,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                     RowDefinitions.Add(new RowDefinition()
                     { Height = new GridLength(_dataRowHeight, GridUnitType.Absolute) });
                 }
-            }            
+            }
         }
         public void UpdateGrid()
         {
@@ -93,21 +90,24 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 
             while (RowDefinitions.Count > (int)HeaderRows.Total) { RowDefinitions.RemoveAt(RowDefinitions.Count - 1); }
 
-            int rowsRequired = PropertyBreakdownListOfAllProducingProperties.PropertyBreakdownDisplayList.Count + 
+            int rowsRequired = PropertyBreakdownListOfAllProducingProperties.PropertyBreakdownDisplayList.Count +
                 (int)HeaderRows.Total;
-                
-            for (int i = 0; i < rowsRequired; i++) { RowDefinitions.Add(new RowDefinition()
-                { Height = new GridLength(_dataRowHeight, GridUnitType.Absolute) }); }
+
+            for (int i = 0; i < rowsRequired; i++)
+            {
+                RowDefinitions.Add(new RowDefinition()
+                { Height = new GridLength(_dataRowHeight, GridUnitType.Absolute) });
+            }
 
             AddDataValuesToGrid();
 
             void deleteAllDataItems()
             {
                 var dataItemList = Children.Where(d => d.AutomationId == DataTableAutomationID).ToList();
-                foreach(var item in dataItemList) { Children.Remove(item); }
+                foreach (var item in dataItemList) { Children.Remove(item); }
             }
         }
-        
+
         void SetPropertiesOfGrid()
         {
             HorizontalOptions = LayoutOptions.FillAndExpand;
@@ -129,7 +129,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
                     Grid.SetColumnSpan(h, 2);
                 }
                 else if (c == (int)PropertyBreakdownColumns.GrossProfitP) {; } // do nothing
-                else { this.Children.Add(h, c, (int)HeaderRows.TitleLabel); }                
+                else { this.Children.Add(h, c, (int)HeaderRows.TitleLabel); }
             }
         }
 

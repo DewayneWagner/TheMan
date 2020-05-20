@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using static TheManXS.ViewModel.MapBoardVM.Action.ActionPanelGrid;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 

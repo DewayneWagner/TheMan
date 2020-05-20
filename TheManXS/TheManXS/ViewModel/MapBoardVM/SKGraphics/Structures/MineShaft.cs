@@ -1,7 +1,4 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -61,7 +58,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _game = game;
             _sq = sq;
             InitFields();
-            _topRectanglePaint.Color = _sq.OwnerNumber == QC.PlayerIndexTheMan? SKColors.White : _game.PlayerList[_sq.OwnerNumber].SKColor;
+            _topRectanglePaint.Color = _sq.OwnerNumber == QC.PlayerIndexTheMan ? SKColors.White : _game.PlayerList[_sq.OwnerNumber].SKColor;
             InitTopRectangle();
             InitStraightLeg();
             InitAngledLeg();
@@ -80,7 +77,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
             _gapBetweenLegs = QC.SqSize * _gapBetweenLegsRatio;
             _topRectangleStroke.StrokeWidth = _strokeWidthRatio * QC.SqSize;
         }
-        private void InitTopRectangle() 
+        private void InitTopRectangle()
         {
             float left = (float)(_sq.SKRect.Left + ((QC.SqSize - _topRectangleWidth) / 2));
             float top = (float)(_sq.SKRect.Top + _distanceFromEdgesOfSQ);
@@ -119,7 +116,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures
         private void PaintMineshaftOnCanvas()
         {
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {                
+            {
                 canvas.DrawRect(_straightLegRect, _towerStraightLegsPaint);
                 canvas.DrawPath(_angledLegPath, _towerAngleLegPaint);
                 canvas.DrawRect(_topRect, _topRectanglePaint);

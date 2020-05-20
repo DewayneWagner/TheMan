@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Settings;
-using TheManXS.Model.Services.EntityFrameWork;
-using TB = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.ParametersForGame;
+using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -32,7 +24,7 @@ namespace TheManXS.Model.Map.Rocks
 
             for (int i = 0; i < PoolWidth; i++)
             {
-                if (Coordinate.DoesSquareExist(row,col))
+                if (Coordinate.DoesSquareExist(row, col))
                 {
                     sq = _map[row, col];
                     if (sq.ResourceType == RT.Nada)

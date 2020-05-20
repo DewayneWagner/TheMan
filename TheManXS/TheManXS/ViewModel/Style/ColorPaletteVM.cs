@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.ViewModel.Services;
-using TheManXS.ViewModel.Style;
 using Xamarin.Forms;
 using static TheManXS.ViewModel.Style.PaletteColorList;
 
@@ -24,7 +20,7 @@ namespace TheManXS.ViewModel.Style
 
             InitCommands();
             InitColorListOC();
-            CompressedLayout.SetIsHeadless(this, true);            
+            CompressedLayout.SetIsHeadless(this, true);
         }
 
         public ColorPaletteVM(PaletteColor pc)
@@ -32,7 +28,7 @@ namespace TheManXS.ViewModel.Style
             BVColor = pc.Color;
             ColorDescription = pc.Description;
             ID = pc.ID;
-            if(pc.IsC0 == true) { C0ButtonColor = _colorSelectedButton; }
+            if (pc.IsC0 == true) { C0ButtonColor = _colorSelectedButton; }
         }
 
         public void UpdateSelectedColors()
@@ -59,11 +55,11 @@ namespace TheManXS.ViewModel.Style
             set
             {
                 _colorListOC = value;
-                SetValue(ref _colorListOC,value);
+                SetValue(ref _colorListOC, value);
             }
         }
 
-        public Color BVColor  { get; set; }
+        public Color BVColor { get; set; }
         public string ColorDescription { get; set; }
         public int ID { get; set; }
 
@@ -158,9 +154,9 @@ namespace TheManXS.ViewModel.Style
             switch (ct)
             {
                 case ColorTypes.C0:
-                    foreach(ColorPaletteVM cp in ColorListOC) { cp.C0ButtonColor = _colorNotSelectedButton; }
+                    foreach (ColorPaletteVM cp in ColorListOC) { cp.C0ButtonColor = _colorNotSelectedButton; }
                     ColorListOC[id].C0ButtonColor = _colorSelectedButton;
-                    foreach(PaletteColor pc in PaletteColorList) { pc.IsC0 = false; }
+                    foreach (PaletteColor pc in PaletteColorList) { pc.IsC0 = false; }
                     PaletteColorList[id].IsC0 = true;
                     break;
                 case ColorTypes.C1:

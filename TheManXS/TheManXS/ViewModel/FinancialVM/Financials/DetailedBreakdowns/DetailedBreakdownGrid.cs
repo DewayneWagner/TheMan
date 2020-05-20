@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using TheManXS.ViewModel.FinancialVM.Financials.Charts;
-using Windows.Gaming.UI;
-using Windows.UI;
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -52,7 +46,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns
             {
                 for (int col = 0; col < _colQ; col++)
                 {
-                    this.Children.Add(_listOfDataRowLists[row][col],col,row);
+                    this.Children.Add(_listOfDataRowLists[row][col], col, row);
                 }
             }
         }

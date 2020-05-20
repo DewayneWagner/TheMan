@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Services.IO;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -37,10 +35,10 @@ namespace TheManXS.Model.Main
                         gsp.ActivePlayerNumber = _game.ActivePlayer.Number;
                         gsp.LastPlayed = DateTime.Now;
                         db.GameSpecificParameters.Update(gsp);
-                    }                   
+                    }
                 }
                 void updateSQDictionaryInDB()
-                {                    
+                {
                     db.SQ.UpdateRange(_game.SQList);
                 }
             }

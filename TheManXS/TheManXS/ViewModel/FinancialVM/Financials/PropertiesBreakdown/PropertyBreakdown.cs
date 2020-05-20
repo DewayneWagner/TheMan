@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TheManXS.Model.Main;
+using TheManXS.Model.Units;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Main;
-using TheManXS.Model.Units;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.PropertiesBreakdown
 {

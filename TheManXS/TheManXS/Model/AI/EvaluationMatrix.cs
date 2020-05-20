@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.AI
 {
@@ -17,7 +13,7 @@ namespace TheManXS.Model.AI
         public EvaluationMatrix(Game game)
         {
             _game = game;
-            
+
         }
 
         void InitArray()

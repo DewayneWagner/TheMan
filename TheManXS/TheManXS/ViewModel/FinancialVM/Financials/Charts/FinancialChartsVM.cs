@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using TheManXS.Model.Main;
 using TheManXS.ViewModel.Services;
 //using Microcharts.Forms;
 using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using static TheManXS.ViewModel.FinancialVM.Financials.Charts.FinancialChartsVM;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
 {
     public class FinancialChartsVM : BaseViewModel
     {
-        private enum GridRows { Header, Chart, Total }        
+        private enum GridRows { Header, Chart, Total }
         public enum ChartType { ChartType1, ChartType2, ChartType3, Total }
         public enum FilterBoxes { FilterBox1, FilterBox2, FilterBox3, Total }
         Game _game;
@@ -46,7 +42,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
             chartGrid.HorizontalOptions = LayoutOptions.FillAndExpand;
             chartGrid.VerticalOptions = LayoutOptions.FillAndExpand;
 
-            for(int row = 0; row < (int)GridRows.Total; row++) { chartGrid.RowDefinitions.Add(new RowDefinition()); }
+            for (int row = 0; row < (int)GridRows.Total; row++) { chartGrid.RowDefinitions.Add(new RowDefinition()); }
             chartGrid.ColumnDefinitions.Add(new ColumnDefinition());
             chartGrid.BackgroundColor = Color.DarkGray;
             return chartGrid;

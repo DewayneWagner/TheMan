@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using TheManXS.Model.Services.EntityFrameWork;
-using TheManXS.Services.EntityFrameWork;
+﻿using System.Windows.Input;
 using TheManXS.View;
-using TheManXS.View.DetailView;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 
@@ -21,10 +15,10 @@ namespace TheManXS.ViewModel.DetailPages
             DeveloperView = new Command(OnDevelopView);
             CompressedLayout.SetIsHeadless(this, true);
         }
-        
+
         public ICommand StartNewGame { get; set; }
         public ICommand LoadGame { get; set; }
-        
+
         public ICommand DeveloperView { get; set; }
         private PageService _pageService { get; set; }
 

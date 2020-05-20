@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
@@ -15,9 +13,12 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
 {
     public class FinancialsVM : BaseViewModel
     {
-        public enum LineItemType { CompanyNamesOrTurnNumber, BalanceSheets, Cash, PPE, TotalAssets, LongTermDebt, 
+        public enum LineItemType
+        {
+            CompanyNamesOrTurnNumber, BalanceSheets, Cash, PPE, TotalAssets, LongTermDebt,
             TotalCapital, CashFlowStateMent, Revenue, OPEX, TheManCut, GrossProfitD, GrossProfitP, CAPEXCosts,
-            DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total }
+            DebtPayment, InterestExpense, NetProfitD, NetProfitP, CreditRating, InterestRate, StockPrice, Total
+        }
 
         public enum DataPanelType { AllPlayers, Quarter, Ratios, PropertyBreakdown, Graphs, Loans }
 
@@ -66,7 +67,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials
         public ICommand PropertyBreakdown { get; set; }
         public ICommand Graphs { get; set; }
         public ICommand Loans { get; set; }
-        
+
         void CreateNewDataPanel()
         {
             switch (DataPanel)

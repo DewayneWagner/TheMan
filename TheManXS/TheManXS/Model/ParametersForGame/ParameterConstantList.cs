@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace TheManXS.Model.ParametersForGame
 {
@@ -102,7 +101,7 @@ namespace TheManXS.Model.ParametersForGame
                     return Convert.ToString((NextConstantParameterSet3SecondaryIndex)secondaryIndex);
                 case AllConstantParameters.Total:
                 default:
-                    break; 
+                    break;
             }
             return null;
         }
@@ -134,9 +133,9 @@ namespace TheManXS.Model.ParametersForGame
                         {
 
                             //throw;
-                        }                        
+                        }
                     }
-                }                
+                }
             }
         }
         public void WriteDataToBinaryFile()
@@ -144,7 +143,7 @@ namespace TheManXS.Model.ParametersForGame
             string constantParameterFile = App.GetFolderPath(App.FileNames.ParameterConstant);
             File.Delete(constantParameterFile);
 
-            using (BinaryWriter bw = new BinaryWriter(File.Open(constantParameterFile,FileMode.OpenOrCreate)))
+            using (BinaryWriter bw = new BinaryWriter(File.Open(constantParameterFile, FileMode.OpenOrCreate)))
             {
                 foreach (ParameterConstant pc in this)
                 {

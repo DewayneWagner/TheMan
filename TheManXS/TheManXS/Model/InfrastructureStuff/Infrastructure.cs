@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TheManXS.Model.Main;
+using TheManXS.Model.Map;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using System.Linq;
-using TheManXS.Model.Map;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
-using TheManXS.Model.ParametersForGame;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.InfrastructureStuff
 {
@@ -30,7 +27,7 @@ namespace TheManXS.Model.InfrastructureStuff
         private void InitNewInfrastructure()
         {
             infrastructureMapArray = InitArray();
-            new MainRoad(infrastructureMapArray,_map.CityStartSQ);
+            new MainRoad(infrastructureMapArray, _map.CityStartSQ);
             new MainRiver(infrastructureMapArray, _map, _game);
             UpdateInfrastructureInSQArray();
         }
@@ -45,12 +42,12 @@ namespace TheManXS.Model.InfrastructureStuff
                 for (int row = 0; row < QC.RowQ; row++)
                 {
                     for (int col = 0; col < QC.ColQ; col++)
-                    {                        
+                    {
                         a[row, col] = _game.SQList[row, col];
                     }
                 }
                 return a;
-            }            
+            }
         }
 
         private void UpdateInfrastructureInSQArray()
@@ -62,8 +59,8 @@ namespace TheManXS.Model.InfrastructureStuff
                 db.SQ.UpdateRange(sList);
                 db.SaveChanges();
             }
-            
-            List < SQ > ConvertArrayToList()
+
+            List<SQ> ConvertArrayToList()
             {
                 List<SQ> sqList = new List<SQ>();
 
@@ -87,7 +84,7 @@ namespace TheManXS.Model.InfrastructureStuff
 
                 for (int i = 0; i < startSQList.Count; i++)
                 {
-                    
+
                 }
 
                 void initInfrastructure(SQ sq)
@@ -97,8 +94,8 @@ namespace TheManXS.Model.InfrastructureStuff
             }
         }
 
-        
-        public void ExecuteConstructionOfRoute(IT it,List<SQ> sqList)
+
+        public void ExecuteConstructionOfRoute(IT it, List<SQ> sqList)
         {
             using (DBContext db = new DBContext())
             {

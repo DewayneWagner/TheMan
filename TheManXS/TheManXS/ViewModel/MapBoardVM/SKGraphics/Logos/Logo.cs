@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SkiaSharp;
-using SkiaSharp.Views;
+﻿using SkiaSharp;
+using System;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
 {
@@ -20,7 +17,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
 
         private const float _gapBetweenTieAndSuitJacketRatio = 0.1f;
         private const float _widthOfTieAtWidestPointFromEdgeXRatio = 0.44f;
-        
+
         private const float _cuffOutsideEdgeFromVerticalEdgeRatio = 0.075f;
         private const float _cuffInsideEdgeFromVerticalEdgeRatio = 0.2f;
         private const float _verticalThicknessShoulderRatio = 0.2f;
@@ -81,7 +78,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             IsAntialias = true,
             Style = SKPaintStyle.Fill
         };
-                                
+
         SKPath _suitJacketPath = new SKPath();
         SKPath _tieKnotPath = new SKPath();
         SKPath _mainTiePath = new SKPath();
@@ -105,7 +102,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _cornerRadiusOfOutsideBorder = _cornerRadiusOfOutsideBorderRatio * s;
             _desk = new Desk(_position, _cornerRadiusOfOutsideBorder);
             _namePlacard = new NamePlacard(_position, _desk.TopOfDesk);
-            
+
             _shoulderFromTop_Y = s * _topOfShoulderRatioFromTop;
             _waistFromEdge_X = s * _waistFromVerticalEdgeRatio;
             _armpitFromEdge_X = s * _armpitFromVerticalEdgeRatio;
@@ -113,16 +110,16 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _insideCuffFromEdge_X = s * _cuffInsideEdgeFromVerticalEdgeRatio;
             _outsideCuffFromEdge_X = s * _cuffOutsideEdgeFromVerticalEdgeRatio;
             _shoulderFromEdge_X = s * _outsideEdgeOfShoulderRatio;
-            
+
             _insideLapelFromEdge_X = s * _insideLapelFromVerticalEdgeRatio;
             _topButtonFromTopEdge_Y = s * _topButtonFromTopRatio;
 
             _topPointOfTieKnotFromEdge_X = _topPointOfTieKnotFromEdgeXRatio * s;
             _topPointOfTieKnotFromTop_Y = _shoulderFromTop_Y - (_topPointOfTieKnotFromTopOfShoulderYRatio * s);
-            
+
             _bottomPointOfTieKnotFromEdge_X = _bottomPointOfTieKnotFromEdgeXRatio * s;
             _bottomPointOfTieKnotFromTop_Y = _topPointOfTieKnotFromTop_Y + (_verticalThicknessOfTieKnotRatio * s);
-                        
+
             _gapBetweenTieAndSuitJacket = _gapBetweenTieAndSuitJacketRatio * s;
             _widthOfTieAtWidestPointFromEdge_X = _widthOfTieAtWidestPointFromEdgeXRatio * s;
 
@@ -132,7 +129,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _logoStrokePaint.StrokeWidth = _strokeWidthRatio * s;
 
             _logoBackground = new LogoBackground(_position, _cornerRadiusOfOutsideBorder, _logoStrokePaint.StrokeWidth);
-            _bottomPointOfTie = new SKPoint(_position.MidX, (_topButtonFromTopEdge_Y - _gapBetweenTieAndSuitJacket + _position.Top));       
+            _bottomPointOfTie = new SKPoint(_position.MidX, (_topButtonFromTopEdge_Y - _gapBetweenTieAndSuitJacket + _position.Top));
         }
         private void InitPath()
         {
@@ -143,7 +140,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             int L = 1;
             int R = 0;
 
-            for(int side = 1; side > -2; side -= 2)
+            for (int side = 1; side > -2; side -= 2)
             {
                 _suitJacketPath.MoveTo(new SKPoint(p.MidX, bottom));
 
@@ -166,12 +163,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
                     (p.Left * L + p.Right * R + (side * _insideLapelFromEdge_X)), top));
 
                 _suitJacketPath.LineTo(new SKPoint(p.MidX, (p.Top + _topButtonFromTopEdge_Y)));
-               
+
                 // Tie Knot
                 _tieKnotPath.MoveTo(new SKPoint(p.MidX, _bottomPointOfTieKnotFromTop_Y + p.Top));
 
                 _tieKnotPath.LineTo(new SKPoint(
-                    (p.Left * L + p.Right * R + (side * _bottomPointOfTieKnotFromEdge_X)), 
+                    (p.Left * L + p.Right * R + (side * _bottomPointOfTieKnotFromEdge_X)),
                     (p.Top + _bottomPointOfTieKnotFromTop_Y)));
 
                 _tieKnotPath.LineTo(new SKPoint(
@@ -224,7 +221,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
                 float x = _position.Left * L + _position.Right * R + (side * _widthOfTieAtWidestPointFromEdge_X);
                 float y = (float)(_topButtonFromTopEdge_Y - (halfWidthTie / Math.Tan(radians)) - _gapBetweenTieAndSuitJacket + _position.Top);
 
-                return new SKPoint(x,y);
+                return new SKPoint(x, y);
             }
         }
         private void DrawPath()
@@ -253,6 +250,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _canvas.DrawText(_namePlacard.Text, _namePlacard.TextPositionPoint, _namePlacard.TextPaint);
 
             _canvas.Save();
-        }        
-    }    
+        }
+    }
 }

@@ -1,15 +1,9 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
-using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.Action;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
-using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
 {
@@ -21,7 +15,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             Style = SKPaintStyle.Fill,
             Color = SKColors.Red,
         };
-        
+
         public ExecuteOneFingerSelect(Game game)
         {
             _game = game;

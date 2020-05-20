@@ -1,27 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.Model.Services.EntityFrameWork;
-using CR = TheManXS.Model.ParametersForGame.CreditRatings;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using AP = TheManXS.Model.ParametersForGame.AllConstantParameters;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Services.EntityFrameWork;
+using AP = TheManXS.Model.ParametersForGame.AllConstantParameters;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Financial.Debt
 {
     public class Loan
-    {        
+    {
         public enum LoanStatusTypes { Proposed, Approved }
         private Game _game;
         public Loan() { }
 
         public Loan(LoanTermLength term, double startingBalance, Game game)
         {
-            _game = game;      
+            _game = game;
             Term = (int)(term + 1) * 5;
             InterestRate = SetInterestRate();
             StartingBalance = startingBalance;
@@ -32,7 +27,7 @@ namespace TheManXS.Model.Financial.Debt
         }
 
         // set in constructor
-        public int Term { get; set; }      
+        public int Term { get; set; }
         public int TurnIssued { get; set; }
         public double InterestRate { get; set; }
         public double StartingBalance { get; set; }
@@ -49,10 +44,10 @@ namespace TheManXS.Model.Financial.Debt
                 int turnNumber = _game.TurnNumber == 0 ? 1 : _game.TurnNumber;
                 return TurnsRemaining * PrincipalPaymentPerTurn;
             }
-        }        
+        }
         public double TotalInterestRemaining => RemainingBalance * InterestRate * TurnsRemaining;
         public double InterestPaymentPerTurn => TotalInterestRemaining / TurnsRemaining;
-        
+
         private LoanStatusTypes _loanStatus;
         public LoanStatusTypes LoanStatus
         {
@@ -60,7 +55,7 @@ namespace TheManXS.Model.Financial.Debt
             set
             {
                 _loanStatus = value;
-                if(_loanStatus == LoanStatusTypes.Approved) { AddLoanToDB(); }
+                if (_loanStatus == LoanStatusTypes.Approved) { AddLoanToDB(); }
             }
         }
         private double SetInterestRate()

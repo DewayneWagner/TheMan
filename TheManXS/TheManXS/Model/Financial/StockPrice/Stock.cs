@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using Xamarin.Forms;
 
 namespace TheManXS.Model.Financial.StockPrice
 {
@@ -37,7 +33,7 @@ namespace TheManXS.Model.Financial.StockPrice
             return (Double.IsNaN(price) ? 0.01 : price);
         }
 
-        private double GetDelta() 
+        private double GetDelta()
         {
             double delta = _lastStockPrice == 0 ? 0 : (Price - _lastStockPrice) / _lastStockPrice;
             return (Double.IsNaN(delta) ? 0 : delta);

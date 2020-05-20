@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using PB = TheManXS.Model.ParametersForGame.AllBoundedParameters;
-using PC = TheManXS.Model.ParametersForGame.AllConstantParameters;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
+using PB = TheManXS.Model.ParametersForGame.AllBoundedParameters;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Map.Surface
@@ -26,16 +22,16 @@ namespace TheManXS.Model.Map.Surface
             setSourthGrassland();
             setNorthForestBoundaries();
             setSouthForestBoundaries();
-            
+
             void setSourthGrassland()
             {
-                int grasslandWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct, 
+                int grasslandWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct,
                     (int)TerrainBoundedConstructSecondary.GrasslandWidthRatio) * QC.RowQ);
                 SouthOfGrassland = NorthOfGrassland + grasslandWidth;
             }
             void setNorthForestBoundaries()
             {
-                int northForestWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct, 
+                int northForestWidth = (int)(pb.GetRandomValue(PB.TerrainConstruct,
                     (int)TerrainBoundedConstructSecondary.ForestWidthRatio) * QC.RowQ);
                 NorthOfNorthForest = NorthOfGrassland - northForestWidth;
                 SouthOfNorthForest = NorthOfGrassland - 1;

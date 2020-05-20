@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Settings;
 using Xamarin.Forms;
-using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel.DetailPages
 {

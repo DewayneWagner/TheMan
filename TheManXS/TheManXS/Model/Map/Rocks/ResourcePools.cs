@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Settings;
-using TheManXS.Model.Services.EntityFrameWork;
-using TB = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using PP = TheManXS.Model.ParametersForGame.PoolConstructParametersSecondary;
-using TheManXS.Model.Main;
+﻿using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.ParametersForGame;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -34,7 +27,7 @@ namespace TheManXS.Model.Map.Rocks
             AssignStartSQs();
         }
         public int TotalResSq { get; set; }
-        public int FormationCounter { get; set; }    
+        public int FormationCounter { get; set; }
         private void AssignStartSQs()
         {
             int playerNumber = QC.PlayerIndexActual;
@@ -72,7 +65,7 @@ namespace TheManXS.Model.Map.Rocks
                 sq.Production = QC.StartSQProduction;
                 sq.OPEXPerUnit = QC.StartSQOpex;
                 playerNumber++;
-            }            
+            }
         }
     }
 }

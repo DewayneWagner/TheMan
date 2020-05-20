@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using TheManXS.Model.CityStuff;
-using TheManXS.Model.Main;
 using TheManXS.Model.InfrastructureStuff;
+using TheManXS.Model.Main;
 using TheManXS.Model.Map.Rocks;
 using TheManXS.Model.Map.Surface;
 using TheManXS.Model.Services.EntityFrameWork;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using System.Linq;
-using TheManXS.Services.EntityFrameWork;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using TheManXS.Model.ParametersForGame;
-using Windows.UI.Xaml.Controls;
 
 namespace TheManXS.Model.Map
 {
@@ -37,24 +29,24 @@ namespace TheManXS.Model.Map
 
             }
         }
-        
+
         private void InitNewMap()
         {
             SQMap = new SQMapConstructArray(_game);
-            new Terrain(SQMap,_game);
+            new Terrain(SQMap, _game);
 
             // this can get hungup
-            new ResourcePools(true, SQMap,_game);
+            new ResourcePools(true, SQMap, _game);
 
             new City(SQMap);
-            
+
             _game.SQList = SQMap.GetListOfSQs();
             AddNewListOfSQToDB();
 
 #if DEBUG
             new DebugTesting(_game);
 #endif
-            new Infrastructure(true,SQMap,_game);
+            new Infrastructure(true, SQMap, _game);
         }
         private void AddNewListOfSQToDB()
         {

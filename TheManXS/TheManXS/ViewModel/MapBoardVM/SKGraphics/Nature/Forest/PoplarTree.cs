@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
@@ -20,7 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         private static bool _staticFieldsInitialized;
         private SKPoint _topPoint;
 
-        public PoplarTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor) 
+        public PoplarTree(SKRect rectangleWhereTreeWillBePlaced, SKColor treeBranchesColor) : base(rectangleWhereTreeWillBePlaced, treeBranchesColor)
         {
             _topPoint = new SKPoint(RectangleWhereTreeWillBePlaced.MidX, RectangleWhereTreeWillBePlaced.Top);
             if (!_staticFieldsInitialized) { InitFields(); }
@@ -33,7 +32,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 {
                     IsAntialias = true,
                     Style = SKPaintStyle.Fill,
-                    Color = TreeBranchesColor,  
+                    Color = TreeBranchesColor,
                     Shader = GetGradient(),
                 };
                 return fillPaint;
@@ -85,7 +84,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
         {
             var r = RectangleWhereTreeWillBePlaced;
             _bottomBranchFromBottom = BottomBranchFromBottomRatio * r.Height;
-            
+
             _trunkWidth = TrunkWidthRatio * r.Width;
             _staticFieldsInitialized = true;
         }
@@ -119,7 +118,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
             {
                 SKColor[] ca = new SKColor[4];
                 Game g = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-                
+
                 ca[0] = g.PaletteColors.Where(c => c.Description == "Conklin 2")
                     .Select(c => c.SKColor)
                     .FirstOrDefault();

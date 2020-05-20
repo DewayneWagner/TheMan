@@ -1,13 +1,8 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using System.Linq;
-using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
-using TheManXS.Model.InfrastructureStuff;
 using static TheManXS.ViewModel.MapBoardVM.Infrastructure.NewMapInitializer;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -86,7 +81,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             SKPoint edgePoint = getEdgePoint();
 
             path.MoveTo(edgePoint);
-            path.LineTo(GetInfrastructureSKPoint(sq, it));            
+            path.LineTo(GetInfrastructureSKPoint(sq, it));
 
             SKPoint getEdgePoint()
             {
@@ -117,7 +112,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             }
         }
 
-        public bool IsMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1) 
+        public bool IsMapEdge(SQ sq) => (sq.Row == 0 || sq.Row == (QC.RowQ - 1)
             || sq.Col == 0 || sq.Col == (QC.ColQ - 1)) ? true : false;
 
         class CenterPointRatios

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.Model.Services.EntityFrameWork;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Financial
@@ -18,7 +14,7 @@ namespace TheManXS.Model.Financial
         {
             _game = game;
             _player = player;
-            if(_ratiosForPPE.Count == 0) { LoadListWithRatios(); }
+            if (_ratiosForPPE.Count == 0) { LoadListWithRatios(); }
             SetPPEValuation();
         }
         public double Valuation { get; set; }
@@ -34,7 +30,7 @@ namespace TheManXS.Model.Financial
 
             foreach (SQ sq in _game.SQList)
             {
-                if(sq.OwnerNumber == _player.Number && sq.ResourceType != ResourceTypeE.Nada)
+                if (sq.OwnerNumber == _player.Number && sq.ResourceType != ResourceTypeE.Nada)
                 {
                     valuation += sq.Production * _game.CommodityList[(int)sq.ResourceType].FourTurnMovingAvgPricing
                         * _ratiosForPPE[(int)sq.Status];

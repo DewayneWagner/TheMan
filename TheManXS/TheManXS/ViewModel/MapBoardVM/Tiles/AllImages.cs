@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Tiles
 {
     class AllImages
-    {        
+    {
         public static Image GetTerrainImage(TT tt)
         {
             Image i = new Image();

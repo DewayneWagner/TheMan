@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.View;
 using TheManXS.ViewModel.Services;
@@ -31,7 +28,7 @@ namespace TheManXS.ViewModel
         {
             await _pageService.PushAsync(new ClusterView());
         }
-        
+
         private void UpdateDataBase(object obj)
         {
             using (DBContext db = new DBContext())

@@ -1,26 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using TheManXS.Model.Services.EntityFrameWork;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkiaSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TheManXS.Model.Company;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Services.EntityFrameWork;
 
 namespace TheManXS.Model.Settings
 {
-    public class GameSpecificParameters 
+    public class GameSpecificParameters
     {
         public GameSpecificParameters() { }
-                
+
         public int Slot { get; set; }
-        public int PlayerNumber { get; set; }               
+        public int PlayerNumber { get; set; }
         public Difficulty Diff { get; set; }
         public string CompanyName { get; set; }
         public string Ticker { get; set; }
@@ -30,13 +26,13 @@ namespace TheManXS.Model.Settings
         public string Quarter { get; set; }
         public int TurnNumber { get; set; }
         public int ActivePlayerNumber { get; set; }
-        
+
         public static List<GameSpecificParameters> GetListOfSavedGameData()
         {
             List<GameSpecificParameters> _gsp = new List<GameSpecificParameters>();
             using (DBContext db = new DBContext())
             {
-                if(db.GameSpecificParameters.Count() != 0)
+                if (db.GameSpecificParameters.Count() != 0)
                 {
                     return db.GameSpecificParameters.ToList();
                 }
@@ -73,7 +69,7 @@ namespace TheManXS.Model.Settings
                 LastPlayed = DateTime.Now,
             });
 
-            using(DBContext db = new DBContext())
+            using (DBContext db = new DBContext())
             {
                 db.AddRange(_gsp);
                 db.SaveChanges();
@@ -95,5 +91,5 @@ namespace TheManXS.Model.Settings
             builder.Ignore(g => g.CompanyColor);
         }
     }
-    
+
 }

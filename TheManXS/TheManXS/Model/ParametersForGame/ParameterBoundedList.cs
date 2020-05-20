@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using TheManXS.ViewModel.DetailPages;
 
 namespace TheManXS.Model.ParametersForGame
 {
@@ -24,15 +21,15 @@ namespace TheManXS.Model.ParametersForGame
             {
                 for (int secondary = 0; secondary < getTotalOfElementsInSecondaryIndex(primary); secondary++)
                 {
-                    this.Add(new ParameterBounded(primary, GetSecondarySubIndexName(primary,secondary),secondary));
+                    this.Add(new ParameterBounded(primary, GetSecondarySubIndexName(primary, secondary), secondary));
                 }
             }
-            
+
             int getTotalOfElementsInSecondaryIndex(int primaryIndex)
             {
                 AllBoundedParameters a = (AllBoundedParameters)primaryIndex;
                 switch (a)
-                {                    
+                {
                     case AllBoundedParameters.CityProdutionPerCityDensity:
                         return (int)CityDensity.Total;
 
@@ -145,8 +142,8 @@ namespace TheManXS.Model.ParametersForGame
             string boundedParameterFile = App.GetFolderPath(App.FileNames.ParameterBounded);
             File.Delete(boundedParameterFile);
 
-            using (BinaryWriter bw = new BinaryWriter(File.Open(boundedParameterFile,FileMode.OpenOrCreate)))
-            {                
+            using (BinaryWriter bw = new BinaryWriter(File.Open(boundedParameterFile, FileMode.OpenOrCreate)))
+            {
                 foreach (ParameterBounded pb in this)
                 {
                     bw.Write(pb.PrimaryIndexNumber);

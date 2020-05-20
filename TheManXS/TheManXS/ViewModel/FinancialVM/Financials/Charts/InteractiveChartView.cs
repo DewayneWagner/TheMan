@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Microcharts.Forms;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using SkiaSharp.Views;
-using Microcharts.Forms;
 using TheManXS.Model.Main;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
 {
@@ -19,6 +14,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
             _game = game;
 
         }
-        
+
     }
 }

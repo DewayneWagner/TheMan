@@ -1,22 +1,14 @@
 ﻿using SkiaSharp;
+using SkiaSharp.Views.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheManXS.Model.Main;
-using TheManXS.ViewModel.MapBoardVM;
-using TheManXS.ViewModel.MapBoardVM.Action;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
-using TheManXS.ViewModel.MapBoardVM.MapConstruct;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos;
-using SkiaSharp.Views.Forms;
 
 namespace TheManXS.View
 {
@@ -26,11 +18,11 @@ namespace TheManXS.View
         bool _createNewMap;
         private Game _game;
         bool Execute;
-        
+
         public MapBoard()
         {
             _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)];
-            
+
             _createNewMap = true;
             InitializeComponent();
             _game.GameBoardVM.SplitScreenGrid = SplitScreenGrid;
@@ -100,8 +92,8 @@ namespace TheManXS.View
             {
                 m.MapTouchList = new MapTouchListOfMapTouchIDLists();
             }
-            
-            
+
+
             // try / catch loop to wrap this section in, once bugs are out to prevent crashing
             //try {}
             //catch { t = new MapTouchListOfMapTouchIDLists(); }
@@ -137,7 +129,7 @@ namespace TheManXS.View
             Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
             {
                 TickerSP.TranslationX -= 5f;
-                if(Math.Abs(TickerSP.TranslationX) > Width)
+                if (Math.Abs(TickerSP.TranslationX) > Width)
                 {
                     TickerSP.TranslationX = TickerSP.Width;
                 }

@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Main;
-using TheManXS.Model.Services.EntityFrameWork;
-using Xamarin.Forms;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using TheManXS.Model.Units;
-using Xamarin.Forms.Xaml;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Services
 {
@@ -39,18 +33,18 @@ namespace TheManXS.Services
             SetGame();
             List<SQ> sqList = new List<SQ>();
 
-            if(rt == RT.Nada)
+            if (rt == RT.Nada)
             {
                 foreach (SQ sq in _game.SQList)
                 {
-                    if(sq.OwnerNumber == player.Number) { sqList.Add(sq); }
+                    if (sq.OwnerNumber == player.Number) { sqList.Add(sq); }
                 }
             }
             else
             {
                 foreach (SQ sq in _game.SQList)
                 {
-                    if(sq.OwnerNumber == player.Number && sq.ResourceType == rt)
+                    if (sq.OwnerNumber == player.Number && sq.ResourceType == rt)
                     {
                         sqList.Add(sq);
                     }
@@ -78,11 +72,11 @@ namespace TheManXS.Services
             {
                 Cash sqCash = GetCash(sq);
 
-                unitCash.UnitProduction += sq.Production;                
+                unitCash.UnitProduction += sq.Production;
                 unitCash.Revenue += sqCash.Revenue;
                 unitCash.OPEX += sqCash.OPEX;
                 unitCash.Transport += sqCash.Transport;
-                unitCash.UnitNexActionCost += sqCash.UnitNexActionCost;                
+                unitCash.UnitNexActionCost += sqCash.UnitNexActionCost;
             }
             unitCash.ProfitDollar = unitCash.Revenue - unitCash.OPEX - unitCash.Transport;
             unitCash.ProfitPercent = (unitCash.Revenue != 0) ? (unitCash.ProfitDollar / unitCash.Revenue) : 0;

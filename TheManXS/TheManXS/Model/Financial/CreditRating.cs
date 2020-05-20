@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using TheManXS.Model.Main;
-using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.Model.Financial
@@ -32,7 +28,7 @@ namespace TheManXS.Model.Financial
             setInterestRateListFromDB();
 
             CreditRatings calculatedRating;
-            setCreditRatingByCalculation();            
+            setCreditRatingByCalculation();
             setFinalCreditRating();
 
             InterestRate = interestRates[(int)Rating];
@@ -47,20 +43,20 @@ namespace TheManXS.Model.Financial
 
             void setCreditRatingByCalculation() // calculate what Credit Rating should be
             {
-                if(debtToCashFlowRatio < 0.1) { calculatedRating = CreditRatings.AAA; }
-                else if(debtToCashFlowRatio < 0.15) { calculatedRating = CreditRatings.AA; }
-                else if(debtToCashFlowRatio < 0.2) { calculatedRating = CreditRatings.A; }
-                else if(debtToCashFlowRatio < 0.25) { calculatedRating = CreditRatings.B; }
-                else if(debtToCashFlowRatio < 0.3) { calculatedRating = CreditRatings.C; }
+                if (debtToCashFlowRatio < 0.1) { calculatedRating = CreditRatings.AAA; }
+                else if (debtToCashFlowRatio < 0.15) { calculatedRating = CreditRatings.AA; }
+                else if (debtToCashFlowRatio < 0.2) { calculatedRating = CreditRatings.A; }
+                else if (debtToCashFlowRatio < 0.25) { calculatedRating = CreditRatings.B; }
+                else if (debtToCashFlowRatio < 0.3) { calculatedRating = CreditRatings.C; }
                 else { calculatedRating = CreditRatings.Junk; }
             }
-            
+
             void setInterestRateListFromDB()
             {
                 for (int i = 0; i < (int)CreditRatings.Total; i++)
                 {
                     interestRates.Add(_game.ParameterConstantList.GetConstant(AllConstantParameters.PrimeRateAdderBasedOnCreditRating, i));
-                }                
+                }
             }
         }
     }

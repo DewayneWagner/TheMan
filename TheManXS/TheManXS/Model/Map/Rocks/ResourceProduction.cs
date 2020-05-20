@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Model.Map.Rocks
 {
@@ -49,7 +47,7 @@ namespace TheManXS.Model.Map.Rocks
                     this[p].Add(new ResourceProduction()
                     {
                         PlayerNumber = p,
-                        Production = getProduction(p,r),
+                        Production = getProduction(p, r),
                         ResourceType = (RT)r,
                         TurnNumber = _game.TurnNumber,
                     });

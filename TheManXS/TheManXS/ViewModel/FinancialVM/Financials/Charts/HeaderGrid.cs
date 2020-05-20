@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using QC = TheManXS.Model.Settings.QuickConstants;
+﻿using Xamarin.Forms;
 using static TheManXS.ViewModel.FinancialVM.Financials.Charts.FinancialChartsVM;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
 {
@@ -32,7 +29,7 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
         {
             for (int columns = 0; columns < (int)Columns.Total; columns++)
             {
-                Children.Add(new FilterBox(_financialChartsVM, (FilterBoxes)columns),columns, (int)Rows.HeaderRow);
+                Children.Add(new FilterBox(_financialChartsVM, (FilterBoxes)columns), columns, (int)Rows.HeaderRow);
             }
         }
     }

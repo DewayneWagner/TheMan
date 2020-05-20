@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.ParametersForGame;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using TheManXS.Model.Settings;
-using TheManXS.Model.Services.EntityFrameWork;
-using QC = TheManXS.Model.Settings.QuickConstants;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
+using TheManXS.Model.Services.EntityFrameWork;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.Model.Financial.CommodityStuff
 {
@@ -39,13 +36,13 @@ namespace TheManXS.Model.Financial.CommodityStuff
             using (DBContext db = new DBContext())
             {
                 var cList = db.Commodity.Where(c => c.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
-                foreach(Commodity c in cList) { this.Add(c); }
+                foreach (Commodity c in cList) { this.Add(c); }
             }
         }
         private void SetCommodityConstants()
         {
             var c = _game.ParameterConstantList;
-            _startPrice = c.GetConstant(AllConstantParameters.CommodityConstants,(int)CommodityConstantSecondary.StartPrice);
+            _startPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.StartPrice);
             _minPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinPrice);
             _maxPrice = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MaxPrice);
             _minPriceFluctuation = c.GetConstant(AllConstantParameters.CommodityConstants, (int)CommodityConstantSecondary.MinChange);
@@ -58,8 +55,8 @@ namespace TheManXS.Model.Financial.CommodityStuff
         {
             for (int i = 0; i < (int)RT.Total; i++)
             {
-                Add(new Commodity(_startPrice,0,i,_game.TurnNumber)); 
-            }  
+                Add(new Commodity(_startPrice, 0, i, _game.TurnNumber));
+            }
         }
 
         public void AdvancePricing()
@@ -78,35 +75,35 @@ namespace TheManXS.Model.Financial.CommodityStuff
 
             setRealEstatePricing();
             UpdateThisCommodityListObjectWithNewCommPricing(newCommodityPricing);
-            SetFourTurnMovingAveragePrice();            
+            SetFourTurnMovingAveragePrice();
             WriteCommodityListToDB();
 
             void setRealEstatePricing()
             {
-                newCommodityPricing.Add(new Commodity(_minPrice, 0, (int)RT.RealEstate,_game.TurnNumber));
+                newCommodityPricing.Add(new Commodity(_minPrice, 0, (int)RT.RealEstate, _game.TurnNumber));
             }
 
             void setPriceFluctuation()
             {
                 fluctuation = (double)((_maxPriceFluctuation - (rnd.NextDouble() * (_maxPriceFluctuation + (-1 * _minPriceFluctuation)))) / 100);
             }
-                
+
             void setNewPrice(double oldPrice)
             {
                 //double tempNewPrice = oldPrice * fluctuation;
                 double tempNewPrice = (oldPrice + (oldPrice * fluctuation));
-                if (tempNewPrice < _minPrice) 
-                { 
+                if (tempNewPrice < _minPrice)
+                {
                     newPrice = _minPrice;
                     fluctuation = (oldPrice - newPrice) / 100;
                 }
-                else if(tempNewPrice > _maxPrice) 
-                { 
+                else if (tempNewPrice > _maxPrice)
+                {
                     newPrice = _maxPrice;
                     fluctuation = (oldPrice - newPrice) / 100;
                 }
                 else { newPrice = tempNewPrice; }
-            }            
+            }
         }
         private void SetFourTurnMovingAveragePrice()
         {

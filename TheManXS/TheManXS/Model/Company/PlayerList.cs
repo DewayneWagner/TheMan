@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Settings;
-using Xamarin.Forms;
-using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Company
@@ -44,7 +42,7 @@ namespace TheManXS.Model.Company
             // init playerList with variables that change for each player
             for (int i = 0; i < QC.PlayerQ; i++)
             {
-                if(i == 0) { Add(getActualPlayer()); }
+                if (i == 0) { Add(getActualPlayer()); }
                 else { Add(getPlayer(i)); }
             }
 

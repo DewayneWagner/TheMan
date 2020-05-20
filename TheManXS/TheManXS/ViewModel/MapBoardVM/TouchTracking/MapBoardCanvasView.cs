@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
+using System;
 using TheManXS.ViewModel.Services;
-using SkiaSharp;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 {
@@ -42,7 +40,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
             var doubleTap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
             doubleTap.Tapped += OnDoubleTapped;
             GestureRecognizers.Add(doubleTap);
-                       
+
             Scale = _minScale;
             TranslationX = TranslationY = 0;
             AnchorX = AnchorY = 0;
@@ -57,9 +55,9 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
 
         private void OnTapped(object sender, EventArgs e)
         {
-            _tapHandled = false;            
+            _tapHandled = false;
             Device.StartTimer(new TimeSpan(0, 0, 0, 0, 300), ExecuteIfSingleTap);
-            
+
             //if (Scale > _minScale)
             //{
             //    this.ScaleTo(_minScale, 250, Easing.CubicInOut);
@@ -73,7 +71,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         }
         private bool ExecuteIfSingleTap()
         {
-            
+
             _pageService.DisplayAlert("Single Tap");
             return false;
         }
@@ -81,7 +79,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchTracking
         {
             _tapHandled = true;
             ExecuteIfDoubleTap();
-            
+
         }
         private async void ExecuteIfDoubleTap()
         {

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TheManXS.Model.ParametersForGame;
-using TheManXS.Model.Financial.StockPrice;
+using System;
 using TheManXS.Model.Financial.Debt;
+using TheManXS.Model.Financial.StockPrice;
+using TheManXS.Model.Main;
+using QC = TheManXS.Model.Settings.QuickConstants;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.Model.Financial
 {
@@ -39,18 +34,18 @@ namespace TheManXS.Model.Financial
         public int TurnNumber { get; set; }
         public double Cash { get; set; }
         public double Debt { get; set; }
-        public double PPE { get; set; } 
-        public double TotalAssets { get; set; } 
-        public double TotalCapital { get; set; } 
-        public double Revenue { get; set; } 
-        public double TotalOPEX { get; set; } 
-        public double TheManCut { get; set; } 
-        public double GrossProfitD { get; set; } 
-        public double GrossProfitP { get; set; } 
-        public double CAPEXThisTurn { get; set; } 
+        public double PPE { get; set; }
+        public double TotalAssets { get; set; }
+        public double TotalCapital { get; set; }
+        public double Revenue { get; set; }
+        public double TotalOPEX { get; set; }
+        public double TheManCut { get; set; }
+        public double GrossProfitD { get; set; }
+        public double GrossProfitP { get; set; }
+        public double CAPEXThisTurn { get; set; }
         public double DebtPayment { get; set; }
-        public double InterestExpense { get; set; } 
-        public double NetProfitD { get; set; } 
+        public double InterestExpense { get; set; }
+        public double NetProfitD { get; set; }
         public double NetProfitP { get; set; }
         public double StockPrice { get; set; }
         public double StockPriceDelta { get; set; }
@@ -73,7 +68,7 @@ namespace TheManXS.Model.Financial
                 /* if capex isn't added back in - it would be double-dipped due to action buttons subtracting 
                 capex costs for actions live */
 
-                Cash += (NetProfitD + CAPEXThisTurn); 
+                Cash += (NetProfitD + CAPEXThisTurn);
                 Debt -= DebtPayment;
             }
             else
@@ -97,7 +92,7 @@ namespace TheManXS.Model.Financial
 
             foreach (SQ sq in _game.SQList)
             {
-                if(sq.OwnerNumber == _player.Number && sq.Status == ST.Producing)
+                if (sq.OwnerNumber == _player.Number && sq.Status == ST.Producing)
                 {
                     rev += (sq.Production * _game.CommodityList[(int)sq.ResourceType].Price);
                     opex += sq.OPEXPerUnit * sq.Production;
@@ -119,7 +114,7 @@ namespace TheManXS.Model.Financial
         }
         void SetStockPrice()
         {
-            Stock s = new Stock(this,_lastStockPrice);
+            Stock s = new Stock(this, _lastStockPrice);
             StockPrice = s.Price;
             StockPriceDelta = s.Delta;
             _player.StockPrice = s.Price;
@@ -145,7 +140,7 @@ namespace TheManXS.Model.Financial
             PPE = p.Valuation;
         }
     }
-    
+
     public class FinancialValuesDBConfig : IEntityTypeConfiguration<FinancialValues>
     {
         public void Configure(EntityTypeBuilder<FinancialValues> builder)

@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheManXS.Model.Financial;
 using TheManXS.Model.Financial.CommodityStuff;
 using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Gameplay;
+using TheManXS.Model.GamePlay;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Rocks;
 using TheManXS.Model.Settings;
@@ -30,9 +28,10 @@ namespace TheManXS.Model.Services.EntityFrameWork
         public DbSet<SQ> SQ { get; set; }
         public DbSet<Formation> Formation { get; set; }
         public DbSet<Commodity> Commodity { get; set; }
-        public DbSet<FinancialValues> FinancialValues { get; set; } 
+        public DbSet<FinancialValues> FinancialValues { get; set; }
         public DbSet<Loan> Loans { get; set; }
         public DbSet<ResourceProduction> ResourceProduction { get; set; }
+        public DbSet<ActionsToExecuteOnSpecificTurn> ActionsToExecuteOnSpecificTurns { get; set; }
 
         public void DeleteDatabase() => Database.EnsureDeleted();
 
@@ -53,6 +52,7 @@ namespace TheManXS.Model.Services.EntityFrameWork
             modelBuilder.ApplyConfiguration(new FinancialValuesDBConfig());
             modelBuilder.ApplyConfiguration(new LoanDBConfig());
             modelBuilder.ApplyConfiguration(new ResourceProductionDBConfig());
+            modelBuilder.ApplyConfiguration(new ActionsToExecuteOnSpecificTurnDBConfig());
         }
-    }    
+    }
 }

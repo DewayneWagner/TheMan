@@ -1,10 +1,6 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 
 namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
@@ -17,7 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             _game = game;
             ExecuteTwoFingerPanAction();
         }
-        
+
         private void ExecuteTwoFingerPanAction()
         {
             var m = _game.GameBoardVM.MapVM;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SkiaSharp;
+using System;
 using System.IO;
-using TheManXS.Model.Main;
-using SkiaSharp;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using System.Reflection;
+using TheManXS.Model.Main;
+using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Services.IO
 {
@@ -26,7 +24,7 @@ namespace TheManXS.Services.IO
 
                 for (int i = 0; i < (int)App.FileNames.Total; i++)
                 {
-                    if(Convert.ToString((App.FileNames)i) == fileName) { fileNameType = (App.FileNames)i; }
+                    if (Convert.ToString((App.FileNames)i) == fileName) { fileNameType = (App.FileNames)i; }
                 }
 
                 return App.GetFolderPath(fileNameType);

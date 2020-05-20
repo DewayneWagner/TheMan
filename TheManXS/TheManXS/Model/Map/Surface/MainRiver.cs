@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.InfrastructureStuff;
-using TheManXS.Model.Main;
-using TheManXS.Model.Map;
-using QC = TheManXS.Model.Settings.QuickConstants;
+﻿using TheManXS.Model.Main;
 using AP = TheManXS.Model.ParametersForGame.AllBoundedParameters;
+using QC = TheManXS.Model.Settings.QuickConstants;
 using TC = TheManXS.Model.ParametersForGame.TerrainBoundedConstructSecondary;
 
 namespace TheManXS.Model.Map.Surface
@@ -45,7 +40,7 @@ namespace TheManXS.Model.Map.Surface
             for (int col = _cityStartSQ.Col; col >= 0; col--)
             {
                 row += rnd.Next(_lb, _ub);
-                if (Coordinate.DoesSquareExist(row,col))
+                if (Coordinate.DoesSquareExist(row, col))
                 {
                     if (col == nextTributaryCol)
                     {
@@ -57,10 +52,10 @@ namespace TheManXS.Model.Map.Surface
                     if (_sqInfrastructureArray[row, col].IsRoadConnected)
                     {
                         row++;
-                        _sqInfrastructureArray[row, col].IsMainRiver = true; 
+                        _sqInfrastructureArray[row, col].IsMainRiver = true;
                     }
                     else { _sqInfrastructureArray[row, col].IsMainRiver = true; }
-                }                
+                }
             }
         }
         private void InitEastRiver()
@@ -70,7 +65,7 @@ namespace TheManXS.Model.Map.Surface
 
             for (int col = (_cityStartSQ.Col + 1); col < QC.ColQ; col++)
             {
-                if (Coordinate.DoesSquareExist(row,col))
+                if (Coordinate.DoesSquareExist(row, col))
                 {
                     if (col < (_cityStartSQ.Col + 2)) { _sqInfrastructureArray[row, col].IsMainRiver = true; }
                     else if (_sqInfrastructureArray[row, col].IsRoadConnected)
@@ -87,7 +82,7 @@ namespace TheManXS.Model.Map.Surface
                         GetNextTributaryCol(col, true);
                     }
                     row += rnd.Next(_lb, _ub);
-                }                
+                }
             }
         }
         private int GetNextTributaryCol(int currentCol, bool isEastRiver)

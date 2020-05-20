@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.ViewModel.FinancialVM.Financials;
+﻿using TheManXS.ViewModel.FinancialVM.Financials;
 using TheManXS.ViewModel.FinancialVM.Financials.DetailedBreakdowns;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 

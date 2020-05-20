@@ -1,19 +1,13 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City
+namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.CityStructures
 {
     class House
     {
-        Game _game;
         SKRect _rectangleWhereHouseIsToBePlaced;
 
-        private float _roofDistanceFromEdgeRatio = 0.05f;
-        private float _distanceFromEdgeToSideOfMainFloorRatio = 0.2f;
+        private float _roofDistanceFromEdgeRatio = 0.25f;
+        private float _distanceFromEdgeToSideOfMainFloorRatio = 0.4f;
 
         private float _roofDistanceFromEdge;
         private float _topOfMainFloor;
@@ -31,20 +25,19 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City
         private SKPath _roofTriangle;
         private SKRect _chimneyRect;
 
-        public House(SKRect rectangleWhereHouseIsToBePlaced, Game game)
-        {
-            _game = game;
+        public House(SKRect rectangleWhereHouseIsToBePlaced, SKCanvas canvas)
+        {            
             _rectangleWhereHouseIsToBePlaced = rectangleWhereHouseIsToBePlaced;
 
             InitFields();
             InitRoofTriangle();
             InitMainFloor();
-            PaintHouse();
+            PaintHouse(canvas);
         }
 
         private void InitFields()
         {
-            _roofDistanceFromEdge = QC.SqSize * _roofDistanceFromEdgeRatio;
+            _roofDistanceFromEdge = _rectangleWhereHouseIsToBePlaced.Width * _roofDistanceFromEdgeRatio;
             _distanceFromEdgeToSideOfMainFloor = _distanceFromEdgeToSideOfMainFloorRatio * _rectangleWhereHouseIsToBePlaced.Width;
             _topOfMainFloor = (_rectangleWhereHouseIsToBePlaced.Height / 2) + _rectangleWhereHouseIsToBePlaced.Top;
         }
@@ -90,14 +83,11 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Structures.City
                 _rectangleWhereHouseIsToBePlaced.Bottom - _roofDistanceFromEdge);
         }
 
-        private void PaintHouse()
+        private void PaintHouse(SKCanvas canvas)
         {
-            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {
-                canvas.DrawPath(_roofTriangle, _buildingPaint);
-                canvas.DrawRect(_mainFloorRect, _buildingPaint);
-                canvas.Save();
-            }
+            canvas.DrawPath(_roofTriangle, _buildingPaint);
+            canvas.DrawRect(_mainFloorRect, _buildingPaint);
+            canvas.Save();
         }
     }
 }

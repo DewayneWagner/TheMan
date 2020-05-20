@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
-using TheManXS.ViewModel.FinancialVM.Financials;
-using Windows.UI.Input.Preview.Injection;
 using static TheManXS.ViewModel.FinancialVM.Financials.FinancialsVM;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -28,7 +23,7 @@ namespace TheManXS.Model.Financial
             _playerNumber = playerNum == -1 ? QC.PlayerIndexActual : playerNum;
             // this constructor is for creating lists to display
             _game = game;
-            if(dataPanelType == DataPanelType.AllPlayers) { InitListWithCurrentFinancialsForAllPlayers(); }
+            if (dataPanelType == DataPanelType.AllPlayers) { InitListWithCurrentFinancialsForAllPlayers(); }
             else { InitListWithQuarterlyFinancialsForSinglePlayer(); }
         }
 
@@ -37,7 +32,7 @@ namespace TheManXS.Model.Financial
             using (DBContext db = new DBContext())
             {
                 var fList = db.FinancialValues.Where(f => f.SavedGameSlot == QC.CurrentSavedGameSlot).ToList();
-                foreach(FinancialValues fv in fList) { this.Add(fv); }
+                foreach (FinancialValues fv in fList) { this.Add(fv); }
             }
         }
 
@@ -72,7 +67,7 @@ namespace TheManXS.Model.Financial
             }
             int getNumberOfQuarters()
             {
-                if(_game.TurnNumber < 5) { return _game.TurnNumber; }
+                if (_game.TurnNumber < 5) { return _game.TurnNumber; }
                 else { return 5; }
             }
         }
@@ -101,22 +96,22 @@ namespace TheManXS.Model.Financial
                 financialsLineItemsArray[(int)LineItemType.InterestRate].ValuesArray[i] = this[i].InterestRate.ToString("p0");
                 financialsLineItemsArray[(int)LineItemType.StockPrice].ValuesArray[i] = this[i].StockPrice.ToString("c2");
             }
-            
+
             string getCompanyNameOrQuarter(int i)
             {
-                if(dataPanelType == DataPanelType.AllPlayers) { return _game.PlayerList[i].Name; }
-                else if(dataPanelType == DataPanelType.Quarter) { return QuarterCalc.GetQuarter(this[i].TurnNumber); }
+                if (dataPanelType == DataPanelType.AllPlayers) { return _game.PlayerList[i].Name; }
+                else if (dataPanelType == DataPanelType.Quarter) { return QuarterCalc.GetQuarter(this[i].TurnNumber); }
                 return null;
             }
         }
-        
+
         private void WriteListToDBAfterFullTurnComplete()
         {
             using (DBContext db = new DBContext())
             {
                 db.FinancialValues.UpdateRange(this);
                 db.SaveChanges();
-            }            
+            }
         }
     }
 }

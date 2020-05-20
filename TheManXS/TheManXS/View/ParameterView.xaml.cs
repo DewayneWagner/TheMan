@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using TheManXS.ViewModel.DetailPages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TheManXS.Model.Settings;
-using TheManXS.ViewModel.DetailPages;
 
 namespace TheManXS.View
 {
@@ -22,6 +15,6 @@ namespace TheManXS.View
             SettingsVM svm = new SettingsVM();
             Content.BindingContext = svm;
             SettingsListView.ItemsSource = svm.SettingsVMOC;
-        }        
+        }
     }
 }

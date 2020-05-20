@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using TheManXS.Model.Main;
 using TheManXS.View;
-using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
 using QC = TheManXS.Model.Settings.QuickConstants;
@@ -19,7 +16,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         private PageService _pageService;
         private Game _game;
         private const double _topToolBarHeightRatio = 0.075;
-        
+
         public TitleBarVM(bool isForInitGameBoardVM) { }
         public TitleBarVM()
         {

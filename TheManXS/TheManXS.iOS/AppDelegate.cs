@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Foundation;
 using System.IO;
-using System.Linq;
-
-using Foundation;
 using UIKit;
 
 namespace TheManXS.iOS
@@ -25,7 +21,7 @@ namespace TheManXS.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            string folderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"..","Library");
+            string folderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
             LoadApplication(new App(new PathList(folderPath)));
 
             return base.FinishedLaunching(app, options);

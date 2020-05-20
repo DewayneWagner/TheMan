@@ -1,14 +1,10 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
-using TheManXS.Model.Map.Surface;
-using QC = TheManXS.Model.Settings.QuickConstants;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
-using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
+using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
 
 namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
 {
@@ -26,7 +22,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             _listOfSKPaths = GetListOfPaths();
             DrawAllPathsOnCanvas();
         }
-        private List <SQ> SqsThatNeedARoad()
+        private List<SQ> SqsThatNeedARoad()
         {
             return _game.SQList
                 .Where(s => s.Status == ST.Producing)
@@ -36,11 +32,11 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
         private List<SKPath> GetListOfPaths()
         {
             List<SKPath> _listOfPaths = new List<SKPath>();
-                foreach (SQ sq in _sqsThatNeedARoad)
-                {
-                    _listOfPaths.Add(new SideRoad(_game, sq).SKPath);
-                }
-                return _listOfPaths;
+            foreach (SQ sq in _sqsThatNeedARoad)
+            {
+                _listOfPaths.Add(new SideRoad(_game, sq).SKPath);
+            }
+            return _listOfPaths;
         }
         void DrawAllPathsOnCanvas()
         {
@@ -52,7 +48,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                     canvas.DrawPath(path, roadPaint);
                 }
                 canvas.Save();
-            }            
+            }
         }
 
         //public double EstimateRoadConstructionCost(List<SQ> roadRouteList)

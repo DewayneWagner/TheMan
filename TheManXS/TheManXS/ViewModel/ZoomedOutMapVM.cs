@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
-using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
-using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
-using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.Model.Main;
-using QC = TheManXS.Model.Settings.QuickConstants;
-using TheManXS.Model.Company;
+using TheManXS.Model.Services.EntityFrameWork;
+using Xamarin.Forms;
+using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 
 namespace TheManXS.ViewModel
 {
@@ -21,7 +16,7 @@ namespace TheManXS.ViewModel
             BackgroundColor = Color.White;
             //_sqSize = GetSQSize();
             _sqSize = 15;
-             InitResourcesMap();
+            InitResourcesMap();
             CompressedLayout.SetIsHeadless(this, true);
         }
 

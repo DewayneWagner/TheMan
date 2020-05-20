@@ -1,8 +1,6 @@
 ﻿using SkiaSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TheManXS.Model.Main;
 using TT = TheManXS.Model.ParametersForGame.TerrainTypeE;
 
@@ -24,7 +22,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Mountains
                 .Select(s => s.SKRect)
                 .ToList();
 
-            foreach(SKRect rect in sList) { this.Add(new TwoPeakMountain(rect)); }
+            foreach (SKRect rect in sList) { this.Add(new TwoPeakMountain(rect)); }
         }
         void DrawAllMountains()
         {

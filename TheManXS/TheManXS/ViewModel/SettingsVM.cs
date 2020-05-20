@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Xamarin.Forms;
-using TheManXS.Model.Services.EntityFrameWork;
 using System.Linq;
-using TheManXS.Model.Settings;
+using System.Windows.Input;
 using TheManXS.Model.Main;
-using TheManXS.ViewModel.Services;
 using TheManXS.Model.ParametersForGame;
+using TheManXS.ViewModel.Services;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.DetailPages
 {
@@ -23,7 +19,7 @@ namespace TheManXS.ViewModel.DetailPages
             LoadSettingsOC();
             SaveChanges = new Command(SaveChangesMethod);
             CompressedLayout.SetIsHeadless(this, true);
-        }       
+        }
 
         public SettingsVM(ParameterConstant pc)
         {
@@ -40,7 +36,7 @@ namespace TheManXS.ViewModel.DetailPages
             SetGameReference();
             IsBounded = true;
             LBOrConstant = pb.LowerBounds;
-            UB = pb.UpperBounds;            
+            UB = pb.UpperBounds;
             PrimaryIndexName = Convert.ToString(pb.PrimaryParameter);
             SecondaryIndexNumber = pb.SecondaryParameterIndex;
             SecondarySubIndexName = pb.SecondaryParameterSubIndex;

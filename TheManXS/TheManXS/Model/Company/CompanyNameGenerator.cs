@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.Model.Company
@@ -54,8 +52,8 @@ namespace TheManXS.Model.Company
 
         private string GetCompanyName()
         {
-            string first, second, third;                
-                
+            string first, second, third;
+
             setFirstName();
             setSecond();
             setThird();
@@ -74,7 +72,7 @@ namespace TheManXS.Model.Company
             }
             void setThird()
             {
-                third = _lastNamesList[rnd.Next(_lastNamesList.Count)];                
+                third = _lastNamesList[rnd.Next(_lastNamesList.Count)];
             }
         }
 
@@ -105,7 +103,7 @@ namespace TheManXS.Model.Company
             List<string> secondNames = new List<string>()
             {
                 "Hills","Mountains","River","Creek","Lake","Lion","Resources","Minerals","Energy",
-                "Mining","Stream","Bear","Tree", "Moose", 
+                "Mining","Stream","Bear","Tree", "Moose",
             };
             return secondNames;
         }
