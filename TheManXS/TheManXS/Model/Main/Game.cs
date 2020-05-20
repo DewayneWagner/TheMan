@@ -85,12 +85,13 @@ namespace TheManXS.Model.Main
                 ParameterConstantList = new ParameterConstantList();
                 PrimeInterestRate = ParameterConstantList.GetConstant(AllConstantParameters.CashConstant, (int)CashConstantSecondary.StartPrimeRate) / 100;
                 LoanList = new LoansList(this, false);
+                SQList = new SQList();
 
                 Unit.LoadUnitWithSavedGameData(this);
             }
         }
 
-        public SQList SQList { get; set; } = new SQList();
+        public SQList SQList { get; set; } 
         public List<Unit> ListOfCreatedProductionUnits { get; set; } = new List<Unit>();
         public LoansList LoanList { get; set; }
         public PlayerList PlayerList { get; set; }

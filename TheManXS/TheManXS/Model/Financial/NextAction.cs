@@ -11,14 +11,15 @@ namespace TheManXS.Model.Financial
         public NextAction(SQ sq, Game game)
         {
             _game = game;
-            UpdateNextAction(sq);
+            if (sq.TerrainType != TerrainTypeE.City) { UpdateNextActionNonCity(sq); }
+            else { UpdateNextActionCity(sq); }
         }
 
         public NextActionType ActionType { get; set; }
         public string Text { get; set; }
         public double Cost { get; set; }
 
-        private void UpdateNextAction(SQ sq)
+        private void UpdateNextActionNonCity(SQ sq)
         {
             switch (sq.Status)
             {
@@ -58,6 +59,10 @@ namespace TheManXS.Model.Financial
                     ActionType = NextActionType.NotEnabled;
                     break;
             }
+        }
+        private void UpdateNextActionCity(SQ sq)
+        {
+
         }
     }
 }

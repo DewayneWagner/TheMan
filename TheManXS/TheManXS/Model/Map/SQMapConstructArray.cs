@@ -29,17 +29,15 @@ namespace TheManXS.Model.Map
                 }
             }
         }
-        public SQList GetListOfSQs()
+        public void GetListOfSQs()
         {
-            SQList _sqList = new SQList();
             for (int r = 0; r < _mapArray.GetLength(0); r++)
             {
                 for (int c = 0; c < _mapArray.GetLength(1); c++)
                 {
-                    _sqList.Add(_mapArray[r, c]);
+                    _game.SQList.Add(_mapArray[r, c]);
                 }
             }
-            return _sqList;
         }
     }
 }

@@ -70,6 +70,7 @@ namespace TheManXS.Model.Main
         public string NextActionText { get; set; }
         public double NextActionCost { get; set; }
         public NextAction.NextActionType NextActionType { get; set; }
+        public CityDensity CityDensity { get; set; }
 
         // not included in DB
         public City City { get; set; }
@@ -112,6 +113,9 @@ namespace TheManXS.Model.Main
 
             builder.Property(s => s.Status)
                 .HasConversion(new EnumToStringConverter<StatusTypeE>());
+
+            builder.Property(s => s.CityDensity)
+                .HasConversion(new EnumToStringConverter<CityDensity>());
 
             builder.Ignore(s => s.City);
             builder.Ignore(s => s.SKRect);

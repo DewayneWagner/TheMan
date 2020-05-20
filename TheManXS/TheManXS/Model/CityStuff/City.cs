@@ -1,5 +1,6 @@
 ﻿using TheManXS.Model.Main;
 using TheManXS.Model.Map;
+using TheManXS.Model.ParametersForGame;
 using QC = TheManXS.Model.Settings.QuickConstants;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;
@@ -32,6 +33,7 @@ namespace TheManXS.Model.CityStuff
 
             InitNewCity();
         }
+        
         private void InitNewCity()
         {
             SQ cityStartSQ = GetCityStartSQ();

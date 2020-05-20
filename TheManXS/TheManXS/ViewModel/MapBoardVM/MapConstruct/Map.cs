@@ -158,7 +158,6 @@ namespace TheManXS.ViewModel.MapBoardVM.MapConstruct
                     }
                 }
             }
-
         }
     }
 }

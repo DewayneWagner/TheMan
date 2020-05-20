@@ -40,7 +40,7 @@ namespace TheManXS.Model.Map
 
             new City(SQMap);
 
-            _game.SQList = SQMap.GetListOfSQs();
+            SQMap.GetListOfSQs();
             AddNewListOfSQToDB();
 
 #if DEBUG
