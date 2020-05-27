@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheManXS.Model.Main;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using RT = TheManXS.Model.ParametersForGame.ResourceTypeE;
 using ST = TheManXS.Model.ParametersForGame.StatusTypeE;

@@ -4,6 +4,7 @@ using System.Linq;
 using TheManXS.Model.Main;
 using TheManXS.Model.Services.EntityFrameWork;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using QC = TheManXS.Model.Settings.QuickConstants;
 

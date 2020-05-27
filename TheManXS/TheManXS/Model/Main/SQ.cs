@@ -58,6 +58,7 @@ namespace TheManXS.Model.Main
         public double OPEXPerUnit { get; set; }
         public int FormationID { get; set; }
         public double Transport { get; set; }
+
         public bool IsMainTransportationCorridor { get; set; }
         public bool IsRoadConnected { get; set; }
         public bool IsTrainConnected { get; set; }
@@ -65,6 +66,7 @@ namespace TheManXS.Model.Main
         public bool IsHub { get; set; }
         public bool IsMainRiver { get; set; }
         public bool IsTributary { get; set; }
+
         public int TributaryNumber { get; set; }
         public bool IsTributaryFlowingFromNorth { get; set; }
         public string NextActionText { get; set; }

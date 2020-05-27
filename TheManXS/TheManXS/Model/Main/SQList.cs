@@ -7,6 +7,7 @@ namespace TheManXS.Model.Main
 {
     public class SQList : List<SQ>
     {
+        public SQList(Game game) {; }
         public SQList()
         {
             InitDictionary();

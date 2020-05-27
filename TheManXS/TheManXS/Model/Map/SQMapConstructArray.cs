@@ -31,6 +31,7 @@ namespace TheManXS.Model.Map
         }
         public void GetListOfSQs()
         {
+            _game.SQList = new SQList(_game);
             for (int r = 0; r < _mapArray.GetLength(0); r++)
             {
                 for (int c = 0; c < _mapArray.GetLength(1); c++)

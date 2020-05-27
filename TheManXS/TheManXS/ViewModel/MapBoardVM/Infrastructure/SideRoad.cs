@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TheManXS.Model.Main;
 using TheManXS.Model.Map.Surface;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using QC = TheManXS.Model.Settings.QuickConstants;
 

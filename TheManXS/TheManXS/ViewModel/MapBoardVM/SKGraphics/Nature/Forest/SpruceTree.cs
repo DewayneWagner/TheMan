@@ -79,7 +79,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Nature.Forest
                 {
                     IsAntialias = true,
                     Style = SKPaintStyle.Fill,
-                    Color = SKColors.Brown,
+                    Color = SKColors.SaddleBrown,
                 };
             }
         }

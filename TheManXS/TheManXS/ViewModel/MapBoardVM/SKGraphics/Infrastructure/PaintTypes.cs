@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
-namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
+namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
 {
     public class PaintTypes : List<SKPaint>
     {
