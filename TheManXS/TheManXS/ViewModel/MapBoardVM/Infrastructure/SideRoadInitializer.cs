@@ -21,7 +21,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
             _game = game;
             _sqsThatNeedARoad = SqsThatNeedARoad();
             _listOfSKPaths = GetListOfPaths();
-            DrawAllPathsOnCanvas();
+            //DrawAllPathsOnCanvas();
         }
         private List<SQ> SqsThatNeedARoad()
         {

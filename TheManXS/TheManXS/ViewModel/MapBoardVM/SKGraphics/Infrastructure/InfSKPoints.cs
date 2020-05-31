@@ -13,7 +13,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
     {
         SQ _sq;
         IT _it;
-        Game _game;
+        private static Game _game;
 
         private const float InfCorridorWidthRatio = 0.1f;
         private float _infCorridorWidth;
@@ -26,6 +26,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         private int _water;
         private int _notWater;
 
+        public InfSKPoints() { }
         // constructor for Squares
         public InfSKPoints(SQ sq, IT it)
         {

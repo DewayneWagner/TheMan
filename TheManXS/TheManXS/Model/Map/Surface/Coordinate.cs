@@ -120,8 +120,8 @@ namespace TheManXS.Model.Map.Surface
             Col = col;
             SQKey = GetSQKey(row, col);
         }
-        public static bool DoesSquareExist(int row, int col) => (row >= 0 && row < QC.RowQ &&
-            col >= 0 && col < QC.ColQ) ? true : false;
+        public static bool DoesSquareExist(int row, int col) => (row < 0 || row >= QC.RowQ ||
+            col < 0 || col >= QC.ColQ) ? false : true;
         private bool SqExists(int r, int c) => (r >= 0 && r < QC.RowQ && c >= 0 && c < QC.ColQ) ? true : false;
     }
 }

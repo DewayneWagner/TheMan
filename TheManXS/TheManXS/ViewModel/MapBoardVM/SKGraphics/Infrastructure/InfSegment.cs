@@ -19,6 +19,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 
     class InfSegment
     {
+        public InfSegment() {}
         public SQ SQ { get; set; }
         public SQ AdjSQ { get; set; }
         public int Row => SQ.Row;
@@ -27,5 +28,29 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         public SegmentType SegmentType { get; set; }
         public InfSKPoints ThisSQSKPoints => new InfSKPoints(SQ, InfrastructureType);
         public InfSKPoints AdjSqSKPoints => new InfSKPoints(AdjSQ, InfrastructureType);
+
+        //private InfSKPoints _thisSQSKPoints;
+        //public InfSKPoints ThisSQSKPoints
+        //{
+        //    get
+        //    {
+        //        if(_thisSQSKPoints != null) { return _thisSQSKPoints; }
+        //        else if(SQ != null) { return new InfSKPoints(SQ, InfrastructureType); }
+        //        else { return new InfSKPoints(); }
+        //    }
+        //}
+
+
+        //private InfSKPoints _infSKPoints;
+        //public InfSKPoints AdjSqSKPoints
+        //{
+        //    get
+        //    {
+        //        if(_infSKPoints != null) { return _infSKPoints; }
+        //        else if (AdjSQ != null) { return new InfSKPoints(AdjSQ, InfrastructureType); }
+        //        else { return new InfSKPoints(); }
+        //    }
+        //    set => _infSKPoints = value;
+        //}
     }
 }

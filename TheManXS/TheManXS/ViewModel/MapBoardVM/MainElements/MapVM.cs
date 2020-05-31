@@ -7,6 +7,7 @@ using TheManXS.ViewModel.MapBoardVM.Infrastructure;
 using TheManXS.ViewModel.MapBoardVM.MapConstruct;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Borders;
+using TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure;
 using TheManXS.ViewModel.MapBoardVM.TouchTracking;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
@@ -59,8 +60,14 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             new Map(_game);
 
             new SurfaceFeaturesInit(_game);
-            new NewMapInitializer(this);
+            //new NewMapInitializer(this); old infrastructure style
             new SideRoadInitializer(_game);
+
+            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
+            {
+                new InfMaster(_game, canvas, true);
+            }
+
             new SavedMap(_game).SaveMap();
         }
 

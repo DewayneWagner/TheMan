@@ -12,19 +12,22 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
     class InfSegmentList : List<InfSegment>
     {
         List<SQ> _listSQsThatNeedInf;
-        List<InfSegment> _listOfRequiredInfSegments = new List<InfSegment>();
+        //List<InfSegment> _listOfRequiredInfSegments = new List<InfSegment>();
         InfMaster _infMaster;
 
         // for rendering inf on new map
         public InfSegmentList(SQList sqList, InfMaster infMaster)
         {
-            InitSQListThatNeedInfAtBeginningOfGame(sqList);
+            _listSQsThatNeedInf = new List<SQ>();
             _infMaster = infMaster;
+
+            InitSQListThatNeedInfAtBeginningOfGame(sqList);            
             CreateListOfInfSegmentsToRender();
         }
         // for adding inf during gameplay
         public InfSegmentList(List<SQ> sqList, InfMaster infMaster)
         {
+            _listSQsThatNeedInf = new List<SQ>();
             _listSQsThatNeedInf = sqList;
             _infMaster = infMaster;
         }
@@ -40,8 +43,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             }
         }
         private void CreateListOfInfSegmentsToRender()
-        {
-            int length = _listOfRequiredInfSegments.Count;
+        {            
+            //int length = _listOfRequiredInfSegments.Count;
+            int length = _listSQsThatNeedInf.Count;
             InfSegment thisInfSeg;
             InfSegment adjInfSeg = new InfSegment();
             SQ adjSQ = new SQ();
@@ -56,10 +60,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             {
                 for (int i = 0; i < length; i++)
                 {
-                    thisInfSeg = _listOfRequiredInfSegments[i];
+                    thisInfSeg = this[i];
+                    //thisInfSeg = _listOfRequiredInfSegments[i];
                     if (adjSQExistsAndHasSameInfType(thisInfSeg))
                     {
                         thisInfSeg.SegmentType = adjInfSeg.SegmentType;
+
                         if(sm.AreAdditionalSegmentTypesToAdd) 
                         {
                             this.Add(new InfSegment()
@@ -83,12 +89,18 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 
                 if (Coordinate.DoesSquareExist(adjRow, adjCol))
                 {
-                    if (_listOfRequiredInfSegments.Any(i => i.Row == adjRow && i.Col == adjCol))
+                    if(this.Any(i => i.Row == adjRow && i.Col == adjCol))
                     {
                         adjSQ = _listSQsThatNeedInf.Where(i => i.Row == adjRow && i.Col == adjCol).FirstOrDefault();
-                        adjInfSeg = _listOfRequiredInfSegments.Where(i => i.Row == adjRow && i.Col == adjCol).FirstOrDefault();
+                        adjInfSeg = this.Where(i => i.Row == adjRow && i.Col == adjCol).FirstOrDefault();
                         return true;
                     }
+                    //if (_listOfRequiredInfSegments.Any(i => i.Row == adjRow && i.Col == adjCol))
+                    //{
+                    //    adjSQ = _listSQsThatNeedInf.Where(i => i.Row == adjRow && i.Col == adjCol).FirstOrDefault();
+                    //    adjInfSeg = _listOfRequiredInfSegments.Where(i => i.Row == adjRow && i.Col == adjCol).FirstOrDefault();
+                    //    return true;
+                    //}
                 }
                 return false;
             }
@@ -96,11 +108,16 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             {
                 foreach (SQ sq in _listSQsThatNeedInf)
                 {
-                    _listOfRequiredInfSegments.Add(new InfSegment()
+                    this.Add(new InfSegment()
                     {
                         SQ = sq,
                         InfrastructureType = getIT(sq),
                     });
+                    //_listOfRequiredInfSegments.Add(new InfSegment()
+                    //{
+                    //    SQ = sq,
+                    //    InfrastructureType = getIT(sq),
+                    //});
                 }
             }
             IT getIT(SQ sq)
