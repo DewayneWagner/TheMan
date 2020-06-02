@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Windows.UI.Xaml.Controls;
+using Xamarin.Forms;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 {
@@ -13,6 +14,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         public bool AreAdditionalSegmentTypesToAdd { get; set; }
         public SegmentType AdditionalSegmentTypeToAdd { get; set; }
         public bool IsWaterOnly { get; set; }
+        public ConnectDirection ConnectDirection { get; set; }
     }
     class SearchModifierList : List<SearchModifier>
     {
@@ -20,8 +22,87 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         {
             InitList();
         }
-        public SearchModifier this[SegmentType segmentType] => this[(int)segmentType];
+        public SearchModifier this[ConnectDirection cd] => this[(int)cd];
+
         private void InitList()
+        {
+            for (int i = 0; i < (int)ConnectDirection.Total; i++)
+            {
+                this.Add(getSearchModifier((ConnectDirection)i));
+            }
+            SearchModifier getSearchModifier(ConnectDirection cd)
+            {
+                switch (cd)
+                {
+                    case ConnectDirection.NW:
+                        return new SearchModifier()
+                        {
+                            Row = -1,
+                            Col = -1,
+                        };
+
+                    case ConnectDirection.N:
+                        return new SearchModifier()
+                        {
+                            Row = -1,
+                            Col = 0,
+                        };
+
+                    case ConnectDirection.NE:
+                        return new SearchModifier()
+                        {
+                            Row = -1,
+                            Col = 1,
+                        };
+
+                    case ConnectDirection.E:
+                        return new SearchModifier()
+                        {
+                            Row = 0,
+                            Col = 1,
+                        };
+
+                    case ConnectDirection.SE:
+                        return new SearchModifier()
+                        {
+                            Row = 1,
+                            Col = 1,
+                        };
+
+                    case ConnectDirection.S:
+                        return new SearchModifier()
+                        {
+                            Row = 1,
+                            Col = 0,
+                        };
+
+                    case ConnectDirection.SW:
+                        return new SearchModifier()
+                        {
+                            Row = 1,
+                            Col = -1,
+                        };
+
+                    case ConnectDirection.W:
+                        return new SearchModifier()
+                        {
+                            Row = 0,
+                            Col = -1,
+                        };
+
+                    case ConnectDirection.Total:
+                    default:
+                        return new SearchModifier()
+                        {
+                            Row = 0,
+                            Col = 0,
+                        };
+                }
+            }
+        }
+
+        public SearchModifier this[SegmentType segmentType] => this[(int)segmentType];
+        private void InitList(bool oldMethod)
         {
             for (int i = 0; i < (int)SegmentType.TotalAdjSqSegments; i++)
             {
