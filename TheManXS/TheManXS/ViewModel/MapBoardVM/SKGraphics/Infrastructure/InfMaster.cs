@@ -18,7 +18,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         public InfMaster(Game game, SKCanvas canvas, bool isForNewGame) 
         { 
             _game = game;
-            _infSegmentList = new InfSegmentList(_game.SQList, this);
+            _infSegmentList = new InfSegmentList(_game.SQList);
             _arrayOfPaths = new SKPath[(int)IT.Total];
 
             InitArrayOfPaths();
@@ -79,6 +79,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                     int adjRow, adjCol;
                     SQ adjSQ;
                     InfSKPoints adjSKPoints;
+
                     bool isWater = (infSeg.InfrastructureType == IT.MainRiver
                         || infSeg.InfrastructureType == IT.Tributary) ? true : false;
 

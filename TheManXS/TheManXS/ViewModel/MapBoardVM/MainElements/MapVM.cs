@@ -60,8 +60,8 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             new Map(_game);
 
             new SurfaceFeaturesInit(_game);
-            //new NewMapInitializer(this); old infrastructure style
-            new SideRoadInitializer(_game);
+            //new NewMapInitializer(this); //old infrastructure style
+            //new SideRoadInitializer(_game);
 
             using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
             {

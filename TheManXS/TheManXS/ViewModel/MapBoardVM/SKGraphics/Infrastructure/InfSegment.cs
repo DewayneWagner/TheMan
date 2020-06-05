@@ -20,12 +20,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
     class InfSegment
     {
         public InfSegment() {}
-        public SQ SQ { get; set; }
-        public int Row => SQ.Row;
-        public int Col => SQ.Col;
+        public SQ SQFrom { get; set; }
+        public SQ SQTo { get; set; }
         public IT InfrastructureType { get; set; }
-        public List<SegmentType> ListOfSegmentTypes { get; set; } = new List<SegmentType>();
-        public List<ConnectDirection> ListOfConnectionDirections { get; set; } = new List<ConnectDirection>();
-        public InfSKPoints ThisSQSKPoints => new InfSKPoints(SQ, InfrastructureType);
+        public SegmentType SegmentType { get; set; }
+        public ConnectDirection ConnectionDirection { get; set; }
+        public InfSKPoints From => new InfSKPoints(SQFrom, InfrastructureType);
+        public InfSKPoints To => new InfSKPoints(SQTo, InfrastructureType);
     }
 }

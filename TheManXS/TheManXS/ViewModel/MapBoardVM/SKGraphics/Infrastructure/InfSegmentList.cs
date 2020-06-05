@@ -34,35 +34,11 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         {
             _listSQsThatNeedInf = new List<SQ>();
             _listSQsThatNeedInf = sqList;
+            CreateListOfInfSegmentsToRender();
         }
+
         private void CreateListOfInfSegmentsToRender()
         {
-            //initSQListThatNeedInfAtBeginningOfGame();
-            //initListOfInfSegmentsThemselves();
-
-            //void initSQListThatNeedInfAtBeginningOfGame()
-            //{
-            //    foreach (SQ sq in _sqList)
-            //    {
-            //        if (sq.IsRoadConnected) { _listSQsThatNeedInf.Add(sq); }
-            //        if (sq.IsTrainConnected) { _listSQsThatNeedInf.Add(sq); }
-            //        if (sq.IsPipelineConnected) { _listSQsThatNeedInf.Add(sq); }
-            //        if (sq.IsMainRiver) { _listSQsThatNeedInf.Add(sq); }
-            //        if (sq.IsTributary) { _listSQsThatNeedInf.Add(sq); }
-            //    }
-            //}
-            //void initListOfInfSegmentsThemselves(bool oldCrapThatDoesntWork)
-            //{
-            //    foreach (SQ sq in _listSQsThatNeedInf)
-            //    {
-            //        this.Add(new InfSegment()
-            //        {
-            //            SQ = sq,
-            //            InfrastructureType = getIT(sq),
-            //        });
-            //    }
-            //}
-
             initListOfInfSegmentsThemselves();
             initListOfConnectionDirectionsForEachInfSegmentInThis();
             addAdditionalSegments();
@@ -82,7 +58,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                 {
                     this.Add(new InfSegment()
                     {
-                        SQ = sq,
+                        SQFrom = sq,
                         InfrastructureType = it,
                     });
                 }
@@ -250,7 +226,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                     {
                         InfSegment newInfSeg = new InfSegment()
                         {
-                            SQ = _sqList[passThroughRow, passThroughCol],
+                            SQFrom = _sqList[passThroughRow, passThroughCol],
                             InfrastructureType = infSeg.InfrastructureType,                            
                         };
                         newInfSeg.ListOfConnectionDirections.Add(getInverseDirection(connectionDirection));
@@ -265,16 +241,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                         else { return ConnectDirection.N; }
                     }
                 }
-            }
-
-            IT getIT(SQ sq)
-            {
-                if (sq.IsRoadConnected) { return IT.Road; }
-                else if (sq.IsTrainConnected) { return IT.RailRoad; }
-                else if (sq.IsPipelineConnected) { return IT.Pipeline; }
-                else if (sq.IsMainRiver) { return IT.MainRiver; }
-                else if (sq.IsTributary) { return IT.Tributary; }
-                return IT.Road;
             }
         }
     }
