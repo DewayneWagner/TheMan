@@ -1,60 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 using TheManXS.Model.Main;
-using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 using TheManXS.Model.Map.Surface;
-using Windows.Media.Devices;
-using Windows.Networking.Connectivity;
+using IT = TheManXS.Model.ParametersForGame.InfrastructureType;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 {
-    public enum ConnectDirection { NW, N, NE, E, SE, S, SW, W, Total }
-
     class InfSegmentList : List<InfSegment>
     {
-        List<SQ> _listSQsThatNeedInf;
-        SearchModifierList _searchModifierList;
-        SQList _sqList;
-
-        // for rendering inf on new map
-        public InfSegmentList(SQList sqList)
+        Game _game;
+        List<SQ> _sqList;
+        public InfSegmentList(Game game)
         {
-            _sqList = sqList;
-            _listSQsThatNeedInf = new List<SQ>();
-            _searchModifierList = new SearchModifierList();
-      
-            CreateListOfInfSegmentsToRender();
+            _game = game;
+            _sqList = new List<SQ>();
+            foreach (SQ sq in game.SQList) { _sqList.Add(sq); }
+            InitList();
         }
-
-        // for adding inf during gameplay
         public InfSegmentList(List<SQ> sqList)
         {
-            _listSQsThatNeedInf = new List<SQ>();
-            _listSQsThatNeedInf = sqList;
-            CreateListOfInfSegmentsToRender();
+            _sqList = sqList;
+            InitList();
         }
-
-        private void CreateListOfInfSegmentsToRender()
+        void InitList()
         {
-            initListOfInfSegmentsThemselves();
-            initListOfConnectionDirectionsForEachInfSegmentInThis();
-            addAdditionalSegments();
+            addStartingInfSegments();
+            updateListWithSegments();
+            addAdjSQConnectDirectionsToAllInfSegments();
 
-            void initListOfInfSegmentsThemselves()
+            void addStartingInfSegments()
             {
                 foreach (SQ sq in _sqList)
                 {
-                    if(sq.IsRoadConnected) { addSegmentToList(sq, IT.Road); }
-                    if(sq.IsTrainConnected) { addSegmentToList(sq, IT.RailRoad); }
-                    if(sq.IsPipelineConnected) { addSegmentToList(sq, IT.Pipeline); }
-                    if(sq.IsMainRiver) { addSegmentToList(sq, IT.MainRiver); }
-                    if(sq.IsTributary) { addSegmentToList(sq, IT.Tributary); }
+                    if (sq.IsRoadConnected) { addInfSegment(sq, IT.Road); }
+                    if (sq.IsPipelineConnected) { addInfSegment(sq, IT.Pipeline); }
+                    if (sq.IsTrainConnected) { addInfSegment(sq, IT.RailRoad); }
+                    if (sq.IsMainRiver) { addInfSegment(sq, IT.MainRiver); }
+                    if (sq.IsTributary) { addInfSegment(sq, IT.Tributary); }
                 }
-
-                void addSegmentToList(SQ sq, IT it)
+                void addInfSegment(SQ sq, IT it)
                 {
                     this.Add(new InfSegment()
                     {
@@ -63,183 +49,107 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                     });
                 }
             }
-            void initListOfConnectionDirectionsForEachInfSegmentInThis()
+            void updateListWithSegments()
             {
-                int adjRow, adjCol;
                 int length = this.Count;
 
                 for (int i = 0; i < length; i++)
                 {
-                    for (int ii = 0; ii < (int)ConnectDirection.Total; ii++)
+                    for (int row = -1; row < 2; row++)
                     {
-                        adjRow = _searchModifierList[(ConnectDirection)ii].Row + this[i].Row;
-                        adjCol = _searchModifierList[(ConnectDirection)ii].Col + this[i].Col;
-
-                        if(this.Any(inf => inf.Row == adjRow 
-                            && inf.Col == adjCol 
-                            && inf.InfrastructureType == this[i].InfrastructureType))
+                        for (int col = -1; col < 2; col++)
                         {
-                            this[i].ListOfConnectionDirections.Add((ConnectDirection)ii);
+                            InfSegment inf = this[i];
+                            int adjRow = inf.SQFrom.Row + row;
+                            int adjCol = inf.SQFrom.Col + col;
+
+                            if (Coordinate.DoesSquareExist(adjRow, adjCol))
+                            {
+                                SQ adjSQ = _game.SQList[adjRow, adjCol];
+                                if (adjSQHasSameInf(adjSQ, inf.InfrastructureType))
+                                {
+                                    if (inf.SQTo == null) { inf.SQTo = adjSQ; }
+                                    else if (!isInListAlready(inf.SQTo, adjSQ, inf.InfrastructureType))
+                                    {
+                                        this.Add(new InfSegment()
+                                        {
+                                            SQFrom = inf.SQFrom,
+                                            SQTo = adjSQ,
+                                            InfrastructureType = inf.InfrastructureType,
+                                        });
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
-            void addAdditionalSegments()
-            {
-                int lengthNow = this.Count;
-
-                for (int i = 0; i < this.Count; i++)
+                bool adjSQHasSameInf(SQ sq, IT it)
                 {
-                    foreach (ConnectDirection cd in this[i].ListOfConnectionDirections)
+                    switch (it)
                     {
-                        this[i].ListOfSegmentTypes = getSegmentTypeList(this[i], cd);
-                        List<SegmentType> segmentTypesRequiredForThisSQ = getSegmentTypeList(this[i], cd);
-                    }
-                }
-                List<SegmentType> getSegmentTypeList(InfSegment infSeg, ConnectDirection cd)
-                {
-                    List<SegmentType> listOfSegmentTypesRequired = new List<SegmentType>();
-
-                    bool isWater = (infSeg.InfrastructureType == IT.MainRiver 
-                        || infSeg.InfrastructureType == IT.Tributary) ? true : false;
-
-                    // all water connects to NW
-                    // all non-water connects to SE
-
-                    switch (cd)
-                    {
-                        case ConnectDirection.NW:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NW_out_to_W);                                
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SExSW);
-                                listOfSegmentTypesRequired.Add(SegmentType.SW_out_to_W);                                
-                            }
-                            addPassThroughSQ(infSeg, ConnectDirection.W);
+                        case IT.Road:
+                            if (sq.IsRoadConnected) { return true; }
                             break;
 
-                        case ConnectDirection.N:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NW_out_to_N);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NE_out_to_N);
-                                listOfSegmentTypesRequired.Add(SegmentType.NExSE);
-                            }
+                        case IT.Pipeline:
+                            if (sq.IsPipelineConnected) { return true; }
                             break;
 
-                        case ConnectDirection.NE:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NWxNE);
-                                listOfSegmentTypesRequired.Add(SegmentType.NE_out_to_E);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_E);                                
-                            }
-                            addPassThroughSQ(infSeg, ConnectDirection.E);
+                        case IT.RailRoad:
+                            if (sq.IsTrainConnected) { return true; }
                             break;
 
-                        case ConnectDirection.E:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NWxNE);
-                                listOfSegmentTypesRequired.Add(SegmentType.NE_out_to_E);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_E);
-                            }
+                        case IT.Tributary:
+                            if (sq.IsTributary) { return true; }
                             break;
 
-                        case ConnectDirection.SE:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NExSE);
-                                listOfSegmentTypesRequired.Add(SegmentType.NE_out_to_E);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_E);
-                                addPassThroughSQ(infSeg, ConnectDirection.E);
-                            }
+                        case IT.MainRiver:
+                            if (sq.IsMainRiver) { return true; }
                             break;
 
-                        case ConnectDirection.S:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SWxNW);
-                                listOfSegmentTypesRequired.Add(SegmentType.SW_out_to_S);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_S);
-                            }
-                            break;
-
-                        case ConnectDirection.SW:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NExSE);
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_S);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SE_out_to_S);
-                            }
-                            addPassThroughSQ(infSeg, ConnectDirection.S);
-                            break;
-
-                        case ConnectDirection.W:
-                            if (isWater)
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.NW_out_to_W);
-                            }
-                            else
-                            {
-                                listOfSegmentTypesRequired.Add(SegmentType.SExSW);
-                                listOfSegmentTypesRequired.Add(SegmentType.SW_out_to_W);
-                            }
-                            break;
-
-                        case ConnectDirection.Total:
+                        case IT.Total:
+                        case IT.Hub:
                         default:
-                            break;
+                            return false;
                     }
-
-                    return listOfSegmentTypesRequired;
+                    return false;
                 }
-                void addPassThroughSQ(InfSegment infSeg, ConnectDirection connectionDirection)
+            }
+            bool isInListAlready(SQ fromSQ, SQ toSQ, IT it)
+            {
+                return this.Any(i => i.SQFrom == fromSQ
+                            && i.SQTo == toSQ
+                            && i.InfrastructureType == it);
+            }
+            void addAdjSQConnectDirectionsToAllInfSegments()
+            {
+                foreach (InfSegment infSegment in this)
                 {
-                    int passThroughRow = infSeg.Row + _searchModifierList[connectionDirection].Row;
-                    int passThroughCol = infSeg.Col + _searchModifierList[connectionDirection].Col;
+                    infSegment.ConnectionDirection = getConnectionDirection(infSegment);
+                }
+                CD getConnectionDirection(InfSegment inf)
+                {
+                    int rowDiff = inf.SQFrom.Row - inf.SQTo.Row;
+                    int colDiff = inf.SQFrom.Col - inf.SQTo.Col;
 
-                    if(!this.Any(inf => inf.Row == passThroughRow 
-                        && inf.Col == passThroughCol)
-                        && Coordinate.DoesSquareExist(passThroughRow, passThroughCol))
+                    if (rowDiff == -1)
                     {
-                        InfSegment newInfSeg = new InfSegment()
-                        {
-                            SQFrom = _sqList[passThroughRow, passThroughCol],
-                            InfrastructureType = infSeg.InfrastructureType,                            
-                        };
-                        newInfSeg.ListOfConnectionDirections.Add(getInverseDirection(connectionDirection));
-                        this.Add(newInfSeg);
+                        if (colDiff == -1) { return CD.NW; }
+                        else if (colDiff == 0) { return CD.N; }
+                        else { return CD.NE; }
                     }
-
-                    ConnectDirection getInverseDirection(ConnectDirection cd)
+                    else if (rowDiff == 0)
                     {
-                        if(cd == ConnectDirection.E) { return ConnectDirection.W; }
-                        else if(cd == ConnectDirection.N) { return ConnectDirection.S; }
-                        else if(cd == ConnectDirection.W) { return ConnectDirection.E; }
-                        else { return ConnectDirection.N; }
+                        if (colDiff == -1) { return CD.W; }
+                        else if (colDiff == 1) { return CD.E; }
                     }
+                    else
+                    {
+                        if (colDiff == -1) { return CD.SW; }
+                        else if (colDiff == 0) { return CD.S; }
+                        else { return CD.SE; }
+                    }
+                    return CD.S;
                 }
             }
         }

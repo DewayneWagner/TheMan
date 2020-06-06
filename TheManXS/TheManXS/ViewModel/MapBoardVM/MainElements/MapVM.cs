@@ -63,11 +63,7 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
             //new NewMapInitializer(this); //old infrastructure style
             //new SideRoadInitializer(_game);
 
-            using (SKCanvas canvas = new SKCanvas(_game.GameBoardVM.MapVM.SKBitMapOfMap))
-            {
-                new InfMaster(_game, canvas, true);
-            }
-
+            new InfrastructureMaster(_game);
             new SavedMap(_game).SaveMap();
         }
 
