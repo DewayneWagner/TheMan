@@ -10,21 +10,11 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 {
     class InfSegmentList : List<InfSegment>
     {
-        Game _game;
-        List<SQ> _sqList;
-        public InfSegmentList(Game game)
+        public InfSegmentList(Game game, List<SQ> sqList)
         {
-            _game = game;
-            _sqList = new List<SQ>();
-            foreach (SQ sq in game.SQList) { _sqList.Add(sq); }
-            InitList();
+            InitList(game, sqList);
         }
-        public InfSegmentList(List<SQ> sqList)
-        {
-            _sqList = sqList;
-            InitList();
-        }
-        void InitList()
+        void InitList(Game game, List<SQ> sqList)
         {
             addStartingInfSegments();
             updateListWithSegments();
@@ -32,7 +22,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 
             void addStartingInfSegments()
             {
-                foreach (SQ sq in _sqList)
+                foreach (SQ sq in sqList)
                 {
                     if (sq.IsRoadConnected) { addInfSegment(sq, IT.Road); }
                     if (sq.IsPipelineConnected) { addInfSegment(sq, IT.Pipeline); }
@@ -60,12 +50,13 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                         for (int col = -1; col < 2; col++)
                         {
                             InfSegment inf = this[i];
+
                             int adjRow = inf.SQFrom.Row + row;
                             int adjCol = inf.SQFrom.Col + col;
 
                             if (Coordinate.DoesSquareExist(adjRow, adjCol))
                             {
-                                SQ adjSQ = _game.SQList[adjRow, adjCol];
+                                SQ adjSQ = game.SQList[adjRow, adjCol];
                                 if (adjSQHasSameInf(adjSQ, inf.InfrastructureType))
                                 {
                                     if (inf.SQTo == null) { inf.SQTo = adjSQ; }
@@ -117,8 +108,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             }
             bool isInListAlready(SQ fromSQ, SQ toSQ, IT it)
             {
-                return this.Any(i => i.SQFrom == fromSQ
-                            && i.SQTo == toSQ
+                return this.Any(i => (i.SQFrom == fromSQ || i.SQFrom == toSQ)
+                            && (i.SQTo == toSQ || i.SQTo == fromSQ)
                             && i.InfrastructureType == it);
             }
             void addAdjSQConnectDirectionsToAllInfSegments()

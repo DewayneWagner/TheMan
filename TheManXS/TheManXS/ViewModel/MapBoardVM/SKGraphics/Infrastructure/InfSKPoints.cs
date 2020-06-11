@@ -67,8 +67,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         {
             get
             {
-                float x = (_sq.SKRect.Right - _incrementFromEdge) * _notWater + (_sq.SKRect.Right - _distanceFromVerticalEdgeWater) * _water;
-                float y = (_sq.SKRect.Top + _incrementFromEdge) * _notWater + (_sq.SKRect.Right - _distanceFromVerticalEdgeWater) * _water;
+                float x = (_sq.SKRect.Right - _incrementFromEdge) * _notWater 
+                    + (_sq.SKRect.Right - _distanceFromVerticalEdgeWater) * _water;
+
+                float y = (_sq.SKRect.Top + _incrementFromEdge) * _notWater 
+                    + (_sq.SKRect.Top + _distanceFromHorizontalEdgeWater) * _water;
+
                 return new SKPoint(x, y);
             }
         }
@@ -87,8 +91,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         {
             get
             {
-                float x = _sq.SKRect.Left + (_incrementFromEdge * _notWater) + (_distanceFromVerticalEdgeWater * _water);
-                float y = _sq.SKRect.Bottom - (_incrementFromEdge * _notWater) + (_distanceFromHorizontalEdgeWater * _water);
+                float x = _sq.SKRect.Left + (_incrementFromEdge * _notWater) 
+                    + (_distanceFromVerticalEdgeWater * _water);
+
+                float y = _sq.SKRect.Bottom - (_incrementFromEdge * _notWater) 
+                    - (_distanceFromHorizontalEdgeWater * _water);
+
                 return new SKPoint(x, y);
             }
         }

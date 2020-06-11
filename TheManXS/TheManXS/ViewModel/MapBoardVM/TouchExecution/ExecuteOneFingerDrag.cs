@@ -46,9 +46,9 @@ namespace TheManXS.ViewModel.MapBoardVM.TouchExecution
             foreach (TouchActionEventArgs args in _game.GameBoardVM.MapVM.MapTouchList[0])
             {
                 SKPoint touchPointOnMap = GetTouchPointOnBitMap(args.SKPoint);
-                Coordinate touchCoord = new Coordinate(touchPointOnMap);
-                SQ sq = _game.SQList[touchCoord.Row, touchCoord.Col];
-                if (!listOfTouchedSQs.Contains(sq)) { listOfTouchedSQs.Add(sq); }
+                //Coordinate touchCoord = new Coordinate(touchPointOnMap);
+                //SQ sq = _game.SQList[touchCoord.Row, touchCoord.Col];
+                //if (!listOfTouchedSQs.Contains(sq)) { listOfTouchedSQs.Add(sq); }
             }
             return listOfTouchedSQs;
         }
