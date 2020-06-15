@@ -23,8 +23,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         public SQ SQFrom { get; set; }
         public SQ SQTo { get; set; }
         public IT InfrastructureType { get; set; }
-        public SegmentType SegmentType { get; set; }
         public CD ConnectionDirection { get; set; }
+        public bool IsDiagonal { get; set; }
         public InfSKPoints From => new InfSKPoints(SQFrom, InfrastructureType);
         public InfSKPoints To => new InfSKPoints(SQTo, InfrastructureType);
     }

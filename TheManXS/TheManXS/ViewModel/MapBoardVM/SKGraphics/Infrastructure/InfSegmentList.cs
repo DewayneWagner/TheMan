@@ -111,12 +111,14 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                 return this.Any(i => (i.SQFrom == fromSQ || i.SQFrom == toSQ)
                             && (i.SQTo == toSQ || i.SQTo == fromSQ)
                             && i.InfrastructureType == it);
+                
             }
             void addAdjSQConnectDirectionsToAllInfSegments()
             {
                 foreach (InfSegment infSegment in this)
                 {
                     infSegment.ConnectionDirection = getConnectionDirection(infSegment);
+                    infSegment.IsDiagonal = isDiagonal(infSegment.ConnectionDirection);
                 }
                 CD getConnectionDirection(InfSegment inf)
                 {
@@ -141,6 +143,25 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                         else { return CD.SE; }
                     }
                     return CD.S;
+                }
+                bool isDiagonal(CD cd)
+                {
+                    switch (cd)
+                    {
+                        case CD.NW:
+                        case CD.NE:
+                        case CD.SE:
+                        case CD.SW:
+                            return true;
+                            
+                        case CD.N:
+                        case CD.E:
+                        case CD.S:
+                        case CD.W:
+                        case CD.Total:
+                        default:
+                            return false;
+                    }
                 }
             }
         }
