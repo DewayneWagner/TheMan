@@ -49,25 +49,29 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                     {
                         for (int col = -1; col < 2; col++)
                         {
-                            InfSegment inf = this[i];
-
-                            int adjRow = inf.SQFrom.Row + row;
-                            int adjCol = inf.SQFrom.Col + col;
-
-                            if (Coordinate.DoesSquareExist(adjRow, adjCol))
+                            if (row == 0 && col == 0) { }
+                            else
                             {
-                                SQ adjSQ = game.SQList[adjRow, adjCol];
-                                if (adjSQHasSameInf(adjSQ, inf.InfrastructureType))
+                                InfSegment inf = this[i];
+
+                                int adjRow = inf.SQFrom.Row + row;
+                                int adjCol = inf.SQFrom.Col + col;
+
+                                if (Coordinate.DoesSquareExist(adjRow, adjCol))
                                 {
-                                    if (inf.SQTo == null) { inf.SQTo = adjSQ; }
-                                    else if (!isInListAlready(inf.SQTo, adjSQ, inf.InfrastructureType))
+                                    SQ adjSQ = game.SQList[adjRow, adjCol];
+                                    if (adjSQHasSameInf(adjSQ, inf.InfrastructureType))
                                     {
-                                        this.Add(new InfSegment()
+                                        if (inf.SQTo == null) { inf.SQTo = adjSQ; }
+                                        else if (!isInListAlready(inf.SQTo, adjSQ, inf.InfrastructureType))
                                         {
-                                            SQFrom = inf.SQFrom,
-                                            SQTo = adjSQ,
-                                            InfrastructureType = inf.InfrastructureType,
-                                        });
+                                            this.Add(new InfSegment()
+                                            {
+                                                SQFrom = inf.SQFrom,
+                                                SQTo = adjSQ,
+                                                InfrastructureType = inf.InfrastructureType,
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -146,22 +150,8 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                 }
                 bool isDiagonal(CD cd)
                 {
-                    switch (cd)
-                    {
-                        case CD.NW:
-                        case CD.NE:
-                        case CD.SE:
-                        case CD.SW:
-                            return true;
-                            
-                        case CD.N:
-                        case CD.E:
-                        case CD.S:
-                        case CD.W:
-                        case CD.Total:
-                        default:
-                            return false;
-                    }
+                    if((int)cd % 2 == 0) { return true; }
+                    else { return false; }
                 }
             }
         }

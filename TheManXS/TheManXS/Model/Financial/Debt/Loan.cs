@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
@@ -10,6 +11,8 @@ namespace TheManXS.Model.Financial.Debt
 {
     public class Loan
     {
+        public enum LoanProperties { Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, Total }
+
         public enum LoanStatusTypes { Proposed, Approved }
         private Game _game;
         public Loan() { }
@@ -68,6 +71,30 @@ namespace TheManXS.Model.Financial.Debt
             {
                 db.Loans.Add(this);
                 db.SaveChanges();
+            }
+        }
+        public string GetValue(LoanProperties loanProperties)
+        {
+            switch (loanProperties)
+            {
+                case LoanProperties.Term:
+                    return Convert.ToString((LoanTermLength)Term);
+
+                case LoanProperties.InterestRate:
+                    return InterestRate.ToString("P0");
+
+                case LoanProperties.StartingBalance:
+                    return StartingBalance.ToString("C0");
+
+                case LoanProperties.PrincipalPayment:
+                    return PrincipalPaymentPerTurn.ToString("C0");
+
+                case LoanProperties.InterestPayment:
+                    return InterestPaymentPerTurn.ToString("C0");
+
+                case LoanProperties.Total:
+                default:
+                    return null;
             }
         }
     }

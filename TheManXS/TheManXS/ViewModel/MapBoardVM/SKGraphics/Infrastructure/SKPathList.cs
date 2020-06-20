@@ -10,9 +10,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 {
     class SKPathList : List<SKPath>
     {
-        List<InfSegment> _scrubbedInfSegmentList;
-        
+        List<InfSegment> _scrubbedInfSegmentList;        
         Game _game;
+
         public SKPathList(Game game, InfSegmentList infSegmentList)
         {
             _game = game;
@@ -74,10 +74,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
                         this[i].LineTo(passThroughPts.SE);
                         this[i].LineTo(inf.To.SE);
                     }
-                    else
-                    {
-                        this[i].LineTo(inf.To.SE);
-                    }
+                    else { this[i].LineTo(inf.To.SE); }
                 }
             }            
         }
@@ -87,10 +84,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 
             foreach (InfSegment infSeg in infSegmentList)
             {
-                if (!doesOppositeSegmentAlreadyExist())
-                {
-                    scrubbedList.Add(infSeg);
-                }
+                if (!doesOppositeSegmentAlreadyExist()) { scrubbedList.Add(infSeg); }
 
                 bool doesOppositeSegmentAlreadyExist()
                 {
@@ -101,28 +95,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
 
                     CD getOppositeDirection(CD cd)
                     {
-                        switch (cd)
-                        {
-                            case CD.NW:
-                                return CD.SE;
-                            case CD.N:
-                                return CD.S;
-                            case CD.NE:
-                                return CD.SW;
-                            case CD.E:
-                                return CD.W;
-                            case CD.SE:
-                                return CD.NW;
-                            case CD.S:
-                                return CD.N;
-                            case CD.SW:
-                                return CD.NE;
-                            case CD.W:
-                                return CD.E;
-                            case CD.Total:
-                            default:
-                                return CD.N;
-                        }
+                        int cdInt = (int)cd;
+                        if(cdInt < (int)CD.SE) { return (CD)(cdInt + 4); }
+                        else { return (CD)(cdInt - 4); }
                     }
                 }
             }

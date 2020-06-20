@@ -7,7 +7,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics
 {
     public class PaintTypes : List<SKPaint>
     {
-        private const float RiverWidthRatio = 0.15f;
+        private const float RiverWidthRatio = 0.125f;
         private const float TributaryWidthRatio = 0.15f;
         private const float SandWidthOverWater = 0.2f;
         private const float InfrastructureWidthRatio = 0.05f;

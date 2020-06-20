@@ -4,6 +4,7 @@ using System.Linq;
 using TheManXS.Model.Main;
 using TheManXS.Model.ParametersForGame;
 using TheManXS.Model.Services.EntityFrameWork;
+using static TheManXS.Model.Financial.Debt.Loan;
 using LT = TheManXS.Model.ParametersForGame.LoanTermLength;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -11,7 +12,6 @@ namespace TheManXS.Model.Financial.Debt
 {
     public class LoansList : List<Loan>
     {
-        private enum LoansListDisplayHeadings { Term, InterestRate, StartingBalance, PrincipalPayment, InterestPayment, TurnsRemaining, RemainingBalance, Total }
         private Game _game;
         public LoansList() { }
 
@@ -49,9 +49,9 @@ namespace TheManXS.Model.Financial.Debt
             get
             {
                 List<string> displayHeadingsList = new List<string>();
-                for (int i = 0; i < (int)LoansListDisplayHeadings.Total; i++)
+                for (int i = 0; i < (int)LoanProperties.Total; i++)
                 {
-                    displayHeadingsList.Add(Convert.ToString((LoansListDisplayHeadings)i));
+                    displayHeadingsList.Add(Convert.ToString((LoanProperties)i));
                 }
                 SplitWordsInHeading(ref displayHeadingsList);
                 return displayHeadingsList;

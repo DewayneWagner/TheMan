@@ -23,11 +23,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         private float _distanceFromHorizontalEdgeWater;
         private float _distanceFromVerticalEdgeWater;
 
-        private int _water;
-        private int _notWater;
-
-        public InfSKPoints() { }
-        // constructor for Squares
         public InfSKPoints(SQ sq, IT it)
         {
             if (_game == null) { _game = (Game)App.Current.Properties[Convert.ToString(App.ObjectsInPropertyDictionary.Game)]; }
@@ -38,17 +33,6 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             _incrementFromEdge = (_infCorridorWidth / 4) * ((int)it + 1);
             _distanceFromHorizontalEdgeWater = _infCorridorWidth / 2;
             _distanceFromVerticalEdgeWater = _infCorridorWidth;
-
-            _water = it == IT.MainRiver || it == IT.Tributary ? 1 : 0;
-            _notWater = _water == 1 ? 0 : 1;
-        }
-
-        // constructor for tie-in points
-        public InfSKPoints(SQ sq, IT it, bool isForTieInPoint)
-        {
-            _sq = sq;
-            _it = it;
-            _distanceFromLeftEdgeForTieInPoint = sq.SKRect.MidX + ((int)it - 1);
         }
 
         // is only used for river or tributary
@@ -62,41 +46,12 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             }
         }
 
-        // can be used for any infrastructure
-        public SKPoint NE
-        {
-            get
-            {
-                float x = (_sq.SKRect.Right - _incrementFromEdge) * _notWater 
-                    + (_sq.SKRect.Right - _distanceFromVerticalEdgeWater) * _water;
-
-                float y = (_sq.SKRect.Top + _incrementFromEdge) * _notWater 
-                    + (_sq.SKRect.Top + _distanceFromHorizontalEdgeWater) * _water;
-
-                return new SKPoint(x, y);
-            }
-        }
-
         public SKPoint SE
         {
             get
             {
                 float x = _sq.SKRect.Right - _incrementFromEdge;
                 float y = _sq.SKRect.Bottom - _incrementFromEdge;
-                return new SKPoint(x, y);
-            }
-        }
-
-        public SKPoint SW
-        {
-            get
-            {
-                float x = _sq.SKRect.Left + (_incrementFromEdge * _notWater) 
-                    + (_distanceFromVerticalEdgeWater * _water);
-
-                float y = _sq.SKRect.Bottom - (_incrementFromEdge * _notWater) 
-                    - (_distanceFromHorizontalEdgeWater * _water);
-
                 return new SKPoint(x, y);
             }
         }

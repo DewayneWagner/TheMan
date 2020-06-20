@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TheManXS.Model.Financial.Debt;
 using TheManXS.Model.Main;
+using TheManXS.Model.ParametersForGame;
 using TheManXS.ViewModel.MapBoardVM.MainElements;
 using TheManXS.ViewModel.MapBoardVM.TouchExecution;
 using Xamarin.Forms;
+using static TheManXS.Model.Financial.Debt.Loan;
+using static TheManXS.ViewModel.MapBoardVM.Action.SidePanelLabel;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
 namespace TheManXS.ViewModel.MapBoardVM.Action
@@ -11,8 +16,13 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
     public class ActionPanelGrid : Grid
     {
         public enum PanelType { SQ, Unit, LoanOptions }
+        private enum LoanOptionsHeadings { Heading, CashRequired, ProposedTerm, TotalPaymentPerTurn, 
+            InterestPaymentPerTurn, CurrentCreditRating, LoanInterestRate, ActionButton, Total }
+
         MapVM _mapVM;
         Game _game;
+        double _loanAmountRequired;
+        LoanTermLength _loanTermLength;
 
         public enum ActionRows
         {
@@ -22,21 +32,22 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         private int _quantityOfRowsInSQ = (int)ActionRows.Button + 1;
         private int _quantityOfRowsInUnit = (int)ActionRows.UnitActionCostDiscount + 1;
+        private double _buttonAndTitleHeight = 35;
 
         private double _column1Width;
         private double _column2Width;
         private const double _widthRatioColumn1 = 0.4;
 
-        private double _buttonAndTitleHeight = 35;
-
         private const int SIDEPANELWIDTH = 300;
         private PanelType _panelType;
 
-        public ActionPanelGrid(PanelType pt, Game game)
+        public ActionPanelGrid(PanelType pt, Game game, double loanAmountRequired = 0, LoanTermLength loanTermLength = LoanTermLength.TwentyFive)
         {
             _game = game;
             CompressedLayout.SetIsHeadless(this, true);
             _panelType = pt;
+            _loanAmountRequired = loanAmountRequired;
+            _loanTermLength = loanTermLength;
             _mapVM = _game.GameBoardVM.MapVM;
 
             WidthRequest = SIDEPANELWIDTH;
@@ -80,12 +91,12 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
             else if (_panelType == PanelType.Unit)
             {
-                for (int i = 0; i < _quantityOfRowsInUnit; i++)
-                {
-                    if (i == (int)ActionRows.TitleAndBackButton || i == (int)ActionRows.Button)
-                    { RowDefinitions.Add(new RowDefinition()); }
-                    else { RowDefinitions.Add(new RowDefinition()); }
-                }
+                for (int i = 0; i < _quantityOfRowsInUnit; i++) { RowDefinitions.Add(new RowDefinition()); }
+            }
+
+            else if (_panelType == PanelType.LoanOptions)
+            {
+                for (int i = 0; i < (int)LoanOptionsHeadings.Total; i++) { RowDefinitions.Add(new RowDefinition()); }
             }
         }
 
@@ -97,27 +108,15 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
-                    Label rowHeading = new Label()
-                    {
-                        Text = SplitCamelCase(Convert.ToString(((ActionRows)i))),
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    };
-                    this.Children.Add(rowHeading, 0, i);
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.RowHeading,
+                        SplitCamelCase(Convert.ToString(((ActionRows)i)))), 
+                        0, i);
 
-                    Label rowValue = new Label()
-                    {
-                        Text = sqAttributes.GetValue((SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner)),
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                    };
-                    this.Children.Add(rowValue, 1, i);
-
-                    if (i == (int)ActionRows.ActionCost)
-                    {
-                        rowHeading.FontAttributes = FontAttributes.Bold;
-                        rowValue.FontAttributes = FontAttributes.Bold;
-                    }
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.Data,
+                        sqAttributes.GetValue((SqAttributes.AllSQAttributes)(i - (int)ActionRows.Owner))),
+                        1, i);
                 }
             }
             else if (_panelType == PanelType.Unit)
@@ -126,22 +125,31 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
                 for (int i = (int)ActionRows.Owner; i <= (int)ActionRows.ActionCost; i++)
                 {
-                    Label rowHeading = new Label() { Text = SplitCamelCase(Convert.ToString((ActionRows)i)) };
-                    this.Children.Add(rowHeading, 0, i);
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.RowHeading,
+                        SplitCamelCase(Convert.ToString((ActionRows)i))), 0, i);
 
-                    Label rowValue = new Label()
-                    {
-                        Text = unitAttributes.GetValue((UnitAttributes.AllUnitAttributes)(i - (int)ActionRows.Owner)),
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                    };
-                    this.Children.Add(rowValue, 1, i);
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.Data,
+                        unitAttributes.GetValue((UnitAttributes.AllUnitAttributes)(i - (int)ActionRows.Owner))),
+                        1, i);
+                }
+            }
+            else if(_panelType == PanelType.LoanOptions)
+            {
+                Loan loan = new Loan(_loanTermLength, _loanAmountRequired, _game);
 
-                    if (i == (int)ActionRows.ActionCost)
-                    {
-                        rowHeading.FontAttributes = FontAttributes.Bold;
-                        rowValue.FontAttributes = FontAttributes.Bold;
-                    }
+                for (int i = 0; i < (int)LoanProperties.Total; i++)
+                {
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.RowHeading,
+                        SplitCamelCase(Convert.ToString((LoanProperties)i))), 
+                        0, i);
+
+                    this.Children.Add(new SidePanelLabel(_game,
+                        LabelType.Data,
+                        loan.GetValue((LoanProperties)i)),
+                        1, i);
                 }
             }
         }
@@ -164,24 +172,10 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         public void OnBackButton(object sender, EventArgs e) => _game.GameBoardVM.SidePanelManager.RemoveSidePanel(_panelType);
 
         public void InitTitle()
-        {
-            string text = _panelType == PanelType.SQ ? "SQ Action" : "Unit Action";
-            Label titleLabel = new Label()
-            {
-                Text = text,
-                FontAttributes = FontAttributes.Bold,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                HorizontalTextAlignment = TextAlignment.Center,
-                VerticalTextAlignment = TextAlignment.Center,
-                BackgroundColor = _game.PaletteColors.Where(c => c.Description == "Banff 2").Select(c => c.Color).FirstOrDefault(),
-                TextColor = Color.White,
-                HeightRequest = _buttonAndTitleHeight,
-                Margin = (_buttonAndTitleHeight * 0.1),
-                FontSize = (_buttonAndTitleHeight * 0.5),
-            };
-
-            if (_panelType == PanelType.SQ) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
-            else if (_panelType == PanelType.Unit) { Children.Add(titleLabel, 0, (int)ActionRows.TitleAndBackButton); }
+        {            
+            Children.Add(new SidePanelLabel(_game, 
+                SidePanelLabel.LabelType.TopHeading, 
+                SplitCamelCase(Convert.ToString(_panelType))));
         }
 
         public void InitActionButton()
