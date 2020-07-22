@@ -14,6 +14,24 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private Game _game;
         private double _buttonAndTitleHeight = 35;
 
+        public SidePanelLabel(LabelType labelType, string text)
+        {
+            switch (labelType)
+            {
+                case LabelType.RowHeading:
+                    InitRowHeading(text);
+                    break;
+
+                case LabelType.Data:
+                    InitDataRow(text);
+                    break;
+
+                case LabelType.TopHeading:
+                default:
+                    break;
+            }
+        }
+
         public SidePanelLabel(Game game, LabelType labelType, string text)
         {
             _game = game;

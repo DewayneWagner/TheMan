@@ -19,11 +19,18 @@ namespace TheManXS.ViewModel.MapBoardVM.MainElements
         public void AddSidePanel(PanelType panelType)
         {
             var g = _game.GameBoardVM;
-            g.ActionPanelGrid = new ActionPanelGrid(panelType, _game);
-            g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
-            { Width = new GridLength(1, GridUnitType.Auto) });
-            g.SplitScreenGrid.Children.Add(_game.GameBoardVM.ActionPanelGrid, 1, 0);
-            g.SideSQActionPanelExists = true;
+            if (panelType == PanelType.LoanOptions)
+            {
+
+            }
+            else
+            {
+                g.ActionPanelGrid = new ActionPanelGrid(panelType, _game);
+                g.SplitScreenGrid.ColumnDefinitions.Add(new Xamarin.Forms.ColumnDefinition()
+                { Width = new GridLength(1, GridUnitType.Auto) });
+                g.SplitScreenGrid.Children.Add(_game.GameBoardVM.ActionPanelGrid, 1, 0);
+                g.SideSQActionPanelExists = true;
+            }            
         }
         public void RemoveSidePanel(PanelType panelType)
         {

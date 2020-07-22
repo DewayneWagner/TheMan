@@ -17,9 +17,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
         {
             _game = game;
             for(int i = 0; i < (int)IT.Total; i++) { this.Add(new SKPath()); }
-            InitTestSQsWhereThereIsInf(infSegmentList);
+            //InitTestSQsWhereThereIsInf(infSegmentList);
             _scrubbedInfSegmentList = GetScrubbedList(infSegmentList);
-                      
+            
             InitPaths();
         }
         void InitTestSQsWhereThereIsInf(InfSegmentList infSegmentList)

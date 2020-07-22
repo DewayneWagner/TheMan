@@ -27,7 +27,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         public enum ActionRows
         {
             TitleAndBackButton, Owner, Status, Resource, Production, Revenue, OPEX, TransportCost,
-            GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount
+                 GrossProfitD, GrossProfitP, ActionCost, Button, UnitOPEXDiscount, UnitActionCostDiscount
         }
 
         private int _quantityOfRowsInSQ = (int)ActionRows.Button + 1;
@@ -156,14 +156,7 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
 
         public void InitBackButton()
         {
-            Button backButton = new Button()
-            {
-                Text = "X",
-                HorizontalOptions = LayoutOptions.EndAndExpand,
-                FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.Transparent,
-                TextColor = Color.Black,
-            };
+            BackButtonX backButton = new BackButtonX();
 
             Children.Add(backButton, 1, (int)ActionRows.TitleAndBackButton);
             backButton.Clicked += OnBackButton;
