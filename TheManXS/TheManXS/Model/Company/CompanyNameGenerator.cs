@@ -94,7 +94,7 @@ namespace TheManXS.Model.Company
             List<string> firstNameList = new List<string>()
             {
                 "Red", "Golden","Black","Mid","North","South","East","West","Frontier","Rushing","Swift",
-                "Neutral","Yellow", "Blue","Smith",
+                "Neutral","Yellow", "Blue","Smith", "Fallen", "Queen", "Marquis", "King", "Duke", 
             };
             return firstNameList;
         }
@@ -103,7 +103,7 @@ namespace TheManXS.Model.Company
             List<string> secondNames = new List<string>()
             {
                 "Hills","Mountains","River","Creek","Lake","Lion","Resources","Minerals","Energy",
-                "Mining","Stream","Bear","Tree", "Moose",
+                "Mining","Stream","Bear","Tree", "Moose", "Badger"
             };
             return secondNames;
         }
@@ -111,8 +111,7 @@ namespace TheManXS.Model.Company
         {
             List<string> lastNames = new List<string>()
             {
-                "Corp","Corporation","Ltd","Limited","Group","Incorporated","Enterprises",
-                "Inc",
+                "Corp", "Ltd", "Limited", "Group", "Ent.", "Inc",
             };
             return lastNames;
         }

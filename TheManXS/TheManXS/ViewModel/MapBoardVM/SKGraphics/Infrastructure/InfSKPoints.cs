@@ -33,6 +33,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Infrastructure
             _incrementFromEdge = (_infCorridorWidth / 4) * ((int)it + 1);
             _distanceFromHorizontalEdgeWater = _infCorridorWidth / 2;
             _distanceFromVerticalEdgeWater = _infCorridorWidth;
+            _distanceFromLeftEdgeForTieInPoint = QC.SqSize - _incrementFromEdge; // need to verify this....
         }
 
         // is only used for river or tributary

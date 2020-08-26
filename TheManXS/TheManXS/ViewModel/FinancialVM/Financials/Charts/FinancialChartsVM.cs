@@ -12,7 +12,6 @@ namespace TheManXS.ViewModel.FinancialVM.Financials.Charts
         public enum ChartType { ChartType1, ChartType2, ChartType3, Total }
         public enum FilterBoxes { FilterBox1, FilterBox2, FilterBox3, Total }
         Game _game;
-        private int _headerRowHeight = 50;
         public FinancialChartsVM(Game game)
         {
             _game = game;

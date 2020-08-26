@@ -94,7 +94,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Infrastructure
                 else
                     return 1;
             }
-            int GetAdjustment() => rnd.Next(-1, 2);
         }
         public SKPath SKPath
         {

@@ -87,10 +87,10 @@ namespace TheManXS.Model.InfrastructureStuff
 
                 }
 
-                void initInfrastructure(SQ sq)
-                {
+                //void initInfrastructure(SQ sq)
+                //{
 
-                }
+                //}
             }
         }
 

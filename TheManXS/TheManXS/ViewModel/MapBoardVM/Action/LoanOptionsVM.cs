@@ -102,7 +102,6 @@ namespace TheManXS.ViewModel.MapBoardVM.Action
         private double[] _colWidthRatios = new double[_qCol] { 0.5, 0.1, 0.2, 0.1 };
         private double[] _colWidth = new double[_qCol];
         private List<string> _listOfPossibleValues;
-        private string _val;
 
         public PlusMinuSelector(string heading, ref string val, double width, List<string> listOfPossibleValues = null)
         {

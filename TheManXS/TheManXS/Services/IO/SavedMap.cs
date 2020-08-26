@@ -10,7 +10,7 @@ namespace TheManXS.Services.IO
     public class SavedMap
     {
         Game _game;
-        string _imagePath = @"C:\Users\deway\source\repos\TheManXS\TheManXS\TheManXS\Graphics\SavedMaps\";
+        //string _imagePath = @"C:\Users\deway\source\repos\TheManXS\TheManXS\TheManXS\Graphics\SavedMaps\";
         public enum SavedMapType { Raw, InProgressGame }
         public SavedMap(Game game) { _game = game; }
 

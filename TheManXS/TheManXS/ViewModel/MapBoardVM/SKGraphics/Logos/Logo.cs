@@ -84,7 +84,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         SKPath _mainTiePath = new SKPath();
         SKPath _sidePartOfTiePath = new SKPath();
 
-        NamePlacard _namePlacard;
+        //NamePlacard _namePlacard;
         Desk _desk;
         LogoBackground _logoBackground;
 
@@ -101,7 +101,7 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             var s = _position.Width;
             _cornerRadiusOfOutsideBorder = _cornerRadiusOfOutsideBorderRatio * s;
             _desk = new Desk(_position, _cornerRadiusOfOutsideBorder);
-            _namePlacard = new NamePlacard(_position, _desk.TopOfDesk);
+            //_namePlacard = new NamePlacard(_position, _desk.TopOfDesk);
 
             _shoulderFromTop_Y = s * _topOfShoulderRatioFromTop;
             _waistFromEdge_X = s * _waistFromVerticalEdgeRatio;
@@ -245,9 +245,9 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
             _canvas.DrawRect(_desk.Base, _logoStrokePaint);
 
             // Name Placard
-            _canvas.DrawRect(_namePlacard.SKRect, _namePlacard.Paint);
-            _canvas.DrawRect(_namePlacard.SKRect, _logoStrokePaint);
-            _canvas.DrawText(_namePlacard.Text, _namePlacard.TextPositionPoint, _namePlacard.TextPaint);
+            //_canvas.DrawRect(_namePlacard.SKRect, _namePlacard.Paint);
+            //_canvas.DrawRect(_namePlacard.SKRect, _logoStrokePaint);
+            //_canvas.DrawText(_namePlacard.Text, _namePlacard.TextPositionPoint, _namePlacard.TextPaint);
 
             _canvas.Save();
         }
