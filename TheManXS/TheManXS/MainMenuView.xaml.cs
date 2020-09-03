@@ -3,6 +3,7 @@ using SkiaSharp.Views.Forms;
 using TheManXS.ViewModel.DetailPages;
 using TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup.LeftToRight;
 using Xamarin.Forms.Xaml;
 using QC = TheManXS.Model.Settings.QuickConstants;
 
@@ -32,17 +33,7 @@ namespace TheManXS.View.DetailView
         {
             var canvasView = sender as SKCanvasView;
             SKCanvas canvas = e.Surface.Canvas;
-            float logoWidthRatio = 0.6f;
-            float sqSize = QC.ScreenWidth * logoWidthRatio;
-            float logoFromEdge = (float)(logoCanvasView.X + logoCanvasView.Width / 2);
-
-            float left = (float)logoCanvasView.X + logoFromEdge;
-            float top = (float)logoCanvasView.Y;
-            float right = left + sqSize;
-            float bottom = top + sqSize;
-
-            SKRect rect = new SKRect(left, top, right, bottom);
-            new Logo(canvas, rect);
+            new Logo(canvasView, canvas);
         }
     }
 }

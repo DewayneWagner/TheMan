@@ -1,5 +1,8 @@
 ﻿using SkiaSharp;
+using SkiaSharp.Views.Forms;
 using System;
+using TheManXS.Model.Financial;
+using TheManXS.Model.Settings;
 
 namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
 {
@@ -88,20 +91,31 @@ namespace TheManXS.ViewModel.MapBoardVM.SKGraphics.Logos
         Desk _desk;
         LogoBackground _logoBackground;
 
-        public Logo(SKCanvas canvas, SKRect position)
+        public Logo(SKCanvasView skCanvasView, SKCanvas canvas)
         {
+            var d = skCanvasView.Bounds;
+
+            float logoSize = (float)d.Height;
+            float spacer = (float)((d.Width - logoSize) / 2);
+
+            float left = spacer;
+            float top = 0;
+            float right = left + logoSize;
+            float bottom = top + logoSize;
+
+            _position = new SKRect(left, top, right, bottom);
             _canvas = canvas;
-            _position = position;
+
             InitFields();
             InitPath();
             DrawPath();
         }
+
         private void InitFields()
         {
             var s = _position.Width;
             _cornerRadiusOfOutsideBorder = _cornerRadiusOfOutsideBorderRatio * s;
             _desk = new Desk(_position, _cornerRadiusOfOutsideBorder);
-            //_namePlacard = new NamePlacard(_position, _desk.TopOfDesk);
 
             _shoulderFromTop_Y = s * _topOfShoulderRatioFromTop;
             _waistFromEdge_X = s * _waistFromVerticalEdgeRatio;

@@ -37,10 +37,10 @@
                 <skia:SKCanvasView
                     Opacity="{StaticResource standardOpacity}"
                     Grid.Row="1"
-                    Grid.Column="1"
+                    Grid.Column="0"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
-                    Grid.ColumnSpan="4"
+                    Grid.ColumnSpan="5"                    
                     x:Name="logoCanvasView"
                     PaintSurface="logoCanvasView_PaintSurface"/>
                 

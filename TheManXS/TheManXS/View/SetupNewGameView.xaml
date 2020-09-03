@@ -100,18 +100,10 @@
                     Grid.Row="0"
                     Grid.Column="0"                    
                     Grid.ColumnSpan="2"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
                     PaintSurface="SKCanvasView_PaintSurface"
                     x:Name="LogoSKCanvasView"/>
-                
-                <!--<Image Grid.Row="0" 
-                       Grid.Column="0" 
-                       Grid.ColumnSpan="2"
-                       Margin="{StaticResource standardMargin}"
-                       Source="{local:EmbeddedImage TheManXS.Graphics.Logo.png}" 
-                       Aspect="AspectFit" 
-                       Opacity="{StaticResource standardOpacity}"
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center"/>-->
 
                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  
                         Style="{StaticResource MainHeading}" 

@@ -154,18 +154,7 @@ namespace TheManXS.View
         {
             var canvasView = sender as SKCanvasView;
             SKCanvas canvas = e.Surface.Canvas;
-            double margin = 2;
-            LogoTopLeftCorner.Margin = margin;
-            LogoTopLeftCorner.VerticalOptions = LayoutOptions.CenterAndExpand;
-
-            double sqSize = LogoTopLeftCorner.Width * 2.5 - (margin * 2);
-            float left = (float)(LogoTopLeftCorner.X);
-            float top = (float)(LogoTopLeftCorner.Y);
-            float right = (float)(left + sqSize);
-            float bottom = (float)(top + sqSize);
-
-            SKRect rect = new SKRect(left, top, right, bottom);
-            new Logo(canvas, rect);
+            new Logo(canvasView, canvas);
         }
     }
 }
