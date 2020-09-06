@@ -14,11 +14,29 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal" Padding="5" HorizontalOptions="Center" WidthRequest="800">
-                                <Label Text="{Binding PrimaryIndexName}" WidthRequest="300"/>
-                                <Label Text="{Binding SecondarySubIndexName}" HorizontalOptions="Center" WidthRequest="300"/>
-                                <Entry Text="{Binding LBOrConstant, Mode=TwoWay}" WidthRequest="100" HorizontalOptions="Center"/>
-                                <Entry Text="{Binding UB, Mode=TwoWay}" WidthRequest="100" IsVisible="{Binding IsBounded}" HorizontalOptions="Center"/>
+                            <StackLayout Orientation="Horizontal" 
+                                         Padding="5" 
+                                         HorizontalOptions="Center" 
+                                         WidthRequest="800">
+                                
+                                <Label Text="{Binding PrimaryIndexName}" 
+                                       WidthRequest="300"/>
+                                
+                                <Label Text="{Binding SecondarySubIndexName}" 
+                                       HorizontalOptions="Center" 
+                                       WidthRequest="300"/>
+                                
+                                <Entry Text="{Binding LBOrConstant, Mode=TwoWay}" 
+                                       WidthRequest="100" 
+                                       HorizontalOptions="Center" 
+                                       FontSize="Small"/>
+                                
+                                <Entry Text="{Binding UB, Mode=TwoWay}" 
+                                       WidthRequest="100" 
+                                       IsVisible="{Binding IsBounded}" 
+                                       HorizontalOptions="Center" 
+                                       FontSize="Small"/>
+                                
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -76,143 +76,166 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <AbsoluteLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="5"
-                        CompressedLayout.IsHeadless="True">
-            <Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" Aspect="Fill" Opacity="0.7"/>
 
-            <Grid CompressedLayout.IsHeadless="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <Grid CompressedLayout.IsHeadless="True">
 
-                <skia:SKCanvasView
-                    Opacity="{StaticResource standardOpacity}"
-                    Grid.Row="0"
-                    Grid.Column="0"                    
-                    Grid.ColumnSpan="2"
+            <!--<Image Source="{local:EmbeddedImage TheManXS.Graphics.background.png}" 
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.RowSpan="4"
+                   Grid.ColumnSpan="5"
+                Aspect="Fill" Opacity="0.7"/>-->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--<skia:SKCanvasView
+                Opacity="{StaticResource standardOpacity}"
+                Grid.Row="0"
+                Grid.Column="0"                    
+                Grid.ColumnSpan="2"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                PaintSurface="SKCanvasView_PaintSurface"
+                x:Name="LogoSKCanvasView"/>-->
+
+            <Label Grid.Row="1" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2"  
+                    Style="{StaticResource MainHeading}" 
+                    Margin="{StaticResource standardMargin}"
+                    Text="Select Difficulty"/>
+
+            <Button Grid.Row="2" 
+                    Grid.Column="0" 
+                    Text="Rookie"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
-                    PaintSurface="SKCanvasView_PaintSurface"
-                    x:Name="LogoSKCanvasView"/>
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding Easy}"
+                    Opacity="{Binding EasyButtonOpacity}"
+                    Style="{StaticResource ButtonStandard}"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  
-                        Style="{StaticResource MainHeading}" 
-                        Margin="{StaticResource standardMargin}"
-                        Text="Select Difficulty"/>
+            <Button Grid.Row="3" 
+                    Grid.Column="0" 
+                    Text="Know-it-all" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding Medium}"
+                    Opacity="{Binding MediumButtonOpacity}"
+                    Style="{StaticResource ButtonStandard}"/>
 
-                <Button Grid.Row="2" Grid.Column="0" 
-                        Text="Rookie"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding Easy}"
-                        Opacity="{Binding EasyButtonOpacity}"
-                        Style="{StaticResource ButtonStandard}"/>
+            <Button Grid.Row="4" 
+                    Grid.Column="0" 
+                    Text="Canada" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding Hard}"
+                    Opacity="{Binding HardButtonOpacity}"
+                    Style="{StaticResource ButtonStandard}"/>
 
-                <Button Grid.Row="3" Grid.Column="0" 
-                        Text="Know-it-all" 
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding Medium}"
-                        Opacity="{Binding MediumButtonOpacity}"
-                        Style="{StaticResource ButtonStandard}"/>
+            <Button Grid.Row="2" 
+                    Grid.Column="1" 
+                    Style="{StaticResource WTFButton}" 
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding WTF}"
+                    CommandParameter="Easy"/>
 
-                <Button Grid.Row="4" Grid.Column="0" Text="Canada" 
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding Hard}"
-                        Opacity="{Binding HardButtonOpacity}"
-                        Style="{StaticResource ButtonStandard}"/>
+            <Button Grid.Row="3" 
+                    Grid.Column="1" 
+                    Command="{Binding WTF}"
+                    CommandParameter="Medium"
+                    Style="{StaticResource WTFButton}"/>
 
-                <Button Grid.Row="2" Grid.Column="1" 
-                        Style="{StaticResource WTFButton}" 
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding WTF}"
-                        CommandParameter="Easy"/>
+            <Button Grid.Row="4" 
+                    Grid.Column="1" 
+                    Command="{Binding WTF}"
+                    CommandParameter="Hard"
+                    Style="{StaticResource WTFButton}"/>
 
-                <Button Grid.Row="3" Grid.Column="1" 
-                        Command="{Binding WTF}"
-                        CommandParameter="Medium"
-                        Style="{StaticResource WTFButton}"/>
+            <Label Grid.Row="0" 
+                   Grid.Column="2" 
+                   Grid.ColumnSpan="3" 
+                    Style="{StaticResource MainHeading}"
+                    Margin="{StaticResource standardMargin}"
+                    Text="Set-up your company"/>
 
-                <Button Grid.Row="4" Grid.Column="1" 
-                        Command="{Binding WTF}"
-                        CommandParameter="Hard"
-                        Style="{StaticResource WTFButton}"/>
+            <Label Grid.Row="1" Grid.Column="2" Text="Company Name:"/>
+            <Label Grid.Row="2" Grid.Column="2" Text="Ticker:"/>
+            <Label Grid.Row="3" Grid.Column="2" Text="Company Color:"/>
 
-                <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" 
-                        Style="{StaticResource MainHeading}"
-                        Margin="{StaticResource standardMargin}"
-                        Text="Set-up your company"/>
+            <Button Grid.Row="1" 
+                    Grid.Column="3" 
+                    Command="{Binding WTF}"
+                    CommandParameter="CompanyName"
+                    Margin="{StaticResource standardMargin}"
+                    Style="{StaticResource WTFButton}"/>
 
-                <Label Grid.Row="1" Grid.Column="2" Text="Company Name:"/>
-                <Label Grid.Row="2" Grid.Column="2" Text="Ticker:"/>
-                <Label Grid.Row="3" Grid.Column="2" Text="Company Color:"/>
-                    
-                <Button Grid.Row="1" Grid.Column="3" 
-                        Command="{Binding WTF}"
-                        CommandParameter="CompanyName"
-                        Margin="{StaticResource standardMargin}"
-                        Style="{StaticResource WTFButton}"/>
-                    
-                <Button Grid.Row="2" Grid.Column="3" 
-                        Command="{Binding WTF}"
-                        CommandParameter="Ticker"
-                        Margin="{StaticResource standardMargin}"
-                        Style="{StaticResource WTFButton}"/>
-                    
-                <Button Grid.Row="3" Grid.Column="3" 
-                        Command="{Binding WTF}"
-                        CommandParameter="CompanyColor"
-                        Margin="{StaticResource standardMargin}"
-                        Style="{StaticResource WTFButton}"/>
+            <Button Grid.Row="2" 
+                    Grid.Column="3" 
+                    Command="{Binding WTF}"
+                    CommandParameter="Ticker"
+                    Margin="{StaticResource standardMargin}"
+                    Style="{StaticResource WTFButton}"/>
 
-                <Entry Grid.Row="1" Grid.Column="4" 
-                        Placeholder="Enter Company Name"
-                        Margin="{StaticResource standardMargin}"
-                        Text="{Binding CompanyName}"/>
-                
-                <Entry Grid.Row="2" Grid.Column="4" 
-                        Placeholder="Enter Ticker Symbol"
-                        Margin="{StaticResource standardMargin}"
-                        Text="{Binding Ticker}"/>
+            <Button Grid.Row="3" 
+                    Grid.Column="3" 
+                    Command="{Binding WTF}"
+                    CommandParameter="CompanyColor"
+                    Margin="{StaticResource standardMargin}"
+                    Style="{StaticResource WTFButton}"/>
 
-                <Picker ItemsSource="{Binding CompanyColorList}" 
-                        SelectedIndex="{Binding CompanyColorIndex}"
-                        Margin="{StaticResource standardMargin}"
-                        VerticalOptions="Center" 
-                        Grid.Row="3"
-                        Grid.Column="4"/>
+            <Entry Grid.Row="1" 
+                   Grid.Column="4" 
+                    Placeholder="Enter Company Name"
+                    Margin="{StaticResource standardMargin}"
+                    Text="{Binding CompanyName}"/>
 
-                <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding StartNewGame}"
-                        Style="{StaticResource ButtonStandard}" 
-                        Text="Start Game!"/>
+            <Entry Grid.Row="2" 
+                   Grid.Column="4" 
+                    Placeholder="Enter Ticker Symbol"
+                    Margin="{StaticResource standardMargin}"
+                    Text="{Binding Ticker}"/>
 
-                <Button Grid.Row="4" Grid.Column="4" 
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="{StaticResource standardMargin}"
-                        Command="{Binding UseTestData}"
-                        Style="{StaticResource ButtonStandard}"
-                        Text="TEST"/>
-                
-            </Grid>
-        </AbsoluteLayout>        
+            <Picker ItemsSource="{Binding CompanyColorList}" 
+                    SelectedIndex="{Binding CompanyColorIndex}"
+                    Margin="{StaticResource standardMargin}"
+                    VerticalOptions="Center" 
+                    Grid.Row="3"
+                    Grid.Column="4"/>
+
+            <Button Grid.Row="4" 
+                    Grid.Column="2" 
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding StartNewGame}"
+                    Style="{StaticResource ButtonStandard}" 
+                    Text="Start Game!"/>
+
+            <Button Grid.Row="4" 
+                    Grid.Column="4" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Margin="{StaticResource standardMargin}"
+                    Command="{Binding UseTestData}"
+                    Style="{StaticResource ButtonStandard}"
+                    Text="TEST"/>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

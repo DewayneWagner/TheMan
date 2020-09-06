@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ImbeddedImage="clr-namespace:TheManXS.ViewModel.Services"
+             xmlns:VM="clr-namespace:TheManXS.ViewModel"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="TheManXS.View.StartNewGameView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <x:Int32 x:Key="Row_TopSpacer">0</x:Int32>
+            <x:Int32 x:Key="Row_Difficulty">1</x:Int32>
+            <x:Int32 x:Key="Row_CompanyName">2</x:Int32>
+            <x:Int32 x:Key="Row_CompanyTicker">3</x:Int32>
+            <x:Int32 x:Key="Row_CompanyColor">4</x:Int32>
+            <x:Int32 x:Key="Row_Button">5</x:Int32>
+            <x:Int32 x:Key="Row_BottomSpacer">6</x:Int32>
+
+            <x:Int32 x:Key="Col_LeftSpacer">0</x:Int32>
+            <x:Int32 x:Key="Col_RowHeading1">1</x:Int32>
+            <x:Int32 x:Key="Col_DataRow1">2</x:Int32>
+            <x:Int32 x:Key="Col_WTFButton1">3</x:Int32>
+            <x:Int32 x:Key="Col_RightSpacer">4</x:Int32>
+
+            <x:Double x:Key="StandardOpacity">1</x:Double>
+
+            <Style TargetType="Label" x:Key="RowHeadingLabel">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="{StaticResource Banff2}"/>
+                <Setter Property="Opacity" Value="{StaticResource StandardOpacity}"/>
+                <Setter Property="Padding" Value="5,0,0,0"/>
+            </Style>
+
+            <Style TargetType="Entry" x:Key="StartGameEntryBoxes">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="Opacity" Value="{StaticResource StandardOpacity}"/>
+                <Setter Property="TextColor" Value="{StaticResource Banff2}"/>
+                <Setter Property="Keyboard" Value="Text"/>
+            </Style>
+
+            <Style TargetType="Picker" x:Key="StartGamePicker">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="TextColor" Value="{StaticResource Banff2}"/>
+                <Setter Property="FontSize" Value="Large"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <VM:StartNewGameVM/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+
+            <Image Source="{ImbeddedImage:EmbeddedImage TheManXS.Graphics.background.png}" Aspect="Fill" Opacity="0.5"/>
+
+            <Grid 
+                  HorizontalOptions="FillAndExpand" 
+                  VerticalOptions="FillAndExpand">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Style="{StaticResource RowHeadingLabel}"
+                       Grid.Row="{StaticResource Row_Difficulty}"
+                       Grid.Column="{StaticResource Col_RowHeading1}"
+                       Text="Select Difficulty"/>
+
+                <Picker Style="{StaticResource StartGamePicker}"
+                        ItemsSource="{Binding ListOfDifficultyOptions}"
+                        SelectedIndex="{Binding DifficultyIndex}"
+                        Grid.Row="{StaticResource Row_Difficulty}"
+                        Grid.Column="{StaticResource Col_DataRow1}"/>
+
+                <Button Style="{StaticResource WTFButton}"
+                        CommandParameter="Difficulty"
+                        Command="{Binding WTF}"
+                        Grid.Row="{StaticResource Row_Difficulty}"
+                        Grid.Column="{StaticResource Col_WTFButton1}"/>
+
+                <Label Style="{StaticResource RowHeadingLabel}"
+                       Grid.Row="{StaticResource Row_CompanyName}"
+                       Grid.Column="{StaticResource Col_RowHeading1}"
+                       Text="Enter Company Name"/>
+
+                <Entry Style="{StaticResource StartGameEntryBoxes}"
+                       Grid.Row="{StaticResource Row_CompanyName}"
+                       Grid.Column="{StaticResource Col_DataRow1}"
+                       Text="{Binding CompanyName}"
+                       Placeholder="Company Name"/>
+
+                <Button Style="{StaticResource WTFButton}"
+                        CommandParameter="CompanyName"
+                        Grid.Row="{StaticResource Row_CompanyName}"
+                        Grid.Column="{StaticResource Col_WTFButton1}"/>
+
+                <Label Style="{StaticResource RowHeadingLabel}"
+                       Grid.Row="{StaticResource Row_CompanyTicker}"
+                       Grid.Column="{StaticResource Col_RowHeading1}"
+                       Text="Enter Ticker Symbol"/>
+
+                <Entry Style="{StaticResource StartGameEntryBoxes}"
+                       Grid.Row="{StaticResource Row_CompanyTicker}"
+                       Grid.Column="{StaticResource Col_DataRow1}"
+                       Text="{Binding Ticker}"
+                       Placeholder="Ticker"/>
+
+                <Button Style="{StaticResource WTFButton}"
+                        CommandParameter="Ticker"                        
+                        Grid.Row="{StaticResource Row_CompanyTicker}"
+                        Grid.Column="{StaticResource Col_WTFButton1}"/>
+
+                <Label Style="{StaticResource RowHeadingLabel}"
+                       Grid.Row="{StaticResource Row_CompanyColor}"
+                       Grid.Column="{StaticResource Col_RowHeading1}"
+                       Text="Select Company Color"/>
+
+                <Picker Style="{StaticResource StartGamePicker}"
+                        ItemsSource="{Binding CompanyColorList}"
+                        SelectedIndex="{Binding CompanyColorIndex}"
+                        Grid.Row="{StaticResource Row_CompanyColor}"
+                        Grid.Column="{StaticResource Col_DataRow1}"/>
+
+                <Button Style="{StaticResource WTFButton}"
+                        CommandParameter="CompanyColor"
+                        Grid.Row="{StaticResource Row_CompanyColor}"
+                        Grid.Column="{StaticResource Col_WTFButton1}"/>
+
+                <Button Style="{StaticResource ButtonStandard}"
+                        Grid.Row="{StaticResource Row_Button}"
+                        Grid.Column="{StaticResource Col_RowHeading1}"
+                        Command="{Binding StartNewGame}"
+                        Text="Start Game"/>
+
+                <Button Style="{StaticResource ButtonStandard}"
+                        Grid.Row="{StaticResource Row_Button}"
+                        Grid.Column="{StaticResource Col_DataRow1}"
+                        Command="{Binding UseTestData}"
+                        Text="Use test data"/>
+
+            </Grid>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

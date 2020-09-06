@@ -11,6 +11,7 @@ using TheManXS.Model.Settings;
 using TheManXS.View;
 using TheManXS.ViewModel.Services;
 using Xamarin.Forms;
+using P = TheManXS.Model.ParametersForGame;
 
 namespace TheManXS.ViewModel
 {
@@ -34,6 +35,7 @@ namespace TheManXS.ViewModel
         public StartNewGameVM()
         {
             SavedGameSlotsList = GameSpecificParameters.GetListOfSavedGameData();
+            DifficultyIndex = -1;
 
             InitCommands();
             InitOpacity();
@@ -62,13 +64,17 @@ namespace TheManXS.ViewModel
             }
         }
 
-        public Difficulty Difficulty
+        public Difficulty Difficulty { get; set; }
+
+        private int _difficultyIndex;
+        public int DifficultyIndex
         {
-            get => _difficulty;
+            get => _difficultyIndex;
             set
             {
-                _difficulty = value;
-                SetValue(ref _difficulty, value);
+                _difficultyIndex = value;
+                if(_difficultyIndex != -1) { Difficulty = ((P.Difficulty)_difficultyIndex); }
+                SetValue(ref _difficultyIndex, value);
             }
         }
 
@@ -119,6 +125,27 @@ namespace TheManXS.ViewModel
             {
                 _ticker = value;
                 SetValue(ref _ticker, value);
+            }
+        }
+
+        private List<string> _listOfDifficultyOptions;
+        public List<string> ListOfDifficultyOptions
+        {
+            get
+            {
+                if(_listOfDifficultyOptions == null)
+                {
+                    _listOfDifficultyOptions = new List<string>();
+                    for (int i = 0; i <= (int)P.Difficulty.Hard; i++)
+                    {
+                        _listOfDifficultyOptions.Add(Convert.ToString((P.Difficulty)i));
+                    }
+                    return _listOfDifficultyOptions;
+                }
+                else
+                {
+                    return _listOfDifficultyOptions;
+                }
             }
         }
 

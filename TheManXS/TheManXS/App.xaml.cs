@@ -1,5 +1,6 @@
 ﻿using System;
 using TheManXS.Model.Main;
+using TheManXS.View;
 using TheManXS.View.DetailView;
 using TheManXS.ViewModel;
 using Xamarin.Essentials;
@@ -29,7 +30,7 @@ namespace TheManXS
 
             BindingContext = _applicationVM = new ApplicationVM();
 
-            MainPage = new NavigationPage(new MainMenuView());
+            MainPage = new NavigationPage(new MainMenuView());            
             InitPropertyDictionary();
         }
 

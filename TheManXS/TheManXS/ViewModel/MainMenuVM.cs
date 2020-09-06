@@ -28,7 +28,8 @@ namespace TheManXS.ViewModel.DetailPages
         }
         private async void StartNewGameMethod(object obj)
         {
-            await _pageService.PushAsync(new SetupNewGameView());
+            await _pageService.PushAsync(new StartNewGameView());
+            //await _pageService.PushAsync(new SetupNewGameView());
         }
         private async void OnDevelopView(object obj)
         {
